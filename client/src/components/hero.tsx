@@ -58,13 +58,13 @@ export function Hero() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link href="/signup">
-              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white shadow-xl shadow-orange-500/25 transition-all hover:scale-105 border-none">
+              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-all hover:scale-105 border-none shadow-none">
                 Begin Transformation
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
             <Link href="/about">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-none bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 shadow-lg transition-all">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-none bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all shadow-none">
                 Learn More
               </Button>
             </Link>

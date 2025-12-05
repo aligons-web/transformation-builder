@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Loader2 } from "lucide-react";
-import authBg from "@assets/generated_images/vertical_abstract_motivational_background_for_auth_page.png";
+import authBg from "@assets/generated_images/dramatic_technology_focus_and_target_image_for_login_page.png";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),

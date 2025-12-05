@@ -10,7 +10,7 @@ const benefits = [
   },
   {
     icon: Lightbulb,
-    title: "AI Assessment",
+    title: "Transformation Analysis",
     description: "Get personalized insights and pattern recognition from your entries to identify hidden strengths and potential career paths."
   },
   {

@@ -1183,9 +1183,15 @@ export default function TransformationAnalysisPage() {
                                 </ul>
                               </div>
 
-                              <Button variant="outline" onClick={() => setShowAnalysis(false)} className="w-full text-xs mt-2">
-                                Analyze Again
-                              </Button>
+                              <div className="flex flex-col gap-2 mt-4">
+                                <Button onClick={() => window.location.href = '/dashboard/future-path'} className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-md">
+                                  <Sparkles className="w-4 h-4 mr-2" />
+                                  View Your Future Path Prediction
+                                </Button>
+                                <Button variant="outline" onClick={() => setShowAnalysis(false)} className="w-full text-xs">
+                                  Analyze Again
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         )}

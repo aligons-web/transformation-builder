@@ -9,6 +9,7 @@ import LandingPage from "@/pages/landing-page";
 import AuthPage from "@/pages/auth-page";
 import DashboardPage from "@/pages/dashboard";
 import AiAnalysisPage from "@/pages/ai-analysis";
+import FuturePathPage from "@/pages/future-path";
 import ActionableFocusPage from "@/pages/actionable-focus";
 import AboutPage from "@/pages/about";
 
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/about" component={AboutPage} />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/dashboard/analysis" component={AiAnalysisPage} />
+      <Route path="/dashboard/future-path" component={FuturePathPage} />
       <Route path="/actionable-focus" component={ActionableFocusPage} />
       <Route path="/dashboard/*" component={DashboardPage} />
       <Route component={NotFound} />

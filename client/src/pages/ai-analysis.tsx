@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen } from "lucide-react";
+import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen, Bot, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
@@ -217,6 +217,8 @@ export default function TransformationAnalysisPage() {
   const [subconsciousAnswers, setSubconsciousAnswers] = useState<Record<number, string>>({});
   const [preferenceAnswers, setPreferenceAnswers] = useState<Record<number, string>>({});
   const [isRecording, setIsRecording] = useState<string | null>(null);
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const toggleRecording = (id: string) => {
     if (isRecording === id) {
@@ -254,6 +256,14 @@ export default function TransformationAnalysisPage() {
 
   const preferenceData = calculatePreferenceResults();
   const { subCount, conCount } = calculateSubconsciousResults();
+
+  const handleAnalyze = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setShowAnalysis(true);
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -558,6 +568,122 @@ export default function TransformationAnalysisPage() {
                         </div>
                       </div>
                     ))}
+                  </div>
+
+                  {/* Biblical Foundations & AI Analysis */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-8 border-t border-border">
+                    
+                    {/* Biblical Foundations */}
+                    <Card className="bg-amber-50/50 border-amber-200">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-amber-900">
+                          <BookOpen className="w-5 h-5" />
+                          Biblical Foundations
+                        </CardTitle>
+                        <CardDescription className="text-amber-700/80">
+                          Scriptural pillars for your transformation journey.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-6 max-h-[500px] overflow-y-auto pr-2">
+                        {[
+                          { ref: "Daniel 1:8", text: "But Daniel resolved not to defile himself with the royal food and wine..." },
+                          { ref: "Genesis 40:8", text: "Then Joseph said to them, 'Do not interpretations belong to God? Tell me your dreams.'" },
+                          { ref: "Nehemiah 1:3-4", text: "...When I heard these things, I sat down and wept. For some days I mourned and fasted and prayed..." },
+                          { ref: "1 Corinthians 2:14", text: "The person without the Spirit does not accept the things that come from the Spirit of God..." },
+                          { ref: "Matthew 16:26", text: "For what profit is it to a man if he gains the whole world, and loses his own soul?" },
+                          { ref: "Philippians 2:13", text: "For it is God who works in you to will and to act in order to fulfill his good purpose." },
+                          { ref: "2 Corinthians 5:17", text: "Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!" },
+                          { ref: "Romans 8:14", text: "For those who are led by the Spirit of God are the children of God." },
+                          { ref: "Esther 4:14", text: "...And who knows but that you have come to your royal position for such a time as this?" },
+                          { ref: "Isaiah 54:17", text: "no weapon forged against you will prevail, and you will refute every tongue that accuses you." }
+                        ].map((scripture, i) => (
+                          <div key={i} className="space-y-1">
+                            <h4 className="font-semibold text-amber-900 text-sm">{scripture.ref}</h4>
+                            <p className="text-sm text-amber-800 italic">"{scripture.text}"</p>
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+
+                    {/* AI Analysis */}
+                    <Card className="bg-gradient-to-br from-primary/5 to-blue-50/50 border-primary/20">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-primary">
+                          <Sparkles className="w-5 h-5" />
+                          AI Spiritual Analysis
+                        </CardTitle>
+                        <CardDescription>
+                          Get spiritual insights connecting your journal entries to biblical principles.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-6">
+                        {!showAnalysis ? (
+                          <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">
+                            <div className="p-4 bg-background rounded-full shadow-sm">
+                              <Bot className="w-8 h-8 text-primary/60" />
+                            </div>
+                            <div className="space-y-2">
+                              <h4 className="font-semibold text-lg">Ready to analyze your reflections?</h4>
+                              <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+                                Our AI will review your responses and provide scriptural correlations and encouragement.
+                              </p>
+                            </div>
+                            <Button onClick={handleAnalyze} disabled={isAnalyzing} className="w-full max-w-xs">
+                              {isAnalyzing ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                  Analyzing...
+                                </>
+                              ) : (
+                                <>
+                                  <Sparkles className="w-4 h-4 mr-2" />
+                                  Generate Insight
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            <div className="bg-background/80 backdrop-blur-sm p-6 rounded-xl border border-primary/10 shadow-sm space-y-4">
+                              <div className="flex items-start gap-3">
+                                <Sparkles className="w-5 h-5 text-primary mt-1 shrink-0" />
+                                <div className="space-y-2">
+                                  <h4 className="font-semibold text-primary">Analysis Summary</h4>
+                                  <p className="text-sm text-foreground/80 leading-relaxed">
+                                    Your reflections indicate a strong desire for <span className="font-medium text-primary">purpose-driven change</span>, similar to Nehemiah's burden for restoration.
+                                    The barrier you identified in Day 5 aligns with the need for <span className="font-medium text-primary">mental renewal</span> mentioned in Romans 12:2.
+                                  </p>
+                                </div>
+                              </div>
+                              
+                              <div className="space-y-3 pt-2">
+                                <h5 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Key Correlations</h5>
+                                <ul className="space-y-3">
+                                  <li className="text-sm flex gap-3 items-start">
+                                    <div className="min-w-1.5 h-1.5 rounded-full bg-amber-400 mt-2" />
+                                    <span>
+                                      <strong>Your Struggle:</strong> "Fear of the unknown" <br/>
+                                      <strong>Scripture:</strong> <em>Isaiah 54:17</em> reminds you that no weapon formed against you shall prosper.
+                                    </span>
+                                  </li>
+                                  <li className="text-sm flex gap-3 items-start">
+                                    <div className="min-w-1.5 h-1.5 rounded-full bg-blue-400 mt-2" />
+                                    <span>
+                                      <strong>Your Motivation:</strong> "Wanting to leave a legacy" <br/>
+                                      <strong>Scripture:</strong> <em>Esther 4:14</em> suggests you may be in this position "for such a time as this."
+                                    </span>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <Button variant="outline" onClick={() => setShowAnalysis(false)} className="w-full text-xs mt-2">
+                                Analyze Again
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
                   </div>
                 </CardContent>
               </Card>

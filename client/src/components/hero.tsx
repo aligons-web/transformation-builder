@@ -6,7 +6,7 @@ import heroBg from "@assets/generated_images/abstract_sunrise_gradient_backgroun
 
 export function Hero() {
   return (
-    <section className="relative flex items-center pt-32 pb-20 overflow-hidden">
+    <section className="relative flex items-center pt-32 pb-0 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 -z-10">
         <img
@@ -64,7 +64,7 @@ export function Hero() {
               </Button>
             </Link>
             <Link href="/about">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-none bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all shadow-none">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-none bg-[#E6D5B8] text-[#5C4033] hover:bg-[#DFC7A0] hover:text-[#3E2723] transition-all shadow-none">
                 Learn More
               </Button>
             </Link>

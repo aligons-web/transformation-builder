@@ -7,10 +7,65 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen, Bot, Loader2 } from "lucide-react";
+import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen, Bot, Loader2, CheckSquare, Clock } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { Checkbox } from "@/components/ui/checkbox";
+
+const skillsList = [
+  "Computer Skills", "Communication", "Social Media",
+  "Using AI", "Design Software", "Book publish",
+  "Business Start", "Website", "Video",
+  "MS Office", "Online Course", "Remote Tools",
+  "Leadership", "Learning Strategy", "Other"
+];
+
+const resourcesList = [
+  "Lack of money", "Lack of support", "Lack of tools",
+  "Lack of time", "Lack of knowledge", "Lack of network",
+  "Lack of skills", "Lack of focus", "Lack of motivation",
+  "Lack of creative ideas"
+];
+
+const timeUseQuiz = [
+  {
+    question: "After work, you most often:",
+    options: [
+      { value: "A", label: "Follow a set routine (e.g., meal prep, exercise, chores)" },
+      { value: "B", label: "Take an online course or read about a new topic" },
+      { value: "C", label: "Watch TV, play games, or browse social media" },
+      { value: "D", label: "Meet friends or family for social time" }
+    ]
+  },
+  {
+    question: "An hour after work is given to:",
+    options: [
+      { value: "A", label: "Exercising or organizing your space" },
+      { value: "B", label: "Practicing a language, coding, or instrument" },
+      { value: "C", label: "Scrolling through social media or streaming content" },
+      { value: "D", label: "Chatting or gaming with friends" }
+    ]
+  },
+  {
+    question: "Over the past week, you've mostly:",
+    options: [
+      { value: "A", label: "Maintained healthy routines and habits" },
+      { value: "B", label: "Learned something new or practiced a skill" },
+      { value: "C", label: "Focused on entertainment and relaxation" },
+      { value: "D", label: "Socialized or attended gatherings" }
+    ]
+  },
+  {
+    question: "If you have a free evening, you:",
+    options: [
+      { value: "A", label: "Plan and complete productive tasks" },
+      { value: "B", label: "Research a topic of interest or work on self-improvement" },
+      { value: "C", label: "Order takeout and watch your favorite show" },
+      { value: "D", label: "Try a new restaurant or activity with others" }
+    ]
+  }
+];
 
 const subconsciousQuiz = [
   {
@@ -219,6 +274,9 @@ export default function TransformationAnalysisPage() {
   const [isRecording, setIsRecording] = useState<string | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [skillsChecked, setSkillsChecked] = useState<string[]>([]);
+  const [resourcesChecked, setResourcesChecked] = useState<string[]>([]);
+  const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
 
   const toggleRecording = (id: string) => {
     if (isRecording === id) {
@@ -256,6 +314,26 @@ export default function TransformationAnalysisPage() {
 
   const preferenceData = calculatePreferenceResults();
   const { subCount, conCount } = calculateSubconsciousResults();
+
+  const calculateTimeUseResult = () => {
+    const counts = { A: 0, B: 0, C: 0, D: 0 };
+    Object.values(timeUseAnswers).forEach(val => {
+      if (val in counts) counts[val as keyof typeof counts]++;
+    });
+    
+    const max = Math.max(...Object.values(counts));
+    const types = Object.keys(counts).filter(k => counts[k as keyof typeof counts] === max);
+    
+    if (Object.keys(timeUseAnswers).length < 4) return null;
+
+    if (types.includes("A")) return { type: "A", title: "Highly Disciplined & Self-Driven", desc: "You value structure and productivity." };
+    if (types.includes("B")) return { type: "B", title: "Independent Learner", desc: "You prioritize skill development and growth." };
+    if (types.includes("C")) return { type: "C", title: "Relaxation Focused", desc: "You tend to prioritize entertainment and downtime." };
+    if (types.includes("D")) return { type: "D", title: "Socially Connected", desc: "You value shared experiences and connection." };
+    return null;
+  };
+
+  const timeUseResult = calculateTimeUseResult();
 
   const handleAnalyze = () => {
     setIsAnalyzing(true);
@@ -791,27 +869,304 @@ export default function TransformationAnalysisPage() {
                   </div>
 
                   <div className="pt-6 border-t border-border space-y-6">
-                    <h3 className="font-heading font-semibold text-xl">Module 2 Reflection</h3>
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 2</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Capacity to Help Others</h3>
+                    </div>
                     {[
-                      "What area(s) of life will be transformed (e.g. communication, career, relationships)?",
+                      "What area(s) of life will be transformed (e.g. communication, career, relationships, health, finances, personal growth, etc.)?",
+                      "What will your transformation contribute to?",
                       "What specific behaviors or habits need to change?",
                       "What skills or knowledge will you need to acquire?"
                     ].map((q, i) => (
                       <div key={i} className="space-y-2">
                         <Label>{q}</Label>
                         <div className="relative">
-                          <Textarea placeholder="Type your response..." className="min-h-[100px] pr-12" />
+                          <Textarea placeholder="Type your response..." className="min-h-[80px] pr-12" />
                           <Button
                             size="icon"
                             variant="ghost"
-                            className={`absolute right-2 top-2 ${isRecording === `m2-r${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
-                            onClick={() => toggleRecording(`m2-r${i}`)}
+                            className={`absolute right-2 top-2 ${isRecording === `m2-d2-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`m2-d2-${i}`)}
                           >
-                            <Mic className={`w-4 h-4 ${isRecording === `m2-r${i}` ? 'animate-pulse' : ''}`} />
+                            <Mic className={`w-4 h-4 ${isRecording === `m2-d2-${i}` ? 'animate-pulse' : ''}`} />
                           </Button>
                         </div>
                       </div>
                     ))}
+                  </div>
+
+                  {/* Day 3: Filling the Gaps */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 3</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Filling the Gaps</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Identify areas that require attention and a plan of action.</p>
+                    
+                    <div className="overflow-x-auto">
+                      <table className="w-full min-w-[600px] border-collapse">
+                        <thead>
+                          <tr className="bg-muted/50 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                            <th className="p-3 border-b">Deficiency Area</th>
+                            <th className="p-3 border-b">Offering Difficulty</th>
+                            <th className="p-3 border-b">Subconscious Barrier</th>
+                            <th className="p-3 border-b">Attitude</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border">
+                          {[1, 2, 3].map((row) => (
+                            <tr key={row}>
+                              <td className="p-2"><Textarea className="min-h-[60px] text-sm" placeholder="Working with..." /></td>
+                              <td className="p-2"><Textarea className="min-h-[60px] text-sm" placeholder="Product/Service..." /></td>
+                              <td className="p-2"><Textarea className="min-h-[60px] text-sm" placeholder="Comfort zone..." /></td>
+                              <td className="p-2">
+                                <select className="w-full h-[60px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                  <option value="">Select...</option>
+                                  <option value="uncertain">Uncertain/Reactive</option>
+                                  <option value="growth">Growth/Improvement</option>
+                                  <option value="resilient">Resilient/Proactive</option>
+                                </select>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="space-y-2 mt-4">
+                      <Label>Strategies to Close Gaps</Label>
+                      <Textarea placeholder="Journal your thoughts, adjustments, or plans..." className="min-h-[100px]" />
+                    </div>
+                  </div>
+
+                  {/* Day 4: Skills & Tools */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 4</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Determining Skills Needed</h3>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <h4 className="font-medium text-sm">Skills/Tools Checklist</h4>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {skillsList.map((skill) => (
+                          <div key={skill} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`skill-${skill}`} 
+                              checked={skillsChecked.includes(skill)}
+                              onCheckedChange={(checked) => {
+                                if (checked) setSkillsChecked([...skillsChecked, skill]);
+                                else setSkillsChecked(skillsChecked.filter(s => s !== skill));
+                              }}
+                            />
+                            <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">{skill}</Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 pt-4">
+                      <Label>Discoveries from Days 1-3 & Essential Tools</Label>
+                      <div className="relative">
+                        <Textarea placeholder="List things that profoundly got your attention..." className="min-h-[100px] pr-12" />
+                        <Button size="icon" variant="ghost" className="absolute right-2 top-2 text-muted-foreground">
+                          <Mic className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4 pt-4">
+                      <h4 className="font-medium text-sm">Resources & Qualities Constraints</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {resourcesList.map((resource) => (
+                          <div key={resource} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`res-${resource}`}
+                              checked={resourcesChecked.includes(resource)}
+                              onCheckedChange={(checked) => {
+                                if (checked) setResourcesChecked([...resourcesChecked, resource]);
+                                else setResourcesChecked(resourcesChecked.filter(r => r !== resource));
+                              }}
+                            />
+                            <Label htmlFor={`res-${resource}`} className="text-sm font-normal cursor-pointer">{resource}</Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Day 5: Sacrifices */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 5</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Considering Sacrifices</h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                      <div className="space-y-6">
+                        <h4 className="font-medium text-sm">Time-Use Assessment</h4>
+                        {timeUseQuiz.map((q, i) => (
+                          <div key={i} className="space-y-3 p-4 rounded-lg bg-muted/30">
+                            <Label className="font-medium">{q.question}</Label>
+                            <RadioGroup 
+                              onValueChange={(val) => setTimeUseAnswers(prev => ({ ...prev, [i]: val }))}
+                              className="space-y-2"
+                            >
+                              {q.options.map((opt, j) => (
+                                <div key={j} className="flex items-center space-x-2">
+                                  <RadioGroupItem value={opt.value} id={`tu-q${i}-opt${j}`} />
+                                  <Label htmlFor={`tu-q${i}-opt${j}`} className="font-normal cursor-pointer text-sm">
+                                    {opt.label}
+                                  </Label>
+                                </div>
+                              ))}
+                            </RadioGroup>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="space-y-6">
+                        <h4 className="font-medium text-sm">Analysis & Reflection</h4>
+                        <Card className="bg-blue-50/50 border-blue-100">
+                          <CardContent className="p-6 flex flex-col items-center justify-center text-center min-h-[200px]">
+                            {timeUseResult ? (
+                              <div className="space-y-2 animate-in fade-in zoom-in duration-500">
+                                <Clock className="w-12 h-12 text-blue-500 mx-auto mb-2" />
+                                <h5 className="font-bold text-lg text-blue-900">{timeUseResult.title}</h5>
+                                <p className="text-sm text-blue-800">{timeUseResult.desc}</p>
+                              </div>
+                            ) : (
+                              <div className="text-muted-foreground">
+                                <Clock className="w-12 h-12 mx-auto mb-2 opacity-20" />
+                                <p className="text-sm">Complete the assessment to see your time-use profile.</p>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+
+                        <div className="space-y-2">
+                          <Label>What sacrifices might be necessary?</Label>
+                          <div className="relative">
+                            <Textarea placeholder="Reflect on delayed gratification..." className="min-h-[120px] pr-12" />
+                            <Button size="icon" variant="ghost" className="absolute right-2 top-2 text-muted-foreground">
+                              <Mic className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Biblical Foundations & AI Analysis for Module 2 */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-8 border-t border-border">
+                    
+                    {/* Biblical Foundations */}
+                    <Card className="bg-amber-50/50 border-amber-200">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-amber-900">
+                          <BookOpen className="w-5 h-5" />
+                          Biblical Foundations
+                        </CardTitle>
+                        <CardDescription className="text-amber-700/80">
+                          Scriptural pillars for defining your transformation.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-6 max-h-[500px] overflow-y-auto pr-2">
+                        {[
+                          { ref: "Genesis 1:27", text: "So God created mankind in his own image, in the image of God he created them..." },
+                          { ref: "Romans 8:28", text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose." },
+                          { ref: "Philippians 4:11", text: "I am not saying this because I am in need, for I have learned to be content whatever the circumstances." },
+                          { ref: "Psalms 1:1-3", text: "Blessed is the one... whose delight is in the law of the Lord... That person is like a tree planted by streams of water..." },
+                          { ref: "Romans 12:2", text: "Do not conform to the pattern of this world, but be transformed by the renewing of your mind." }
+                        ].map((scripture, i) => (
+                          <div key={i} className="space-y-1">
+                            <h4 className="font-semibold text-amber-900 text-sm">{scripture.ref}</h4>
+                            <p className="text-sm text-amber-800 italic">"{scripture.text}"</p>
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+
+                    {/* AI Analysis */}
+                    <Card className="bg-gradient-to-br from-primary/5 to-blue-50/50 border-primary/20">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-primary">
+                          <Sparkles className="w-5 h-5" />
+                          AI Spiritual Analysis
+                        </CardTitle>
+                        <CardDescription>
+                          Get spiritual insights connecting your skills and sacrifices to biblical principles.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-6">
+                        {!showAnalysis ? (
+                          <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">
+                            <div className="p-4 bg-background rounded-full shadow-sm">
+                              <Bot className="w-8 h-8 text-primary/60" />
+                            </div>
+                            <div className="space-y-2">
+                              <h4 className="font-semibold text-lg">Ready to analyze your path?</h4>
+                              <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+                                Our AI will review your preferences, gaps, and sacrifices to provide encouragement.
+                              </p>
+                            </div>
+                            <Button onClick={handleAnalyze} disabled={isAnalyzing} className="w-full max-w-xs">
+                              {isAnalyzing ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                  Analyzing...
+                                </>
+                              ) : (
+                                <>
+                                  <Sparkles className="w-4 h-4 mr-2" />
+                                  Generate Insight
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            <div className="bg-background/80 backdrop-blur-sm p-6 rounded-xl border border-primary/10 shadow-sm space-y-4">
+                              <div className="flex items-start gap-3">
+                                <Sparkles className="w-5 h-5 text-primary mt-1 shrink-0" />
+                                <div className="space-y-2">
+                                  <h4 className="font-semibold text-primary">Analysis Summary</h4>
+                                  <p className="text-sm text-foreground/80 leading-relaxed">
+                                    Your preference for <span className="font-medium text-primary">People</span> and desire to overcome "Lack of time" suggests a call to <span className="font-medium text-primary">relational stewardship</span>.
+                                    Like Nehemiah who organized people to rebuild, your skills in Leadership can be used for restoration.
+                                  </p>
+                                </div>
+                              </div>
+                              
+                              <div className="space-y-3 pt-2">
+                                <h5 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Key Correlations</h5>
+                                <ul className="space-y-3">
+                                  <li className="text-sm flex gap-3 items-start">
+                                    <div className="min-w-1.5 h-1.5 rounded-full bg-amber-400 mt-2" />
+                                    <span>
+                                      <strong>Your Sacrifice:</strong> "Giving up leisure time" <br/>
+                                      <strong>Scripture:</strong> <em>Philippians 3:8</em> speaks to counting all things as loss for the surpassing worth of knowing Christ.
+                                    </span>
+                                  </li>
+                                  <li className="text-sm flex gap-3 items-start">
+                                    <div className="min-w-1.5 h-1.5 rounded-full bg-blue-400 mt-2" />
+                                    <span>
+                                      <strong>Your Strength:</strong> "Communication" <br/>
+                                      <strong>Scripture:</strong> <em>Proverbs 25:11</em> - "A word fitly spoken is like apples of gold in settings of silver."
+                                    </span>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <Button variant="outline" onClick={() => setShowAnalysis(false)} className="w-full text-xs mt-2">
+                                Analyze Again
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
                   </div>
 
                 </CardContent>

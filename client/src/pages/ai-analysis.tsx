@@ -5,21 +5,161 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Wand2, ArrowRight, CheckCircle2, BarChart } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen } from "lucide-react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-export default function AiAnalysisPage() {
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [hasResult, setHasResult] = useState(false);
+const subconsciousQuiz = [
+  {
+    question: "When faced with a sudden challenge, you tend to:",
+    options: [
+      { value: "SL1", label: "Act on gut instinct without thinking." },
+      { value: "SL2", label: "React based on how you feel in the moment." },
+      { value: "CL1", label: "Pause to analyze the situation logically." },
+      { value: "CL2", label: "Consider the possible outcomes before deciding." }
+    ]
+  }
+];
 
-  const handleGenerate = () => {
-    setIsGenerating(true);
-    setTimeout(() => {
-      setIsGenerating(false);
-      setHasResult(true);
-    }, 2000);
+const preferenceQuiz = [
+  {
+    question: "When given a group project, you prefer to:",
+    options: [
+      { value: "People", label: "Lead group discussions & coordinate team." },
+      { value: "Things", label: "Handle the technical or hands-on aspects." },
+      { value: "Data", label: "Organize and analyze the project data." },
+      { value: "Mixed", label: "Support wherever needed." }
+    ]
+  },
+  {
+    question: "Which activity sounds most appealing to you?",
+    options: [
+      { value: "People", label: "Mentoring or teaching others." },
+      { value: "Things", label: "Building or repairing something." },
+      { value: "Data", label: "Creating spreadsheets or reports." },
+      { value: "Mixed", label: "Planning a schedule." }
+    ]
+  },
+  {
+    question: "In your free time, you're most likely to:",
+    options: [
+      { value: "People", label: "Attend social gatherings or network." },
+      { value: "Things", label: "Work on DIY or craft projects." },
+      { value: "Data", label: "Solve puzzles or play strategy games." },
+      { value: "Mixed", label: "Read or watch documentaries." }
+    ]
+  },
+  {
+    question: "Your ideal work environment is:",
+    options: [
+      { value: "People", label: "Collaborative and team-oriented." },
+      { value: "Things", label: "Hands-on and practical." },
+      { value: "Data", label: "Quiet and focused on analysis." },
+      { value: "Mixed", label: "Flexible and varied." }
+    ]
+  },
+  {
+    question: "When faced with a problem, you usually:",
+    options: [
+      { value: "People", label: "Talk it through with others." },
+      { value: "Things", label: "Try to fix or adjust something physically." },
+      { value: "Data", label: "Gather and review information." },
+      { value: "Mixed", label: "Take a break and come back to it later." }
+    ]
+  },
+  {
+    question: "You feel most accomplished when you:",
+    options: [
+      { value: "People", label: "Help someone achieve their goal." },
+      { value: "Things", label: "Complete a physical task or project." },
+      { value: "Data", label: "Find a pattern or solution in data." },
+      { value: "Mixed", label: "Finish a variety of small tasks." }
+    ]
+  },
+  {
+    question: "Which task would you choose?",
+    options: [
+      { value: "People", label: "Mediating a conflict." },
+      { value: "Things", label: "Operating or fixing equipment." },
+      { value: "Data", label: "Auditing financial records." },
+      { value: "Mixed", label: "Organizing an event." }
+    ]
+  },
+  {
+    question: "You are most comfortable:",
+    options: [
+      { value: "People", label: "In a group, sharing ideas." },
+      { value: "Things", label: "Using tools or technology." },
+      { value: "Data", label: "Working with numbers or information." },
+      { value: "Mixed", label: "Doing a mix of activities." }
+    ]
+  },
+  {
+    question: "Others often ask you for help with:",
+    options: [
+      { value: "People", label: "Advice or support." },
+      { value: "Things", label: "Setting up or repairing devices." },
+      { value: "Data", label: "Analyzing or interpreting information." },
+      { value: "Mixed", label: "Organizing or planning." }
+    ]
+  },
+  {
+    question: "You're most likely to volunteer for:",
+    options: [
+      { value: "People", label: "Leading a team or committee." },
+      { value: "Things", label: "Setting up equipment or logistics." },
+      { value: "Data", label: "Managing records or tracking progress." },
+      { value: "Mixed", label: "Coordinating communications." }
+    ]
+  }
+];
+
+const successTypes = [
+  "A highly knowledgeable Entrepreneur",
+  "A disciplined Independent Learner",
+  "An advanced Technology User",
+  "A published book Author",
+  "A Social Media Strategist",
+  "A successful Online Business Owner",
+  "A highly effective Teacher, Instructor, or Trainer",
+  "A Strategist to build wealth",
+  "An independent learner as a Digital Media Artist",
+  "A Financial Investor Strategist",
+  "A highly effective Communicator"
+];
+
+export default function TransformationAnalysisPage() {
+  const [activeTab, setActiveTab] = useState("module1");
+  const [subconsciousAnswers, setSubconsciousAnswers] = useState<Record<number, string>>({});
+  const [preferenceAnswers, setPreferenceAnswers] = useState<Record<number, string>>({});
+  const [isRecording, setIsRecording] = useState<string | null>(null);
+
+  const toggleRecording = (id: string) => {
+    if (isRecording === id) {
+      setIsRecording(null);
+    } else {
+      setIsRecording(id);
+      setTimeout(() => setIsRecording(null), 3000);
+    }
   };
+
+  const calculatePreferenceResults = () => {
+    const counts = { People: 0, Things: 0, Data: 0, Mixed: 0 };
+    Object.values(preferenceAnswers).forEach(val => {
+      if (val in counts) counts[val as keyof typeof counts]++;
+    });
+    return [
+      { name: "People", value: counts.People, color: "#f97316" }, // Orange
+      { name: "Things", value: counts.Things, color: "#3b82f6" }, // Blue
+      { name: "Data", value: counts.Data, color: "#8b5cf6" },   // Purple
+      { name: "Mixed", value: counts.Mixed, color: "#10b981" }  // Emerald
+    ];
+  };
+
+  const preferenceData = calculatePreferenceResults();
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -31,196 +171,217 @@ export default function AiAnalysisPage() {
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">AI Transformation Engine</h1>
-              <p className="text-muted-foreground">Analyze your journal entries to discover your path.</p>
+              <h1 className="text-3xl font-heading font-bold text-foreground">Transformation Analysis</h1>
+              <p className="text-muted-foreground">Deep dive into Modules 1 & 2 of the Life Transformation Workbook.</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column: Input */}
-            <div className="lg:col-span-1 space-y-6">
-              <Card className="h-full border-primary/20 shadow-lg">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-8 h-12 bg-muted/50 p-1">
+              <TabsTrigger value="module1" className="text-base">Module 1: Why is transformation needed?</TabsTrigger>
+              <TabsTrigger value="module2" className="text-base">Module 2: What will be your transformation?</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="module1" className="space-y-8">
+              <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-primary" />
-                    Context Input
+                    The Foundation of Change
                   </CardTitle>
                   <CardDescription>
-                    Describe your current situation, frustrations, and dreams.
+                    "Why" is the first question we look at to understand the questions produced that relate to your transformation efforts.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <Textarea 
-                    placeholder="I feel stuck in my current role as a marketing manager. I love creativity but hate the corporate politics. I've always wanted to..." 
-                    className="min-h-[300px] resize-none bg-muted/30 focus:bg-background transition-all border-border/50 focus:border-primary/50 p-4 leading-relaxed"
-                  />
+                <CardContent className="space-y-8">
+                  <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-xl">
+                    <h3 className="font-bold text-foreground mb-2">Module Statement</h3>
+                    <p className="text-foreground/80 italic">
+                      "Change is inevitable—life delivers unexpected turns, and how we respond defines our trajectory. Reacting leaves us scrambling; being proactive empowers us to control outcomes."
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <h3 className="font-heading font-semibold text-xl">Reflection Questions</h3>
+                    {[
+                      "Why is personal transformation necessary for you right now?",
+                      "Why has there been such disruption, dissatisfaction, or disorientation at this stage in your life?",
+                      "Are there areas of brokenness or sin that must be addressed?",
+                      "What are the long-term consequences of NOT changing?"
+                    ].map((q, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label>{q}</Label>
+                        <div className="relative">
+                          <Textarea placeholder="Type your response..." className="min-h-[100px] pr-12" />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className={`absolute right-2 top-2 ${isRecording === `m1-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`m1-${i}`)}
+                          >
+                            <Mic className={`w-4 h-4 ${isRecording === `m1-${i}` ? 'animate-pulse' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="space-y-6 pt-6 border-t border-border">
+                    <h3 className="font-heading font-semibold text-xl">Subconscious vs. Conscious Mind Quiz</h3>
+                    <p className="text-sm text-muted-foreground">Understand your default reaction to challenges.</p>
+                    
+                    {subconsciousQuiz.map((q, i) => (
+                      <div key={i} className="space-y-4">
+                        <Label className="text-base">{q.question}</Label>
+                        <RadioGroup 
+                          onValueChange={(val) => setSubconsciousAnswers(prev => ({ ...prev, [i]: val }))}
+                          className="space-y-2"
+                        >
+                          {q.options.map((opt, j) => (
+                            <div key={j} className="flex items-center space-x-2 p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors">
+                              <RadioGroupItem value={opt.value} id={`m1-q${i}-opt${j}`} />
+                              <Label htmlFor={`m1-q${i}-opt${j}`} className="flex-1 cursor-pointer font-normal">
+                                {opt.label} <span className="text-xs text-muted-foreground ml-2">({opt.value})</span>
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="module2" className="space-y-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart2 className="w-5 h-5 text-primary" />
+                    Defining Your Transformation
+                  </CardTitle>
+                  <CardDescription>
+                    Identify your target and understand your natural preferences for working with People, Things, or Data.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
                   
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Focus Area</label>
-                    <div className="flex flex-wrap gap-2">
-                      {["Career Reinvention", "Skill Gap Analysis", "Purpose Discovery"].map((tag) => (
-                        <Badge key={tag} variant="secondary" className="cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors">
-                          {tag}
-                        </Badge>
+                  {/* Transformation Target Selection */}
+                  <div className="space-y-4">
+                    <h3 className="font-heading font-semibold text-xl">Identify Your Transformation Target</h3>
+                    <p className="text-sm text-muted-foreground">Select the outcome that best identifies your target success.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {successTypes.map((type, i) => (
+                        <div key={i} className="flex items-center space-x-2">
+                          <input type="checkbox" id={`success-${i}`} className="rounded border-gray-300 text-primary focus:ring-primary" />
+                          <Label htmlFor={`success-${i}`} className="font-normal cursor-pointer">{type}</Label>
+                        </div>
                       ))}
+                      <div className="flex items-center space-x-2">
+                         <input type="checkbox" id="success-other" className="rounded border-gray-300 text-primary focus:ring-primary" />
+                         <Label htmlFor="success-other" className="font-normal cursor-pointer">Other (Specify in notes)</Label>
+                      </div>
                     </div>
                   </div>
 
-                  <Button 
-                    className="w-full h-12 text-lg gap-2 mt-4" 
-                    onClick={handleGenerate}
-                    disabled={isGenerating}
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Wand2 className="w-5 h-5 animate-spin" />
-                        Analyzing Patterns...
-                      </>
-                    ) : (
-                      <>
-                        <Wand2 className="w-5 h-5" />
-                        Generate Insights
-                      </>
-                    )}
-                  </Button>
+                  <div className="pt-6 border-t border-border"></div>
+
+                  {/* Preference Assessment */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <h3 className="font-heading font-semibold text-xl">Skill Preference Assessment</h3>
+                      <p className="text-sm text-muted-foreground">For each question, choose the option that best identifies your preference.</p>
+                      
+                      <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4">
+                        {preferenceQuiz.map((q, i) => (
+                          <div key={i} className="space-y-3 p-4 rounded-lg bg-muted/30">
+                            <Label className="font-medium">{i + 1}. {q.question}</Label>
+                            <RadioGroup 
+                              onValueChange={(val) => setPreferenceAnswers(prev => ({ ...prev, [i]: val }))}
+                              className="space-y-2"
+                            >
+                              {q.options.map((opt, j) => (
+                                <div key={j} className="flex items-center space-x-2">
+                                  <RadioGroupItem value={opt.value} id={`m2-q${i}-opt${j}`} />
+                                  <Label htmlFor={`m2-q${i}-opt${j}`} className="font-normal cursor-pointer text-sm">
+                                    {opt.label}
+                                  </Label>
+                                </div>
+                              ))}
+                            </RadioGroup>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-6">
+                      <h3 className="font-heading font-semibold text-xl">Your Preference Profile</h3>
+                      <Card className="bg-muted/20 border-none shadow-inner">
+                        <CardContent className="p-6 flex flex-col items-center justify-center min-h-[300px]">
+                          {Object.keys(preferenceAnswers).length > 0 ? (
+                            <div className="w-full h-[300px]">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={preferenceData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                                  <XAxis type="number" allowDecimals={false} />
+                                  <YAxis dataKey="name" type="category" />
+                                  <Tooltip cursor={{fill: 'transparent'}} />
+                                  <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                                    {preferenceData.map((entry, index) => (
+                                      <Cell key={`cell-${index}`} fill={entry.color} />
+                                    ))}
+                                  </Bar>
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          ) : (
+                            <div className="text-center text-muted-foreground">
+                              <BarChart2 className="w-12 h-12 mx-auto mb-2 opacity-20" />
+                              <p>Complete the assessment to see your results chart.</p>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                      
+                      <div className="bg-primary/5 p-4 rounded-lg">
+                        <h4 className="font-bold text-sm mb-2">Interpretation Guide:</h4>
+                        <ul className="text-sm space-y-1 text-muted-foreground">
+                          <li><strong className="text-orange-500">People:</strong> Naturally thrives working with others.</li>
+                          <li><strong className="text-blue-500">Things:</strong> Focus on equipment, materials, technology.</li>
+                          <li><strong className="text-purple-500">Data:</strong> Focus on facts, statistics, information.</li>
+                          <li><strong className="text-emerald-500">Mixed:</strong> Versatile combination of preferences.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-6 border-t border-border space-y-6">
+                    <h3 className="font-heading font-semibold text-xl">Module 2 Reflection</h3>
+                    {[
+                      "What area(s) of life will be transformed (e.g. communication, career, relationships)?",
+                      "What specific behaviors or habits need to change?",
+                      "What skills or knowledge will you need to acquire?"
+                    ].map((q, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label>{q}</Label>
+                        <div className="relative">
+                          <Textarea placeholder="Type your response..." className="min-h-[100px] pr-12" />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className={`absolute right-2 top-2 ${isRecording === `m2-r${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`m2-r${i}`)}
+                          >
+                            <Mic className={`w-4 h-4 ${isRecording === `m2-r${i}` ? 'animate-pulse' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
                 </CardContent>
               </Card>
-            </div>
-
-            {/* Right Column: Results */}
-            <div className="lg:col-span-2">
-              <AnimatePresence mode="wait">
-                {!hasResult ? (
-                  <motion.div 
-                    initial={{ opacity: 0 }} 
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="h-full flex flex-col items-center justify-center p-12 border-2 border-dashed border-muted-foreground/20 rounded-xl bg-muted/5 text-center space-y-4"
-                  >
-                    <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center">
-                      <BarChart className="w-10 h-10 text-muted-foreground/50" />
-                    </div>
-                    <h3 className="text-xl font-medium text-foreground">Ready to Analyze</h3>
-                    <p className="text-muted-foreground max-w-md">
-                      Enter your thoughts on the left to generate a personalized transformation roadmap, skill analysis, and actionable next steps.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="space-y-6"
-                  >
-                    {/* Summary Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {[
-                        { title: "Core Strength", value: "Creative Strategy", color: "text-purple-500" },
-                        { title: "Hidden Potential", value: "Teaching / Mentoring", color: "text-blue-500" },
-                        { title: "Readiness Score", value: "High (85%)", color: "text-green-500" }
-                      ].map((stat, i) => (
-                        <Card key={i} className="bg-card/50 backdrop-blur-sm">
-                          <CardContent className="p-6 text-center">
-                            <p className="text-sm text-muted-foreground mb-1">{stat.title}</p>
-                            <p className={`text-lg font-bold ${stat.color}`}>{stat.value}</p>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-
-                    {/* Detailed Analysis Tabs */}
-                    <Tabs defaultValue="roadmap" className="w-full">
-                      <TabsList className="w-full justify-start h-12 bg-muted/50 p-1 mb-6">
-                        <TabsTrigger value="roadmap" className="flex-1 md:flex-none px-8">Roadmap</TabsTrigger>
-                        <TabsTrigger value="skills" className="flex-1 md:flex-none px-8">Skills Gap</TabsTrigger>
-                        <TabsTrigger value="actions" className="flex-1 md:flex-none px-8">Action Plan</TabsTrigger>
-                      </TabsList>
-
-                      <TabsContent value="roadmap">
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>Reinvention Roadmap</CardTitle>
-                            <CardDescription>Phased approach to your new career path.</CardDescription>
-                          </CardHeader>
-                          <CardContent className="space-y-6">
-                            {[
-                              { phase: "Phase 1: Exploration", time: "Month 1-2", desc: "Conduct informational interviews and start a side project." },
-                              { phase: "Phase 2: Skill Building", time: "Month 3-4", desc: "Take a course on Digital Product Design and build a portfolio." },
-                              { phase: "Phase 3: Transition", time: "Month 5-6", desc: "Begin applying for roles and leverage network for referrals." }
-                            ].map((step, i) => (
-                              <div key={i} className="flex gap-4 pb-6 border-l-2 border-primary/20 pl-6 relative last:pb-0">
-                                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-background" />
-                                <div>
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <h4 className="font-bold text-foreground">{step.phase}</h4>
-                                    <Badge variant="outline">{step.time}</Badge>
-                                  </div>
-                                  <p className="text-muted-foreground">{step.desc}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </CardContent>
-                        </Card>
-                      </TabsContent>
-
-                      <TabsContent value="skills">
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>Skills Analysis</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-4">
-                              {[
-                                { skill: "Strategic Planning", level: 90, type: "Transferable" },
-                                { skill: "Project Management", level: 85, type: "Transferable" },
-                                { skill: "UX Research", level: 40, type: "Gap" },
-                                { skill: "Prototyping Tools", level: 30, type: "Gap" },
-                              ].map((skill, i) => (
-                                <div key={i} className="space-y-1">
-                                  <div className="flex justify-between text-sm">
-                                    <span className="font-medium">{skill.skill}</span>
-                                    <span className={skill.type === "Gap" ? "text-orange-500" : "text-green-500"}>{skill.type}</span>
-                                  </div>
-                                  <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                                    <div 
-                                      className={`h-full rounded-full ${skill.type === "Gap" ? "bg-orange-400" : "bg-green-500"}`} 
-                                      style={{ width: `${skill.level}%` }} 
-                                    />
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </TabsContent>
-                      
-                      <TabsContent value="actions">
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>Immediate Next Steps</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-3">
-                              {[
-                                "Update LinkedIn profile with new headline",
-                                "Reach out to 3 mentors in the target industry",
-                                "Complete the 'Values Assessment' module",
-                                "Draft initial project proposal"
-                              ].map((action, i) => (
-                                <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-border/50 hover:bg-muted/50">
-                                  <div className="h-5 w-5 rounded-full border-2 border-muted-foreground/30" />
-                                  <span className="text-sm">{action}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </TabsContent>
-                    </Tabs>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
+            </TabsContent>
+          </Tabs>
         </main>
       </div>
     </div>

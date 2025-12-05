@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
+import { Link } from "wouter";
 import { Compass, Lightbulb, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { Link } from "wouter";
+import { motion } from "framer-motion";
 
 const benefits = [
   {
@@ -21,7 +20,7 @@ const benefits = [
     icon: Target,
     title: "Actionable Focus",
     description: "Transform abstract dreams into concrete goals, tasks, and projects. Chart your daily activities to your life's mission.",
-    link: "/dashboard/tasks"
+    link: "/actionable-focus"
   }
 ];
 

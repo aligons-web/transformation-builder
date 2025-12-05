@@ -48,7 +48,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="text-xl text-muted-foreground md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Help unfulfilled professionals find their life purpose through guided journaling, AI assessment, and actionable skill mapping.
+            Help unfulfilled professionals, college students, recent graduates, retirees, and veterans find their life purpose through guided journaling, AI assessment, and actionable skill mapping.
           </motion.p>
 
           <motion.div

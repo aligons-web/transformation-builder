@@ -16,9 +16,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
   { icon: BookOpen, label: "Journal", href: "/dashboard/journal" },
-  { icon: Target, label: "Goals & Tasks", href: "/dashboard/tasks" },
-  { icon: Lightbulb, label: "Skills & Skills", href: "/dashboard/skills" },
-  { icon: Sparkles, label: "AI Analysis", href: "/dashboard/analysis" },
+  { icon: Target, label: "Tasks to Goals", href: "/dashboard/tasks" },
+  { icon: Lightbulb, label: "Skills to Build", href: "/dashboard/skills" },
+  { icon: Sparkles, label: "Transformation Analysis", href: "/dashboard/analysis" },
   { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },
 ];
 

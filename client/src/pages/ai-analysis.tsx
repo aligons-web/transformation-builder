@@ -21,6 +21,87 @@ const subconsciousQuiz = [
       { value: "CL1", label: "Pause to analyze the situation logically." },
       { value: "CL2", label: "Consider the possible outcomes before deciding." }
     ]
+  },
+  {
+    question: "When meeting someone new, you:",
+    options: [
+      { value: "SL1", label: "Instantly judge them based on appearance." },
+      { value: "SL2", label: "Notice your emotional response to their energy." },
+      { value: "CL1", label: "Ask questions to understand them better." },
+      { value: "CL2", label: "Reflect on first impressions before forming opinion." }
+    ]
+  },
+  {
+    question: "When you make a mistake, your first reaction is to:",
+    options: [
+      { value: "SL1", label: "Blame circumstances without thinking." },
+      { value: "SL2", label: "Feel embarrassed or upset." },
+      { value: "CL1", label: "Analyze what went wrong." },
+      { value: "CL2", label: "Consider how you can learn from the experience." }
+    ]
+  },
+  {
+    question: "When making a big decision, you:",
+    options: [
+      { value: "SL1", label: "Go with your initial impulse." },
+      { value: "SL2", label: "Let your mood guide your choice." },
+      { value: "CL1", label: "Weigh the pros and cons." },
+      { value: "CL2", label: "Take time to align the decision with your long-term goals." }
+    ]
+  },
+  {
+    question: "When you receive criticism, you:",
+    options: [
+      { value: "SL1", label: "Instinctively defend yourself." },
+      { value: "SL2", label: "Feel hurt or offended." },
+      { value: "CL1", label: "Try to understand the feedback logically." },
+      { value: "CL2", label: "Reflect on whether the criticism can help you grow." }
+    ]
+  },
+  {
+    question: "When you wake up in the morning, your thoughts are:",
+    options: [
+      { value: "SL1", label: "On autopilot, following your routine." },
+      { value: "SL2", label: "Influenced by your mood or dreams." },
+      { value: "CL1", label: "Focused on planning your day." },
+      { value: "CL2", label: "Thoughtful, reviewing goals or intentions for the day." }
+    ]
+  },
+  {
+    question: "When learning something new, you:",
+    options: [
+      { value: "SL1", label: "Mimic what others do without thinking." },
+      { value: "SL2", label: "Rely on how comfortable or uncomfortable it feels." },
+      { value: "CL1", label: "Break down the steps logically." },
+      { value: "CL2", label: "Reflect on how it fits into your bigger picture." }
+    ]
+  },
+  {
+    question: "When resolving conflict, you:",
+    options: [
+      { value: "SL1", label: "React automatically, maybe defensively." },
+      { value: "SL2", label: "Let your emotions lead the conversation." },
+      { value: "CL1", label: "Try to stay objective and reasoned." },
+      { value: "CL2", label: "Consider the other person’s perspective and your values." }
+    ]
+  },
+  {
+    question: "When you feel stressed, you:",
+    options: [
+      { value: "SL1", label: "Fall into old habits without realizing." },
+      { value: "SL2", label: "Notice your emotions intensify." },
+      { value: "CL1", label: "Use problem-solving strategies." },
+      { value: "CL2", label: "Practice mindfulness or intentional coping techniques." }
+    ]
+  },
+  {
+    question: "When setting goals, you:",
+    options: [
+      { value: "SL1", label: "Choose whatever comes to mind first." },
+      { value: "SL2", label: "Set goals based on what feels good right now." },
+      { value: "CL1", label: "Make specific, measurable plans." },
+      { value: "CL2", label: "Align your goals with your deeper purpose." }
+    ]
   }
 ];
 
@@ -159,7 +240,20 @@ export default function TransformationAnalysisPage() {
     ];
   };
 
+  const calculateSubconsciousResults = () => {
+    let subCount = 0; // A & B (SL1 & SL2)
+    let conCount = 0; // C & D (CL1 & CL2)
+    
+    Object.values(subconsciousAnswers).forEach(val => {
+      if (val.startsWith("SL")) subCount++;
+      if (val.startsWith("CL")) conCount++;
+    });
+
+    return { subCount, conCount };
+  };
+
   const preferenceData = calculatePreferenceResults();
+  const { subCount, conCount } = calculateSubconsciousResults();
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -230,24 +324,75 @@ export default function TransformationAnalysisPage() {
                     <h3 className="font-heading font-semibold text-xl">Subconscious vs. Conscious Mind Quiz</h3>
                     <p className="text-sm text-muted-foreground">Understand your default reaction to challenges.</p>
                     
-                    {subconsciousQuiz.map((q, i) => (
-                      <div key={i} className="space-y-4">
-                        <Label className="text-base">{q.question}</Label>
-                        <RadioGroup 
-                          onValueChange={(val) => setSubconsciousAnswers(prev => ({ ...prev, [i]: val }))}
-                          className="space-y-2"
-                        >
-                          {q.options.map((opt, j) => (
-                            <div key={j} className="flex items-center space-x-2 p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors">
-                              <RadioGroupItem value={opt.value} id={`m1-q${i}-opt${j}`} />
-                              <Label htmlFor={`m1-q${i}-opt${j}`} className="flex-1 cursor-pointer font-normal">
-                                {opt.label} <span className="text-xs text-muted-foreground ml-2">({opt.value})</span>
-                              </Label>
-                            </div>
-                          ))}
-                        </RadioGroup>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                      <div className="lg:col-span-2 space-y-8">
+                        {subconsciousQuiz.map((q, i) => (
+                          <div key={i} className="space-y-4">
+                            <Label className="text-base">{i + 1}. {q.question}</Label>
+                            <RadioGroup 
+                              onValueChange={(val) => setSubconsciousAnswers(prev => ({ ...prev, [i]: val }))}
+                              className="space-y-2"
+                            >
+                              {q.options.map((opt, j) => (
+                                <div key={j} className="flex items-center space-x-2 p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors">
+                                  <RadioGroupItem value={opt.value} id={`m1-q${i}-opt${j}`} />
+                                  <Label htmlFor={`m1-q${i}-opt${j}`} className="flex-1 cursor-pointer font-normal">
+                                    {opt.label} <span className="text-xs text-muted-foreground ml-2">({opt.value})</span>
+                                  </Label>
+                                </div>
+                              ))}
+                            </RadioGroup>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                      
+                      <div className="lg:col-span-1">
+                         <div className="sticky top-6">
+                           <Card className="bg-muted/30 border-primary/20">
+                             <CardHeader className="pb-2">
+                               <CardTitle className="text-lg">Results Tally</CardTitle>
+                               <CardDescription>See which mind is more active in your decision-making.</CardDescription>
+                             </CardHeader>
+                             <CardContent className="space-y-6 pt-4">
+                               <div className="space-y-2">
+                                 <div className="flex justify-between items-center text-sm font-medium">
+                                   <span>Subconscious (A's & B's)</span>
+                                   <span className="text-2xl font-bold text-primary">{subCount}</span>
+                                 </div>
+                                 <div className="h-2 bg-background rounded-full overflow-hidden">
+                                   <div 
+                                     className="h-full bg-primary transition-all duration-500 ease-out"
+                                     style={{ width: `${(subCount / 10) * 100}%` }}
+                                   />
+                                 </div>
+                                 <p className="text-xs text-muted-foreground">Instinctive, automatic, emotional, associative.</p>
+                               </div>
+
+                               <div className="space-y-2">
+                                 <div className="flex justify-between items-center text-sm font-medium">
+                                   <span>Conscious (C's & D's)</span>
+                                   <span className="text-2xl font-bold text-blue-500">{conCount}</span>
+                                 </div>
+                                 <div className="h-2 bg-background rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full bg-blue-500 transition-all duration-500 ease-out"
+                                      style={{ width: `${(conCount / 10) * 100}%` }}
+                                    />
+                                 </div>
+                                 <p className="text-xs text-muted-foreground">Rational, logical, reflective, intentional.</p>
+                               </div>
+
+                               <div className="bg-background p-4 rounded-lg border border-border text-center mt-4">
+                                 <div className="text-sm font-medium text-muted-foreground mb-1">Total Score</div>
+                                 <div className="font-mono text-lg">
+                                   A/B: <span className="font-bold text-primary">{subCount}</span> + C/D: <span className="font-bold text-blue-500">{conCount}</span> = 10
+                                 </div>
+                               </div>
+                             </CardContent>
+                           </Card>
+                         </div>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

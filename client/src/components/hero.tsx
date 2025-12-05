@@ -48,7 +48,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="text-xl text-muted-foreground md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Help college students, recent graduates, unfulfilled professionals, retirees, and veterans find their life purpose through guided journaling, Transformation Analysis, and actionable skill mapping to navigate and elevate in uncertain times.
+            Help college students, recent graduates, unfulfilled professionals, retirees, and veterans find their life purpose through guided journaling, transformation analysis, and actionable skill mapping to navigate and elevate in uncertain times.
           </motion.p>
 
           <motion.div

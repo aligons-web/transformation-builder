@@ -6,7 +6,7 @@ import heroBg from "@assets/generated_images/abstract_sunrise_gradient_backgroun
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section className="relative flex items-center pt-32 pb-20 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 -z-10">
         <img

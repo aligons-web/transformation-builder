@@ -9,7 +9,7 @@ export function AiPreview() {
   const [category, setCategory] = useState<string>("");
 
   return (
-    <section className="py-24 bg-muted/30 relative overflow-hidden">
+    <section className="py-12 bg-muted/30 relative overflow-hidden">
       {/* Decorative blur */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[100px] -z-10" />
 

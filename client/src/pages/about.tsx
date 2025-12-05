@@ -13,7 +13,7 @@ export default function AboutPage() {
         
         <main className="flex-1 ml-64">
           {/* Hero Header */}
-          <section className="relative h-[40vh] flex items-center justify-center overflow-hidden">
+          <section className="relative h-[30vh] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 -z-10">
               <img
                 src={heroBg}
@@ -39,8 +39,8 @@ export default function AboutPage() {
             </div>
           </section>
 
-          <div className="container mx-auto px-8 py-12 max-w-5xl">
-            <div className="mb-8">
+          <div className="container mx-auto px-8 py-8 max-w-5xl">
+            <div className="mb-4">
               <Link href="/">
                 <Button variant="ghost" className="gap-2 pl-0 hover:pl-2 transition-all">
                   <ArrowLeft className="w-4 h-4" />

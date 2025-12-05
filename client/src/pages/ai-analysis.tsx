@@ -295,34 +295,12 @@ export default function TransformationAnalysisPage() {
                     </p>
                   </div>
 
-                  <div className="space-y-6">
-                    <h3 className="font-heading font-semibold text-xl">Reflection Questions</h3>
-                    {[
-                      "Why is personal transformation necessary for you right now?",
-                      "Why has there been such disruption, dissatisfaction, or disorientation at this stage in your life?",
-                      "Are there areas of brokenness or sin that must be addressed?",
-                      "What are the long-term consequences of NOT changing?"
-                    ].map((q, i) => (
-                      <div key={i} className="space-y-2">
-                        <Label>{q}</Label>
-                        <div className="relative">
-                          <Textarea placeholder="Type your response..." className="min-h-[100px] pr-12" />
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            className={`absolute right-2 top-2 ${isRecording === `m1-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
-                            onClick={() => toggleRecording(`m1-${i}`)}
-                          >
-                            <Mic className={`w-4 h-4 ${isRecording === `m1-${i}` ? 'animate-pulse' : ''}`} />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
                   <div className="space-y-6 pt-6 border-t border-border">
-                    <h3 className="font-heading font-semibold text-xl">Subconscious vs. Conscious Mind Quiz</h3>
-                    <p className="text-sm text-muted-foreground">Understand your default reaction to challenges.</p>
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 1</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Subconscious vs. Conscious Mind Quiz</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-4">Understand your default reaction to challenges.</p>
                     
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                       <div className="lg:col-span-2 space-y-8">
@@ -393,6 +371,193 @@ export default function TransformationAnalysisPage() {
                          </div>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Day 2: Considerations for Transformation */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 2</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Considerations for Transformation</h3>
+                    </div>
+                    {[
+                      "Are there areas of brokenness or sin that must be addressed?",
+                      "If an elevated level of dissatisfaction currently exists, what is the root of it?",
+                      "What are the long-term consequences of not changing?",
+                      "What underlying beliefs or values have been confronted to determine the need for transformation?",
+                      "Additional Notes (Influences, values, principles):"
+                    ].map((q, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label>{q}</Label>
+                        <div className="relative">
+                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className={`absolute right-2 top-2 ${isRecording === `d2-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`d2-${i}`)}
+                          >
+                            <Mic className={`w-4 h-4 ${isRecording === `d2-${i}` ? 'animate-pulse' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Day 3: Reflection */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 3</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Reflection & Reaction</h3>
+                    </div>
+                    {[
+                      "Have you experienced an unexpected and undesirable development?",
+                      "Did you react? If so, describe the reaction.",
+                      "How can you take initiative practically and spiritually?",
+                      "How do you maneuver until your doors of opportunity open?",
+                      "What will be your position and posture despite the difficulties confronting you?"
+                    ].map((q, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label>{q}</Label>
+                        <div className="relative">
+                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className={`absolute right-2 top-2 ${isRecording === `d3-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`d3-${i}`)}
+                          >
+                            <Mic className={`w-4 h-4 ${isRecording === `d3-${i}` ? 'animate-pulse' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="bg-muted/30 p-6 rounded-xl border border-border mt-6">
+                      <Label className="text-base font-semibold mb-4 block">How do you view challenges?</Label>
+                      <RadioGroup className="space-y-3">
+                        {[
+                          "As opportunities to grow.",
+                          "As necessary, but stressful.",
+                          "As obstacles that slow me down.",
+                          "As things to avoid if possible."
+                        ].map((opt, i) => (
+                          <div key={i} className="flex items-center space-x-2">
+                            <RadioGroupItem value={opt} id={`d3-mcq-${i}`} />
+                            <Label htmlFor={`d3-mcq-${i}`} className="font-normal cursor-pointer">{opt}</Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+                  </div>
+
+                  {/* Day 4: Understanding Experiences */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 4</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Understanding Our Experiences</h3>
+                    </div>
+                    <div className="bg-blue-50/50 p-4 rounded-lg text-sm text-blue-900 mb-4">
+                      <p className="italic">"The path of common things creates a blindness to new possibilities."</p>
+                    </div>
+                    {[
+                      "What experiences have you encountered that can hinder you moving forward to a new version of yourself?",
+                      "List the things below that you have discovered about yourself from days 1 – 4.",
+                      "Reflect and journal how you could decide to embrace challenges."
+                    ].map((q, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label>{q}</Label>
+                        <div className="relative">
+                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className={`absolute right-2 top-2 ${isRecording === `d4-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`d4-${i}`)}
+                          >
+                            <Mic className={`w-4 h-4 ${isRecording === `d4-${i}` ? 'animate-pulse' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Day 5: Breaking Barriers */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 5</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Breaking Barriers</h3>
+                    </div>
+                    {[
+                      "How will invisible boundaries, oppositions, fences, walls, and ideas (mental barriers) negatively impact or impede your progress to transformation?",
+                      "Write positive statements that contribute to essential change.",
+                      "Include scriptural references for your positive statements and incorporate them into your personal prayer."
+                    ].map((q, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label>{q}</Label>
+                        <div className="relative">
+                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className={`absolute right-2 top-2 ${isRecording === `d5-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`d5-${i}`)}
+                          >
+                            <Mic className={`w-4 h-4 ${isRecording === `d5-${i}` ? 'animate-pulse' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Day 6: Perspectives */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 6</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Perspectives</h3>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Imagine you were sharing with your child your last words. What would those words be?</Label>
+                      <div className="relative">
+                        <Textarea placeholder="Write your legacy words here..." className="min-h-[120px] pr-12 italic" />
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className={`absolute right-2 top-2 ${isRecording === `d6-1` ? 'text-red-500' : 'text-muted-foreground'}`}
+                          onClick={() => toggleRecording(`d6-1`)}
+                        >
+                          <Mic className={`w-4 h-4 ${isRecording === `d6-1` ? 'animate-pulse' : ''}`} />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Day 7: Thinking & Reflecting */}
+                  <div className="space-y-6 pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="outline" className="text-primary border-primary">Day 7</Badge>
+                      <h3 className="font-heading font-semibold text-xl">Thinking & Reflecting</h3>
+                    </div>
+                    {[
+                      "Why now? What are the opportunities in your opposition?",
+                      "Is there a sense of urgency or a specific catalyst (job loss, major unexpected life events, etc.) for change?",
+                      "What opportunities for a fulfilled life are you losing by delaying your LIFE Transformation?",
+                      "Is there a prominent level of intolerance to remain in the current situation or a strong awareness that there is a fulfilling life to tap into?"
+                    ].map((q, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label>{q}</Label>
+                        <div className="relative">
+                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className={`absolute right-2 top-2 ${isRecording === `d7-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            onClick={() => toggleRecording(`d7-${i}`)}
+                          >
+                            <Mic className={`w-4 h-4 ${isRecording === `d7-${i}` ? 'animate-pulse' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>

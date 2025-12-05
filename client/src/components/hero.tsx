@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import heroBg from "@assets/generated_images/abstract_sunrise_gradient_background_for_hero_section.png";
+import targetGraphic from "@assets/generated_images/orange_target_with_converging_black-to-gray_path_lines.png";
 
 export function Hero() {
   return (
@@ -55,7 +56,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
           >
             <Link href="/signup">
               <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-all hover:scale-105 border-none shadow-none">
@@ -68,6 +69,19 @@ export function Hero() {
                 Learn More
               </Button>
             </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-white/50"
+          >
+            <img 
+              src={targetGraphic} 
+              alt="Transformation Path" 
+              className="w-full h-auto object-cover bg-white"
+            />
           </motion.div>
         </div>
       </div>

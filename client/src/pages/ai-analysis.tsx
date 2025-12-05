@@ -917,8 +917,32 @@ export default function TransformationAnalysisPage() {
                         <tbody className="divide-y divide-border">
                           {[1, 2, 3].map((row) => (
                             <tr key={row}>
-                              <td className="p-2"><Textarea className="min-h-[60px] text-sm" placeholder="Working with..." /></td>
-                              <td className="p-2"><Textarea className="min-h-[60px] text-sm" placeholder="Product/Service..." /></td>
+                              <td className="p-2 align-top">
+                                <RadioGroup defaultValue="">
+                                  <div className="space-y-2 pt-1">
+                                    <div className="flex items-center space-x-2">
+                                      <RadioGroupItem value="people" id={`da-people-${row}`} />
+                                      <Label htmlFor={`da-people-${row}`} className="font-normal cursor-pointer">People</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                      <RadioGroupItem value="things" id={`da-things-${row}`} />
+                                      <Label htmlFor={`da-things-${row}`} className="font-normal cursor-pointer">Things</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                      <RadioGroupItem value="data" id={`da-data-${row}`} />
+                                      <Label htmlFor={`da-data-${row}`} className="font-normal cursor-pointer">Data</Label>
+                                    </div>
+                                  </div>
+                                </RadioGroup>
+                              </td>
+                              <td className="p-2 align-top">
+                                <select className="w-full h-[40px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                  <option value="">Select...</option>
+                                  <option value="product">Building a Product</option>
+                                  <option value="service">Providing a Service</option>
+                                  <option value="both">Service and Product Offer</option>
+                                </select>
+                              </td>
                               <td className="p-2"><Textarea className="min-h-[60px] text-sm" placeholder="Comfort zone..." /></td>
                               <td className="p-2">
                                 <select className="w-full h-[60px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">

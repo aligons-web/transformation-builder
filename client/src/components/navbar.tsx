@@ -42,6 +42,11 @@ export function Navbar() {
               About
             </a>
           </Link>
+          <Link href="/ai-transformation-engine">
+            <a className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+              Journey Insights
+            </a>
+          </Link>
           <div className="flex items-center gap-4 ml-4">
             <Link href="/login">
               <Button variant="ghost" className="hover:bg-primary/10 hover:text-primary">
@@ -74,6 +79,11 @@ export function Navbar() {
                 <Link href="/about">
                   <a className="text-lg font-medium hover:text-primary transition-colors">
                     About
+                  </a>
+                </Link>
+                <Link href="/ai-transformation-engine">
+                  <a className="text-lg font-medium hover:text-primary transition-colors">
+                    Journey Insights
                   </a>
                 </Link>
                 <hr className="border-border" />

@@ -12,7 +12,7 @@ export function Hero() {
         <img
           src={heroBg}
           alt="Sunrise background"
-          className="w-full h-full object-cover opacity-50"
+          className="w-full h-full object-cover opacity-90"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
       </div>

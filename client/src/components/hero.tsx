@@ -69,23 +69,6 @@ export function Hero() {
           >
             We provide the tools and structure you need to move from confusion to clarity.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-0"
-          >
-            <Link href="/discover-purpose">
-              <a className={cn(
-                buttonVariants({ size: "lg" }),
-                "h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white border-none shadow-none cursor-pointer"
-              )}>
-                Begin Transformation
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </a>
-            </Link>
-          </motion.div>
         </div>
       </div>
       

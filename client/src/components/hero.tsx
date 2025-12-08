@@ -67,14 +67,6 @@ export function Hero() {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </a>
             </Link>
-            <Link href="/about">
-              <a className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "h-14 px-8 text-lg rounded-full border-none bg-[#E6D5B8] text-[#5C4033] hover:bg-[#DFC7A0] hover:text-[#3E2723] transition-all shadow-none cursor-pointer"
-              )}>
-                Learn More
-              </a>
-            </Link>
           </motion.div>
         </div>
       </div>

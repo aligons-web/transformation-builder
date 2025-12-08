@@ -28,9 +28,9 @@ export function AiPreview() {
             
             <div className="space-y-4">
               {[
+                { icon: Heart, text: "Personal Advancement" },
                 { icon: Briefcase, text: "Professional Reinvention" },
-                { icon: Heart, text: "Personal Growth" },
-                { icon: Zap, text: "Spiritual Alignment" }
+                { icon: Zap, text: "Spiritual Awareness" }
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-white/60 shadow-sm">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -66,9 +66,9 @@ export function AiPreview() {
                         <SelectValue placeholder="Choose area of focus..." />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="professional">Professional Career</SelectItem>
-                        <SelectItem value="personal">Personal Relationships</SelectItem>
-                        <SelectItem value="spiritual">Spiritual Wellbeing</SelectItem>
+                        <SelectItem value="personal">Personal Advancement</SelectItem>
+                        <SelectItem value="professional">Professional Reinvention</SelectItem>
+                        <SelectItem value="spiritual">Spiritual Awareness</SelectItem>
                         <SelectItem value="creative">Creative Expression</SelectItem>
                       </SelectContent>
                     </Select>

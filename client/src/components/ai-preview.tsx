@@ -69,7 +69,6 @@ export function AiPreview() {
                         <SelectItem value="personal">Personal Advancement</SelectItem>
                         <SelectItem value="professional">Professional Reinvention</SelectItem>
                         <SelectItem value="spiritual">Spiritual Awareness</SelectItem>
-                        <SelectItem value="creative">Creative Expression</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

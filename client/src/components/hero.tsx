@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import heroBg from "@assets/generated_images/abstract_sunrise_gradient_background_for_hero_section.png";
+import { cn } from "@/lib/utils";
 
 export function Hero() {
   return (
@@ -58,15 +59,21 @@ export function Hero() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
           >
             <Link href="/discover-purpose">
-              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-all hover:scale-105 border-none shadow-none">
+              <a className={cn(
+                buttonVariants({ size: "lg" }),
+                "h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-all hover:scale-105 border-none shadow-none cursor-pointer"
+              )}>
                 Begin Transformation
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
+              </a>
             </Link>
             <Link href="/about">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-none bg-[#E6D5B8] text-[#5C4033] hover:bg-[#DFC7A0] hover:text-[#3E2723] transition-all shadow-none">
+              <a className={cn(
+                buttonVariants({ size: "lg", variant: "outline" }),
+                "h-14 px-8 text-lg rounded-full border-none bg-[#E6D5B8] text-[#5C4033] hover:bg-[#DFC7A0] hover:text-[#3E2723] transition-all shadow-none cursor-pointer"
+              )}>
                 Learn More
-              </Button>
+              </a>
             </Link>
           </motion.div>
         </div>

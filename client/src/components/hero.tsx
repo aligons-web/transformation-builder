@@ -47,9 +47,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="text-xl text-muted-foreground md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="text-xl text-muted-foreground md:text-2xl max-w-2xl mx-auto mb-6 leading-relaxed"
           >
             Help college students, recent graduates, unfulfilled professionals, retirees, and veterans find their life purpose through guided journaling, transformation analysis, and actionable skill mapping to navigate and elevate in uncertain times.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
+            className="text-lg text-foreground/80 font-medium md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+          >
+            We provide the tools and structure you need to move from confusion to clarity.
           </motion.p>
 
           <motion.div

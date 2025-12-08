@@ -61,7 +61,7 @@ export function Hero() {
             <Link href="/discover-purpose">
               <a className={cn(
                 buttonVariants({ size: "lg" }),
-                "h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-all hover:scale-105 border-none shadow-none cursor-pointer"
+                "h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white border-none shadow-none cursor-pointer"
               )}>
                 Begin Transformation
                 <ArrowRight className="ml-2 w-5 h-5" />

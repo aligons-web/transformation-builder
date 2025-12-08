@@ -57,7 +57,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
           >
-            <Link href="/signup">
+            <Link href="/discover-purpose">
               <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-all hover:scale-105 border-none shadow-none">
                 Begin Transformation
                 <ArrowRight className="ml-2 w-5 h-5" />

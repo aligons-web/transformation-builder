@@ -32,9 +32,6 @@ export function Benefits() {
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-foreground">
             Why Start Your Journey?
           </h2>
-          <p className="text-lg text-muted-foreground">
-            We provide the tools and structure you need to move from confusion to clarity.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

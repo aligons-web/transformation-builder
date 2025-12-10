@@ -9,13 +9,15 @@ import {
   BarChart2, 
   Settings, 
   LogOut,
-  Sparkles
+  Sparkles,
+  Calendar
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
+  { icon: Calendar, label: "Calendar", href: "/dashboard/calendar" },
   { icon: BookOpen, label: "Journal", href: "/dashboard/journal" },
   { icon: Target, label: "Tasks to Goals", href: "/dashboard/tasks" },
   { icon: Flag, label: "Milestones to Projects", href: "/dashboard/projects" },

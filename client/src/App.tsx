@@ -12,6 +12,7 @@ import AiAnalysisPage from "@/pages/ai-analysis";
 import FuturePathPage from "@/pages/future-path";
 import AiTransformationEnginePage from "@/pages/ai-transformation-engine";
 import ActionableFocusPage from "@/pages/actionable-focus";
+import CalendarPage from "@/pages/calendar";
 import AboutPage from "@/pages/about";
 
 function Router() {
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/dashboard/future-path" component={FuturePathPage} />
       <Route path="/ai-transformation-engine" component={AiTransformationEnginePage} />
       <Route path="/actionable-focus" component={ActionableFocusPage} />
+      <Route path="/dashboard/calendar" component={CalendarPage} />
       <Route path="/dashboard/*" component={DashboardPage} />
       <Route component={NotFound} />
     </Switch>

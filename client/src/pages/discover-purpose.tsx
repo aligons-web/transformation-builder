@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb } from "lucide-react";
+import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 
 // Content derived from "Understanding Your Path"
 const modules = [
@@ -115,15 +116,99 @@ const modules = [
 export default function DiscoverPurposePage() {
   const [activeModule, setActiveModule] = useState(modules[0]);
   const [isRecording, setIsRecording] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const { toast } = useToast();
+  
+  // Refs for speech recognition
+  const recognitionRef = useRef<any>(null);
+
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
+      
+      recognitionRef.current.onresult = (event: any) => {
+        if (isRecording === null) return;
+        
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
+        }
+        
+        if (finalTranscript) {
+          const key = `${activeModule.id}-${isRecording}`;
+          setAnswers(prev => ({
+            ...prev,
+            [key]: (prev[key] || '') + ' ' + finalTranscript
+          }));
+        }
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error', event.error);
+        setIsRecording(null);
+        toast({
+          title: "Microphone Error",
+          description: "Could not access microphone. Please check permissions.",
+          variant: "destructive"
+        });
+      };
+      
+      recognitionRef.current.onend = () => {
+         // If we're still supposed to be recording but it stopped (e.g. silence), restart
+         // Not strictly necessary for this mockup but good practice
+      };
+    }
+    
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, [activeModule.id, isRecording, toast]);
 
   const toggleRecording = (index: number) => {
-    if (isRecording === index) {
-      setIsRecording(null);
-    } else {
-      setIsRecording(index);
-      // Mock speech recognition start
-      setTimeout(() => setIsRecording(null), 3000); // Auto stop mock
+    if (!recognitionRef.current) {
+      toast({
+        title: "Not Supported",
+        description: "Speech recognition is not supported in this browser.",
+        variant: "destructive"
+      });
+      return;
     }
+
+    if (isRecording === index) {
+      recognitionRef.current.stop();
+      setIsRecording(null);
+      toast({
+        title: "Recording Stopped",
+        description: "Your speech has been captured.",
+      });
+    } else {
+      // If recording another field, stop that one first
+      if (isRecording !== null) {
+        recognitionRef.current.stop();
+      }
+      
+      setIsRecording(index);
+      recognitionRef.current.start();
+      toast({
+        title: "Listening...",
+        description: "Speak clearly into your microphone.",
+      });
+    }
+  };
+
+  const handleTextChange = (index: number, value: string) => {
+    const key = `${activeModule.id}-${index}`;
+    setAnswers(prev => ({
+      ...prev,
+      [key]: value
+    }));
   };
 
   return (
@@ -164,7 +249,13 @@ export default function DiscoverPurposePage() {
                     {modules.map((module) => (
                       <button
                         key={module.id}
-                        onClick={() => setActiveModule(module)}
+                        onClick={() => {
+                            setActiveModule(module);
+                            if (isRecording !== null) {
+                                if (recognitionRef.current) recognitionRef.current.stop();
+                                setIsRecording(null);
+                            }
+                        }}
                         className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group ${
                           activeModule.id === module.id
                             ? "bg-primary text-primary-foreground shadow-md"
@@ -249,17 +340,23 @@ export default function DiscoverPurposePage() {
                           </label>
                           <div className="relative group">
                             <Textarea 
-                              placeholder="Type your reflection here..." 
+                              placeholder="Type your reflection here or use the microphone..." 
                               className="min-h-[120px] resize-none bg-background/50 focus:bg-background transition-all p-4 pr-12 text-base leading-relaxed"
+                              value={answers[`${activeModule.id}-${index}`] || ''}
+                              onChange={(e) => handleTextChange(index, e.target.value)}
                             />
                             <Button
                               size="icon"
                               variant="ghost"
-                              className={`absolute right-2 top-2 transition-colors ${isRecording === index ? 'text-red-500 bg-red-50' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
+                              className={`absolute right-2 top-2 transition-colors ${isRecording === index ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                               onClick={() => toggleRecording(index)}
-                              title="Speech to Text"
+                              title={isRecording === index ? "Stop Recording" : "Start Recording"}
                             >
-                              <Mic className={`w-5 h-5 ${isRecording === index ? 'animate-pulse' : ''}`} />
+                              {isRecording === index ? (
+                                <MicOff className="w-5 h-5 animate-pulse" />
+                              ) : (
+                                <Mic className="w-5 h-5" />
+                              )}
                             </Button>
                           </div>
                         </div>

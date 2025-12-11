@@ -23,7 +23,7 @@ const sidebarItems = [
   { icon: Target, label: "Tasks to Goals", href: "/dashboard/tasks" },
   { icon: Flag, label: "Milestones to Projects", href: "/dashboard/projects" },
   { icon: Lightbulb, label: "Skills to Build", href: "/dashboard/skills" },
-  { icon: Sparkles, label: "Transformation Analysis", href: "/dashboard/analysis" },
+  { icon: Sparkles, label: "Change Analysis", href: "/dashboard/analysis" },
   { icon: Focus, label: "Actionable Focus", href: "/actionable-focus" },
   { icon: Lightbulb, label: "Journey Insights", href: "/ai-transformation-engine" },
   { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },

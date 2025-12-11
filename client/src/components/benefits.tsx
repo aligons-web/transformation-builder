@@ -12,7 +12,7 @@ const benefits = [
   },
   {
     icon: Lightbulb,
-    title: "Step 2: Transformation Analysis",
+    title: "Step 2: Analyze Change",
     description: "Get personalized insights and pattern recognition from your entries to identify hidden strengths and potential career paths.",
     link: "/dashboard/analysis"
   },

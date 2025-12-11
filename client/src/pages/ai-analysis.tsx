@@ -353,7 +353,7 @@ export default function TransformationAnalysisPage() {
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">Step 2: Transformation Analysis</h1>
+              <h1 className="text-3xl font-heading font-bold text-foreground">Step 2: Analyze Change</h1>
               <p className="text-muted-foreground">Deep dive into Modules 1 & 2 of the Life Transformation Workbook.</p>
             </div>
           </div>

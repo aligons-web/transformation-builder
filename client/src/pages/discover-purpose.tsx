@@ -285,6 +285,9 @@ export default function DiscoverPurposePage() {
                     </div>
 
                     <div className="flex justify-end pt-4 gap-4">
+                      <Button size="lg" className="shadow-lg shadow-primary/20" onClick={handleSaveReflections}>
+                        Save Reflections
+                      </Button>
                       {activeModule.id === 9 && (
                         <Link href="/discover-purpose/summary">
                           <Button size="lg" variant="outline" className="border-primary/20 hover:bg-primary/5 gap-2">
@@ -293,9 +296,6 @@ export default function DiscoverPurposePage() {
                           </Button>
                         </Link>
                       )}
-                      <Button size="lg" className="shadow-lg shadow-primary/20" onClick={handleSaveReflections}>
-                        Save Reflections
-                      </Button>
                     </div>
                   </CardContent>
                 </Card>

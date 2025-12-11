@@ -6,8 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
+import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2, ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 const timeUseQuiz = [
@@ -58,6 +59,7 @@ const urgencyLevels = [
 
 export default function ActionableFocusPage() {
   const [activeTab, setActiveTab] = useState("module3");
+  const [, setLocation] = useLocation();
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
   const [isRecording, setIsRecording] = useState<string | null>(null);
 
@@ -320,6 +322,14 @@ export default function ActionableFocusPage() {
                     <Button variant="outline" onClick={() => setActiveTab("module4")} className="gap-2">
                       <ArrowLeft className="w-4 h-4" />
                       Previous: When?
+                    </Button>
+                    <Button 
+                      className="gap-2 bg-orange-500 hover:bg-orange-600 text-white"
+                      onClick={() => setLocation("/ai-transformation-engine")}
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      Journey Insights
+                      <ArrowRight className="w-4 h-4" />
                     </Button>
                   </div>
                 </CardContent>

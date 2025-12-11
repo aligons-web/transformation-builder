@@ -142,7 +142,7 @@ export default function DiscoverPurposePage() {
             Understanding Your Path
           </Badge>
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Guided <span className="text-primary font-serif italic">Reflection</span>
+            Step 1: Discover <span className="text-primary font-serif italic">Purpose</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Explore the chapters of your life through guided modules derived from "Understanding Your Path." Reflect, record, and connect the dots.

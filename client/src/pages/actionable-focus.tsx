@@ -8,7 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
-import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 const timeUseQuiz = [
   {
@@ -75,11 +75,16 @@ export default function ActionableFocusPage() {
     Object.values(timeUseAnswers).forEach(val => {
       if (val in counts) counts[val as keyof typeof counts]++;
     });
+    
+    // If no answers yet, show equal distribution to display the chart
+    const hasAnswers = Object.keys(timeUseAnswers).length > 0;
+    const baseValue = hasAnswers ? 0 : 25;
+
     return [
-      { name: "Routine", value: counts.Routine, color: "#3b82f6" },
-      { name: "Learning", value: counts.Learning, color: "#10b981" },
-      { name: "Entertain.", value: counts.Entertainment, color: "#ef4444" },
-      { name: "Social", value: counts.Social, color: "#f97316" }
+      { name: "Highly Structured", value: hasAnswers ? counts.Routine : baseValue, color: "#3b82f6" }, // Blue
+      { name: "Intentional", value: hasAnswers ? counts.Learning : baseValue, color: "#10b981" }, // Green
+      { name: "Relax Focused", value: hasAnswers ? counts.Entertainment : baseValue, color: "#f97316" }, // Orange
+      { name: "Personal Activity", value: hasAnswers ? counts.Social : baseValue, color: "#ef4444" } // Red
     ];
   };
 
@@ -156,27 +161,27 @@ export default function ActionableFocusPage() {
                        <h3 className="font-heading font-semibold text-xl">Time Allocation Profile</h3>
                        <Card className="bg-muted/20 border-none shadow-inner">
                         <CardContent className="p-6 flex flex-col items-center justify-center min-h-[300px]">
-                          {Object.keys(timeUseAnswers).length > 0 ? (
-                            <div className="w-full h-[300px]">
-                              <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={timeUseData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
-                                  <XAxis type="number" allowDecimals={false} />
-                                  <YAxis dataKey="name" type="category" />
-                                  <Tooltip cursor={{fill: 'transparent'}} />
-                                  <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                                    {timeUseData.map((entry, index) => (
-                                      <Cell key={`cell-${index}`} fill={entry.color} />
-                                    ))}
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          ) : (
-                            <div className="text-center text-muted-foreground">
-                              <Clock className="w-12 h-12 mx-auto mb-2 opacity-20" />
-                              <p>Complete the assessment to see your time profile.</p>
-                            </div>
-                          )}
+                          <div className="w-full h-[300px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <Pie
+                                  data={timeUseData}
+                                  cx="50%"
+                                  cy="50%"
+                                  innerRadius={60}
+                                  outerRadius={80}
+                                  paddingAngle={5}
+                                  dataKey="value"
+                                >
+                                  {timeUseData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                  ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
                         </CardContent>
                       </Card>
                       <div className="space-y-2">

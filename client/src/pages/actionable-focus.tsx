@@ -100,7 +100,7 @@ export default function ActionableFocusPage() {
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">Step 3: Actionable Focus</h1>
+              <h1 className="text-3xl font-heading font-bold text-foreground">Step 3: Clarify Focus</h1>
               <p className="text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
             </div>
           </div>

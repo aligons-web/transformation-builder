@@ -18,7 +18,7 @@ const benefits = [
   },
   {
     icon: Target,
-    title: "Step 3: Actionable Focus",
+    title: "Step 3: Clarify Focus",
     description: "Transform abstract dreams into concrete goals, tasks, and projects. Chart your daily activities to your life's mission.",
     link: "/actionable-focus"
   }

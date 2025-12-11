@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { ArrowLeft, Printer, Download, BookOpen, Quote, Lightbulb } from "lucide-react";
+import { ArrowLeft, Printer, Download, BookOpen, Quote, Lightbulb, Sparkles } from "lucide-react";
 import { modules } from "@/lib/purpose-modules";
 import { useEffect, useState } from "react";
 
@@ -118,7 +118,16 @@ export default function PurposeSummaryPage() {
             );
           })}
           
-          <div className="print:hidden mt-16 pt-8 border-t border-border">
+          <div className="flex justify-center py-4 print:hidden">
+            <Link href="/discover-purpose/interpretation">
+              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-gradient-to-r from-primary to-orange-600 hover:from-primary/90 hover:to-orange-700 shadow-xl shadow-primary/20 transition-all hover:scale-105 gap-2">
+                <Sparkles className="w-5 h-5" />
+                Interpretation of Your Purpose
+              </Button>
+            </Link>
+          </div>
+
+          <div className="print:hidden mt-8 pt-8 border-t border-border">
             <Link href="/dashboard/analysis">
               <a className="block group cursor-pointer">
                 <Card className="bg-primary/5 border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all">

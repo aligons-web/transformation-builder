@@ -14,6 +14,7 @@ import AiTransformationEnginePage from "@/pages/ai-transformation-engine";
 import ActionableFocusPage from "@/pages/actionable-focus";
 import CalendarPage from "@/pages/calendar";
 import PurposeSummaryPage from "@/pages/purpose-summary";
+import PurposeInterpretationPage from "@/pages/purpose-interpretation";
 import AboutPage from "@/pages/about";
 
 function Router() {
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/" component={LandingPage} />
       <Route path="/discover-purpose" component={DiscoverPurposePage} />
       <Route path="/discover-purpose/summary" component={PurposeSummaryPage} />
+      <Route path="/discover-purpose/interpretation" component={PurposeInterpretationPage} />
       <Route path="/login" component={AuthPage} />
       <Route path="/signup" component={AuthPage} />
       <Route path="/about" component={AboutPage} />

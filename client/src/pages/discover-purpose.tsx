@@ -207,7 +207,7 @@ export default function DiscoverPurposePage() {
                           <Lightbulb className="w-5 h-5 text-primary" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">Transformation Analysis</h4>
+                          <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">Step 2: Analyze Change</h4>
                           <p className="text-xs text-muted-foreground mt-1 leading-snug">
                             Get personalized insights and pattern recognition from your entries.
                           </p>

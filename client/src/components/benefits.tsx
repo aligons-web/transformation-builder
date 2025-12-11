@@ -6,19 +6,19 @@ import { motion } from "framer-motion";
 const benefits = [
   {
     icon: Compass,
-    title: "Discover Purpose",
+    title: "Step 1: Discover Purpose",
     description: "Navigate through uncertainty with our guided journaling and self-discovery frameworks designed to uncover your core values.",
     link: "/discover-purpose"
   },
   {
     icon: Lightbulb,
-    title: "Transformation Analysis",
+    title: "Step 2: Transformation Analysis",
     description: "Get personalized insights and pattern recognition from your entries to identify hidden strengths and potential career paths.",
     link: "/dashboard/analysis"
   },
   {
     icon: Target,
-    title: "Actionable Focus",
+    title: "Step 3: Actionable Focus",
     description: "Transform abstract dreams into concrete goals, tasks, and projects. Chart your daily activities to your life's mission.",
     link: "/actionable-focus"
   }

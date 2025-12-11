@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
@@ -202,6 +202,13 @@ export default function ActionableFocusPage() {
                       </div>
                     </div>
                   </div>
+                  
+                  <div className="flex justify-end pt-4">
+                    <Button onClick={() => setActiveTab("module4")} className="gap-2">
+                      Next: When?
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -250,6 +257,17 @@ export default function ActionableFocusPage() {
                       ))}
                     </div>
                   </div>
+                  
+                  <div className="flex justify-between pt-4">
+                    <Button variant="outline" onClick={() => setActiveTab("module3")} className="gap-2">
+                      <ArrowLeft className="w-4 h-4" />
+                      Previous: How?
+                    </Button>
+                    <Button onClick={() => setActiveTab("module5")} className="gap-2">
+                      Next: Where?
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -296,6 +314,13 @@ export default function ActionableFocusPage() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                  
+                  <div className="flex justify-between pt-4">
+                    <Button variant="outline" onClick={() => setActiveTab("module4")} className="gap-2">
+                      <ArrowLeft className="w-4 h-4" />
+                      Previous: When?
+                    </Button>
                   </div>
                 </CardContent>
               </Card>

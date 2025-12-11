@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { ArrowLeft, Printer, Download, BookOpen, Quote } from "lucide-react";
+import { ArrowLeft, Printer, Download, BookOpen, Quote, Lightbulb } from "lucide-react";
 import { modules } from "@/lib/purpose-modules";
 import { useEffect, useState } from "react";
 
@@ -118,6 +118,28 @@ export default function PurposeSummaryPage() {
             );
           })}
           
+          <div className="print:hidden mt-16 pt-8 border-t border-border">
+            <Link href="/dashboard/analysis">
+              <a className="block group cursor-pointer">
+                <Card className="bg-primary/5 border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all">
+                  <CardContent className="p-6 flex items-center gap-6">
+                    <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary/30 transition-colors">
+                      <Lightbulb className="w-8 h-8 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-heading font-bold text-foreground group-hover:text-primary transition-colors">
+                        Ready for Transformation Analysis?
+                      </h3>
+                      <p className="text-muted-foreground mt-2">
+                        Now that you've connected the dots, use our AI engine to get personalized insights and pattern recognition from your entries.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            </Link>
+          </div>
+
           {Object.keys(answers).length === 0 && (
              <div className="text-center py-12 text-muted-foreground">
                 <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-20" />

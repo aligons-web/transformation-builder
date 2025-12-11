@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, ChevronRight, BookOpen, Save } from "lucide-react";
+import { Mic, ChevronRight, BookOpen, Save, Compass } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 
@@ -147,6 +147,13 @@ export default function DiscoverPurposePage() {
           <div className="lg:col-span-4">
             <Card className="sticky top-24 border-border/50 bg-card/50 backdrop-blur-sm">
               <CardHeader>
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 transition-colors">
+                  <Compass className="w-7 h-7 text-primary" />
+                </div>
+                <CardTitle className="text-xl font-heading font-semibold">
+                  Discover Purpose
+                </CardTitle>
+                <div className="h-4" />
                 <CardTitle className="text-lg">Modules</CardTitle>
                 <CardDescription>Select a chapter to begin reflection</CardDescription>
               </CardHeader>

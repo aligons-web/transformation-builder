@@ -137,10 +137,10 @@ export default function PurposeSummaryPage() {
                     </div>
                     <div>
                       <h3 className="text-xl font-heading font-bold text-foreground group-hover:text-primary transition-colors">
-                        Ready for Transformation Analysis?
+                        Step 2: Analyze Change
                       </h3>
                       <p className="text-muted-foreground mt-2">
-                        Now that you've connected the dots, use our AI engine to get personalized insights and pattern recognition from your entries.
+                        Get personalized insights and pattern recognition from your entries.
                       </p>
                     </div>
                   </CardContent>

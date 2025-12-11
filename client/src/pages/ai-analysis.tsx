@@ -832,27 +832,20 @@ export default function TransformationAnalysisPage() {
                       <h3 className="font-heading font-semibold text-xl">Your Preference Profile</h3>
                       <Card className="bg-muted/20 border-none shadow-inner">
                         <CardContent className="p-6 flex flex-col items-center justify-center min-h-[300px]">
-                          {Object.keys(preferenceAnswers).length > 0 ? (
-                            <div className="w-full h-[300px]">
-                              <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={preferenceData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
-                                  <XAxis type="number" allowDecimals={false} />
-                                  <YAxis dataKey="name" type="category" />
-                                  <Tooltip cursor={{fill: 'transparent'}} />
-                                  <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                                    {preferenceData.map((entry, index) => (
-                                      <Cell key={`cell-${index}`} fill={entry.color} />
-                                    ))}
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          ) : (
-                            <div className="text-center text-muted-foreground">
-                              <BarChart2 className="w-12 h-12 mx-auto mb-2 opacity-20" />
-                              <p>Complete the assessment to see your results chart.</p>
-                            </div>
-                          )}
+                          <div className="w-full h-[300px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <BarChart data={preferenceData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                                <XAxis type="number" allowDecimals={false} domain={[0, 10]} />
+                                <YAxis dataKey="name" type="category" width={60} />
+                                <Tooltip cursor={{fill: 'transparent'}} />
+                                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                                  {preferenceData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                  ))}
+                                </Bar>
+                              </BarChart>
+                            </ResponsiveContainer>
+                          </div>
                         </CardContent>
                       </Card>
                       

@@ -13,6 +13,7 @@ import FuturePathPage from "@/pages/future-path";
 import AiTransformationEnginePage from "@/pages/ai-transformation-engine";
 import ActionableFocusPage from "@/pages/actionable-focus";
 import CalendarPage from "@/pages/calendar";
+import PurposeSummaryPage from "@/pages/purpose-summary";
 import AboutPage from "@/pages/about";
 
 function Router() {
@@ -20,6 +21,7 @@ function Router() {
     <Switch>
       <Route path="/" component={LandingPage} />
       <Route path="/discover-purpose" component={DiscoverPurposePage} />
+      <Route path="/discover-purpose/summary" component={PurposeSummaryPage} />
       <Route path="/login" component={AuthPage} />
       <Route path="/signup" component={AuthPage} />
       <Route path="/about" component={AboutPage} />

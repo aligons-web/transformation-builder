@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, ChevronRight, BookOpen, Save, Compass } from "lucide-react";
+import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 
@@ -185,6 +186,24 @@ export default function DiscoverPurposePage() {
                     ))}
                   </div>
                 </ScrollArea>
+                
+                <div className="p-4 pt-2 border-t border-border/50">
+                  <Link href="/dashboard/analysis">
+                    <a className="block group cursor-pointer">
+                      <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-all">
+                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                          <Lightbulb className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">Transformation Analysis</h4>
+                          <p className="text-xs text-muted-foreground mt-1 leading-snug">
+                            Get personalized insights and pattern recognition from your entries.
+                          </p>
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           </div>

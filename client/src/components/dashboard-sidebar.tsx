@@ -10,7 +10,8 @@ import {
   Settings, 
   LogOut,
   Sparkles,
-  Calendar
+  Calendar,
+  Focus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -23,6 +24,7 @@ const sidebarItems = [
   { icon: Flag, label: "Milestones to Projects", href: "/dashboard/projects" },
   { icon: Lightbulb, label: "Skills to Build", href: "/dashboard/skills" },
   { icon: Sparkles, label: "Transformation Analysis", href: "/dashboard/analysis" },
+  { icon: Focus, label: "Actionable Focus", href: "/actionable-focus" },
   { icon: Lightbulb, label: "Journey Insights", href: "/ai-transformation-engine" },
   { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },
 ];

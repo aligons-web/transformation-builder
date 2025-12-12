@@ -6,8 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2, ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2, ArrowRight, ArrowLeft, Sparkles, MicOff } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
@@ -62,6 +63,8 @@ export default function ActionableFocusPage() {
   const [, setLocation] = useLocation();
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
+  const { toast } = useToast();
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     const load = (key: string, setter: any) => {
@@ -83,12 +86,77 @@ export default function ActionableFocusPage() {
 
   const [isRecording, setIsRecording] = useState<string | null>(null);
 
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
+      
+      recognitionRef.current.onresult = (event: any) => {
+        if (isRecording === null) return;
+        
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
+        }
+        
+        if (finalTranscript) {
+          setTextAnswers(prev => ({
+            ...prev,
+            [isRecording]: (prev[isRecording] || '') + ' ' + finalTranscript
+          }));
+        }
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error', event.error);
+        setIsRecording(null);
+        toast({
+          title: "Microphone Error",
+          description: "Could not access microphone. Please check permissions.",
+          variant: "destructive"
+        });
+      };
+    }
+    
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, [isRecording, toast]);
+
   const toggleRecording = (id: string) => {
+    if (!recognitionRef.current) {
+      toast({
+        title: "Not Supported",
+        description: "Speech recognition is not supported in this browser.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (isRecording === id) {
+      recognitionRef.current.stop();
       setIsRecording(null);
+      toast({
+        title: "Recording Stopped",
+        description: "Your speech has been captured.",
+      });
     } else {
+      if (isRecording !== null) {
+        recognitionRef.current.stop();
+      }
+      
       setIsRecording(id);
-      setTimeout(() => setIsRecording(null), 3000);
+      recognitionRef.current.start();
+      toast({
+        title: "Listening...",
+        description: "Speak clearly into your microphone.",
+      });
     }
   };
 
@@ -220,9 +288,15 @@ export default function ActionableFocusPage() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="absolute right-2 top-2 text-muted-foreground"
+                              className={`absolute right-2 top-2 ${isRecording === `m3-${i}` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
+                              onClick={() => toggleRecording(`m3-${i}`)}
+                              title={isRecording === `m3-${i}` ? "Stop Recording" : "Start Recording"}
                             >
-                              <Mic className="w-4 h-4" />
+                              {isRecording === `m3-${i}` ? (
+                                <MicOff className="w-4 h-4 animate-pulse" />
+                              ) : (
+                                <Mic className="w-4 h-4" />
+                              )}
                             </Button>
                           </div>
                         ))}
@@ -281,9 +355,15 @@ export default function ActionableFocusPage() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="absolute right-2 top-6 text-muted-foreground"
+                              className={`absolute right-2 top-6 ${isRecording === `m4-${i}` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
+                              onClick={() => toggleRecording(`m4-${i}`)}
+                              title={isRecording === `m4-${i}` ? "Stop Recording" : "Start Recording"}
                             >
-                              <Mic className="w-4 h-4" />
+                              {isRecording === `m4-${i}` ? (
+                                <MicOff className="w-4 h-4 animate-pulse" />
+                              ) : (
+                                <Mic className="w-4 h-4" />
+                              )}
                             </Button>
                         </div>
                       ))}
@@ -343,10 +423,15 @@ export default function ActionableFocusPage() {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className={`absolute right-2 top-2 ${isRecording === `m5-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            className={`absolute right-2 top-2 ${isRecording === `m5-${i}` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                             onClick={() => toggleRecording(`m5-${i}`)}
+                            title={isRecording === `m5-${i}` ? "Stop Recording" : "Start Recording"}
                           >
-                            <Mic className={`w-4 h-4 ${isRecording === `m5-${i}` ? 'animate-pulse' : ''}`} />
+                            {isRecording === `m5-${i}` ? (
+                              <MicOff className="w-4 h-4 animate-pulse" />
+                            ) : (
+                              <Mic className="w-4 h-4" />
+                            )}
                           </Button>
                         </div>
                       </div>

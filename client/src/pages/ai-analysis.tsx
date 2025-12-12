@@ -7,8 +7,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen, Bot, Loader2, CheckSquare, Clock } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen, Bot, Loader2, CheckSquare, Clock, MicOff } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -278,6 +279,8 @@ export default function TransformationAnalysisPage() {
   const [resourcesChecked, setResourcesChecked] = useState<string[]>([]);
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
+  const { toast } = useToast();
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     const load = (key: string, setter: any) => {
@@ -305,12 +308,77 @@ export default function TransformationAnalysisPage() {
   useEffect(() => { localStorage.setItem("analysis-resources", JSON.stringify(resourcesChecked)); }, [resourcesChecked]);
   useEffect(() => { localStorage.setItem("analysis-text", JSON.stringify(textAnswers)); }, [textAnswers]);
 
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
+      
+      recognitionRef.current.onresult = (event: any) => {
+        if (isRecording === null) return;
+        
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
+        }
+        
+        if (finalTranscript) {
+          setTextAnswers(prev => ({
+            ...prev,
+            [isRecording]: (prev[isRecording] || '') + ' ' + finalTranscript
+          }));
+        }
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error', event.error);
+        setIsRecording(null);
+        toast({
+          title: "Microphone Error",
+          description: "Could not access microphone. Please check permissions.",
+          variant: "destructive"
+        });
+      };
+    }
+    
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, [isRecording, toast]);
+
   const toggleRecording = (id: string) => {
+    if (!recognitionRef.current) {
+      toast({
+        title: "Not Supported",
+        description: "Speech recognition is not supported in this browser.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (isRecording === id) {
+      recognitionRef.current.stop();
       setIsRecording(null);
+      toast({
+        title: "Recording Stopped",
+        description: "Your speech has been captured.",
+      });
     } else {
+      if (isRecording !== null) {
+        recognitionRef.current.stop();
+      }
+      
       setIsRecording(id);
-      setTimeout(() => setIsRecording(null), 3000);
+      recognitionRef.current.start();
+      toast({
+        title: "Listening...",
+        description: "Speak clearly into your microphone.",
+      });
     }
   };
 
@@ -504,14 +572,24 @@ export default function TransformationAnalysisPage() {
                       <div key={i} className="space-y-2">
                         <Label>{q}</Label>
                         <div className="relative">
-                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Textarea 
+                            placeholder="Reflect and write here..." 
+                            className="min-h-[80px] pr-12" 
+                            value={textAnswers[`d2-${i}`] || ""}
+                            onChange={(e) => setTextAnswers(prev => ({ ...prev, [`d2-${i}`]: e.target.value }))}
+                          />
                           <Button
                             size="icon"
                             variant="ghost"
                             className={`absolute right-2 top-2 ${isRecording === `d2-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
                             onClick={() => toggleRecording(`d2-${i}`)}
+                            title={isRecording === `d2-${i}` ? "Stop Recording" : "Start Recording"}
                           >
-                            <Mic className={`w-4 h-4 ${isRecording === `d2-${i}` ? 'animate-pulse' : ''}`} />
+                            {isRecording === `d2-${i}` ? (
+                              <MicOff className="w-4 h-4 animate-pulse" />
+                            ) : (
+                              <Mic className="w-4 h-4" />
+                            )}
                           </Button>
                         </div>
                       </div>
@@ -543,10 +621,15 @@ export default function TransformationAnalysisPage() {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className={`absolute right-2 top-2 ${isRecording === `d3-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            className={`absolute right-2 top-2 ${isRecording === `d3-${i}` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                             onClick={() => toggleRecording(`d3-${i}`)}
+                            title={isRecording === `d3-${i}` ? "Stop Recording" : "Start Recording"}
                           >
-                            <Mic className={`w-4 h-4 ${isRecording === `d3-${i}` ? 'animate-pulse' : ''}`} />
+                            {isRecording === `d3-${i}` ? (
+                              <MicOff className="w-4 h-4 animate-pulse" />
+                            ) : (
+                              <Mic className="w-4 h-4" />
+                            )}
                           </Button>
                         </div>
                       </div>
@@ -596,10 +679,15 @@ export default function TransformationAnalysisPage() {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className={`absolute right-2 top-2 ${isRecording === `d4-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            className={`absolute right-2 top-2 ${isRecording === `d4-${i}` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                             onClick={() => toggleRecording(`d4-${i}`)}
+                            title={isRecording === `d4-${i}` ? "Stop Recording" : "Start Recording"}
                           >
-                            <Mic className={`w-4 h-4 ${isRecording === `d4-${i}` ? 'animate-pulse' : ''}`} />
+                            {isRecording === `d4-${i}` ? (
+                              <MicOff className="w-4 h-4 animate-pulse" />
+                            ) : (
+                              <Mic className="w-4 h-4" />
+                            )}
                           </Button>
                         </div>
                       </div>
@@ -629,10 +717,15 @@ export default function TransformationAnalysisPage() {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className={`absolute right-2 top-2 ${isRecording === `d5-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            className={`absolute right-2 top-2 ${isRecording === `d5-${i}` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                             onClick={() => toggleRecording(`d5-${i}`)}
+                            title={isRecording === `d5-${i}` ? "Stop Recording" : "Start Recording"}
                           >
-                            <Mic className={`w-4 h-4 ${isRecording === `d5-${i}` ? 'animate-pulse' : ''}`} />
+                            {isRecording === `d5-${i}` ? (
+                              <MicOff className="w-4 h-4 animate-pulse" />
+                            ) : (
+                              <Mic className="w-4 h-4" />
+                            )}
                           </Button>
                         </div>
                       </div>
@@ -657,10 +750,15 @@ export default function TransformationAnalysisPage() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          className={`absolute right-2 top-2 ${isRecording === `d6-1` ? 'text-red-500' : 'text-muted-foreground'}`}
+                          className={`absolute right-2 top-2 ${isRecording === `d6-1` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                           onClick={() => toggleRecording(`d6-1`)}
+                          title={isRecording === `d6-1` ? "Stop Recording" : "Start Recording"}
                         >
-                          <Mic className={`w-4 h-4 ${isRecording === `d6-1` ? 'animate-pulse' : ''}`} />
+                          {isRecording === `d6-1` ? (
+                            <MicOff className="w-4 h-4 animate-pulse" />
+                          ) : (
+                            <Mic className="w-4 h-4" />
+                          )}
                         </Button>
                       </div>
                     </div>
@@ -690,10 +788,15 @@ export default function TransformationAnalysisPage() {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className={`absolute right-2 top-2 ${isRecording === `d7-${i}` ? 'text-red-500' : 'text-muted-foreground'}`}
+                            className={`absolute right-2 top-2 ${isRecording === `d7-${i}` ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                             onClick={() => toggleRecording(`d7-${i}`)}
+                            title={isRecording === `d7-${i}` ? "Stop Recording" : "Start Recording"}
                           >
-                            <Mic className={`w-4 h-4 ${isRecording === `d7-${i}` ? 'animate-pulse' : ''}`} />
+                            {isRecording === `d7-${i}` ? (
+                              <MicOff className="w-4 h-4 animate-pulse" />
+                            ) : (
+                              <Mic className="w-4 h-4" />
+                            )}
                           </Button>
                         </div>
                       </div>

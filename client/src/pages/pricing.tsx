@@ -103,7 +103,7 @@ export default function PricingPage() {
           {/* Enterprise/Network Plan */}
           <Card className="flex flex-col border-border/50 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className="text-2xl font-heading">Implementor</CardTitle>
+              <CardTitle className="text-2xl font-heading">Implementer</CardTitle>
               <CardDescription>For coaches and community leaders.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">

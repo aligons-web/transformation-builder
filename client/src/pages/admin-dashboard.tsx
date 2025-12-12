@@ -171,7 +171,7 @@ export default function AdminDashboardPage() {
                    <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
                        <CardContent className="p-6">
                            <div className="flex justify-between items-start mb-4">
-                               <p className="font-medium text-muted-foreground">Implementors</p>
+                               <p className="font-medium text-muted-foreground">Implementers</p>
                                <div className="bg-gray-100 p-2 rounded-full">
                                    <Briefcase className="w-4 h-4 text-gray-600" />
                                </div>
@@ -308,7 +308,7 @@ export default function AdminDashboardPage() {
                                             <AvatarFallback>IM</AvatarFallback>
                                        </Avatar>
                                        <div>
-                                           <p className="text-sm font-medium">Implementor</p>
+                                           <p className="text-sm font-medium">Implementer</p>
                                            <p className="text-xs text-muted-foreground">VIP Tier</p>
                                        </div>
                                    </div>

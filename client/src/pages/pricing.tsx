@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Footer } from "@/components/footer";
 
 export default function PricingPage() {
+  const stripeUrl = "https://checkout.stripe.com/c/pay/cs_test_a11YYufWQzNY63zpQ6QSNRQhkUpVph4WRmzW0zWJO2znZKdVujZ0N0S22u#fidkdWxOYHwnPyd1blpxYHZxWjA0SDdPUW5JbmFMck1wMmx9N2BLZjFEfGRUNWhqTmJ%2FM2F8bUA2SDRySkFdUV81T1BSV0YxcWJcTUJcYW5rSzN3dzBLPUE0TzRKTTxzNFBjPWZEX1NKSkxpNTVjRjN8VHE0YicpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl";
+
   return (
     <div className="min-h-screen bg-background font-sans flex flex-col">
       <Navbar />
@@ -51,7 +53,9 @@ export default function PricingPage() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" variant="outline">Get Started</Button>
+              <Button className="w-full" variant="outline" asChild>
+                <a href={stripeUrl} target="_blank" rel="noopener noreferrer">Get Started</a>
+              </Button>
             </CardFooter>
           </Card>
 
@@ -90,7 +94,9 @@ export default function PricingPage() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">Start Transformation</Button>
+              <Button className="w-full" asChild>
+                <a href={stripeUrl} target="_blank" rel="noopener noreferrer">Start Transformation</a>
+              </Button>
             </CardFooter>
           </Card>
 
@@ -122,7 +128,9 @@ export default function PricingPage() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" variant="outline">Contact Sales</Button>
+              <Button className="w-full" variant="outline" asChild>
+                <a href={stripeUrl} target="_blank" rel="noopener noreferrer">Contact Sales</a>
+              </Button>
             </CardFooter>
           </Card>
         </div>

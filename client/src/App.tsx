@@ -30,6 +30,8 @@ import AdminDashboardPage from "@/pages/admin-dashboard";
 
 import FinalSummaryPage from "@/pages/final-summary";
 
+import SubmitTestimonialPage from "@/pages/submit-testimonial";
+
 function Router() {
   return (
     <Switch>
@@ -40,6 +42,7 @@ function Router() {
       <Route path="/login" component={AuthPage} />
       <Route path="/signup" component={AuthPage} />
       <Route path="/about" component={AboutPage} />
+      <Route path="/submit-testimonial" component={SubmitTestimonialPage} />
       <Route path="/affiliate-program" component={AffiliateProgramPage} />
       <Route path="/founders-program" component={FoundersProgramPage} />
       <Route path="/network" component={LifeTransformationNetworkPage} />

@@ -3,8 +3,13 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOf
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChevronLeft, ChevronRight, CheckSquare, Target, Plus, TrendingUp, CheckCircle2, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 type EventType = "task" | "goal";
 
@@ -17,9 +22,11 @@ interface CalendarEvent {
 
 export default function DashboardTasksPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
   
   // Mock data for Tasks & Goals
-  const [events] = useState<CalendarEvent[]>([
+  const [events, setEvents] = useState<CalendarEvent[]>([
     {
       id: "1",
       title: "Complete Module 3",
@@ -46,6 +53,11 @@ export default function DashboardTasksPage() {
     }
   ]);
 
+  const [newEvent, setNewEvent] = useState<Partial<CalendarEvent>>({
+    type: "task",
+    date: new Date()
+  });
+
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -63,6 +75,26 @@ export default function DashboardTasksPage() {
     return events.filter(event => isSameDay(event.date, day));
   };
 
+  const handleCreateEvent = () => {
+    if (!newEvent.title || !newEvent.date) return;
+
+    const event: CalendarEvent = {
+      id: Math.random().toString(36).substr(2, 9),
+      title: newEvent.title,
+      date: new Date(newEvent.date),
+      type: newEvent.type as EventType
+    };
+
+    setEvents([...events, event]);
+    setIsDialogOpen(false);
+    setNewEvent({ type: "task", date: new Date() });
+    
+    toast({
+      title: "Entry Added",
+      description: `Successfully added ${event.type}: ${event.title}`,
+    });
+  };
+
   return (
     <div className="flex h-screen bg-background">
       <DashboardSidebar />
@@ -73,10 +105,71 @@ export default function DashboardTasksPage() {
               <h1 className="text-3xl font-heading font-bold text-foreground">Tasks to Goals</h1>
               <p className="text-muted-foreground mt-2">Track your daily tasks and long-term goals.</p>
             </div>
-            <Button className="gap-2">
-              <Plus className="w-4 h-4" />
-              New Task
-            </Button>
+            
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="gap-2">
+                  <Plus className="w-4 h-4" />
+                  New Entry
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Add New Task or Goal</DialogTitle>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="type">Entry Type</Label>
+                    <Select 
+                      value={newEvent.type} 
+                      onValueChange={(value) => setNewEvent({...newEvent, type: value as EventType})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="task">
+                          <div className="flex items-center gap-2">
+                            <CheckSquare className="w-4 h-4 text-blue-500" />
+                            <span>Task</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="goal">
+                          <div className="flex items-center gap-2">
+                            <Target className="w-4 h-4 text-orange-500" />
+                            <span>Goal</span>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="title">Title</Label>
+                    <Input 
+                      id="title" 
+                      placeholder="e.g., Complete Research Phase" 
+                      value={newEvent.title || ""}
+                      onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="date">Date</Label>
+                    <Input 
+                      id="date" 
+                      type="date" 
+                      value={newEvent.date ? format(newEvent.date, "yyyy-MM-dd") : ""}
+                      onChange={(e) => setNewEvent({...newEvent, date: new Date(e.target.value)})}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                  <Button onClick={handleCreateEvent} disabled={!newEvent.title || !newEvent.date}>Save Entry</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -158,7 +158,7 @@ export default function DiscoverPurposePage() {
                   <Compass className="w-7 h-7 text-primary" />
                 </div>
                 <CardTitle className="text-xl font-heading font-semibold">
-                  Discover Purpose
+                  Step 1: Discover Purpose
                 </CardTitle>
                 <div className="h-4" />
                 <CardTitle className="text-lg">Modules</CardTitle>

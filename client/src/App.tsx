@@ -35,7 +35,6 @@ function Router() {
       <Route path="/ai-transformation-engine" component={AiTransformationEnginePage} />
       <Route path="/actionable-focus" component={ActionableFocusPage} />
       <Route path="/final-summary" component={FinalSummaryPage} />
-      <Route path="/dashboard/calendar" component={CalendarPage} />
       <Route path="/dashboard/*" component={DashboardPage} />
       <Route component={NotFound} />
     </Switch>

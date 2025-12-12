@@ -22,6 +22,9 @@ import CalendarPage from "@/pages/calendar";
 import PurposeSummaryPage from "@/pages/purpose-summary";
 import PurposeInterpretationPage from "@/pages/purpose-interpretation";
 import AboutPage from "@/pages/about";
+import AffiliateProgramPage from "@/pages/affiliate-program";
+import FoundersProgramPage from "@/pages/founders-program";
+import LifeTransformationNetworkPage from "@/pages/life-transformation-network";
 
 import FinalSummaryPage from "@/pages/final-summary";
 
@@ -35,6 +38,9 @@ function Router() {
       <Route path="/login" component={AuthPage} />
       <Route path="/signup" component={AuthPage} />
       <Route path="/about" component={AboutPage} />
+      <Route path="/affiliate-program" component={AffiliateProgramPage} />
+      <Route path="/founders-program" component={FoundersProgramPage} />
+      <Route path="/network" component={LifeTransformationNetworkPage} />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/dashboard/overview" component={DashboardOverviewPage} />
       <Route path="/dashboard/analytics" component={AnalyticsPage} />

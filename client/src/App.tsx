@@ -8,6 +8,7 @@ import DiscoverPurposePage from "@/pages/discover-purpose";
 import LandingPage from "@/pages/landing-page";
 import AuthPage from "@/pages/auth-page";
 import DashboardPage from "@/pages/dashboard";
+import AnalyticsPage from "@/pages/analytics";
 import AiAnalysisPage from "@/pages/ai-analysis";
 import FuturePathPage from "@/pages/future-path";
 import AiTransformationEnginePage from "@/pages/ai-transformation-engine";
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/signup" component={AuthPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/dashboard/analytics" component={AnalyticsPage} />
       <Route path="/dashboard/analysis" component={AiAnalysisPage} />
       <Route path="/dashboard/future-path" component={FuturePathPage} />
       <Route path="/ai-transformation-engine" component={AiTransformationEnginePage} />

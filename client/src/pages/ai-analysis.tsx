@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useLocation } from "wouter";
 
 const skillsList = [
   "Computer Skills", "Communication", "Social Media",
@@ -281,6 +282,7 @@ export default function TransformationAnalysisPage() {
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
   const { toast } = useToast();
   const recognitionRef = useRef<any>(null);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     const load = (key: string, setter: any) => {
@@ -1232,31 +1234,41 @@ export default function TransformationAnalysisPage() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-8 border-t border-border">
                     
                     {/* Biblical Foundations */}
-                    <Card className="bg-amber-50/50 border-amber-200">
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-amber-900">
-                          <BookOpen className="w-5 h-5" />
-                          Biblical Foundations
-                        </CardTitle>
-                        <CardDescription className="text-amber-700/80">
-                          Scriptural pillars for defining your transformation.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-6 max-h-[500px] overflow-y-auto pr-2">
-                        {[
-                          { ref: "Genesis 1:27", text: "So God created mankind in his own image, in the image of God he created them..." },
-                          { ref: "Romans 8:28", text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose." },
-                          { ref: "Philippians 4:11", text: "I am not saying this because I am in need, for I have learned to be content whatever the circumstances." },
-                          { ref: "Psalms 1:1-3", text: "Blessed is the one... whose delight is in the law of the Lord... That person is like a tree planted by streams of water..." },
-                          { ref: "Romans 12:2", text: "Do not conform to the pattern of this world, but be transformed by the renewing of your mind." }
-                        ].map((scripture, i) => (
-                          <div key={i} className="space-y-1">
-                            <h4 className="font-semibold text-amber-900 text-sm">{scripture.ref}</h4>
-                            <p className="text-sm text-amber-800 italic">"{scripture.text}"</p>
-                          </div>
-                        ))}
-                      </CardContent>
-                    </Card>
+                    <div className="space-y-4">
+                      <Card className="bg-amber-50/50 border-amber-200">
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2 text-amber-900">
+                            <BookOpen className="w-5 h-5" />
+                            Biblical Foundations
+                          </CardTitle>
+                          <CardDescription className="text-amber-700/80">
+                            Scriptural pillars for defining your transformation.
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6 max-h-[500px] overflow-y-auto pr-2">
+                          {[
+                            { ref: "Genesis 1:27", text: "So God created mankind in his own image, in the image of God he created them..." },
+                            { ref: "Romans 8:28", text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose." },
+                            { ref: "Philippians 4:11", text: "I am not saying this because I am in need, for I have learned to be content whatever the circumstances." },
+                            { ref: "Psalms 1:1-3", text: "Blessed is the one... whose delight is in the law of the Lord... That person is like a tree planted by streams of water..." },
+                            { ref: "Romans 12:2", text: "Do not conform to the pattern of this world, but be transformed by the renewing of your mind." }
+                          ].map((scripture, i) => (
+                            <div key={i} className="space-y-1">
+                              <h4 className="font-semibold text-amber-900 text-sm">{scripture.ref}</h4>
+                              <p className="text-sm text-amber-800 italic">"{scripture.text}"</p>
+                            </div>
+                          ))}
+                        </CardContent>
+                      </Card>
+                      
+                      <Button 
+                        onClick={() => setLocation('/actionable-focus')} 
+                        className="w-full gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-md h-12 text-lg"
+                      >
+                        Step 3: Clarify Focus
+                        <ArrowRight className="w-5 h-5" />
+                      </Button>
+                    </div>
 
                     {/* AI Analysis */}
                     <Card className="bg-gradient-to-br from-primary/5 to-blue-50/50 border-primary/20">

@@ -321,7 +321,7 @@ export default function AdminDashboardPage() {
                    {/* Completion Gauge - Replaces "Project Progress" */}
                    <Card className="border-none shadow-sm">
                        <CardHeader>
-                           <CardTitle className="text-lg">Completion Rate</CardTitle>
+                           <CardTitle className="text-lg">Users Avg. Completion Rate</CardTitle>
                        </CardHeader>
                        <CardContent className="flex flex-col items-center justify-center pt-2">
                            <div className="relative w-40 h-20 overflow-hidden mb-4">

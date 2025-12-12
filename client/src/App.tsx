@@ -13,6 +13,7 @@ import AnalyticsPage from "@/pages/analytics";
 import JournalPage from "@/pages/journal";
 import DashboardProjectsPage from "@/pages/dashboard-projects";
 import DashboardTasksPage from "@/pages/dashboard-tasks";
+import SkillsBuildPage from "@/pages/skills-build";
 import AiAnalysisPage from "@/pages/ai-analysis";
 import FuturePathPage from "@/pages/future-path";
 import AiTransformationEnginePage from "@/pages/ai-transformation-engine";
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/dashboard/journal" component={JournalPage} />
       <Route path="/dashboard/projects" component={DashboardProjectsPage} />
       <Route path="/dashboard/tasks" component={DashboardTasksPage} />
+      <Route path="/dashboard/skills" component={SkillsBuildPage} />
       <Route path="/dashboard/analysis" component={AiAnalysisPage} />
       <Route path="/dashboard/future-path" component={FuturePathPage} />
       <Route path="/ai-transformation-engine" component={AiTransformationEnginePage} />

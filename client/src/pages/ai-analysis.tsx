@@ -280,6 +280,8 @@ export default function TransformationAnalysisPage() {
   const [resourcesChecked, setResourcesChecked] = useState<string[]>([]);
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
+  const [successChecked, setSuccessChecked] = useState<string[]>([]);
+  const [otherSuccessText, setOtherSuccessText] = useState("");
   const { toast } = useToast();
   const recognitionRef = useRef<any>(null);
   const [, setLocation] = useLocation();
@@ -301,6 +303,8 @@ export default function TransformationAnalysisPage() {
     load("analysis-skills", setSkillsChecked);
     load("analysis-resources", setResourcesChecked);
     load("analysis-text", setTextAnswers);
+    load("analysis-success", setSuccessChecked);
+    load("analysis-success-other", setOtherSuccessText);
   }, []);
 
   useEffect(() => { localStorage.setItem("analysis-subconscious", JSON.stringify(subconsciousAnswers)); }, [subconsciousAnswers]);
@@ -309,6 +313,8 @@ export default function TransformationAnalysisPage() {
   useEffect(() => { localStorage.setItem("analysis-skills", JSON.stringify(skillsChecked)); }, [skillsChecked]);
   useEffect(() => { localStorage.setItem("analysis-resources", JSON.stringify(resourcesChecked)); }, [resourcesChecked]);
   useEffect(() => { localStorage.setItem("analysis-text", JSON.stringify(textAnswers)); }, [textAnswers]);
+  useEffect(() => { localStorage.setItem("analysis-success", JSON.stringify(successChecked)); }, [successChecked]);
+  useEffect(() => { localStorage.setItem("analysis-success-other", JSON.stringify(otherSuccessText)); }, [otherSuccessText]);
 
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -944,13 +950,39 @@ export default function TransformationAnalysisPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {successTypes.map((type, i) => (
                         <div key={i} className="flex items-center space-x-2">
-                          <input type="checkbox" id={`success-${i}`} className="rounded border-gray-300 text-primary focus:ring-primary" />
+                          <Checkbox 
+                            id={`success-${i}`} 
+                            checked={successChecked.includes(type)}
+                            onCheckedChange={(checked) => {
+                              if (checked) setSuccessChecked([...successChecked, type]);
+                              else setSuccessChecked(successChecked.filter(t => t !== type));
+                            }}
+                          />
                           <Label htmlFor={`success-${i}`} className="font-normal cursor-pointer">{type}</Label>
                         </div>
                       ))}
-                      <div className="flex items-center space-x-2">
-                         <input type="checkbox" id="success-other" className="rounded border-gray-300 text-primary focus:ring-primary" />
-                         <Label htmlFor="success-other" className="font-normal cursor-pointer">Other (Specify in notes)</Label>
+                      <div className="col-span-1 md:col-span-2 space-y-2">
+                        <div className="flex items-center space-x-2">
+                           <Checkbox 
+                             id="success-other" 
+                             checked={successChecked.includes("Other")}
+                             onCheckedChange={(checked) => {
+                               if (checked) setSuccessChecked([...successChecked, "Other"]);
+                               else setSuccessChecked(successChecked.filter(t => t !== "Other"));
+                             }}
+                           />
+                           <Label htmlFor="success-other" className="font-normal cursor-pointer">Other</Label>
+                        </div>
+                        {successChecked.includes("Other") && (
+                          <div className="pl-6 animate-in fade-in slide-in-from-top-2">
+                            <Textarea 
+                              placeholder="Please specify..." 
+                              value={otherSuccessText}
+                              onChange={(e) => setOtherSuccessText(e.target.value)}
+                              className="min-h-[60px] max-w-md"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

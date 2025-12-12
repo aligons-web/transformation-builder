@@ -51,7 +51,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               className="text-xl text-muted-foreground md:text-2xl max-w-2xl mb-8 leading-relaxed"
             >
-              Uncertain about your future as a college student or a recent graduate? Need to find greater fulfillnent as a professional? Trying to figure what to do next as veteran or retiree? Need a greater sense of purpose?
+              Uncertain about your future as a college student or a recent graduate? Need to find greater fulfillment as a professional? Trying to figure what to do next as veteran or retiree? Need a greater sense of purpose?
             </motion.p>
 
             <motion.h2
@@ -60,7 +60,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.22, ease: "easeOut" }}
               className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4"
             >
-              Start Your Journey Today to a Life with Perspective, Purpose, and Passion!
+              Start Your Journey Today with <span className="text-primary italic font-serif">Perspective</span>, <span className="text-primary italic font-serif">Purpose</span>, and <span className="text-primary italic font-serif">Passion</span>!
             </motion.h2>
 
             <motion.p

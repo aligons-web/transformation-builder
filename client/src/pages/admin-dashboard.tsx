@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
+import { Footer } from "@/components/footer";
 
 export default function AdminDashboardPage() {
   return (
@@ -423,6 +424,7 @@ export default function AdminDashboardPage() {
                    </Card>
                </div>
            </div>
+           <Footer />
         </main>
       </div>
     </div>

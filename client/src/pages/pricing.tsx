@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowLeft, Check } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Footer } from "@/components/footer";
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-background font-sans">
+    <div className="min-h-screen bg-background font-sans flex flex-col">
       <Navbar />
-      <main className="container mx-auto px-4 pt-24 pb-12">
+      <main className="container mx-auto px-4 pt-24 pb-12 flex-1">
         <Link href="/">
           <Button variant="ghost" className="gap-2 mb-8 pl-0 hover:pl-2 transition-all">
             <ArrowLeft className="w-4 h-4" />
@@ -126,6 +127,7 @@ export default function PricingPage() {
           </Card>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

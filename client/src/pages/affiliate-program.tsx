@@ -2,12 +2,13 @@ import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
+import { Footer } from "@/components/footer";
 
 export default function AffiliateProgramPage() {
   return (
-    <div className="min-h-screen bg-background font-sans">
+    <div className="min-h-screen bg-background font-sans flex flex-col">
       <Navbar />
-      <main className="container mx-auto px-4 pt-24 pb-12">
+      <main className="container mx-auto px-4 pt-24 pb-12 flex-1">
         <Link href="/">
           <Button variant="ghost" className="gap-2 mb-8 pl-0 hover:pl-2 transition-all">
             <ArrowLeft className="w-4 h-4" />
@@ -31,6 +32,7 @@ export default function AffiliateProgramPage() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

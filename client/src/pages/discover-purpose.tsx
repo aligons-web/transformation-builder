@@ -9,6 +9,7 @@ import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { Footer } from "@/components/footer";
 
 // Content derived from "Understanding Your Path"
 // imported from lib/purpose-modules.ts to share with summary page
@@ -304,6 +305,7 @@ export default function DiscoverPurposePage() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

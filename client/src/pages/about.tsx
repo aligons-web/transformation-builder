@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowLeft, BookOpen, Compass, Sparkles } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_sunrise_gradient_background_for_hero_section.png";
+import { Footer } from "@/components/footer";
 
 export default function AboutPage() {
   return (
@@ -11,7 +12,8 @@ export default function AboutPage() {
       <div className="flex">
         <DashboardSidebar />
         
-        <main className="flex-1 ml-64">
+        <main className="flex-1 ml-64 flex flex-col min-h-screen">
+          <div className="flex-1">
           {/* Hero Header */}
           <section className="relative h-[30vh] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 -z-10">
@@ -152,6 +154,8 @@ export default function AboutPage() {
               </motion.section>
             </div>
           </div>
+          </div>
+          <Footer />
         </main>
       </div>
     </div>

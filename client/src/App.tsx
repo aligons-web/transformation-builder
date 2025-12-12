@@ -8,6 +8,7 @@ import DiscoverPurposePage from "@/pages/discover-purpose";
 import LandingPage from "@/pages/landing-page";
 import AuthPage from "@/pages/auth-page";
 import DashboardPage from "@/pages/dashboard";
+import DashboardOverviewPage from "@/pages/dashboard-overview";
 import AnalyticsPage from "@/pages/analytics";
 import JournalPage from "@/pages/journal";
 import DashboardProjectsPage from "@/pages/dashboard-projects";
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/signup" component={AuthPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/dashboard/overview" component={DashboardOverviewPage} />
       <Route path="/dashboard/analytics" component={AnalyticsPage} />
       <Route path="/dashboard/journal" component={JournalPage} />
       <Route path="/dashboard/projects" component={DashboardProjectsPage} />

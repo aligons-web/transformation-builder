@@ -17,8 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const sidebarItems = [
-  { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
+export const sidebarItems = [
+  { icon: LayoutDashboard, label: "Overview", href: "/dashboard/overview" },
   { icon: BookOpen, label: "Journal", href: "/dashboard/journal" },
   { icon: Target, label: "Tasks to Goals", href: "/dashboard/tasks" },
   { icon: Flag, label: "Milestones to Projects", href: "/dashboard/projects" },

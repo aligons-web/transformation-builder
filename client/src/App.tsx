@@ -9,6 +9,7 @@ import LandingPage from "@/pages/landing-page";
 import AuthPage from "@/pages/auth-page";
 import DashboardPage from "@/pages/dashboard";
 import AnalyticsPage from "@/pages/analytics";
+import JournalPage from "@/pages/journal";
 import AiAnalysisPage from "@/pages/ai-analysis";
 import FuturePathPage from "@/pages/future-path";
 import AiTransformationEnginePage from "@/pages/ai-transformation-engine";
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/about" component={AboutPage} />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/dashboard/analytics" component={AnalyticsPage} />
+      <Route path="/dashboard/journal" component={JournalPage} />
       <Route path="/dashboard/analysis" component={AiAnalysisPage} />
       <Route path="/dashboard/future-path" component={FuturePathPage} />
       <Route path="/ai-transformation-engine" component={AiTransformationEnginePage} />

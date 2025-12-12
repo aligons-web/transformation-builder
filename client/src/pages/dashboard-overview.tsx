@@ -23,9 +23,9 @@ export default function DashboardOverviewPage() {
       <main className="flex-1 overflow-y-auto md:ml-64 p-8">
         <div className="max-w-6xl mx-auto space-y-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold text-foreground">Dashboard Overview</h1>
+            <h1 className="text-3xl font-heading font-bold text-foreground">Good Morning, John</h1>
             <p className="text-muted-foreground mt-2">
-              A guide to the features and tools available in your LIFE Transformation workspace.
+              Here's your daily overview and transformation progress.
             </p>
           </div>
 

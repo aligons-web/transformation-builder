@@ -282,6 +282,7 @@ export default function TransformationAnalysisPage() {
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
   const [successChecked, setSuccessChecked] = useState<string[]>([]);
   const [otherSuccessText, setOtherSuccessText] = useState("");
+  const [otherSkillText, setOtherSkillText] = useState("");
   const { toast } = useToast();
   const recognitionRef = useRef<any>(null);
   const [, setLocation] = useLocation();
@@ -305,6 +306,7 @@ export default function TransformationAnalysisPage() {
     load("analysis-text", setTextAnswers);
     load("analysis-success", setSuccessChecked);
     load("analysis-success-other", setOtherSuccessText);
+    load("analysis-skill-other", setOtherSkillText);
   }, []);
 
   useEffect(() => { localStorage.setItem("analysis-subconscious", JSON.stringify(subconsciousAnswers)); }, [subconsciousAnswers]);
@@ -315,6 +317,7 @@ export default function TransformationAnalysisPage() {
   useEffect(() => { localStorage.setItem("analysis-text", JSON.stringify(textAnswers)); }, [textAnswers]);
   useEffect(() => { localStorage.setItem("analysis-success", JSON.stringify(successChecked)); }, [successChecked]);
   useEffect(() => { localStorage.setItem("analysis-success-other", JSON.stringify(otherSuccessText)); }, [otherSuccessText]);
+  useEffect(() => { localStorage.setItem("analysis-skill-other", JSON.stringify(otherSkillText)); }, [otherSkillText]);
 
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -1154,7 +1157,7 @@ export default function TransformationAnalysisPage() {
                     <div className="space-y-4">
                       <h4 className="font-medium text-sm">Skills/Tools Checklist</h4>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        {skillsList.map((skill) => (
+                        {skillsList.filter(s => s !== "Other").map((skill) => (
                           <div key={skill} className="flex items-center space-x-2">
                             <Checkbox 
                               id={`skill-${skill}`} 
@@ -1167,6 +1170,29 @@ export default function TransformationAnalysisPage() {
                             <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">{skill}</Label>
                           </div>
                         ))}
+                        <div className="col-span-2 md:col-span-3 space-y-2">
+                           <div className="flex items-center space-x-2">
+                            <Checkbox 
+                              id="skill-other" 
+                              checked={skillsChecked.includes("Other")}
+                              onCheckedChange={(checked) => {
+                                if (checked) setSkillsChecked([...skillsChecked, "Other"]);
+                                else setSkillsChecked(skillsChecked.filter(s => s !== "Other"));
+                              }}
+                            />
+                            <Label htmlFor="skill-other" className="text-sm font-normal cursor-pointer">Other</Label>
+                          </div>
+                          {skillsChecked.includes("Other") && (
+                            <div className="pl-6 animate-in fade-in slide-in-from-top-2">
+                              <Textarea 
+                                placeholder="Please specify other skills..." 
+                                value={otherSkillText}
+                                onChange={(e) => setOtherSkillText(e.target.value)}
+                                className="min-h-[60px] max-w-md"
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
 

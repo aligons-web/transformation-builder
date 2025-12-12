@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import heroBg from "@assets/generated_images/abstract_sunrise_gradient_background_for_hero_section.png";
-import targetImage from "@assets/frontpagepath-png_1765159562805.png";
+import targetImage from "@assets/pathtargetlogo_1765576089902.png";
 import { cn } from "@/lib/utils";
 
 export function Hero() {
@@ -20,7 +20,7 @@ export function Hero() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+        <div className="flex flex-col lg:flex-row items-center gap-12 justify-center">
           <div className="lg:w-1/2 text-left">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -51,7 +51,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               className="text-xl text-muted-foreground md:text-2xl max-w-2xl mb-8 leading-relaxed"
             >
-              Help college students, recent graduates, unfulfilled professionals, retirees, and veterans find their life purpose through guided journaling, transformation analysis, and actionable skill mapping to navigate and elevate in uncertain times.
+              Uncertain about your future as a college student or a recent graduate? Need to find greater fulfillnent as a professional? Trying to figure what to do next as veteran or retiree? Need a greater sense of purpose?
             </motion.p>
 
             <motion.h2
@@ -60,7 +60,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.22, ease: "easeOut" }}
               className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4"
             >
-              Why Start Your Journey?
+              Start Your Journey Today to a Life with Perspective, Purpose, and Passion!
             </motion.h2>
 
             <motion.p

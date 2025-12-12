@@ -12,7 +12,8 @@ import {
   Sparkles,
   Calendar,
   Focus,
-  ClipboardCheck
+  ClipboardCheck,
+  Users
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -27,6 +28,7 @@ export const sidebarItems = [
   { icon: Focus, label: "Clarify Focus", href: "/actionable-focus" },
   { icon: Lightbulb, label: "Journey Insights", href: "/ai-transformation-engine" },
   { icon: ClipboardCheck, label: "Final Blueprint", href: "/final-summary" },
+  { icon: Users, label: "Community", href: "https://www.skool.com/life-transformation-network-2320", external: true },
   { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },
 ];
 
@@ -52,7 +54,24 @@ export function DashboardSidebar() {
         <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2">
           Menu
         </div>
-        {sidebarItems.map((item) => (
+        {sidebarItems.map((item) => {
+          if ((item as any).external) {
+             return (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+              >
+                <item.icon className="w-5 h-5 text-muted-foreground" />
+                {item.label}
+              </a>
+             );
+          }
+          return (
           <Link key={item.href} href={item.href}>
             <a
               className={cn(
@@ -66,7 +85,8 @@ export function DashboardSidebar() {
               {item.label}
             </a>
           </Link>
-        ))}
+          );
+        })}
       </div>
 
       <div className="p-4 border-t border-border/50">

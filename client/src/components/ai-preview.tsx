@@ -2,21 +2,116 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Wand2, Briefcase, Heart, Zap, Target, Clock, MapPin, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { Wand2, Briefcase, Heart, Zap, Target, Clock, MapPin, ArrowRight, Loader2, CheckCircle2, Lightbulb, Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from "recharts";
 
 export function AiPreview() {
   const [category, setCategory] = useState<string>("");
   const [showInterpretation, setShowInterpretation] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedRoadmap, setGeneratedRoadmap] = useState<any>(null);
 
-  // Mock data for Clarify Focus summary
-  const timeUseData = [
-    { name: "Highly Structured", value: 35, color: "#3b82f6" },
-    { name: "Intentional", value: 25, color: "#10b981" },
-    { name: "Relax Focused", value: 20, color: "#f97316" },
-    { name: "Personal Activity", value: 20, color: "#ef4444" }
-  ];
+  // Data State
+  const [purposeData, setPurposeData] = useState<Record<string, string>>({});
+  const [analysisData, setAnalysisData] = useState<any>({});
+  const [focusData, setFocusData] = useState<any>({});
+
+  // Load all data on mount
+  useEffect(() => {
+    const loadData = () => {
+      try {
+        // Purpose
+        const purpose = localStorage.getItem("purpose-reflections");
+        if (purpose) setPurposeData(JSON.parse(purpose));
+
+        // Analysis
+        const preference = localStorage.getItem("analysis-preference");
+        const subconscious = localStorage.getItem("analysis-subconscious");
+        const skills = localStorage.getItem("analysis-skills");
+        const analysisText = localStorage.getItem("analysis-text");
+        
+        setAnalysisData({
+          preference: preference ? JSON.parse(preference) : {},
+          subconscious: subconscious ? JSON.parse(subconscious) : {},
+          skills: skills ? JSON.parse(skills) : [],
+          text: analysisText ? JSON.parse(analysisText) : {}
+        });
+
+        // Focus
+        const focusTimeUse = localStorage.getItem("focus-timeuse");
+        const focusText = localStorage.getItem("focus-text");
+
+        setFocusData({
+          timeUse: focusTimeUse ? JSON.parse(focusTimeUse) : {},
+          text: focusText ? JSON.parse(focusText) : {}
+        });
+
+      } catch (e) {
+        console.error("Error loading data", e);
+      }
+    };
+    loadData();
+  }, []);
+
+  // Calculate Focus Summary Data
+  const calculateFocusSummary = () => {
+    // Mock default if no data
+    if (!focusData.timeUse || Object.keys(focusData.timeUse).length === 0) {
+      return [
+        { name: "Highly Structured", value: 35, color: "#3b82f6" },
+        { name: "Intentional", value: 25, color: "#10b981" },
+        { name: "Relax Focused", value: 20, color: "#f97316" },
+        { name: "Personal Activity", value: 20, color: "#ef4444" }
+      ];
+    }
+    // Calculate from real data
+    const counts = { Routine: 0, Learning: 0, Entertainment: 0, Social: 0 };
+    Object.values(focusData.timeUse).forEach((val: any) => {
+      if (val in counts) counts[val as keyof typeof counts]++;
+    });
+    return [
+      { name: "Highly Structured", value: counts.Routine || 1, color: "#3b82f6" },
+      { name: "Intentional", value: counts.Learning || 1, color: "#10b981" },
+      { name: "Relax Focused", value: counts.Entertainment || 1, color: "#f97316" },
+      { name: "Personal Activity", value: counts.Social || 1, color: "#ef4444" }
+    ];
+  };
+
+  const timeUseData = calculateFocusSummary();
+
+  const handleGenerate = () => {
+    if (!category) return;
+    setIsGenerating(true);
+
+    // Simulate AI processing
+    setTimeout(() => {
+      // Analyze Preference
+      const prefCounts = { People: 0, Things: 0, Data: 0, Mixed: 0 };
+      if (analysisData.preference) {
+         Object.values(analysisData.preference).forEach((val: any) => {
+            if (val in prefCounts) prefCounts[val as keyof typeof prefCounts]++;
+         });
+      }
+      const topPreference = Object.keys(prefCounts).reduce((a, b) => prefCounts[a as keyof typeof prefCounts] > prefCounts[b as keyof typeof prefCounts] ? a : b);
+
+      // Analyze Focus
+      const barriers = Object.keys(focusData.text || {}).filter(k => k.startsWith('m4-')).map(k => focusData.text[k]).filter(Boolean);
+      const destinations = Object.keys(focusData.text || {}).filter(k => k.startsWith('m5-')).map(k => focusData.text[k]).filter(Boolean);
+
+      setGeneratedRoadmap({
+        preference: topPreference,
+        barriers: barriers.length > 0 ? barriers.slice(0, 2) : ["Uncertainty", "Time management"],
+        destinations: destinations.length > 0 ? destinations[0] : "A life of purpose and impact",
+        recommendation: category === 'professional' 
+          ? `Leverage your natural affinity for ${topPreference} to pivot into a leadership role.` 
+          : category === 'personal' 
+            ? `Focus on structured habits to overcome your identified barriers.`
+            : `Connect your spiritual insights with daily service to others.`
+      });
+      setIsGenerating(false);
+    }, 2000);
+  };
 
   return (
     <section className="py-12 bg-muted/30 relative overflow-hidden">
@@ -68,8 +163,7 @@ export function AiPreview() {
                     </ResponsiveContainer>
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    <p><strong>Primary Mode:</strong> Highly Structured</p>
-                    <p>You thrive when time is organized and predictable.</p>
+                    <p><strong>Time Profile:</strong> Based on your quiz results.</p>
                   </div>
                 </div>
 
@@ -84,12 +178,16 @@ export function AiPreview() {
                     <p className="text-lg font-heading font-bold">Pending Urgent</p>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Top Barriers:</p>
-                    <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
-                      <li>Unclear career direction</li>
-                      <li>Lack of daily routine</li>
-                      <li>Financial constraints</li>
-                    </ul>
+                    <p className="text-sm font-medium">Your Top Barriers:</p>
+                    {Object.keys(focusData.text || {}).filter(k => k.startsWith('m4-')).length > 0 ? (
+                       <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
+                         {Object.keys(focusData.text).filter(k => k.startsWith('m4-')).slice(0, 3).map(k => (
+                           <li key={k} className="truncate">{focusData.text[k]}</li>
+                         ))}
+                       </ul>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">No barriers recorded yet.</p>
+                    )}
                   </div>
                 </div>
 
@@ -102,11 +200,15 @@ export function AiPreview() {
                   <div className="space-y-3">
                     <div className="p-3 bg-white/50 rounded-lg border border-border/50">
                       <p className="text-xs font-medium text-primary mb-1">Destinations</p>
-                      <p className="text-sm">Internal peace, Professional leadership role.</p>
+                       <p className="text-sm truncate">
+                         {focusData.text && focusData.text['m5-0'] ? focusData.text['m5-0'] : "Not yet defined."}
+                       </p>
                     </div>
                     <div className="p-3 bg-white/50 rounded-lg border border-border/50">
                       <p className="text-xs font-medium text-primary mb-1">Environment Needs</p>
-                      <p className="text-sm">Quiet home office, weekly accountability group.</p>
+                      <p className="text-sm truncate">
+                        {focusData.text && focusData.text['m5-1'] ? focusData.text['m5-1'] : "Not yet defined."}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -134,10 +236,10 @@ export function AiPreview() {
                     AI Interpretation
                   </h4>
                   <p className="text-foreground/80 leading-relaxed">
-                    Based on your <strong>Structured</strong> time profile and <strong>Pending Urgent</strong> status, your roadmap should focus on immediate, small wins. Your desire for a leadership role aligns with your structured approach, but the lack of routine (barrier) contradicts your natural strength. 
+                    Based on your reflection data, you are showing a strong need for structural change. Your barriers suggest external resistance, but your destination is clear.
                   </p>
                   <p className="text-foreground/80 leading-relaxed">
-                    <strong>Recommendation:</strong> Leverage your "Where" destination (home office) to build the routine you're missing. Start with morning discipline to address the "When" urgency.
+                    <strong>Recommendation:</strong> Use the roadmap generator below to create a specific plan for your chosen domain.
                   </p>
                 </motion.div>
               )}
@@ -155,7 +257,7 @@ export function AiPreview() {
               <span className="text-primary">Roadmap</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Select a life domain you want to transform. Our AI engine analyzes your inputs, identifies your skills, and generates a personalized roadmap for reinvention.
+              Select a life domain you want to transform. Our AI engine analyzes your inputs from Discover Purpose, Analyze Change, and Clarify Focus to generate a personalized roadmap.
             </p>
             
             <div className="space-y-4">
@@ -183,55 +285,125 @@ export function AiPreview() {
               transition={{ duration: 0.5 }}
               className="relative"
             >
-              <Card className="p-8 shadow-2xl border-border/50 bg-white/80 backdrop-blur-xl rounded-3xl">
-                <div className="flex items-center gap-2 mb-8">
-                  <div className="w-3 h-3 rounded-full bg-red-400" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                  <div className="w-3 h-3 rounded-full bg-green-400" />
-                </div>
+              <Card className="p-8 shadow-2xl border-border/50 bg-white/80 backdrop-blur-xl rounded-3xl min-h-[500px]">
+                {!generatedRoadmap ? (
+                  <>
+                    <div className="flex items-center gap-2 mb-8">
+                      <div className="w-3 h-3 rounded-full bg-red-400" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                      <div className="w-3 h-3 rounded-full bg-green-400" />
+                    </div>
 
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Select Category</label>
-                    <Select value={category} onValueChange={setCategory}>
-                      <SelectTrigger className="h-12 bg-white/50 border-primary/20 focus:ring-primary">
-                        <SelectValue placeholder="Choose area of focus..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="personal">Personal Advancement</SelectItem>
-                        <SelectItem value="professional">Professional Reinvention</SelectItem>
-                        <SelectItem value="spiritual">Spiritual Awareness</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-muted-foreground">Select Category</label>
+                        <Select value={category} onValueChange={setCategory}>
+                          <SelectTrigger className="h-12 bg-white/50 border-primary/20 focus:ring-primary">
+                            <SelectValue placeholder="Choose area of focus..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="personal">Personal Advancement</SelectItem>
+                            <SelectItem value="professional">Professional Reinvention</SelectItem>
+                            <SelectItem value="spiritual">Spiritual Awareness</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-                  <div className="p-6 rounded-xl bg-muted/50 border border-dashed border-muted-foreground/20 min-h-[120px] flex flex-col items-center justify-center text-center gap-3">
-                    {category ? (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-left w-full"
+                      <div className="p-6 rounded-xl bg-muted/50 border border-dashed border-muted-foreground/20 min-h-[120px] flex flex-col items-center justify-center text-center gap-3">
+                        {category ? (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="text-left w-full"
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <Wand2 className="w-4 h-4 text-primary animate-pulse" />
+                              <span className="text-sm font-medium text-primary">Ready to Synthesize</span>
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              We have analyzed your <strong>{Object.keys(purposeData).length}</strong> journal entries, your preference for <strong>{analysisData.preference ? "People/Things/Data" : "Change"}</strong>, and your <strong>{focusData.text ? "Focus Plan" : "Goals"}</strong>.
+                            </p>
+                          </motion.div>
+                        ) : (
+                          <>
+                            <Wand2 className="w-8 h-8 text-muted-foreground/50" />
+                            <p className="text-sm text-muted-foreground/80">Select a category to begin synthesis</p>
+                          </>
+                        )}
+                      </div>
+
+                      <Button 
+                        onClick={handleGenerate}
+                        disabled={isGenerating || !category}
+                        className="w-full h-12 text-lg font-medium bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20"
                       >
-                        <div className="flex items-center gap-2 mb-2">
-                          <Wand2 className="w-4 h-4 text-primary animate-pulse" />
-                          <span className="text-sm font-medium text-primary">AI Analysis Ready</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Based on your selection of <strong>{category}</strong>, we will focus on identifying transferable skills and aligning them with market opportunities...
-                        </p>
-                      </motion.div>
-                    ) : (
-                      <>
-                        <Wand2 className="w-8 h-8 text-muted-foreground/50" />
-                        <p className="text-sm text-muted-foreground/80">Select a category to see AI preview</p>
-                      </>
-                    )}
-                  </div>
+                        {isGenerating ? (
+                          <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            Synthesizing Data...
+                          </>
+                        ) : (
+                          "Generate Roadmap"
+                        )}
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="space-y-6"
+                  >
+                    <div className="flex items-center justify-between border-b pb-4">
+                      <div className="flex items-center gap-2">
+                         <Sparkles className="w-5 h-5 text-primary" />
+                         <h3 className="text-xl font-heading font-bold">Your Roadmap</h3>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => setGeneratedRoadmap(null)}>Reset</Button>
+                    </div>
 
-                  <Button className="w-full h-12 text-lg font-medium bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-                    Generate Roadmap
-                  </Button>
-                </div>
+                    <div className="space-y-4">
+                      <div className="p-4 bg-primary/5 rounded-lg border-l-4 border-primary">
+                        <h4 className="font-bold text-primary mb-1">Strategic Insight</h4>
+                        <p className="text-sm text-foreground/80">{generatedRoadmap.recommendation}</p>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                         <div className="p-3 bg-white/50 rounded border">
+                           <p className="text-xs text-muted-foreground font-bold uppercase">Preference</p>
+                           <p className="font-medium">{generatedRoadmap.preference}</p>
+                         </div>
+                         <div className="p-3 bg-white/50 rounded border">
+                           <p className="text-xs text-muted-foreground font-bold uppercase">Destination</p>
+                           <p className="font-medium truncate">{generatedRoadmap.destinations}</p>
+                         </div>
+                      </div>
+
+                      <div>
+                        <h4 className="font-bold text-sm mb-2">Action Plan</h4>
+                        <ul className="space-y-2">
+                           <li className="flex gap-2 text-sm items-start">
+                             <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5" />
+                             <span>Address barrier: "{generatedRoadmap.barriers[0]}"</span>
+                           </li>
+                           <li className="flex gap-2 text-sm items-start">
+                             <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5" />
+                             <span>Schedule time for "Module 3" activities.</span>
+                           </li>
+                           <li className="flex gap-2 text-sm items-start">
+                             <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5" />
+                             <span>Review progress in 7 days.</span>
+                           </li>
+                        </ul>
+                      </div>
+                      
+                      <Button className="w-full mt-4" variant="outline">
+                        <DownloadIcon className="w-4 h-4 mr-2" />
+                        Save Roadmap
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
               </Card>
               
               {/* Decorative Elements */}
@@ -244,4 +416,25 @@ export function AiPreview() {
       </div>
     </section>
   );
+}
+
+function DownloadIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" x2="12" y1="15" y2="3" />
+    </svg>
+  )
 }

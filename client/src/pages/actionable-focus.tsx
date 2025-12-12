@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2, ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
@@ -61,6 +61,26 @@ export default function ActionableFocusPage() {
   const [activeTab, setActiveTab] = useState("module3");
   const [, setLocation] = useLocation();
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
+  const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const load = (key: string, setter: any) => {
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try {
+          setter(JSON.parse(saved));
+        } catch (e) {
+          console.error(`Failed to parse ${key}`, e);
+        }
+      }
+    };
+    load("focus-timeuse", setTimeUseAnswers);
+    load("focus-text", setTextAnswers);
+  }, []);
+
+  useEffect(() => { localStorage.setItem("focus-timeuse", JSON.stringify(timeUseAnswers)); }, [timeUseAnswers]);
+  useEffect(() => { localStorage.setItem("focus-text", JSON.stringify(textAnswers)); }, [textAnswers]);
+
   const [isRecording, setIsRecording] = useState<string | null>(null);
 
   const toggleRecording = (id: string) => {
@@ -191,7 +211,12 @@ export default function ActionableFocusPage() {
                         <p className="text-sm text-muted-foreground">List 3-5 daily activities that represent movement towards your future.</p>
                         {[1, 2, 3].map((i) => (
                           <div key={i} className="relative">
-                            <Textarea placeholder={`Daily Activity ${i}...`} className="min-h-[60px] pr-12" />
+                            <Textarea 
+                              placeholder={`Daily Activity ${i}...`} 
+                              className="min-h-[60px] pr-12" 
+                              value={textAnswers[`m3-${i}`] || ""}
+                              onChange={(e) => setTextAnswers(prev => ({ ...prev, [`m3-${i}`]: e.target.value }))}
+                            />
                             <Button
                               size="icon"
                               variant="ghost"
@@ -247,7 +272,12 @@ export default function ActionableFocusPage() {
                       {[1, 2, 3, 4].map((i) => (
                         <div key={i} className="relative">
                            <Label className="mb-1 block text-xs text-muted-foreground">Barrier {i}</Label>
-                           <Textarea placeholder="Describe hindrance..." className="min-h-[80px] pr-12" />
+                           <Textarea 
+                             placeholder="Describe hindrance..." 
+                             className="min-h-[80px] pr-12" 
+                             value={textAnswers[`m4-${i}`] || ""}
+                             onChange={(e) => setTextAnswers(prev => ({ ...prev, [`m4-${i}`]: e.target.value }))}
+                           />
                             <Button
                               size="icon"
                               variant="ghost"
@@ -304,7 +334,12 @@ export default function ActionableFocusPage() {
                       <div key={i} className="space-y-2">
                         <Label>{q}</Label>
                         <div className="relative">
-                          <Textarea placeholder="Type your response..." className="min-h-[100px] pr-12" />
+                          <Textarea 
+                            placeholder="Type your response..." 
+                            className="min-h-[100px] pr-12" 
+                            value={textAnswers[`m5-${i}`] || ""}
+                            onChange={(e) => setTextAnswers(prev => ({ ...prev, [`m5-${i}`]: e.target.value }))}
+                          />
                           <Button
                             size="icon"
                             variant="ghost"

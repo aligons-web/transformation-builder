@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen, Bot, Loader2, CheckSquare, Clock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -277,6 +277,33 @@ export default function TransformationAnalysisPage() {
   const [skillsChecked, setSkillsChecked] = useState<string[]>([]);
   const [resourcesChecked, setResourcesChecked] = useState<string[]>([]);
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
+  const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const load = (key: string, setter: any) => {
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try {
+          setter(JSON.parse(saved));
+        } catch (e) {
+          console.error(`Failed to parse ${key}`, e);
+        }
+      }
+    };
+    load("analysis-subconscious", setSubconsciousAnswers);
+    load("analysis-preference", setPreferenceAnswers);
+    load("analysis-timeuse", setTimeUseAnswers);
+    load("analysis-skills", setSkillsChecked);
+    load("analysis-resources", setResourcesChecked);
+    load("analysis-text", setTextAnswers);
+  }, []);
+
+  useEffect(() => { localStorage.setItem("analysis-subconscious", JSON.stringify(subconsciousAnswers)); }, [subconsciousAnswers]);
+  useEffect(() => { localStorage.setItem("analysis-preference", JSON.stringify(preferenceAnswers)); }, [preferenceAnswers]);
+  useEffect(() => { localStorage.setItem("analysis-timeuse", JSON.stringify(timeUseAnswers)); }, [timeUseAnswers]);
+  useEffect(() => { localStorage.setItem("analysis-skills", JSON.stringify(skillsChecked)); }, [skillsChecked]);
+  useEffect(() => { localStorage.setItem("analysis-resources", JSON.stringify(resourcesChecked)); }, [resourcesChecked]);
+  useEffect(() => { localStorage.setItem("analysis-text", JSON.stringify(textAnswers)); }, [textAnswers]);
 
   const toggleRecording = (id: string) => {
     if (isRecording === id) {
@@ -507,7 +534,12 @@ export default function TransformationAnalysisPage() {
                       <div key={i} className="space-y-2">
                         <Label>{q}</Label>
                         <div className="relative">
-                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Textarea 
+                            placeholder="Reflect and write here..." 
+                            className="min-h-[80px] pr-12" 
+                            value={textAnswers[`d3-${i}`] || ""}
+                            onChange={(e) => setTextAnswers(prev => ({ ...prev, [`d3-${i}`]: e.target.value }))}
+                          />
                           <Button
                             size="icon"
                             variant="ghost"
@@ -555,7 +587,12 @@ export default function TransformationAnalysisPage() {
                       <div key={i} className="space-y-2">
                         <Label>{q}</Label>
                         <div className="relative">
-                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Textarea 
+                            placeholder="Reflect and write here..." 
+                            className="min-h-[80px] pr-12" 
+                            value={textAnswers[`d4-${i}`] || ""}
+                            onChange={(e) => setTextAnswers(prev => ({ ...prev, [`d4-${i}`]: e.target.value }))}
+                          />
                           <Button
                             size="icon"
                             variant="ghost"
@@ -583,7 +620,12 @@ export default function TransformationAnalysisPage() {
                       <div key={i} className="space-y-2">
                         <Label>{q}</Label>
                         <div className="relative">
-                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Textarea 
+                            placeholder="Reflect and write here..." 
+                            className="min-h-[80px] pr-12" 
+                            value={textAnswers[`d5-${i}`] || ""}
+                            onChange={(e) => setTextAnswers(prev => ({ ...prev, [`d5-${i}`]: e.target.value }))}
+                          />
                           <Button
                             size="icon"
                             variant="ghost"
@@ -606,7 +648,12 @@ export default function TransformationAnalysisPage() {
                     <div className="space-y-2">
                       <Label>Imagine you were sharing with your child your last words. What would those words be?</Label>
                       <div className="relative">
-                        <Textarea placeholder="Write your legacy words here..." className="min-h-[120px] pr-12 italic" />
+                        <Textarea 
+                          placeholder="Write your legacy words here..." 
+                          className="min-h-[120px] pr-12 italic" 
+                          value={textAnswers[`d6-1`] || ""}
+                          onChange={(e) => setTextAnswers(prev => ({ ...prev, [`d6-1`]: e.target.value }))}
+                        />
                         <Button
                           size="icon"
                           variant="ghost"
@@ -634,7 +681,12 @@ export default function TransformationAnalysisPage() {
                       <div key={i} className="space-y-2">
                         <Label>{q}</Label>
                         <div className="relative">
-                          <Textarea placeholder="Reflect and write here..." className="min-h-[80px] pr-12" />
+                          <Textarea 
+                            placeholder="Reflect and write here..." 
+                            className="min-h-[80px] pr-12" 
+                            value={textAnswers[`d7-${i}`] || ""}
+                            onChange={(e) => setTextAnswers(prev => ({ ...prev, [`d7-${i}`]: e.target.value }))}
+                          />
                           <Button
                             size="icon"
                             variant="ghost"

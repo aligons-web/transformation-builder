@@ -1,361 +1,430 @@
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowLeft, Users, TrendingUp, DollarSign, Activity, ShoppingCart, Book, Globe, Smartphone, Clock, Award, Briefcase, UserCheck } from "lucide-react";
+import { ArrowLeft, Users, TrendingUp, DollarSign, Activity, ShoppingCart, Book, Globe, Smartphone, Clock, Award, Briefcase, UserCheck, Search, Bell, Menu, PlayCircle, PauseCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DashboardSidebar } from "@/components/dashboard-sidebar";
 
 export default function AdminDashboardPage() {
   return (
-    <div className="min-h-screen bg-background font-sans">
-      <Navbar />
-      <main className="container mx-auto px-4 pt-24 pb-12">
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-gray-50/50 font-sans">
+      {/* Top Header/Navigation - Matches the "Donezo" top bar style */}
+      <div className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-100 z-50 px-4 md:px-8 flex items-center justify-between">
+        <div className="flex items-center gap-4">
           <Link href="/">
-            <Button variant="ghost" className="gap-2 pl-0 hover:pl-2 transition-all">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Button>
+             <a className="flex items-center gap-2 md:hidden">
+               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                 <Activity className="w-5 h-5 text-primary-foreground" />
+               </div>
+             </a>
           </Link>
-          <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20">
-            Admin Access Only
-          </div>
+          <h1 className="text-xl font-heading font-bold hidden md:block">Admin Dashboard</h1>
         </div>
         
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-2">
-            Admin Dashboard
-          </h1>
-          <p className="text-muted-foreground mb-8">
-            Overview of platform performance, sales, and user engagement.
-          </p>
-          
-          {/* Key Performance Indicators */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">1,234</div>
-                <p className="text-xs text-muted-foreground">+12% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Subscriptions</CardTitle>
-                <Activity className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">845</div>
-                <p className="text-xs text-muted-foreground">+5% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">$12,345</div>
-                <p className="text-xs text-muted-foreground">+18% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Completion Rate</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">42%</div>
-                <p className="text-xs text-muted-foreground">Modules completed</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Sales & Products Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-             <Card>
-                <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">Amazon UYP Book Sales</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex items-center gap-4">
-                        <div className="p-2 bg-orange-100 rounded-lg">
-                            <Book className="w-6 h-6 text-orange-600" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-bold">452</div>
-                            <p className="text-xs text-muted-foreground">Purchases this month</p>
-                        </div>
-                    </div>
-                </CardContent>
-             </Card>
-             <Card>
-                <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">Amazon LIFE Transformation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex items-center gap-4">
-                        <div className="p-2 bg-teal-100 rounded-lg">
-                            <Book className="w-6 h-6 text-teal-600" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-bold">318</div>
-                            <p className="text-xs text-muted-foreground">Purchases this month</p>
-                        </div>
-                    </div>
-                </CardContent>
-             </Card>
-             <Card>
-                <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">Trial Subscriptions</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex items-center gap-4">
-                        <div className="p-2 bg-blue-100 rounded-lg">
-                            <UserCheck className="w-6 h-6 text-blue-600" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-bold">128</div>
-                            <p className="text-xs text-muted-foreground">Active trials (14 days left)</p>
-                        </div>
-                    </div>
-                </CardContent>
-             </Card>
-          </div>
-
-          {/* Plan Distribution & Partners */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-             <Card>
-                <CardHeader>
-                    <CardTitle>Plan Distribution</CardTitle>
-                    <CardDescription>Breakdown of current user tiers</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-6">
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="font-medium">Explorer ($29)</span>
-                                <span className="text-muted-foreground">524 users</span>
-                            </div>
-                            <Progress value={62} className="h-2 bg-muted" />
-                        </div>
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="font-medium">Transformer ($99/yr)</span>
-                                <span className="text-muted-foreground">286 users</span>
-                            </div>
-                            <Progress value={34} className="h-2 bg-primary/20" />
-                        </div>
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="font-medium">Implementor ($299/yr)</span>
-                                <span className="text-muted-foreground">35 users</span>
-                            </div>
-                            <Progress value={4} className="h-2 bg-green-100" />
-                        </div>
-                    </div>
-                </CardContent>
-             </Card>
-
-             <Card>
-                <CardHeader>
-                    <CardTitle>Partners & Network</CardTitle>
-                    <CardDescription>Growth of our professional community</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="flex flex-col p-4 border rounded-xl bg-card hover:bg-muted/50 transition-colors">
-                            <div className="flex items-center gap-2 mb-2 text-muted-foreground">
-                                <Award className="w-4 h-4" />
-                                <span className="text-sm font-medium">Affiliates</span>
-                            </div>
-                            <span className="text-3xl font-bold">42</span>
-                            <span className="text-xs text-green-600 mt-1">+3 this week</span>
-                        </div>
-                        <div className="flex flex-col p-4 border rounded-xl bg-card hover:bg-muted/50 transition-colors">
-                            <div className="flex items-center gap-2 mb-2 text-muted-foreground">
-                                <Briefcase className="w-4 h-4" />
-                                <span className="text-sm font-medium">Founders</span>
-                            </div>
-                            <span className="text-3xl font-bold">12</span>
-                            <span className="text-xs text-muted-foreground mt-1">Limited spots</span>
-                        </div>
-                    </div>
-                </CardContent>
-             </Card>
-          </div>
-
-          {/* Website Traffic & Analytics */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <Card className="lg:col-span-2">
-                <CardHeader>
-                    <CardTitle>Website Activity</CardTitle>
-                    <CardDescription>Traffic metrics for the last 30 days</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid grid-cols-3 gap-4 mb-6">
-                        <div className="space-y-1">
-                            <p className="text-sm font-medium text-muted-foreground">Site Visits</p>
-                            <p className="text-2xl font-bold">12,450</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-sm font-medium text-muted-foreground">Page Views</p>
-                            <p className="text-2xl font-bold">45,200</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-sm font-medium text-muted-foreground">Avg. Time</p>
-                            <div className="flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-muted-foreground" />
-                                <p className="text-2xl font-bold">4m 12s</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="space-y-4">
-                        <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
-                            <Globe className="w-4 h-4" /> 
-                            Top Locations
-                        </h4>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-                            <div className="flex justify-between text-sm items-center">
-                                <span>United States</span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                                        <div className="h-full bg-primary" style={{ width: '65%' }}></div>
-                                    </div>
-                                    <span className="w-8 text-right text-muted-foreground">65%</span>
-                                </div>
-                            </div>
-                            <div className="flex justify-between text-sm items-center">
-                                <span>United Kingdom</span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                                        <div className="h-full bg-primary" style={{ width: '15%' }}></div>
-                                    </div>
-                                    <span className="w-8 text-right text-muted-foreground">15%</span>
-                                </div>
-                            </div>
-                            <div className="flex justify-between text-sm items-center">
-                                <span>Canada</span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                                        <div className="h-full bg-primary" style={{ width: '10%' }}></div>
-                                    </div>
-                                    <span className="w-8 text-right text-muted-foreground">10%</span>
-                                </div>
-                            </div>
-                            <div className="flex justify-between text-sm items-center">
-                                <span>Australia</span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                                        <div className="h-full bg-primary" style={{ width: '5%' }}></div>
-                                    </div>
-                                    <span className="w-8 text-right text-muted-foreground">5%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-
-            <Card>
-                <CardHeader>
-                    <CardTitle>Devices Used</CardTitle>
-                    <CardDescription>Platform breakdown</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-6 flex flex-col justify-center h-full">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-muted rounded-md">
-                                    <Smartphone className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <p className="font-medium">Mobile</p>
-                                    <p className="text-xs text-muted-foreground">iOS & Android</p>
-                                </div>
-                            </div>
-                            <span className="font-bold">58%</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-muted rounded-md">
-                                    <Activity className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <p className="font-medium">Desktop</p>
-                                    <p className="text-xs text-muted-foreground">Web Browser</p>
-                                </div>
-                            </div>
-                            <span className="font-bold">35%</span>
-                        </div>
-                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-muted rounded-md">
-                                    <Activity className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <p className="font-medium">Tablet</p>
-                                    <p className="text-xs text-muted-foreground">iPad & Others</p>
-                                </div>
-                            </div>
-                            <span className="font-bold">7%</span>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-             <Card className="col-span-1">
-                <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-4">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                            <div key={i} className="flex items-center gap-4 text-sm">
-                                <div className="w-2 h-2 rounded-full bg-green-500" />
-                                <div className="flex-1">
-                                    <span className="font-medium">User #{1000 + i}</span> completed Module {i}
-                                </div>
-                                <div className="text-muted-foreground text-xs">2h ago</div>
-                            </div>
-                        ))}
-                    </div>
-                </CardContent>
-             </Card>
-             <Card className="col-span-1">
-                <CardHeader>
-                    <CardTitle>System Status</CardTitle>
-                </CardHeader>
-                <CardContent>
-                     <div className="space-y-4">
-                        <div className="flex items-center justify-between text-sm">
-                            <span>API Status</span>
-                            <span className="text-green-600 font-medium">Operational</span>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                            <span>Database</span>
-                            <span className="text-green-600 font-medium">Operational</span>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                            <span>AI Services</span>
-                            <span className="text-green-600 font-medium">Operational</span>
-                        </div>
-                         <div className="flex items-center justify-between text-sm">
-                            <span>Storage</span>
-                            <span className="text-yellow-600 font-medium">Warning (85%)</span>
-                        </div>
-                    </div>
-                </CardContent>
-             </Card>
-          </div>
+        <div className="flex-1 max-w-xl mx-4 hidden md:block">
+           <div className="relative">
+             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+             <Input placeholder="Search task" className="pl-10 bg-gray-50 border-gray-200 rounded-full focus-visible:ring-primary/20" />
+             <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                <span className="text-xs text-muted-foreground bg-white border px-1.5 py-0.5 rounded shadow-sm">⌘ F</span>
+             </div>
+           </div>
         </div>
-      </main>
+
+        <div className="flex items-center gap-4">
+           <Button variant="ghost" size="icon" className="rounded-full relative">
+             <Bell className="w-5 h-5 text-gray-500" />
+             <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+           </Button>
+           <div className="flex items-center gap-3 pl-4 border-l">
+              <div className="text-right hidden md:block">
+                 <p className="text-sm font-medium">Admin User</p>
+                 <p className="text-xs text-muted-foreground">admin@life-transform.com</p>
+              </div>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>AD</AvatarFallback>
+              </Avatar>
+           </div>
+        </div>
+      </div>
+
+      <div className="flex pt-16 h-[calc(100vh-64px)]">
+        {/* Sidebar - Hidden on mobile, fixed width on desktop */}
+        <aside className="w-64 bg-white border-r border-gray-100 hidden md:flex flex-col p-6 overflow-y-auto">
+            <div className="mb-8">
+                <Link href="/">
+                    <Button variant="ghost" className="gap-2 pl-0 hover:pl-2 transition-all w-full justify-start text-muted-foreground">
+                        <ArrowLeft className="w-4 h-4" />
+                        Back to Site
+                    </Button>
+                </Link>
+            </div>
+            
+            <div className="space-y-1">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2">Menu</p>
+                <Button variant="ghost" className="w-full justify-start gap-3 bg-primary/10 text-primary font-medium">
+                    <Activity className="w-5 h-5" />
+                    Dashboard
+                </Button>
+                <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
+                    <Users className="w-5 h-5" />
+                    Users
+                </Button>
+                <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
+                    <DollarSign className="w-5 h-5" />
+                    Sales
+                </Button>
+                <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
+                    <Award className="w-5 h-5" />
+                    Partners
+                </Button>
+            </div>
+
+             <div className="mt-auto pt-8">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2">General</p>
+                <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
+                    <Globe className="w-5 h-5" />
+                    Website
+                </Button>
+             </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-50/50">
+           <div className="max-w-7xl mx-auto space-y-8">
+               
+               <div className="flex items-center justify-between">
+                   <div>
+                       <h2 className="text-2xl font-bold font-heading">Dashboard</h2>
+                       <p className="text-muted-foreground">Plan, prioritize, and accomplish your tasks with ease.</p>
+                   </div>
+                   <div className="flex gap-3">
+                       <Button className="rounded-full shadow-lg shadow-primary/20 bg-teal-600 hover:bg-teal-700 border-none">
+                           + Add Report
+                       </Button>
+                       <Button variant="outline" className="rounded-full bg-white">
+                           Import Data
+                       </Button>
+                   </div>
+               </div>
+
+               {/* Top Cards Row - "Donezo" Style */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                   {/* Card 1: Primary Dark Green/Teal */}
+                   <Card className="bg-teal-900 text-white border-none shadow-xl relative overflow-hidden group">
+                       <div className="absolute top-0 right-0 p-32 bg-white/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110 duration-500"></div>
+                       <CardContent className="p-6 relative z-10">
+                           <div className="flex justify-between items-start mb-4">
+                               <p className="font-medium text-teal-100">Total Users</p>
+                               <div className="bg-white/10 p-2 rounded-full backdrop-blur-sm">
+                                   <TrendingUp className="w-4 h-4 text-white" />
+                               </div>
+                           </div>
+                           <h3 className="text-4xl font-bold mb-2">1,234</h3>
+                           <div className="flex items-center gap-2 text-sm text-teal-200 bg-white/10 w-fit px-2 py-1 rounded-lg">
+                               <span className="bg-white/20 px-1 rounded text-white text-xs">+12%</span>
+                               <span>Increased from last month</span>
+                           </div>
+                       </CardContent>
+                   </Card>
+
+                   {/* Card 2: White */}
+                   <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
+                       <CardContent className="p-6">
+                           <div className="flex justify-between items-start mb-4">
+                               <p className="font-medium text-muted-foreground">Revenue</p>
+                               <div className="bg-gray-100 p-2 rounded-full">
+                                   <DollarSign className="w-4 h-4 text-gray-600" />
+                               </div>
+                           </div>
+                           <h3 className="text-4xl font-bold mb-2 text-foreground">$12.3k</h3>
+                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                               <span className="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-xs font-medium">+18%</span>
+                               <span>Increased from last month</span>
+                           </div>
+                       </CardContent>
+                   </Card>
+
+                   {/* Card 3: White */}
+                   <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
+                       <CardContent className="p-6">
+                           <div className="flex justify-between items-start mb-4">
+                               <p className="font-medium text-muted-foreground">Active Subs</p>
+                               <div className="bg-gray-100 p-2 rounded-full">
+                                   <Activity className="w-4 h-4 text-gray-600" />
+                               </div>
+                           </div>
+                           <h3 className="text-4xl font-bold mb-2 text-foreground">845</h3>
+                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                               <span className="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-xs font-medium">+5%</span>
+                               <span>Increased from last month</span>
+                           </div>
+                       </CardContent>
+                   </Card>
+
+                   {/* Card 4: White */}
+                   <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
+                       <CardContent className="p-6">
+                           <div className="flex justify-between items-start mb-4">
+                               <p className="font-medium text-muted-foreground">Implementors</p>
+                               <div className="bg-gray-100 p-2 rounded-full">
+                                   <Briefcase className="w-4 h-4 text-gray-600" />
+                               </div>
+                           </div>
+                           <h3 className="text-4xl font-bold mb-2 text-foreground">35</h3>
+                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                               <span className="bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded text-xs font-medium">Stable</span>
+                               <span>Active visionaries</span>
+                           </div>
+                       </CardContent>
+                   </Card>
+               </div>
+
+               {/* Middle Section: Analytics & Lists */}
+               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                   {/* Main Analytics Chart - Replaces "Project Analytics" */}
+                   <Card className="lg:col-span-2 border-none shadow-sm">
+                       <CardHeader className="flex flex-row items-center justify-between pb-2">
+                           <div>
+                               <CardTitle className="text-lg">Website & Sales Activity</CardTitle>
+                           </div>
+                           <div className="flex gap-2">
+                               <div className="w-8 h-8 rounded-full bg-teal-900 flex items-center justify-center text-white text-xs">W</div>
+                               <div className="w-8 h-8 rounded-full border flex items-center justify-center text-muted-foreground text-xs">M</div>
+                           </div>
+                       </CardHeader>
+                       <CardContent>
+                           <div className="h-[250px] w-full flex items-end gap-2 pt-4">
+                               {[65, 45, 75, 55, 80, 70, 90].map((h, i) => (
+                                   <div key={i} className="flex-1 flex flex-col items-center gap-2 group cursor-pointer">
+                                       <div className="relative w-full max-w-[40px] h-[200px] bg-gray-100 rounded-xl overflow-hidden">
+                                           <div 
+                                               className="absolute bottom-0 left-0 right-0 bg-teal-900 rounded-xl transition-all duration-500 group-hover:bg-teal-700"
+                                               style={{ height: `${h}%` }}
+                                           ></div>
+                                           <div 
+                                               className="absolute bottom-0 left-0 right-0 bg-teal-400/30 rounded-xl mb-1 mx-1"
+                                               style={{ height: `${h * 0.4}%` }}
+                                           ></div>
+                                       </div>
+                                       <span className="text-xs text-muted-foreground font-medium">
+                                           {['S', 'M', 'T', 'W', 'T', 'F', 'S'][i]}
+                                       </span>
+                                   </div>
+                               ))}
+                           </div>
+                       </CardContent>
+                   </Card>
+
+                   {/* Right Column: Reminders/Projects Style */}
+                   <div className="space-y-6">
+                       <Card className="border-none shadow-sm">
+                           <CardHeader className="pb-2">
+                               <div className="flex justify-between items-center">
+                                   <CardTitle className="text-lg">Sales Breakdown</CardTitle>
+                                   <Button variant="outline" size="sm" className="h-7 text-xs rounded-full">+ New</Button>
+                               </div>
+                           </CardHeader>
+                           <CardContent>
+                               <div className="space-y-4">
+                                   <div className="flex items-start gap-3">
+                                       <div className="p-2 bg-orange-100 rounded-lg text-orange-600 mt-0.5">
+                                           <Book className="w-4 h-4" />
+                                       </div>
+                                       <div>
+                                           <p className="font-semibold text-sm">Amazon UYP Book</p>
+                                           <p className="text-xs text-muted-foreground">452 Purchases</p>
+                                       </div>
+                                   </div>
+                                   <div className="flex items-start gap-3">
+                                       <div className="p-2 bg-teal-100 rounded-lg text-teal-600 mt-0.5">
+                                           <Book className="w-4 h-4" />
+                                       </div>
+                                       <div>
+                                           <p className="font-semibold text-sm">LIFE Transform Book</p>
+                                           <p className="text-xs text-muted-foreground">318 Purchases</p>
+                                       </div>
+                                   </div>
+                                   <div className="flex items-start gap-3">
+                                        <div className="p-2 bg-blue-100 rounded-lg text-blue-600 mt-0.5">
+                                           <UserCheck className="w-4 h-4" />
+                                       </div>
+                                       <div>
+                                           <p className="font-semibold text-sm">Trial Subs</p>
+                                           <p className="text-xs text-muted-foreground">128 Active</p>
+                                       </div>
+                                   </div>
+                               </div>
+                               <Button className="w-full mt-4 bg-teal-900 hover:bg-teal-800 rounded-lg h-9 text-sm">
+                                   View All Sales
+                               </Button>
+                           </CardContent>
+                       </Card>
+                   </div>
+               </div>
+
+               {/* Bottom Row */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                   {/* Plan Distribution - Replaces "Team Collaboration" */}
+                   <Card className="border-none shadow-sm">
+                       <CardHeader className="flex flex-row items-center justify-between pb-2">
+                           <CardTitle className="text-lg">Plan Distribution</CardTitle>
+                           <Button variant="outline" size="sm" className="h-7 rounded-full text-xs">+ Invite</Button>
+                       </CardHeader>
+                       <CardContent>
+                           <div className="space-y-4">
+                               <div className="flex items-center justify-between">
+                                   <div className="flex items-center gap-3">
+                                       <Avatar className="h-8 w-8 bg-blue-100 text-blue-600 border-none">
+                                           <AvatarFallback>EX</AvatarFallback>
+                                       </Avatar>
+                                       <div>
+                                           <p className="text-sm font-medium">Explorer</p>
+                                           <p className="text-xs text-muted-foreground">Basic Tier</p>
+                                       </div>
+                                   </div>
+                                   <span className="text-xs font-medium bg-blue-50 text-blue-600 px-2 py-1 rounded-full">524</span>
+                               </div>
+                               <div className="flex items-center justify-between">
+                                   <div className="flex items-center gap-3">
+                                       <Avatar className="h-8 w-8 bg-teal-100 text-teal-600 border-none">
+                                           <AvatarFallback>TR</AvatarFallback>
+                                       </Avatar>
+                                       <div>
+                                           <p className="text-sm font-medium">Transformer</p>
+                                           <p className="text-xs text-muted-foreground">Pro Tier</p>
+                                       </div>
+                                   </div>
+                                   <span className="text-xs font-medium bg-teal-50 text-teal-600 px-2 py-1 rounded-full">286</span>
+                               </div>
+                               <div className="flex items-center justify-between">
+                                   <div className="flex items-center gap-3">
+                                       <Avatar className="h-8 w-8 bg-purple-100 text-purple-600 border-none">
+                                            <AvatarFallback>IM</AvatarFallback>
+                                       </Avatar>
+                                       <div>
+                                           <p className="text-sm font-medium">Implementor</p>
+                                           <p className="text-xs text-muted-foreground">VIP Tier</p>
+                                       </div>
+                                   </div>
+                                   <span className="text-xs font-medium bg-purple-50 text-purple-600 px-2 py-1 rounded-full">35</span>
+                               </div>
+                           </div>
+                       </CardContent>
+                   </Card>
+
+                   {/* Completion Gauge - Replaces "Project Progress" */}
+                   <Card className="border-none shadow-sm">
+                       <CardHeader>
+                           <CardTitle className="text-lg">Completion Rate</CardTitle>
+                       </CardHeader>
+                       <CardContent className="flex flex-col items-center justify-center pt-2">
+                           <div className="relative w-40 h-20 overflow-hidden mb-4">
+                               <div className="absolute top-0 left-0 w-40 h-40 rounded-full border-[12px] border-gray-100"></div>
+                               <div className="absolute top-0 left-0 w-40 h-40 rounded-full border-[12px] border-teal-600 border-t-transparent border-r-transparent -rotate-45 transform origin-center"></div>
+                           </div>
+                           <h3 className="text-4xl font-bold mb-1">42%</h3>
+                           <p className="text-xs text-muted-foreground">Modules Completed</p>
+                           
+                           <div className="flex gap-4 mt-6 w-full justify-center">
+                               <div className="flex items-center gap-2">
+                                   <div className="w-2 h-2 rounded-full bg-teal-600"></div>
+                                   <span className="text-xs text-muted-foreground">Completed</span>
+                               </div>
+                               <div className="flex items-center gap-2">
+                                   <div className="w-2 h-2 rounded-full bg-teal-600/30"></div>
+                                   <span className="text-xs text-muted-foreground">In Progress</span>
+                               </div>
+                           </div>
+                       </CardContent>
+                   </Card>
+
+                   {/* Time Tracker - Replaces "Time Tracker" */}
+                   <Card className="bg-teal-950 text-white border-none shadow-xl relative overflow-hidden">
+                       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-soft-light"></div>
+                       <div className="absolute bottom-0 right-0 w-32 h-32 bg-teal-500/20 rounded-full blur-2xl"></div>
+                       <CardHeader>
+                           <CardTitle className="text-lg text-teal-100">Avg. Time on Site</CardTitle>
+                       </CardHeader>
+                       <CardContent>
+                           <h3 className="text-4xl font-mono font-bold mb-6 tracking-wider">04:12:08</h3>
+                           <div className="flex items-center gap-4">
+                               <Button size="icon" className="rounded-full bg-white text-teal-900 hover:bg-gray-100 h-10 w-10">
+                                   <PauseCircle className="w-6 h-6 fill-current" />
+                               </Button>
+                               <Button size="icon" variant="outline" className="rounded-full border-teal-800 text-teal-100 hover:bg-teal-900 h-10 w-10">
+                                   <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
+                               </Button>
+                           </div>
+                       </CardContent>
+                   </Card>
+               </div>
+               
+               {/* Website Traffic & Devices - Extra Section matching bottom row style */}
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                   <Card className="border-none shadow-sm">
+                       <CardHeader>
+                           <CardTitle className="text-lg">Visitor Locations</CardTitle>
+                       </CardHeader>
+                       <CardContent>
+                           <div className="space-y-4">
+                               <div className="flex items-center justify-between text-sm">
+                                   <div className="flex items-center gap-2">
+                                       <span className="w-6 text-xl">🇺🇸</span>
+                                       <span>United States</span>
+                                   </div>
+                                   <Progress value={65} className="w-24 h-2" />
+                               </div>
+                               <div className="flex items-center justify-between text-sm">
+                                   <div className="flex items-center gap-2">
+                                       <span className="w-6 text-xl">🇬🇧</span>
+                                       <span>United Kingdom</span>
+                                   </div>
+                                   <Progress value={15} className="w-24 h-2" />
+                               </div>
+                               <div className="flex items-center justify-between text-sm">
+                                   <div className="flex items-center gap-2">
+                                       <span className="w-6 text-xl">🇨🇦</span>
+                                       <span>Canada</span>
+                                   </div>
+                                   <Progress value={10} className="w-24 h-2" />
+                               </div>
+                           </div>
+                       </CardContent>
+                   </Card>
+                   
+                   <Card className="border-none shadow-sm">
+                        <CardHeader>
+                           <CardTitle className="text-lg">Devices Used</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                             <div className="grid grid-cols-3 gap-2 text-center">
+                                 <div className="p-3 bg-gray-50 rounded-xl">
+                                     <Smartphone className="w-6 h-6 mx-auto mb-2 text-primary" />
+                                     <span className="block text-xl font-bold">58%</span>
+                                     <span className="text-xs text-muted-foreground">Mobile</span>
+                                 </div>
+                                 <div className="p-3 bg-gray-50 rounded-xl">
+                                     <Globe className="w-6 h-6 mx-auto mb-2 text-primary" />
+                                     <span className="block text-xl font-bold">35%</span>
+                                     <span className="text-xs text-muted-foreground">Desktop</span>
+                                 </div>
+                                 <div className="p-3 bg-gray-50 rounded-xl">
+                                     <Activity className="w-6 h-6 mx-auto mb-2 text-primary" />
+                                     <span className="block text-xl font-bold">7%</span>
+                                     <span className="text-xs text-muted-foreground">Tablet</span>
+                                 </div>
+                             </div>
+                        </CardContent>
+                   </Card>
+               </div>
+           </div>
+        </main>
+      </div>
     </div>
   );
 }

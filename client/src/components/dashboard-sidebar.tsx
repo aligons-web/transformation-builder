@@ -11,7 +11,8 @@ import {
   LogOut,
   Sparkles,
   Calendar,
-  Focus
+  Focus,
+  ClipboardCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,6 +27,7 @@ const sidebarItems = [
   { icon: Sparkles, label: "Change Analysis", href: "/dashboard/analysis" },
   { icon: Focus, label: "Clarify Focus", href: "/actionable-focus" },
   { icon: Lightbulb, label: "Journey Insights", href: "/ai-transformation-engine" },
+  { icon: ClipboardCheck, label: "Final Blueprint", href: "/final-summary" },
   { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },
 ];
 

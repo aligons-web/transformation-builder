@@ -17,6 +17,8 @@ import PurposeSummaryPage from "@/pages/purpose-summary";
 import PurposeInterpretationPage from "@/pages/purpose-interpretation";
 import AboutPage from "@/pages/about";
 
+import FinalSummaryPage from "@/pages/final-summary";
+
 function Router() {
   return (
     <Switch>
@@ -32,6 +34,7 @@ function Router() {
       <Route path="/dashboard/future-path" component={FuturePathPage} />
       <Route path="/ai-transformation-engine" component={AiTransformationEnginePage} />
       <Route path="/actionable-focus" component={ActionableFocusPage} />
+      <Route path="/final-summary" component={FinalSummaryPage} />
       <Route path="/dashboard/calendar" component={CalendarPage} />
       <Route path="/dashboard/*" component={DashboardPage} />
       <Route component={NotFound} />

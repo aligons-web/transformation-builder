@@ -3,12 +3,13 @@ import { DashboardHeader } from "@/components/dashboard-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Plus, TrendingUp, CheckCircle2, Clock, ChevronLeft, ChevronRight, Flag, Folder } from "lucide-react";
+import { Plus, TrendingUp, CheckCircle2, Clock, ChevronLeft, ChevronRight, Flag, Folder, CheckSquare, Target } from "lucide-react";
 import { useState } from "react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
 import { cn } from "@/lib/utils";
+import { useLocation } from "wouter";
 
-type EventType = "milestone" | "project";
+type EventType = "milestone" | "project" | "task" | "goal";
 
 interface CalendarEvent {
   id: string;
@@ -20,6 +21,13 @@ interface CalendarEvent {
 export default function DashboardPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [location] = useLocation();
+  
+  // Determine if we are on the tasks page or projects page (or general)
+  const isTasksPage = location === "/dashboard/tasks";
+  const isProjectsPage = location === "/dashboard/projects";
+
+  // Mock data - In a real app this would come from a store or API
   const [events] = useState<CalendarEvent[]>([
     {
       id: "1",
@@ -38,6 +46,24 @@ export default function DashboardPage() {
       title: "Website Redesign",
       date: new Date(new Date().setDate(new Date().getDate() + 10)),
       type: "project"
+    },
+    {
+      id: "4",
+      title: "Complete Module 3",
+      date: new Date(new Date().setDate(new Date().getDate() + 1)),
+      type: "task"
+    },
+    {
+      id: "5",
+      title: "Career Pivot Goal",
+      date: new Date(new Date().setDate(new Date().getDate() + 5)),
+      type: "goal"
+    },
+    {
+      id: "6",
+      title: "Weekly Review",
+      date: new Date(new Date().setDate(new Date().getDate() + 7)),
+      type: "task"
     }
   ]);
 
@@ -55,7 +81,31 @@ export default function DashboardPage() {
   const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
 
   const getEventsForDay = (day: Date) => {
-    return events.filter(event => isSameDay(event.date, day));
+    return events.filter(event => {
+      const isSameDate = isSameDay(event.date, day);
+      if (!isSameDate) return false;
+      
+      if (isTasksPage) {
+        return event.type === "task" || event.type === "goal";
+      }
+      if (isProjectsPage) {
+        return event.type === "milestone" || event.type === "project";
+      }
+      // Default dashboard shows all or a subset? Let's show all for now or stick to projects/milestones as that seems to be the "main" view requested previously
+      return true; 
+    });
+  };
+
+  const getPageTitle = () => {
+    if (isTasksPage) return "Tasks to Goals";
+    if (isProjectsPage) return "Milestones to Projects";
+    return "Good Morning, John";
+  };
+
+  const getPageSubtitle = () => {
+    if (isTasksPage) return "Track your daily tasks and long-term goals.";
+    if (isProjectsPage) return "Visualize your project timelines and key milestones.";
+    return "Here's your daily overview and transformation progress.";
   };
 
   return (
@@ -70,8 +120,8 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">Good Morning, John</h1>
-              <p className="text-muted-foreground">Here's your daily overview and transformation progress.</p>
+              <h1 className="text-3xl font-heading font-bold text-foreground">{getPageTitle()}</h1>
+              <p className="text-muted-foreground">{getPageSubtitle()}</p>
             </div>
             <div className="flex gap-3">
               <Button variant="outline">View Reports</Button>
@@ -162,13 +212,17 @@ export default function DashboardPage() {
                                 className={cn(
                                   "text-[10px] p-1 rounded border truncate cursor-pointer transition-all hover:scale-[1.02]",
                                   event.type === "milestone" && "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100",
-                                  event.type === "project" && "bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
+                                  event.type === "project" && "bg-green-50 text-green-700 border-green-200 hover:bg-green-100",
+                                  event.type === "task" && "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
+                                  event.type === "goal" && "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100"
                                 )}
                                 title={event.title}
                               >
                                 <div className="flex items-center gap-1">
                                   {event.type === "milestone" && <Flag className="w-2 h-2 shrink-0" />}
                                   {event.type === "project" && <Folder className="w-2 h-2 shrink-0" />}
+                                  {event.type === "task" && <CheckSquare className="w-2 h-2 shrink-0" />}
+                                  {event.type === "goal" && <Target className="w-2 h-2 shrink-0" />}
                                   <span className="truncate font-medium">{event.title}</span>
                                 </div>
                               </div>
@@ -179,14 +233,35 @@ export default function DashboardPage() {
                     })}
                   </div>
                   <div className="flex gap-4 mt-4 text-xs text-muted-foreground justify-end">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-purple-500" />
-                      <span>Milestones</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-green-500" />
-                      <span>Projects</span>
-                    </div>
+                    {isProjectsPage && (
+                      <>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-purple-500" />
+                          <span>Milestones</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-green-500" />
+                          <span>Projects</span>
+                        </div>
+                      </>
+                    )}
+                    {isTasksPage && (
+                      <>
+                         <div className="flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-blue-500" />
+                          <span>Tasks</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-orange-500" />
+                          <span>Goals</span>
+                        </div>
+                      </>
+                    )}
+                    {!isProjectsPage && !isTasksPage && (
+                      <div className="flex items-center gap-1.5">
+                        <span className="italic opacity-70">Showing all entries</span>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

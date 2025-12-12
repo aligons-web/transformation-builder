@@ -8,11 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft, ChevronRight, Plus, Calendar as CalendarIcon, Target, CheckSquare } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Calendar as CalendarIcon, Target, CheckSquare, Flag, Folder } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
-type EventType = "goal" | "task";
+type EventType = "goal" | "task" | "milestone" | "project";
 
 interface CalendarEvent {
   id: string;
@@ -121,13 +121,25 @@ export default function CalendarPage() {
                         <SelectItem value="task">
                           <div className="flex items-center gap-2">
                             <CheckSquare className="w-4 h-4 text-blue-500" />
-                            <span>Task for Goal</span>
+                            <span>Task</span>
                           </div>
                         </SelectItem>
                         <SelectItem value="goal">
                           <div className="flex items-center gap-2">
                             <Target className="w-4 h-4 text-orange-500" />
-                            <span>Goal Milestone</span>
+                            <span>Goal</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="milestone">
+                          <div className="flex items-center gap-2">
+                            <Flag className="w-4 h-4 text-purple-500" />
+                            <span>Milestone</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="project">
+                          <div className="flex items-center gap-2">
+                            <Folder className="w-4 h-4 text-green-500" />
+                            <span>Project</span>
                           </div>
                         </SelectItem>
                       </SelectContent>
@@ -224,18 +236,18 @@ export default function CalendarPage() {
                             key={event.id}
                             className={cn(
                               "text-xs p-1.5 rounded-md border truncate cursor-pointer transition-all hover:scale-[1.02]",
-                              event.type === "goal" 
-                                ? "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100" 
-                                : "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+                              event.type === "goal" && "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100",
+                              event.type === "task" && "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
+                              event.type === "milestone" && "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100",
+                              event.type === "project" && "bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
                             )}
                             title={event.title}
                           >
                             <div className="flex items-center gap-1.5">
-                              {event.type === "goal" ? (
-                                <Target className="w-3 h-3 shrink-0" />
-                              ) : (
-                                <CheckSquare className="w-3 h-3 shrink-0" />
-                              )}
+                              {event.type === "goal" && <Target className="w-3 h-3 shrink-0" />}
+                              {event.type === "task" && <CheckSquare className="w-3 h-3 shrink-0" />}
+                              {event.type === "milestone" && <Flag className="w-3 h-3 shrink-0" />}
+                              {event.type === "project" && <Folder className="w-3 h-3 shrink-0" />}
                               <span className="truncate font-medium">{event.title}</span>
                             </div>
                           </div>

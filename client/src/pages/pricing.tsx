@@ -58,7 +58,7 @@ export default function PricingPage() {
             </CardContent>
             <CardFooter>
               <Button className="w-full" variant="outline" asChild>
-                <a href={explorerPlanUrl} target="_blank" rel="noopener noreferrer">Get Started</a>
+                <a href={explorerPlanUrl} target="_blank" rel="noopener noreferrer">Start Exploration</a>
               </Button>
             </CardFooter>
           </Card>
@@ -70,7 +70,7 @@ export default function PricingPage() {
             </div>
             <CardHeader>
               <CardTitle className="text-2xl font-heading">Transformer Plan</CardTitle>
-              <CardDescription>Complete toolkit for life change.</CardDescription>
+              <CardDescription>Move forward in purpose through change analysis and focus.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
               <div className="text-3xl font-bold mb-6">$39<span className="text-sm font-normal text-muted-foreground">/month</span></div>
@@ -105,7 +105,7 @@ export default function PricingPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary" />
-                  <span className="text-sm">1 Accountability - 1 hour Zoom Session Per Month</span>
+                  <span className="text-sm">An Accountability Zoom Session per Month (1-hour)</span>
                 </li>
               </ul>
             </CardContent>
@@ -119,7 +119,7 @@ export default function PricingPage() {
           {/* Enterprise/Network Plan */}
           <Card className="flex flex-col border-border/50 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className="text-2xl font-heading">Implementor Plan</CardTitle>
+              <CardTitle className="text-2xl font-heading">Implementer Plan</CardTitle>
               <CardDescription>For coaches and community leaders.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
@@ -151,17 +151,17 @@ export default function PricingPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">2 Accountability 1-hour Zoom Sessions Per Month</span>
+                  <span className="text-sm">2 Accountability Zoom Sessions per Month (1-hour)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">1 - session for skills development, 1 session for business development</span>
+                  <span className="text-sm">1 Skills Development Session and 1 Business Development Session (1-hour each)</span>
                 </li>
               </ul>
             </CardContent>
             <CardFooter>
               <Button className="w-full" variant="outline" asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">Contact Sales</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">Start Implementation</a>
               </Button>
             </CardFooter>
           </Card>

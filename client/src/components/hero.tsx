@@ -20,12 +20,13 @@ export function Hero() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-12 justify-center">
-          <div className="lg:w-1/2 text-left">
+        <div className="flex flex-col items-center gap-12 justify-center text-center">
+          <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
+              className="flex justify-center"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 backdrop-blur-md border border-white/50 shadow-sm mb-8">
                 <Sparkles className="w-4 h-4 text-primary" />
@@ -49,7 +50,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              className="text-xl text-muted-foreground md:text-2xl max-w-2xl mb-8 leading-relaxed"
+              className="text-xl text-muted-foreground md:text-2xl max-w-2xl mx-auto mb-8 leading-relaxed"
             >
               Uncertain about your future as a college student or a recent graduate? Need to find greater fulfillment as a professional? Trying to figure what to do next as veteran or retiree? Need a greater sense of purpose?
             </motion.p>
@@ -67,13 +68,13 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
-              className="text-lg text-foreground/80 font-medium md:text-xl max-w-2xl mb-10 leading-relaxed"
+              className="text-lg text-foreground/80 font-medium md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
             >
               We provide the tools and structure you need to move from confusion to clarity.
             </motion.p>
           </div>
 
-          <div className="lg:w-1/2 flex justify-center lg:justify-end">
+          <div className="flex justify-center w-full">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}

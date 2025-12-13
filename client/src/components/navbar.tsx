@@ -50,12 +50,16 @@ export function Navbar() {
           >
             Join LTN
           </a>
-          <a href="#" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
-            Affiliate Program
-          </a>
-          <a href="#" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
-            Founder's Program
-          </a>
+          <Link href="/affiliate-program">
+            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+              Affiliate Program
+            </a>
+          </Link>
+          <Link href="/founders-program">
+            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+              Founder's Program
+            </a>
+          </Link>
           <div className="flex items-center gap-4 ml-4">
             <Link href="/signup">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20">
@@ -93,12 +97,16 @@ export function Navbar() {
                 >
                   Join LTN
                 </a>
-                <a href="#" className="text-lg font-bold hover:text-primary transition-colors">
-                  Affiliate Program
-                </a>
-                <a href="#" className="text-lg font-bold hover:text-primary transition-colors">
-                  Founder's Program
-                </a>
+                <Link href="/affiliate-program">
+                  <a className="text-lg font-bold hover:text-primary transition-colors">
+                    Affiliate Program
+                  </a>
+                </Link>
+                <Link href="/founders-program">
+                  <a className="text-lg font-bold hover:text-primary transition-colors">
+                    Founder's Program
+                  </a>
+                </Link>
                 <hr className="border-border" />
                 <Link href="/signup">
                   <Button className="w-full justify-start bg-primary">

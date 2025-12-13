@@ -70,7 +70,7 @@ export default function PricingPage() {
             </div>
             <CardHeader>
               <CardTitle className="text-2xl font-heading">Transformer Plan</CardTitle>
-              <CardDescription>Move forward in purpose through change analysis and focus.</CardDescription>
+              <CardDescription>For those in purpose and change.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
               <div className="text-3xl font-bold mb-6">$39<span className="text-sm font-normal text-muted-foreground">/month</span></div>
@@ -120,7 +120,7 @@ export default function PricingPage() {
           <Card className="flex flex-col border-border/50 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
               <CardTitle className="text-2xl font-heading">Implementer Plan</CardTitle>
-              <CardDescription>For coaches and community leaders.</CardDescription>
+              <CardDescription>For leaders and managers.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
               <div className="text-3xl font-bold mb-6">$69<span className="text-sm font-normal text-muted-foreground">/month</span></div>

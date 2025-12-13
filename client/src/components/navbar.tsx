@@ -26,7 +26,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/">
           <a className="font-heading font-bold text-2xl text-primary tracking-tight hover:opacity-90 transition-opacity">
-            LIFE<span className="text-foreground">Transformation</span>
+            LIFE <span className="text-foreground">Transformation</span>
           </a>
         </Link>
 

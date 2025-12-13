@@ -151,15 +151,19 @@ export default function PricingPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Access to Community</span>
+                  <span className="text-sm">Community Access</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">2 Accountability Zoom Sessions per Month (1-hour)</span>
+                  <span className="text-sm">Access to Replays</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">1 Skills Development Session and 1 Business Development Session (1-hour each)</span>
+                  <span className="text-sm">2 Accountability Zoom Sessions per Month</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-sm">1 Skills Development Session and 1 Business Development Session (1 hour each)</span>
                 </li>
               </ul>
             </CardContent>

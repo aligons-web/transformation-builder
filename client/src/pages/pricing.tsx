@@ -105,6 +105,10 @@ export default function PricingPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary" />
+                  <span className="text-sm">Community Access</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary" />
                   <span className="text-sm">An Accountability Zoom Session per Month (1-hour)</span>
                 </li>
               </ul>

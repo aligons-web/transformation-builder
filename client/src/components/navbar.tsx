@@ -32,22 +32,31 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/">
-            <a className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
-              Home
-            </a>
-          </Link>
           <Link href="/about">
-            <a className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
               About
             </a>
           </Link>
+          <Link href="/pricing">
+            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+              Pricing
+            </a>
+          </Link>
+          <a 
+            href="https://www.skool.com/life-transformation-network-2320" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors"
+          >
+            Join LTN
+          </a>
+          <a href="#" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+            Affiliate Program
+          </a>
+          <a href="#" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+            Founder's Program
+          </a>
           <div className="flex items-center gap-4 ml-4">
-            <Link href="/login">
-              <Button variant="ghost" className="hover:bg-primary/10 hover:text-primary">
-                Login
-              </Button>
-            </Link>
             <Link href="/signup">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20">
                 Start Journey
@@ -66,22 +75,31 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent>
               <div className="flex flex-col gap-6 mt-10">
-                <Link href="/">
-                  <a className="text-lg font-medium hover:text-primary transition-colors">
-                    Home
-                  </a>
-                </Link>
                 <Link href="/about">
-                  <a className="text-lg font-medium hover:text-primary transition-colors">
+                  <a className="text-lg font-bold hover:text-primary transition-colors">
                     About
                   </a>
                 </Link>
-                <hr className="border-border" />
-                <Link href="/login">
-                  <Button variant="outline" className="w-full justify-start">
-                    Login
-                  </Button>
+                <Link href="/pricing">
+                  <a className="text-lg font-bold hover:text-primary transition-colors">
+                    Pricing
+                  </a>
                 </Link>
+                <a 
+                  href="https://www.skool.com/life-transformation-network-2320"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg font-bold hover:text-primary transition-colors"
+                >
+                  Join LTN
+                </a>
+                <a href="#" className="text-lg font-bold hover:text-primary transition-colors">
+                  Affiliate Program
+                </a>
+                <a href="#" className="text-lg font-bold hover:text-primary transition-colors">
+                  Founder's Program
+                </a>
+                <hr className="border-border" />
                 <Link href="/signup">
                   <Button className="w-full justify-start bg-primary">
                     Start Journey

@@ -75,7 +75,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.22, ease: "easeOut" }}
               className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4"
             >
-              Start Your Journey Today<br />with <span className="text-primary italic font-serif">Perspective</span><span className="text-primary">,</span> <span className="text-primary italic font-serif">Purpose</span><span className="text-primary">,</span> and <span className="text-primary italic font-serif">Passion</span><span className="text-primary">!</span>
+              Start Your Journey Today<br />with <span className="text-primary italic font-serif">Perspective</span><span className="text-primary">,</span> <span className="text-primary italic font-serif">Passion</span><span className="text-primary">,</span> and <span className="text-primary italic font-serif">Purpose</span><span className="text-primary">!</span>
             </motion.h2>
 
             <motion.p

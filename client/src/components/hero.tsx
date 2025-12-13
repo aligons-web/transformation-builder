@@ -46,6 +46,20 @@ export function Hero() {
               <span className="text-primary italic font-serif">Desired Future</span>
             </motion.h1>
 
+            <div className="flex justify-center w-full my-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+              >
+                <img 
+                  src={targetImage} 
+                  alt="Path to focus and clarity" 
+                  className="w-full max-w-[14rem] md:max-w-[16rem] lg:max-w-[18rem] object-contain drop-shadow-2xl"
+                />
+              </motion.div>
+            </div>
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -72,20 +86,6 @@ export function Hero() {
             >
               We provide the tools and structure you need to move from confusion to clarity.
             </motion.p>
-          </div>
-
-          <div className="flex justify-center w-full">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            >
-              <img 
-                src={targetImage} 
-                alt="Path to focus and clarity" 
-                className="w-full max-w-md md:max-w-lg lg:max-w-xl object-contain drop-shadow-2xl"
-              />
-            </motion.div>
           </div>
         </div>
       </div>

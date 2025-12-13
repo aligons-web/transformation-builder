@@ -54,6 +54,10 @@ export default function PricingPage() {
                   <Check className="w-4 h-4 text-green-500" />
                   <span className="text-sm">Skills to Build Insights</span>
                 </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-sm">Community Access</span>
+                </li>
               </ul>
             </CardContent>
             <CardFooter>
@@ -159,11 +163,7 @@ export default function PricingPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">2 Accountability Zoom Sessions per Month</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">1 Skills Development Session and 1 Business Development Session (1 hour each)</span>
+                  <span className="text-sm">2 Accountability Zoom Sessions per Month<br />1 Skill Development Session and 1 Business Development Session (1 hour each)</span>
                 </li>
               </ul>
             </CardContent>

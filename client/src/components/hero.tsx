@@ -66,7 +66,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               className="text-xl text-muted-foreground md:text-2xl max-w-2xl mx-auto mb-8 leading-relaxed"
             >
-              Uncertain about your future as a college student or a recent graduate? Need to find greater fulfillment as a professional? Trying to figure what to do next as veteran or retiree? Need a greater sense of purpose?
+              <span className="font-bold text-foreground">Uncertain</span> about your future as a college student or a recent graduate? Need to find <span className="font-bold text-foreground">greater fulfillment</span> as a professional? <span className="font-bold text-foreground">Determining what's next</span> as veteran or retiree? Need a <span className="font-bold text-foreground">greater sense of purpose?</span>
             </motion.p>
 
             <motion.h2

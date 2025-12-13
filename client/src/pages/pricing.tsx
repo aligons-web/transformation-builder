@@ -32,23 +32,27 @@ export default function PricingPage() {
           {/* Basic Plan */}
           <Card className="flex flex-col border-border/50 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className="text-2xl font-heading">Explorer</CardTitle>
+              <CardTitle className="text-2xl font-heading">Explorer Plan</CardTitle>
               <CardDescription>For those just starting their discovery.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
-              <div className="text-3xl font-bold mb-6">$29<span className="text-sm font-normal text-muted-foreground">/one-time</span></div>
+              <div className="text-3xl font-bold mb-6">$29<span className="text-sm font-normal text-muted-foreground">/month</span></div>
               <ul className="space-y-3">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Access to 9 Discovery Modules</span>
+                  <span className="text-sm">Step 1 Discover Purpose</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Basic Journaling</span>
+                  <span className="text-sm">Tasks to Goals</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Standard Email Support</span>
+                  <span className="text-sm">Change Analysis</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-sm">Skills to Build Insights</span>
                 </li>
               </ul>
             </CardContent>
@@ -65,31 +69,43 @@ export default function PricingPage() {
               POPULAR
             </div>
             <CardHeader>
-              <CardTitle className="text-2xl font-heading">Transformer</CardTitle>
+              <CardTitle className="text-2xl font-heading">Transformer Plan</CardTitle>
               <CardDescription>Complete toolkit for life change.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
-              <div className="text-3xl font-bold mb-6">$99<span className="text-sm font-normal text-muted-foreground">/year</span></div>
+              <div className="text-3xl font-bold mb-6">$39<span className="text-sm font-normal text-muted-foreground">/month</span></div>
               <ul className="space-y-3">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary" />
-                  <span className="text-sm">All Discovery Modules</span>
+                  <span className="text-sm">Step 1 Discover Purpose</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary" />
-                  <span className="text-sm">AI-Powered Analysis</span>
+                  <span className="text-sm">Tasks to Goals</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary" />
-                  <span className="text-sm">Career Path Generation</span>
+                  <span className="text-sm">Skills to Build Insights</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary" />
-                  <span className="text-sm">Goal & Task Tracking</span>
+                  <span className="text-sm">Step 2 Analyze Change</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary" />
-                  <span className="text-sm">Priority Support</span>
+                  <span className="text-sm">Change Analysis</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary" />
+                  <span className="text-sm">Journey Insights</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary" />
+                  <span className="text-sm">Clarify Focus</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary" />
+                  <span className="text-sm">1 Accountability - 1 hour Zoom Session Per Month</span>
                 </li>
               </ul>
             </CardContent>
@@ -103,27 +119,43 @@ export default function PricingPage() {
           {/* Enterprise/Network Plan */}
           <Card className="flex flex-col border-border/50 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className="text-2xl font-heading">Implementer</CardTitle>
+              <CardTitle className="text-2xl font-heading">Implementor Plan</CardTitle>
               <CardDescription>For coaches and community leaders.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
-              <div className="text-3xl font-bold mb-6">$299<span className="text-sm font-normal text-muted-foreground">/year</span></div>
+              <div className="text-3xl font-bold mb-6">$69<span className="text-sm font-normal text-muted-foreground">/month</span></div>
               <ul className="space-y-3">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Everything in Transformer</span>
+                  <span className="text-sm">Explorer Plan</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Admin Dashboard Access</span>
+                  <span className="text-sm">Transformer Plan</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Group Analytics</span>
+                  <span className="text-sm">Final Blueprint</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">White-label Options</span>
+                  <span className="text-sm">Analytics</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-sm">Milestones to Projects</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-sm">Access to Community</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-sm">2 Accountability 1-hour Zoom Sessions Per Month</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-sm">1 - session for skills development, 1 session for business development</span>
                 </li>
               </ul>
             </CardContent>

@@ -6,7 +6,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Footer } from "@/components/footer";
 
 export default function PricingPage() {
-  const explorerPlanUrl = "https://buy.stripe.com/test_4gMdRadRVd1VcY6duCes000";
+  const explorerPlanUrl = "https://buy.stripe.com/test_cNi5kE6pt7HB6zI4Y6es003";
+  const transformerPlanUrl = "https://buy.stripe.com/test_bJe7sMcNRge70bk2PYes001";
+  const implementerPlanUrl = "https://buy.stripe.com/test_dRmcN64hlge73nw9emes002";
 
   return (
     <div className="min-h-screen bg-background font-sans flex flex-col">
@@ -119,7 +121,7 @@ export default function PricingPage() {
             </CardContent>
             <CardFooter>
               <Button className="w-full" asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">Start Transformation</a>
+                <a href={transformerPlanUrl} target="_blank" rel="noopener noreferrer">Start Transformation</a>
               </Button>
             </CardFooter>
           </Card>
@@ -169,7 +171,7 @@ export default function PricingPage() {
             </CardContent>
             <CardFooter>
               <Button className="w-full" variant="outline" asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">Start Implementation</a>
+                <a href={implementerPlanUrl} target="_blank" rel="noopener noreferrer">Start Implementation</a>
               </Button>
             </CardFooter>
           </Card>

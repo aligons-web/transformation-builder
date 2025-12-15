@@ -2,7 +2,7 @@ import { Link } from "wouter";
 
 export function Footer() {
   return (
-    <footer className="bg-muted/30 py-12 border-t border-border/50">
+    <footer className="bg-[#D3D3D3] py-12 border-t border-border/50">
       <div className="container mx-auto px-4 text-center text-muted-foreground">
         <div className="flex flex-col md:flex-row justify-center gap-6 mb-8 text-sm font-medium">
           <Link href="/affiliate-program">

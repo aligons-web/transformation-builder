@@ -27,11 +27,11 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/">
-          <a className="hover:opacity-90 transition-opacity block h-[100px] flex items-center">
+          <a className="hover:opacity-90 transition-opacity block flex items-center">
             <img 
               src={logo} 
               alt="LIFE Transformation" 
-              className="h-full w-auto object-contain max-h-[100px]" 
+              className="h-auto w-auto object-contain max-h-[100px]" 
             />
           </a>
         </Link>

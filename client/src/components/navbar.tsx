@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
-import logo from "@assets/webapplogo2_1765810994096.png";
+import logo from "@assets/webapplogo3_1765811527974.png";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);

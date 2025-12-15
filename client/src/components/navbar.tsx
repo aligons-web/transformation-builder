@@ -5,6 +5,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
+import logo from "@assets/tbuilder_1765810525295.png";
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
@@ -25,8 +27,12 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/">
-          <a className="font-heading font-bold text-2xl text-primary tracking-tight hover:opacity-90 transition-opacity">
-            LIFE <span className="text-foreground">Transformation</span>
+          <a className="hover:opacity-90 transition-opacity block h-[100px] flex items-center">
+            <img 
+              src={logo} 
+              alt="LIFE Transformation" 
+              className="h-full w-auto object-contain max-h-[100px]" 
+            />
           </a>
         </Link>
 

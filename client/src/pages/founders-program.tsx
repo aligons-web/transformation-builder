@@ -124,36 +124,72 @@ export default function FoundersProgramPage() {
                         <div className="bg-card border border-border rounded-xl p-6">
                             <h4 className="text-lg font-bold mb-2 text-foreground">4. Beta Testing & Feature Influence</h4>
                             <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>• Participate in beta testing of new tools and features</li>
-                                <li>• Provide feedback that may directly influence platform development</li>
-                                <li>• Gain early exposure to experimental features not yet publicly released</li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Participate in beta testing of new tools and features</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Provide feedback that may directly influence platform development</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Gain early exposure to experimental features not yet publicly released</span>
+                                </li>
                             </ul>
                         </div>
 
                         <div className="bg-card border border-border rounded-xl p-6">
                             <h4 className="text-lg font-bold mb-2 text-foreground">5. Exclusive Discounts</h4>
                             <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>• Founders-only discounted pricing on Masterclasses, Challenges, and Coaching programs</li>
-                                <li>• Certification or training programs</li>
-                                <li>• Limited-time offers reserved exclusively for the Founder group</li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Founders-only discounted pricing on Masterclasses, Challenges, and Coaching programs</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Certification or training programs</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Limited-time offers reserved exclusively for the Founder group</span>
+                                </li>
                             </ul>
                         </div>
 
                         <div className="bg-card border border-border rounded-xl p-6">
                             <h4 className="text-lg font-bold mb-2 text-foreground">6. Referral & Affiliate Opportunities</h4>
                             <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>• Early access to client referral programs</li>
-                                <li>• Priority enrollment in affiliate or ambassador opportunities</li>
-                                <li>• Higher visibility within the LIFE Transformation Network community</li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Early access to client referral programs</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Priority enrollment in affiliate or ambassador opportunities</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Higher visibility within the LIFE Transformation Network community</span>
+                                </li>
                             </ul>
                         </div>
 
                         <div className="bg-card border border-border rounded-xl p-6">
                             <h4 className="text-lg font-bold mb-2 text-foreground">7. Recognition & Communication</h4>
                             <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>• “Founding Member” designation within the platform</li>
-                                <li>• Direct updates on platform progress and early roadmap previews</li>
-                                <li>• Behind-the-scenes insights into platform growth and strategy</li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>“Founding Member” designation within the platform</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Direct updates on platform progress and early roadmap previews</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="shrink-0">•</span>
+                                    <span>Behind-the-scenes insights into platform growth and strategy</span>
+                                </li>
                             </ul>
                         </div>
                     </div>

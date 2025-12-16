@@ -2,7 +2,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "wouter";
-import heroBg from "@assets/bkgrdLThpimage_1765639684978.png";
+import heroBg from "@assets/backgroundhmpg_1765929083902.jpg";
 import targetImage from "@assets/pathtargetlogo_1765576089902.png";
 import { cn } from "@/lib/utils";
 

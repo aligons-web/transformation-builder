@@ -23,7 +23,7 @@ export function Footer() {
         </div>
         <div className="flex flex-col items-center justify-center mb-4 leading-none">
           <span className="font-heading font-bold text-lg tracking-normal uppercase text-foreground">Transformation</span>
-          <span className="font-heading font-bold text-2xl tracking-[0.48em] text-foreground uppercase mt-[-6px] ml-[2px]">BUILDER</span>
+          <span className="font-heading font-bold text-2xl tracking-[0.48em] text-foreground uppercase mt-[-6px] pl-[0.48em]">BUILDER</span>
         </div>
         <p className="text-sm">© 2024 All rights reserved. Build your future with clarity.</p>
       </div>

@@ -229,7 +229,7 @@ export default function ActionableFocusPage() {
                       
                       {timeUseQuiz.map((q, i) => (
                         <div key={i} className="space-y-3 p-4 rounded-lg bg-muted/30">
-                          <Label className="font-medium">{i + 1}. {q.question}</Label>
+                          <Label className="font-medium mb-4 block">{i + 1}. {q.question}</Label>
                           <RadioGroup 
                             onValueChange={(val) => setTimeUseAnswers(prev => ({ ...prev, [i]: val }))}
                             className="space-y-2"

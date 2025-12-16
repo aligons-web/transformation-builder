@@ -500,7 +500,7 @@ export default function TransformationAnalysisPage() {
                       <div className="lg:col-span-2 space-y-8">
                         {subconsciousQuiz.map((q, i) => (
                           <div key={i} className="space-y-4">
-                            <Label className="text-base">{i + 1}. {q.question}</Label>
+                            <Label className="text-base mb-4 block">{i + 1}. {q.question}</Label>
                             <RadioGroup 
                               onValueChange={(val) => setSubconsciousAnswers(prev => ({ ...prev, [i]: val }))}
                               className="space-y-2"

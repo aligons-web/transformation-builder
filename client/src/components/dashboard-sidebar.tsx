@@ -41,7 +41,7 @@ export function DashboardSidebar() {
         <Link href="/">
           <a className="flex flex-col items-start leading-none group">
             <span className="font-heading font-bold text-lg tracking-normal uppercase text-foreground group-hover:text-primary transition-colors">Transformation</span>
-            <span className="font-heading font-bold text-3xl tracking-[0.14em] text-primary uppercase mt-[-4px] group-hover:text-foreground transition-colors">BUILDER</span>
+            <span className="font-heading font-bold text-3xl tracking-[0.38em] text-primary uppercase mt-[-8px] ml-[2px] group-hover:text-foreground transition-colors">BUILDER</span>
           </a>
         </Link>
       </div>

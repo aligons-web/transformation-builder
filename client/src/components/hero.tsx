@@ -84,7 +84,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
               className="text-lg text-foreground/80 font-medium md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
             >
-              We provide the tools and structure you need to move from confusion to clarity.
+              We provide the tools and structure to move from confusion to clarity.
             </motion.p>
           </div>
         </div>

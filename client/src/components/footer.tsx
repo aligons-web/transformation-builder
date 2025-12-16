@@ -21,7 +21,7 @@ export function Footer() {
             <a className="hover:text-primary transition-colors">Admin Dashboard</a>
           </Link>
         </div>
-        <p className="mb-4 font-heading font-bold text-xl text-foreground">LIFE Transformation</p>
+        <p className="mb-4 font-heading font-bold text-xl text-foreground">Transformation BUILDER</p>
         <p className="text-sm">© 2024 All rights reserved. Build your future with clarity.</p>
       </div>
     </footer>

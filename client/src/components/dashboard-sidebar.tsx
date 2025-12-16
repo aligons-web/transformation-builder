@@ -39,10 +39,9 @@ export function DashboardSidebar() {
     <aside className="w-64 border-r border-border/50 bg-card/50 backdrop-blur-xl fixed h-screen flex flex-col z-40 hidden md:flex">
       <div className="p-6 border-b border-border/50">
         <Link href="/">
-          <a className="flex items-center gap-2">
-            <span className="font-heading font-bold text-xl tracking-tight">
-              Transformation <span className="text-primary">BUILDER</span>
-            </span>
+          <a className="flex flex-col items-start leading-none group">
+            <span className="font-heading font-bold text-lg tracking-normal uppercase text-foreground group-hover:text-primary transition-colors">Transformation</span>
+            <span className="font-heading font-bold text-3xl tracking-[0.14em] text-primary uppercase mt-[-4px] group-hover:text-foreground transition-colors">BUILDER</span>
           </a>
         </Link>
       </div>

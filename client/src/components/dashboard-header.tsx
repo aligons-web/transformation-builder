@@ -18,7 +18,7 @@ export function DashboardHeader() {
             <DashboardSidebar />
           </SheetContent>
         </Sheet>
-        <span className="font-heading font-bold text-lg">LIFE Transform</span>
+        <span className="font-heading font-bold text-lg">Transformation BUILDER</span>
       </div>
 
       <div className="hidden md:flex items-center flex-1 max-w-md">

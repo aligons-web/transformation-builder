@@ -40,11 +40,8 @@ export function DashboardSidebar() {
       <div className="p-6 border-b border-border/50">
         <Link href="/">
           <a className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
-            </div>
             <span className="font-heading font-bold text-xl tracking-tight">
-              LIFE<span className="text-primary">Transform</span>
+              Transformation <span className="text-primary">BUILDER</span>
             </span>
           </a>
         </Link>

@@ -66,8 +66,8 @@ export default function AuthPage() {
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
-            <h1 className="text-3xl font-bold font-heading mb-2">Welcome Back</h1>
-            <p className="text-muted-foreground">Enter your details to continue your journey.</p>
+            <h1 className="text-3xl font-bold font-heading mb-2">Welcome to the Transformation Builder</h1>
+            <p className="text-muted-foreground">Enter your details to start or continue your journey. You have a 5-day trial period to explore the Transformation Builder.</p>
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

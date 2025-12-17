@@ -37,7 +37,18 @@ export default function AuthPage() {
     setTimeout(() => {
       console.log(values);
       setIsLoading(false);
-      setLocation("/dashboard");
+      
+      if (activeTab === "signup") {
+        // Set trial start date for new accounts
+        localStorage.setItem("trialStartDate", new Date().toISOString());
+        localStorage.setItem("user", JSON.stringify({ email: values.email, name: "User" }));
+        
+        // Redirect to dashboard
+        setLocation("/dashboard");
+      } else {
+        // Login logic
+        setLocation("/dashboard");
+      }
     }, 1500);
   }
 

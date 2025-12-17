@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { 
@@ -34,6 +35,31 @@ export const sidebarItems = [
 
 export function DashboardSidebar() {
   const [location] = useLocation();
+  const [isTrialExpired, setIsTrialExpired] = useState(false);
+
+  useEffect(() => {
+    const trialStart = localStorage.getItem("trialStartDate");
+    if (trialStart) {
+      const startDate = new Date(trialStart);
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - startDate.getTime()); 
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+      if (diffDays > 5) {
+        setIsTrialExpired(true);
+      }
+    }
+  }, []);
+
+  // Step 2 and Step 3 items that should be disabled after trial
+  const restrictedPaths = [
+    "/dashboard/tasks",
+    "/dashboard/projects",
+    "/dashboard/skills",
+    "/dashboard/analysis",
+    "/actionable-focus",
+    "/ai-transformation-engine",
+    "/final-summary"
+  ];
 
   return (
     <aside className="w-64 border-r border-border/50 bg-card/50 backdrop-blur-xl fixed h-screen flex flex-col z-40 hidden md:flex">
@@ -51,6 +77,8 @@ export function DashboardSidebar() {
           Menu
         </div>
         {sidebarItems.map((item) => {
+          const isRestricted = isTrialExpired && restrictedPaths.includes(item.href);
+
           if ((item as any).external) {
              return (
               <a
@@ -67,6 +95,22 @@ export function DashboardSidebar() {
               </a>
              );
           }
+          
+          if (isRestricted) {
+            return (
+              <div
+                key={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-muted-foreground/50 cursor-not-allowed",
+                )}
+                title="Trial expired. Upgrade to access."
+              >
+                <item.icon className="w-5 h-5 text-muted-foreground/50" />
+                {item.label}
+              </div>
+            );
+          }
+
           return (
           <Link key={item.href} href={item.href}>
             <a

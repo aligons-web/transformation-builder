@@ -24,7 +24,9 @@ export default function DiscoverPurposePage() {
   // Refs for speech recognition
   const recognitionRef = useRef<any>(null);
 
-  // Load answers from localStorage on mount
+  const [isTrialExpired, setIsTrialExpired] = useState(false);
+
+  // Load answers from localStorage on mount and check trial status
   useEffect(() => {
     const savedAnswers = localStorage.getItem("purpose-reflections");
     if (savedAnswers) {
@@ -32,6 +34,17 @@ export default function DiscoverPurposePage() {
         setAnswers(JSON.parse(savedAnswers));
       } catch (e) {
         console.error("Failed to parse saved answers", e);
+      }
+    }
+
+    const trialStart = localStorage.getItem("trialStartDate");
+    if (trialStart) {
+      const startDate = new Date(trialStart);
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - startDate.getTime()); 
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+      if (diffDays > 5) {
+        setIsTrialExpired(true);
       }
     }
   }, []);
@@ -171,6 +184,7 @@ export default function DiscoverPurposePage() {
                     {modules.map((module) => (
                       <button
                         key={module.id}
+                        disabled={isTrialExpired}
                         onClick={() => {
                             setActiveModule(module);
                             if (isRecording !== null) {
@@ -181,7 +195,9 @@ export default function DiscoverPurposePage() {
                         className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group ${
                           activeModule.id === module.id
                             ? "bg-primary text-primary-foreground shadow-md"
-                            : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                            : isTrialExpired 
+                              ? "text-muted-foreground/50 cursor-not-allowed" 
+                              : "hover:bg-muted text-muted-foreground hover:text-foreground"
                         }`}
                       >
                         <div className="flex items-center gap-3">

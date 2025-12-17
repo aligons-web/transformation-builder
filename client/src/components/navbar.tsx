@@ -52,7 +52,7 @@ export function Navbar() {
             href="https://www.skool.com/life-transformation-network-2320" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors"
+            className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors flex items-center"
           >
             Join LTN
           </a>
@@ -99,7 +99,7 @@ export function Navbar() {
                   href="https://www.skool.com/life-transformation-network-2320"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-lg font-bold hover:text-primary transition-colors"
+                  className="text-lg font-bold hover:text-primary transition-colors flex items-center"
                 >
                   Join LTN
                 </a>

@@ -59,6 +59,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 (async () => {
   await registerRoutes(httpServer, app);
 

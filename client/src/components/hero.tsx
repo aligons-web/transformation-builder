@@ -60,14 +60,18 @@ export function Hero() {
               </motion.div>
             </div>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              className="text-xl text-muted-foreground md:text-2xl max-w-2xl mx-auto mb-8 leading-relaxed"
+              className="flex flex-col gap-4 max-w-3xl mx-auto mb-10 text-xl md:text-2xl font-bold text-foreground/90 leading-snug"
             >
-              <span className="font-bold text-foreground">Uncertain</span> about your future as a college student or a recent graduate? Need to find <span className="font-bold text-foreground">greater fulfillment</span> as a professional? <span className="font-bold text-foreground">Determining what's next</span> as veteran or retiree? Need a <span className="font-bold text-foreground">greater sense of purpose?</span>
-            </motion.p>
+              <p>“You did everything you were told—and still feel unfulfilled.”</p>
+              <p>“Success didn’t fix the emptiness you can’t explain.”</p>
+              <p>“You climbed the ladder only to realize it’s leaning against the wrong wall.”</p>
+              <p>“You’re not lost—you’re misaligned.”</p>
+              <p>“Your life looks good to everyone else, but it doesn’t feel right to you.”</p>
+            </motion.div>
 
             <motion.h2
               initial={{ opacity: 0, y: 20 }}

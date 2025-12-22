@@ -28,13 +28,14 @@ declare global {
  *  - Session: req.session.userId
  */
 function getUserIdFromRequest(req: Request): string | undefined {
+
+  // express-session (FIRST - this is what we're using)
+  const sessionUserId = (req as any).session?.userId as string | undefined;
+  if (sessionUserId) return sessionUserId;
+  
   // Passport-style:
   const passportUserId = (req as any).user?.id as string | undefined;
   if (passportUserId) return passportUserId;
-
-  // express-session custom:
-  const sessionUserId = (req as any).session?.userId as string | undefined;
-  if (sessionUserId) return sessionUserId;
 
   return undefined;
 }
@@ -50,10 +51,18 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
+/**
+ * ✅ UPDATED: Now checks for active trial and grants trialPlan access
+ */
+
 async function fetchUserPlan(userId: string): Promise<Plan> {
-  // Default if no subscription row yet
   const rows = await db
-    .select({ plan: subscriptions.plan, status: subscriptions.status })
+    .select({
+      plan: subscriptions.plan,
+      status: subscriptions.status,
+      trialEndsAt: subscriptions.trialEndsAt,        // ✅ ADD THIS
+      trialPlan: subscriptions.trialPlan,            // ✅ ADD THIS
+    })
     .from(subscriptions)
     .where(eq(subscriptions.userId, userId))
     .limit(1);
@@ -61,10 +70,13 @@ async function fetchUserPlan(userId: string): Promise<Plan> {
   const row = rows[0];
   if (!row) return "EXPLORER";
 
-  // If you want to lock access when canceled/past_due, enforce it here:
-  // Example: treat non-active as EXPLORER or deny.
-  // if (row.status !== "active") return "EXPLORER";
+  // ✅ ADD THIS TRIAL CHECK
+  // If trial is active (hasn't expired yet), grant trial plan access
+  if (row.trialEndsAt && new Date(row.trialEndsAt).getTime() > Date.now()) {
+    return (row.trialPlan as Plan) ?? "TRANSFORMER";
+  }
 
+  // After trial expires (or if no trial), use their base plan
   return row.plan as Plan;
 }
 

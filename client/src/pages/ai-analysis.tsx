@@ -1,4 +1,4 @@
-import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/hooks/use-user";
 import { PLANS } from "@shared/config/plans";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";

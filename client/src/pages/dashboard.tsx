@@ -1,3 +1,4 @@
+import { useUser } from "@/hooks/use-user";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -21,6 +22,7 @@ interface CalendarEvent {
 export default function DashboardPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [location, setLocation] = useLocation();
+  const { user, isLoading } = useUser();
   const [skillsChecked, setSkillsChecked] = useState<string[]>([]);
   const [otherSkillText, setOtherSkillText] = useState("");
 
@@ -119,9 +121,9 @@ export default function DashboardPage() {
 
   const getPageTitle = () => {
     if (isTasksPage) return "Tasks to Goals";
-    if (isProjectsPage) return "Milestones to Projects";
-    return "Good Morning, John";
-  };
+    if (isProjectsPage) return "Milestones to Projects";    
+      return `Good Morning, ${user?.username || "User"}`;
+    };
 
   const getPageSubtitle = () => {
     if (isTasksPage) return "Track your daily tasks and long-term goals.";

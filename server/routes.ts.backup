@@ -31,89 +31,54 @@ export async function registerRoutes(
     try {
       const { username, password } = req.body;
 
-      // ✅ VALIDATE INPUT
       if (!username || !password) {
         return res.status(400).json({ message: "Username and password required" });
       }
 
-      // Basic validation
-      if (username.length < 3 || username.length > 50) {
-        return res.status(400).json({ message: "Username must be 3-50 characters" });
-      }
-
-      if (password.length < 6) {
-        return res.status(400).json({ message: "Password must be at least 6 characters" });
-      }
-
-      // ✅ CHECK IF USER EXISTS
+      // Check if user already exists
       const existingUser = await storage.getUserByUsername(username);
       if (existingUser) {
         return res.status(400).json({ message: "Username already exists" });
       }
 
-      // ✅ CREATE USER
+      // Create the user
       const newUser = await storage.createUser({ username, password });
-
-      if (!newUser || !newUser.id) {
-        throw new Error("Failed to create user");
-      }
 
       // ✅ CREATE 5-DAY TRANSFORMER TRIAL SUBSCRIPTION
       const trialEndsAt = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
 
-      try {
-        await db.insert(subscriptions).values({
-          userId: newUser.id,
-          plan: "EXPLORER",
-          status: "active",
-          trialPlan: "TRANSFORMER",
-          trialEndsAt,
-        });
-      } catch (subError) {
-        console.error("Failed to create subscription:", subError);
-        // Even if subscription fails, user was created
-        // You might want to handle this differently
-      }
+      await db.insert(subscriptions).values({
+        userId: newUser.id,
+        plan: "EXPLORER",
+        status: "active",
+        trialPlan: "TRANSFORMER",
+        trialEndsAt,
+      });
 
       // ✅ CREATE SESSION (auto-login after registration)
       req.session.userId = newUser.id;
 
-      // ✅ SAVE SESSION AND SEND RESPONSE
-      await new Promise<void>((resolve, reject) => {
-        req.session.save((err) => {
-          if (err) {
-            console.error("Session save error:", err);
-            reject(err);
-          } else {
-            resolve();
+      // Save session explicitly (required in some environments)
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+        }
+
+        res.json({
+          success: true,
+          userId: newUser.id,
+          username: newUser.username,
+          message: "Account created! You have 5 days of Transformer access.",
+          trial: {
+            endsAt: trialEndsAt,
+            plan: "TRANSFORMER"
           }
         });
       });
-
-      // Send response AFTER session is saved
-      return res.json({
-        success: true,
-        userId: newUser.id,
-        username: newUser.username,
-        message: "Account created! You have 5 days of Transformer access.",
-        trial: {
-          endsAt: trialEndsAt.toISOString(),
-          plan: "TRANSFORMER"
-        }
-      });
-
+      
     } catch (error) {
       console.error("Registration error:", error);
-
-      // More specific error messages
-      if (error instanceof Error) {
-        return res.status(500).json({ 
-          message: "Registration failed", 
-          error: error.message 
-        });
-      }
-
-      return res.status(500).json({ message: "Registration failed" });
+      res.status(500).json({ message: "Registration failed" });
     }
   });
 
@@ -142,15 +107,7 @@ export async function registerRoutes(
       // ✅ CREATE SESSION
       req.session.userId = user.id;
 
-      // ✅ SAVE SESSION PROPERLY
-      await new Promise<void>((resolve, reject) => {
-        req.session.save((err) => {
-          if (err) reject(err);
-          else resolve();
-        });
-      });
-
-      return res.json({
+      res.json({
         success: true,
         userId: user.id,
         username: user.username,
@@ -158,7 +115,7 @@ export async function registerRoutes(
       });
     } catch (error) {
       console.error("Login error:", error);
-      return res.status(500).json({ message: "Login failed" });
+      res.status(500).json({ message: "Login failed" });
     }
   });
 
@@ -169,7 +126,6 @@ export async function registerRoutes(
   app.post("/api/logout", (req, res) => {
     req.session.destroy((err) => {
       if (err) {
-        console.error("Logout error:", err);
         return res.status(500).json({ message: "Logout failed" });
       }
       res.json({ success: true, message: "Logged out successfully" });
@@ -214,7 +170,7 @@ export async function registerRoutes(
       const trialActive = sub?.trialEndsAt && new Date(sub.trialEndsAt).getTime() > now;
       const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER");
 
-      return res.json({
+      res.json({
         userId: user.id,
         username: user.username,
         isAdmin: user.isAdmin,
@@ -232,7 +188,7 @@ export async function registerRoutes(
       });
     } catch (error) {
       console.error("Error fetching user:", error);
-      return res.status(500).json({ message: "Failed to fetch user info" });
+      res.status(500).json({ message: "Failed to fetch user info" });
     }
   });
 

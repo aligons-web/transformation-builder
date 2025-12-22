@@ -38,6 +38,10 @@ export const subscriptions = pgTable("subscriptions", {
   plan: planEnum("plan").notNull().default("EXPLORER"),
   status: text("status").notNull().default("active"),
 
+  // ✅ ADD THESE TWO LINES FOR TRIAL SUPPORT
+  trialEndsAt: timestamp("trial_ends_at"),
+  trialPlan: planEnum("trial_plan"),
+
   // Stripe fields (for later use)
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),

@@ -5,16 +5,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Loader2 } from "lucide-react";
 import authBg from "@assets/generated_images/dramatic_technology_focus_and_target_image_for_login_page.png";
+import { useToast } from "@/hooks/use-toast";
 
+// ✅ CHANGED: email → username (matches backend)
 const formSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  username: z.string().min(3, { message: "Username must be at least 3 characters." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
 });
 
@@ -22,34 +21,78 @@ export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("login");
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  // ✅ CHANGED: Real API calls instead of setTimeout
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      console.log(values);
-      setIsLoading(false);
-      
+
+    try {
       if (activeTab === "signup") {
-        // Set trial start date for new accounts
-        localStorage.setItem("trialStartDate", new Date().toISOString());
-        localStorage.setItem("user", JSON.stringify({ email: values.email, name: "User" }));
-        
+        // ✅ REGISTER: Call real API endpoint
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // Important for sessions
+          body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Registration failed");
+        }
+
+        // Show success message with trial info
+        toast({
+          title: "Account Created! 🎉",
+          description: `Welcome ${data.username}! You have 5 days of Transformer access to explore all features.`,
+        });
+
         // Redirect to dashboard
         setLocation("/dashboard");
       } else {
-        // Login logic
+        // ✅ LOGIN: Call real API endpoint
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // Important for sessions
+          body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Login failed");
+        }
+
+        // Show success message
+        toast({
+          title: "Welcome back!",
+          description: `Logged in as ${data.username}`,
+        });
+
+        // Redirect to dashboard
         setLocation("/dashboard");
       }
-    }, 1500);
+    } catch (error: any) {
+      // Show error message
+      toast({
+        variant: "destructive",
+        title: activeTab === "signup" ? "Registration Failed" : "Login Failed",
+        description: error.message || "Something went wrong. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -78,7 +121,9 @@ export default function AuthPage() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
             <h1 className="text-3xl font-bold font-heading mb-2">Welcome to the Transformation Builder</h1>
-            <p className="text-muted-foreground">Enter your details to start or continue your journey. You have a 5-day trial period to explore the Transformation Builder.</p>
+            <p className="text-muted-foreground">
+              Enter your details to start or continue your journey. {activeTab === "signup" && "You have a 5-day trial to explore Transformer features!"}
+            </p>
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -92,12 +137,12 @@ export default function AuthPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Username</FormLabel>
                         <FormControl>
-                          <Input placeholder="you@example.com" {...field} className="h-11 bg-muted/30" />
+                          <Input placeholder="your_username" {...field} className="h-11 bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -116,7 +161,7 @@ export default function AuthPage() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <Button type="submit" className="w-full h-11 text-base" disabled={isLoading}>
                     {isLoading ? (
                       <>
@@ -139,12 +184,12 @@ export default function AuthPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Username</FormLabel>
                         <FormControl>
-                          <Input placeholder="you@example.com" {...field} className="h-11 bg-muted/30" />
+                          <Input placeholder="choose_username" {...field} className="h-11 bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -157,13 +202,21 @@ export default function AuthPage() {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="Create a password" {...field} className="h-11 bg-muted/30" />
+                          <Input type="password" placeholder="Create a password (min 6 characters)" {...field} className="h-11 bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  
+
+                  {/* ✅ 5-DAY TRIAL CALLOUT */}
+                  <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 text-sm">
+                    <p className="font-medium text-primary mb-1">🎁 5-Day Transformer Trial Included!</p>
+                    <p className="text-muted-foreground text-xs">
+                      Get full access to Explorer and Transformer features for 5 days. No credit card required.
+                    </p>
+                  </div>
+
                   <Button type="submit" className="w-full h-11 text-base" disabled={isLoading}>
                     {isLoading ? (
                       <>
@@ -172,7 +225,7 @@ export default function AuthPage() {
                       </>
                     ) : (
                       <>
-                        Create Account
+                        Create Account & Start Trial
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </>
                     )}
@@ -181,7 +234,7 @@ export default function AuthPage() {
               </Form>
             </TabsContent>
           </Tabs>
-          
+
           <div className="text-center text-sm text-muted-foreground mt-6">
             By clicking continue, you agree to our{" "}
             <a href="#" className="underline underline-offset-4 hover:text-primary">Terms of Service</a>{" "}

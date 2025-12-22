@@ -16,10 +16,8 @@ declare module "http" {
 
 // ✅ ADD CORS CONFIGURATION (must be FIRST)
 app.use(cors({
-  origin: process.env.NODE_ENV === "production" 
-    ? true // Allow same origin in production
-    : "http://localhost:5173", // Vite dev server in development
-  credentials: true, // ← CRITICAL: allows cookies to be sent
+  origin: true, // ← CHANGE THIS LINE - accept any origin
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
 

@@ -71,21 +71,11 @@ export async function registerRoutes(
         });
       } catch (subError) {
         console.error("Failed to create subscription:", subError);
+        // Even if subscription fails, user was created
+        // You might want to handle this differently
       }
 
-      // ✅ REGENERATE SESSION - This clears any old session and creates a fresh one
-      await new Promise<void>((resolve, reject) => {
-        req.session.regenerate((err) => {
-          if (err) {
-            console.error("Session regeneration error:", err);
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-      });
-
-      // ✅ SET NEW USER ID IN FRESH SESSION
+      // ✅ CREATE SESSION (auto-login after registration)
       req.session.userId = newUser.id;
 
       // ✅ SAVE SESSION AND SEND RESPONSE
@@ -115,6 +105,7 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Registration error:", error);
 
+      // More specific error messages
       if (error instanceof Error) {
         return res.status(500).json({ 
           message: "Registration failed", 
@@ -148,22 +139,10 @@ export async function registerRoutes(
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      // ✅ REGENERATE SESSION - Clears any old session
-      await new Promise<void>((resolve, reject) => {
-        req.session.regenerate((err) => {
-          if (err) {
-            console.error("Session regeneration error:", err);
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-      });
-
-      // ✅ SET USER ID IN FRESH SESSION
+      // ✅ CREATE SESSION
       req.session.userId = user.id;
 
-      // ✅ SAVE SESSION
+      // ✅ SAVE SESSION PROPERLY
       await new Promise<void>((resolve, reject) => {
         req.session.save((err) => {
           if (err) reject(err);
@@ -205,12 +184,14 @@ export async function registerRoutes(
     try {
       console.log("Session data:", req.session);
 
+      // Get userId from session
       const userId = req.session?.userId;
 
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized - No session" });
       }
 
+      // Get user
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });

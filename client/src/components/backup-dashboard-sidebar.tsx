@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useUser } from "@/hooks/use-user";
 
 export const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard/overview" },
@@ -36,7 +35,6 @@ export const sidebarItems = [
 
 export function DashboardSidebar() {
   const [location] = useLocation();
-  const { user, logout } = useUser();
   const [isTrialExpired, setIsTrialExpired] = useState(false);
 
   useEffect(() => {
@@ -51,21 +49,6 @@ export function DashboardSidebar() {
       }
     }
   }, []);
-
-  // Get user initials for avatar
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
-
-  // Handle logout
-  const handleLogout = async () => {
-    await logout();
-  };
 
   // Step 2 and Step 3 items that should be disabled after trial
   const restrictedPaths = [
@@ -112,7 +95,7 @@ export function DashboardSidebar() {
               </a>
              );
           }
-
+          
           if (isRestricted) {
             return (
               <div
@@ -149,34 +132,27 @@ export function DashboardSidebar() {
       <div className="p-4 border-t border-border/50">
         <div className="flex items-center gap-3 p-2 mb-4 rounded-xl bg-muted/50">
           <Avatar className="w-10 h-10 border border-border">
-            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-              {user?.username ? getInitials(user.username) : 'U'}
-            </AvatarFallback>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">
-              {user?.username || 'User'}
-            </p>
-            <p className="text-xs text-muted-foreground truncate">
-              {user?.trial?.active ? `Trial: ${user.trial.daysRemaining} days left` : user?.plan || 'Explorer'}
-            </p>
+            <p className="text-sm font-medium truncate">John Doe</p>
+            <p className="text-xs text-muted-foreground truncate">john@example.com</p>
           </div>
         </div>
-
+        
         <Link href="/settings">
           <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground gap-3">
             <Settings className="w-4 h-4" />
             Settings
           </Button>
         </Link>
-        <Button 
-          variant="ghost" 
-          className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 gap-3 mt-1"
-          onClick={handleLogout}
-        >
-          <LogOut className="w-4 h-4" />
-          Sign Out
-        </Button>
+        <Link href="/">
+          <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 gap-3 mt-1">
+            <LogOut className="w-4 h-4" />
+            Sign Out
+          </Button>
+        </Link>
       </div>
     </aside>
   );

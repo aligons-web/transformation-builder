@@ -3,7 +3,7 @@ import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, TrendingUp, CheckCircle2, Clock, ChevronLeft, ChevronRight, Flag, Folder, CheckSquare, Target, Sparkles, Briefcase, Zap, Crown } from "lucide-react";
+import { Plus, TrendingUp, CheckCircle2, Clock, ChevronLeft, ChevronRight, Flag, Folder, CheckSquare, Target, Sparkles, Briefcase } from "lucide-react";
 import { useState, useEffect } from "react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -35,7 +35,7 @@ export default function DashboardPage() {
         console.error("Failed to parse skills", e);
       }
     }
-
+    
     const savedOther = localStorage.getItem("analysis-skill-other");
     if (savedOther) {
       try {
@@ -45,7 +45,7 @@ export default function DashboardPage() {
       }
     }
   }, []);
-
+  
   // Determine if we are on the tasks page or projects page (or general)
   const isTasksPage = location === "/dashboard/tasks";
   const isProjectsPage = location === "/dashboard/projects";
@@ -107,13 +107,14 @@ export default function DashboardPage() {
     return events.filter(event => {
       const isSameDate = isSameDay(event.date, day);
       if (!isSameDate) return false;
-
+      
       if (isTasksPage) {
         return event.type === "task" || event.type === "goal";
       }
       if (isProjectsPage) {
         return event.type === "milestone" || event.type === "project";
       }
+      // Default dashboard shows all or a subset? Let's show all for now or stick to projects/milestones as that seems to be the "main" view requested previously
       return true; 
     });
   };
@@ -121,8 +122,8 @@ export default function DashboardPage() {
   const getPageTitle = () => {
     if (isTasksPage) return "Tasks to Goals";
     if (isProjectsPage) return "Milestones to Projects";    
-    return `Good Morning, ${user?.username || "User"}`;
-  };
+      return `Good Morning, ${user?.username || "User"}`;
+    };
 
   const getPageSubtitle = () => {
     if (isTasksPage) return "Track your daily tasks and long-term goals.";
@@ -133,95 +134,30 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background flex">
       <DashboardSidebar />
-
+      
       <div className="flex-1 md:ml-64 flex flex-col">
         <DashboardHeader />
-
+        
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
-
+          
           {/* Welcome Section */}
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h1 className="text-3xl font-heading font-bold text-foreground">{getPageTitle()}</h1>
-                <p className="text-muted-foreground">{getPageSubtitle()}</p>
-              </div>
-              <div className="flex gap-3">
-                <Button variant="outline">View Reports</Button>
-                <Button className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  New Entry
-                </Button>
-              </div>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-heading font-bold text-foreground">{getPageTitle()}</h1>
+              <p className="text-muted-foreground">{getPageSubtitle()}</p>
             </div>
-
-            {/* Trial Badge */}
-            {user?.trial?.active && (
-              <Card className="border-none shadow-lg bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                        <Zap className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-lg">TRANSFORMER TRIAL ACTIVE</h3>
-                          <Badge className="bg-white/30 text-white border-white/50 hover:bg-white/40">
-                            {user.trial.plan}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-white/90">
-                          {user.trial.daysRemaining} {user.trial.daysRemaining === 1 ? 'day' : 'days'} remaining • Full access to all features
-                        </p>
-                      </div>
-                    </div>
-                    <Button 
-                      variant="secondary" 
-                      className="bg-white text-orange-600 hover:bg-white/90 font-semibold gap-2"
-                      onClick={() => window.location.href = '/pricing'}
-                    >
-                      <Crown className="w-4 h-4" />
-                      Upgrade Now
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Trial Expired Badge */}
-            {user && !user.trial?.active && user.basePlan === "EXPLORER" && (
-              <Card className="border-2 border-amber-500/50 bg-amber-50/50">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-amber-100 rounded-lg">
-                        <Clock className="w-6 h-6 text-amber-600" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-amber-900">Trial Ended</h3>
-                        <p className="text-sm text-amber-700">
-                          Upgrade to continue accessing premium features
-                        </p>
-                      </div>
-                    </div>
-                    <Button 
-                      variant="default" 
-                      className="bg-amber-600 hover:bg-amber-700 text-white gap-2"
-                      onClick={() => window.location.href = '/pricing'}
-                    >
-                      <Crown className="w-4 h-4" />
-                      View Plans
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <div className="flex gap-3">
+              <Button variant="outline">View Reports</Button>
+              <Button className="gap-2">
+                <Plus className="w-4 h-4" />
+                New Entry
+              </Button>
+            </div>
           </div>
 
           {/* Main Content Area */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
+            
             {/* Left Column: Skills & Tasks */}
             <div className="lg:col-span-2 space-y-8">
               <Card className="border-none shadow-md bg-white/50 backdrop-blur-sm">
@@ -246,7 +182,7 @@ export default function DashboardPage() {
                       <p className="text-muted-foreground italic text-sm">No skills selected yet. Go to Analyze Change &gt; Day 4 to identify skills.</p>
                     )}
                   </div>
-
+                  
                   <div className="pt-4 border-t border-border/50">
                     <Button 
                       onClick={() => setLocation("/dashboard/future-path")} 

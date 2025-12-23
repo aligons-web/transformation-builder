@@ -1,21 +1,19 @@
 import { useUser } from "@/hooks/use-user";
-import { PLANS } from "@shared/config/plans";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles, ArrowRight, Mic, BarChart2, BookOpen, Bot, Loader2, Clock, MicOff } from "lucide-react";
+import { Sparkles, ArrowRight, Bot, Loader2, Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { LockedStep } from "@/components/LockedStep";
+import { LockedFeature } from "@/components/LockedFeature";
 
 const skillsList = [
   "Computer Skills", "Communication", "Social Media",
@@ -272,12 +270,7 @@ const successTypes = [
 ];
 
 export default function TransformationAnalysisPage() {
-  // 🔐 PLAN ACCESS CHECK - Must be at the top, before other hooks
-  const { user, loading } = useUser();
-  const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
-  const canAccessStep2 = PLANS[userPlan]?.access?.step2 ?? false;
-
-  // All other hooks
+  const { user, isLoading } = useUser();
   const [activeTab, setActiveTab] = useState("module1");
   const [subconsciousAnswers, setSubconsciousAnswers] = useState<Record<number, string>>({});
   const [preferenceAnswers, setPreferenceAnswers] = useState<Record<number, string>>({});
@@ -295,7 +288,6 @@ export default function TransformationAnalysisPage() {
   const recognitionRef = useRef<any>(null);
   const [, setLocation] = useLocation();
 
-  // All useEffect hooks
   useEffect(() => {
     const load = (key: string, setter: any) => {
       const saved = localStorage.getItem(key);
@@ -369,28 +361,6 @@ export default function TransformationAnalysisPage() {
     };
   }, [isRecording, toast]);
 
-  const toggleRecording = (id: string) => {
-    if (!recognitionRef.current) {
-      toast({
-        title: "Not Supported",
-        description: "Speech recognition is not supported in this browser.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (isRecording === id) {
-      recognitionRef.current.stop();
-      setIsRecording(null);
-      toast({ title: "Recording Stopped", description: "Your speech has been captured." });
-    } else {
-      if (isRecording !== null) recognitionRef.current.stop();
-      setIsRecording(id);
-      recognitionRef.current.start();
-      toast({ title: "Listening...", description: "Speak clearly into your microphone." });
-    }
-  };
-
   const calculatePreferenceResults = () => {
     const counts = { People: 0, Things: 0, Data: 0, Mixed: 0 };
     Object.values(preferenceAnswers).forEach(val => {
@@ -447,24 +417,11 @@ export default function TransformationAnalysisPage() {
     }, 2000);
   };
 
-  // ✅ NOW it's safe to return conditionally (after all hooks have run)
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <span className="text-muted-foreground text-sm">Loading your plan…</span>
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
-    );
-  }
-
-  if (!canAccessStep2) {
-    return (
-      <LockedStep
-        stepTitle="Step 2: Analyze Change"
-        requiredPlan="Transformer"
-        description="You've discovered your purpose. The next step is analyzing what must change and how to move forward."
-        ctaLabel="Upgrade to Transformer"
-        ctaHref="/pricing"
-      />
     );
   }
 
@@ -473,351 +430,358 @@ export default function TransformationAnalysisPage() {
       <DashboardSidebar />
 
       <div className="flex-1 md:ml-64 flex flex-col">
-        <DashboardHeader title="Step 2: Analyze Change" />
+        <DashboardHeader />
 
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">Step 2: Analyze Change</h1>
-              <p className="text-muted-foreground">Deep dive into Modules 1 & 2 of the Life Transformation Workbook.</p>
+          {/* ✅ Wrap entire page content in LockedFeature */}
+          <LockedFeature
+            requiredPlan="TRANSFORMER"
+            featureName="Change Analysis"
+            description="Unlock AI-powered analysis tools to understand what needs to change in your life"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-heading font-bold text-foreground">Step 2: Analyze Change</h1>
+                <p className="text-muted-foreground">Deep dive into understanding what transformation you need.</p>
+              </div>
             </div>
-          </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8 h-12 bg-muted/50 p-1">
-              <TabsTrigger value="module1" className="text-base">Module 1: Why is transformation needed?</TabsTrigger>
-              <TabsTrigger value="module2" className="text-base">Module 2: What will be your transformation?</TabsTrigger>
-            </TabsList>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-8 h-12 bg-muted/50 p-1">
+                <TabsTrigger value="module1" className="text-base">Module 1: Why is transformation needed?</TabsTrigger>
+                <TabsTrigger value="module2" className="text-base">Module 2: What will be your transformation?</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="module1" className="space-y-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-primary" />
-                    Subconscious Level Quiz
-                  </CardTitle>
-                  <CardDescription>
-                    Understanding how you react to challenges helps identify subconscious patterns.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                  {subconsciousQuiz.map((item, index) => (
-                    <div key={index} className="space-y-3">
-                      <Label className="text-base">{index + 1}. {item.question}</Label>
-                      <RadioGroup 
-                        onValueChange={(val) => setSubconsciousAnswers(prev => ({...prev, [index]: val}))}
-                        value={subconsciousAnswers[index]}
-                      >
-                        {item.options.map((option) => (
-                          <div key={option.value} className="flex items-center space-x-2">
-                            <RadioGroupItem value={option.value} id={`sub-${index}-${option.value}`} />
-                            <Label htmlFor={`sub-${index}-${option.value}`} className="font-normal cursor-pointer">
-                              {option.label}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-primary" />
-                    Time Use Analysis
-                  </CardTitle>
-                  <CardDescription>
-                    How you spend your free time reveals your true priorities.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                  {timeUseQuiz.map((item, index) => (
-                    <div key={index} className="space-y-3">
-                      <Label className="text-base">{index + 1}. {item.question}</Label>
-                      <RadioGroup 
-                        onValueChange={(val) => setTimeUseAnswers(prev => ({...prev, [index]: val}))}
-                        value={timeUseAnswers[index]}
-                      >
-                        {item.options.map((option) => (
-                          <div key={option.value} className="flex items-center space-x-2">
-                            <RadioGroupItem value={option.value} id={`time-${index}-${option.value}`} />
-                            <Label htmlFor={`time-${index}-${option.value}`} className="font-normal cursor-pointer">
-                              {option.label}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <BarChart2 className="w-5 h-5 text-primary" />
-                    Resources Assessment
-                  </CardTitle>
-                  <CardDescription>
-                    Check all the resources you currently feel you are lacking.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {resourcesList.map((resource) => (
-                      <div key={resource} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`res-${resource}`}
-                          checked={resourcesChecked.includes(resource)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setResourcesChecked(prev => [...prev, resource]);
-                            } else {
-                              setResourcesChecked(prev => prev.filter(r => r !== resource));
-                            }
-                          }}
-                        />
-                        <Label htmlFor={`res-${resource}`} className="font-normal cursor-pointer">{resource}</Label>
+              <TabsContent value="module1" className="space-y-8">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-xl flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-primary" />
+                      Subconscious Level Quiz
+                    </CardTitle>
+                    <CardDescription>
+                      Understanding how you react to challenges helps identify subconscious patterns.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-8">
+                    {subconsciousQuiz.map((item, index) => (
+                      <div key={index} className="space-y-3">
+                        <Label className="text-base">{index + 1}. {item.question}</Label>
+                        <RadioGroup 
+                          onValueChange={(val) => setSubconsciousAnswers(prev => ({...prev, [index]: val}))}
+                          value={subconsciousAnswers[index]}
+                        >
+                          {item.options.map((option) => (
+                            <div key={option.value} className="flex items-center space-x-2">
+                              <RadioGroupItem value={option.value} id={`sub-${index}-${option.value}`} />
+                              <Label htmlFor={`sub-${index}-${option.value}`} className="font-normal cursor-pointer">
+                                {option.label}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
                       </div>
                     ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
 
-              <div className="flex justify-end">
-                <Button onClick={() => setActiveTab("module2")} className="gap-2">
-                  Continue to Module 2
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </div>
-            </TabsContent>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-xl flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-primary" />
+                      Time Use Analysis
+                    </CardTitle>
+                    <CardDescription>
+                      How you spend your free time reveals your true priorities.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-8">
+                    {timeUseQuiz.map((item, index) => (
+                      <div key={index} className="space-y-3">
+                        <Label className="text-base">{index + 1}. {item.question}</Label>
+                        <RadioGroup 
+                          onValueChange={(val) => setTimeUseAnswers(prev => ({...prev, [index]: val}))}
+                          value={timeUseAnswers[index]}
+                        >
+                          {item.options.map((option) => (
+                            <div key={option.value} className="flex items-center space-x-2">
+                              <RadioGroupItem value={option.value} id={`time-${index}-${option.value}`} />
+                              <Label htmlFor={`time-${index}-${option.value}`} className="font-normal cursor-pointer">
+                                {option.label}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
 
-            <TabsContent value="module2" className="space-y-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <Bot className="w-5 h-5 text-primary" />
-                    Your Preferences (People, Things, Data)
-                  </CardTitle>
-                  <CardDescription>
-                    Identify your natural work style and preferences.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                  {preferenceQuiz.map((item, index) => (
-                    <div key={index} className="space-y-3">
-                      <Label className="text-base">{index + 1}. {item.question}</Label>
-                      <RadioGroup 
-                        onValueChange={(val) => setPreferenceAnswers(prev => ({...prev, [index]: val}))}
-                        value={preferenceAnswers[index]}
-                      >
-                        {item.options.map((option) => (
-                          <div key={option.value} className="flex items-center space-x-2">
-                            <RadioGroupItem value={option.value} id={`pref-${index}-${option.value}`} />
-                            <Label htmlFor={`pref-${index}-${option.value}`} className="font-normal cursor-pointer">
-                              {option.label}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-xl flex items-center gap-2">
+                      <Bot className="w-5 h-5 text-primary" />
+                      Resources Assessment
+                    </CardTitle>
+                    <CardDescription>
+                      Check all the resources you currently feel you are lacking.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {resourcesList.map((resource) => (
+                        <div key={resource} className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`res-${resource}`}
+                            checked={resourcesChecked.includes(resource)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setResourcesChecked(prev => [...prev, resource]);
+                              } else {
+                                setResourcesChecked(prev => prev.filter(r => r !== resource));
+                              }
+                            }}
+                          />
+                          <Label htmlFor={`res-${resource}`} className="font-normal cursor-pointer">{resource}</Label>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl">Skills to Build</CardTitle>
-                  <CardDescription>Select skills you want to develop.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {skillsList.map((skill) => (
-                      <div key={skill} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`skill-${skill}`}
-                          checked={skillsChecked.includes(skill)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setSkillsChecked(prev => [...prev, skill]);
-                            } else {
-                              setSkillsChecked(prev => prev.filter(s => s !== skill));
-                            }
-                          }}
-                        />
-                        <Label htmlFor={`skill-${skill}`} className="font-normal cursor-pointer">{skill}</Label>
-                      </div>
-                    ))}
-                  </div>
-                  {skillsChecked.includes("Other") && (
-                    <Textarea 
-                      placeholder="Please specify other skills..."
-                      value={otherSkillText}
-                      onChange={(e) => setOtherSkillText(e.target.value)}
-                      className="mt-2"
-                    />
-                  )}
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl">Success Types</CardTitle>
-                  <CardDescription>Select the types of success that resonate with you.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {successTypes.map((type) => (
-                      <div key={type} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`success-${type}`}
-                          checked={successChecked.includes(type)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setSuccessChecked(prev => [...prev, type]);
-                            } else {
-                              setSuccessChecked(prev => prev.filter(s => s !== type));
-                            }
-                          }}
-                        />
-                        <Label htmlFor={`success-${type}`} className="font-normal cursor-pointer">{type}</Label>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="pt-4">
-                    <Label className="mb-2 block">Other Success Type:</Label>
-                    <Textarea 
-                      placeholder="Describe your own definition of success..."
-                      value={otherSuccessText}
-                      onChange={(e) => setOtherSuccessText(e.target.value)}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <div className="flex justify-end gap-4">
-                 <Button 
-                  onClick={handleAnalyze} 
-                  disabled={isAnalyzing}
-                  size="lg"
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-primary/20"
-                >
-                  {isAnalyzing ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Analyzing...
-                    </>
-                  ) : (
-                    <>
-                      <Bot className="mr-2 h-4 w-4" />
-                      Generate AI Analysis
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              {showAnalysis && (
-                <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <Card className="border-primary/20 bg-primary/5">
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <Bot className="w-5 h-5 text-primary" />
-                          AI Pattern Recognition
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div>
-                          <h4 className="font-semibold mb-1">Subconscious Drivers</h4>
-                          <div className="h-4 bg-muted rounded-full overflow-hidden flex">
-                            <div className="bg-blue-500 h-full transition-all duration-1000" style={{ width: `${(subCount / (subCount + conCount || 1)) * 100}%` }} />
-                            <div className="bg-purple-500 h-full transition-all duration-1000" style={{ width: `${(conCount / (subCount + conCount || 1)) * 100}%` }} />
-                          </div>
-                          <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                            <span>Impulsive ({subCount})</span>
-                            <span>Logical ({conCount})</span>
-                          </div>
-                          <p className="text-sm mt-2 text-muted-foreground">
-                            {subCount > conCount 
-                              ? "You tend to make decisions based on instinct and emotion. This can be powerful but may lead to reactive choices."
-                              : "You prioritize logic and analysis. This reduces risk but may lead to overthinking."}
-                          </p>
-                        </div>
-
-                        <div>
-                           <h4 className="font-semibold mb-1">Work Style Preference</h4>
-                           <div className="h-[200px] w-full">
-                             <ResponsiveContainer width="100%" height="100%">
-                               <BarChart data={preferenceData}>
-                                 <XAxis dataKey="name" fontSize={12} />
-                                 <YAxis fontSize={12} />
-                                 <Tooltip />
-                                 <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                                   {preferenceData.map((entry, index) => (
-                                     <Cell key={`cell-${index}`} fill={entry.color} />
-                                   ))}
-                                 </Bar>
-                               </BarChart>
-                             </ResponsiveContainer>
-                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="border-primary/20 bg-gradient-to-br from-white to-primary/5">
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <Sparkles className="w-5 h-5 text-primary" />
-                          Transformation Insight
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {timeUseResult && (
-                          <div className="p-4 bg-white/60 rounded-lg border border-primary/10">
-                            <h4 className="font-semibold text-primary mb-1">{timeUseResult.title}</h4>
-                            <p className="text-sm text-foreground/80">{timeUseResult.desc}</p>
-                          </div>
-                        )}
-                        
-                        <div className="space-y-2">
-                           <h4 className="font-semibold">Recommended Focus Areas:</h4>
-                           <ul className="space-y-2">
-                             {skillsChecked.slice(0, 3).map(skill => (
-                               <li key={skill} className="flex items-center gap-2 text-sm">
-                                 <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                                 Build expertise in {skill}
-                               </li>
-                             ))}
-                             {resourcesChecked.length > 0 && (
-                               <li className="flex items-center gap-2 text-sm text-amber-600">
-                                 <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                                 Address {resourcesChecked[0].toLowerCase()} gap
-                               </li>
-                             )}
-                           </ul>
-                        </div>
-
-                        <div className="pt-4 border-t border-primary/10">
-                          <p className="text-sm italic text-muted-foreground">
-                            "Based on your inputs, your transformation should focus on leveraging your natural preference for 
-                            <span className="font-semibold text-foreground"> {preferenceData.sort((a,b) => b.value - a.value)[0].name} </span> 
-                            while building structure to support your goals."
-                          </p>
-                        </div>
-                        
-                        <Button className="w-full mt-4" onClick={() => setLocation("/actionable-focus")}>
-                          Proceed to Clarify Focus
-                          <ArrowRight className="ml-2 w-4 h-4" />
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </div>
+                <div className="flex justify-end">
+                  <Button onClick={() => setActiveTab("module2")} className="gap-2">
+                    Continue to Module 2
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
                 </div>
-              )}
-            </TabsContent>
-          </Tabs>
+              </TabsContent>
+
+              <TabsContent value="module2" className="space-y-8">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-xl flex items-center gap-2">
+                      <Bot className="w-5 h-5 text-primary" />
+                      Your Preferences (People, Things, Data)
+                    </CardTitle>
+                    <CardDescription>
+                      Identify your natural work style and preferences.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-8">
+                    {preferenceQuiz.map((item, index) => (
+                      <div key={index} className="space-y-3">
+                        <Label className="text-base">{index + 1}. {item.question}</Label>
+                        <RadioGroup 
+                          onValueChange={(val) => setPreferenceAnswers(prev => ({...prev, [index]: val}))}
+                          value={preferenceAnswers[index]}
+                        >
+                          {item.options.map((option) => (
+                            <div key={option.value} className="flex items-center space-x-2">
+                              <RadioGroupItem value={option.value} id={`pref-${index}-${option.value}`} />
+                              <Label htmlFor={`pref-${index}-${option.value}`} className="font-normal cursor-pointer">
+                                {option.label}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-xl">Skills to Build</CardTitle>
+                    <CardDescription>Select skills you want to develop.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {skillsList.map((skill) => (
+                        <div key={skill} className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`skill-${skill}`}
+                            checked={skillsChecked.includes(skill)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSkillsChecked(prev => [...prev, skill]);
+                              } else {
+                                setSkillsChecked(prev => prev.filter(s => s !== skill));
+                              }
+                            }}
+                          />
+                          <Label htmlFor={`skill-${skill}`} className="font-normal cursor-pointer">{skill}</Label>
+                        </div>
+                      ))}
+                    </div>
+                    {skillsChecked.includes("Other") && (
+                      <Textarea 
+                        placeholder="Please specify other skills..."
+                        value={otherSkillText}
+                        onChange={(e) => setOtherSkillText(e.target.value)}
+                        className="mt-2"
+                      />
+                    )}
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-xl">Success Types</CardTitle>
+                    <CardDescription>Select the types of success that resonate with you.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {successTypes.map((type) => (
+                        <div key={type} className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`success-${type}`}
+                            checked={successChecked.includes(type)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSuccessChecked(prev => [...prev, type]);
+                              } else {
+                                setSuccessChecked(prev => prev.filter(s => s !== type));
+                              }
+                            }}
+                          />
+                          <Label htmlFor={`success-${type}`} className="font-normal cursor-pointer">{type}</Label>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-4">
+                      <Label className="mb-2 block">Other Success Type:</Label>
+                      <Textarea 
+                        placeholder="Describe your own definition of success..."
+                        value={otherSuccessText}
+                        onChange={(e) => setOtherSuccessText(e.target.value)}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="flex justify-end gap-4">
+                   <Button 
+                    onClick={handleAnalyze} 
+                    disabled={isAnalyzing}
+                    size="lg"
+                    className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-primary/20"
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Bot className="mr-2 h-4 w-4" />
+                        Generate AI Analysis
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                {showAnalysis && (
+                  <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <Card className="border-primary/20 bg-primary/5">
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <Bot className="w-5 h-5 text-primary" />
+                            AI Pattern Recognition
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div>
+                            <h4 className="font-semibold mb-1">Subconscious Drivers</h4>
+                            <div className="h-4 bg-muted rounded-full overflow-hidden flex">
+                              <div className="bg-blue-500 h-full transition-all duration-1000" style={{ width: `${(subCount / (subCount + conCount || 1)) * 100}%` }} />
+                              <div className="bg-purple-500 h-full transition-all duration-1000" style={{ width: `${(conCount / (subCount + conCount || 1)) * 100}%` }} />
+                            </div>
+                            <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                              <span>Impulsive ({subCount})</span>
+                              <span>Logical ({conCount})</span>
+                            </div>
+                            <p className="text-sm mt-2 text-muted-foreground">
+                              {subCount > conCount 
+                                ? "You tend to make decisions based on instinct and emotion. This can be powerful but may lead to reactive choices."
+                                : "You prioritize logic and analysis. This reduces risk but may lead to overthinking."}
+                            </p>
+                          </div>
+
+                          <div>
+                             <h4 className="font-semibold mb-1">Work Style Preference</h4>
+                             <div className="h-[200px] w-full">
+                               <ResponsiveContainer width="100%" height="100%">
+                                 <BarChart data={preferenceData}>
+                                   <XAxis dataKey="name" fontSize={12} />
+                                   <YAxis fontSize={12} />
+                                   <Tooltip />
+                                   <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                                     {preferenceData.map((entry, index) => (
+                                       <Cell key={`cell-${index}`} fill={entry.color} />
+                                     ))}
+                                   </Bar>
+                                 </BarChart>
+                               </ResponsiveContainer>
+                             </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-primary/20 bg-gradient-to-br from-white to-primary/5">
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <Sparkles className="w-5 h-5 text-primary" />
+                            Transformation Insight
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          {timeUseResult && (
+                            <div className="p-4 bg-white/60 rounded-lg border border-primary/10">
+                              <h4 className="font-semibold text-primary mb-1">{timeUseResult.title}</h4>
+                              <p className="text-sm text-foreground/80">{timeUseResult.desc}</p>
+                            </div>
+                          )}
+
+                          <div className="space-y-2">
+                             <h4 className="font-semibold">Recommended Focus Areas:</h4>
+                             <ul className="space-y-2">
+                               {skillsChecked.slice(0, 3).map(skill => (
+                                 <li key={skill} className="flex items-center gap-2 text-sm">
+                                   <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                   Build expertise in {skill}
+                                 </li>
+                               ))}
+                               {resourcesChecked.length > 0 && (
+                                 <li className="flex items-center gap-2 text-sm text-amber-600">
+                                   <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                   Address {resourcesChecked[0].toLowerCase()} gap
+                                 </li>
+                               )}
+                             </ul>
+                          </div>
+
+                          <div className="pt-4 border-t border-primary/10">
+                            <p className="text-sm italic text-muted-foreground">
+                              "Based on your inputs, your transformation should focus on leveraging your natural preference for 
+                              <span className="font-semibold text-foreground"> {preferenceData.sort((a,b) => b.value - a.value)[0].name} </span> 
+                              while building structure to support your goals."
+                            </p>
+                          </div>
+
+                          <Button className="w-full mt-4" onClick={() => setLocation("/actionable-focus")}>
+                            Proceed to Clarify Focus
+                            <ArrowRight className="ml-2 w-4 h-4" />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
+          </LockedFeature>
         </main>
       </div>
     </div>

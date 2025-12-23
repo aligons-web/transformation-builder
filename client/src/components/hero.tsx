@@ -2,7 +2,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
 import { Link } from "wouter";
-import heroBg from "@assets/bkgrdLThpimage_1765639684978.png";
+import heroBg from "@assets/generated_images/abstract_sunrise_gradient_background_for_hero_section.png";
 import targetImage from "@assets/pathtargetlogo_1765576089902.png";
 import { cn } from "@/lib/utils";
 

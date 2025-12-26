@@ -1,0 +1,32 @@
+Use the attached image as a reference sliderimage
+Remove Find Focus for Your Desired Future and
+Remove “You did everything you were told—and still feel unfulfilled.”
+Remove “Success didn’t fix the emptiness you can’t explain.”
+Remove “You climbed the ladder only to realize it’s leaning against the wrong wall.”
+Remove “You’re not lost—you’re misaligned.”
+Remove “Your life looks good to everyone else, but it doesn’t feel right to you.”
+Remove Start Your Journey Today with Perspective, Passion, and Purpose!
+And add interactive elements for the home page, slider 
+Include a javascript 5-slide slider with the following statements in each slider 
+Use a 50% transparent white background text box that overlay the image with the following text, “Success didn’t fix the emptiness you can’t explain.” The text will slide in with a fade in effect that has a quick horizontal bouncy motion in the textbox. After the animation is completed, the slide will hold for 10 seconds before advancing to the next slide 
+Use image1.jpg for the background image
+
+Use a 50% transparent white background text box that overlay the image with the following text, “You climbed the ladder only to realize it’s leaning against the wrong wall.” The text will slide in with a fade in effect that has a quick horizontal bouncy stop motion in the textbox. After the animation is completed, the  slide will hold for 10 seconds before advancing to the next slide
+Use image2.jpg for the background image
+
+Use a 50% transparent white background text box that overlay the image with the following text, “Your life looks good to everyone else, but it doesn’t feel right to you.”
+The text will slide in with a fade in effect that has a quick horizontal bouncy stop motion in the textbox. After the animation is completed, the slide will hold for 10 seconds before advancing to the next slide
+Use image3.jpg for the background image
+
+Use a 50% transparent white background text box that overlay the image with the 
+following text, While feeling unfulfilled, you’re not lost—you’re misaligned.
+The text will slide in with a fade in effect that has a quick horizontal bouncy stop motion in the textbox. After the animation is completed, the slide will hold for 10 seconds before advancing to the next slide following text, Use image4.jpg for the background image 
+Use a 50% transparent white background text box that overlay the image with the 
+The text will slide in with a fade in effect that has a quick horizontal  bouncy stop motion in the textbox. After the animation is completed, the slide will hold for 10 seconds before advancing to the next slide following text, Start Your Journey Today with Perspective, Passion, and Purpose!
+Use image5.jpg for the background image 
+and include a button labeled with color # f2805a
+with white bold text “Start Your 5-Day Trial” that links to the sign-up page.
+
+The slider plays automatically or can be toggled with transparent arrows that are the color # f2805a
+
+The slider is compatible with a responsive design

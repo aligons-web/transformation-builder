@@ -105,7 +105,7 @@ export function Hero() {
                   <Button 
                     size="lg" 
                     className="text-lg px-8 py-6 font-bold text-white shadow-xl hover:scale-105 transition-transform mt-4"
-                    style={{ backgroundColor: "#e87722" }}
+                    style={{ backgroundColor: "#f2805a" }}
                   >
                     Start Your 5-Day Trial
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -123,7 +123,7 @@ export function Hero() {
         className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-white/10 transition-colors z-20"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-10 h-10" style={{ color: "#e87722" }} />
+        <ChevronLeft className="w-10 h-10" style={{ color: "#f2805a" }} />
       </button>
 
       <button
@@ -131,7 +131,7 @@ export function Hero() {
         className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-white/10 transition-colors z-20"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-10 h-10" style={{ color: "#e87722" }} />
+        <ChevronRight className="w-10 h-10" style={{ color: "#f2805a" }} />
       </button>
 
       {/* Indicators */}
@@ -142,7 +142,7 @@ export function Hero() {
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-all ${
               index === currentSlide 
-                ? "bg-[#e87722] w-8" 
+                ? "bg-[#f2805a] w-8" 
                 : "bg-white/50 hover:bg-white/80"
             }`}
             aria-label={`Go to slide ${index + 1}`}

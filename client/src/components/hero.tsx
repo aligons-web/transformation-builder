@@ -20,7 +20,7 @@ const slides = [
   {
     id: 2,
     bg: slide2Bg,
-    text: "You climbed the ladder only to realize it’s leaning against the wrong wall.",
+    text: "You climbed the ladder leaning against the wrong wall.",
   },
   {
     id: 3,

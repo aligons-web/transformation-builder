@@ -26,27 +26,21 @@ export function Navbar() {
       )}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link href="/">
-          <a className="hover:opacity-90 transition-opacity block flex items-center">
+        <Link href="/" className="hover:opacity-90 transition-opacity block flex items-center">
             <img 
               src={logo} 
               alt="LIFE Transformation" 
               className="h-auto w-auto object-contain max-h-[100px]" 
             />
-          </a>
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/about">
-            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+          <Link href="/about" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
               About
-            </a>
           </Link>
-          <Link href="/pricing">
-            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+          <Link href="/pricing" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
               Pricing
-            </a>
           </Link>
           <a 
             href="https://www.skool.com/life-transformation-network-2320" 
@@ -56,15 +50,11 @@ export function Navbar() {
           >
             Join LTN
           </a>
-          <Link href="/affiliate-program">
-            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+          <Link href="/affiliate-program" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
               Affiliate Program
-            </a>
           </Link>
-          <Link href="/founders-program">
-            <a className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
+          <Link href="/founders-program" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
               Founder's Program
-            </a>
           </Link>
           <div className="flex items-center gap-4 ml-4">
             <Link href="/signup">
@@ -85,15 +75,11 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent>
               <div className="flex flex-col gap-6 mt-10">
-                <Link href="/about">
-                  <a className="text-lg font-bold hover:text-primary transition-colors">
+                <Link href="/about" className="text-lg font-bold hover:text-primary transition-colors">
                     About
-                  </a>
                 </Link>
-                <Link href="/pricing">
-                  <a className="text-lg font-bold hover:text-primary transition-colors">
+                <Link href="/pricing" className="text-lg font-bold hover:text-primary transition-colors">
                     Pricing
-                  </a>
                 </Link>
                 <a 
                   href="https://www.skool.com/life-transformation-network-2320"
@@ -103,15 +89,11 @@ export function Navbar() {
                 >
                   Join LTN
                 </a>
-                <Link href="/affiliate-program">
-                  <a className="text-lg font-bold hover:text-primary transition-colors">
+                <Link href="/affiliate-program" className="text-lg font-bold hover:text-primary transition-colors">
                     Affiliate Program
-                  </a>
                 </Link>
-                <Link href="/founders-program">
-                  <a className="text-lg font-bold hover:text-primary transition-colors">
+                <Link href="/founders-program" className="text-lg font-bold hover:text-primary transition-colors">
                     Founder's Program
-                  </a>
                 </Link>
                 <hr className="border-border" />
                 <Link href="/signup">

@@ -14,20 +14,6 @@ import {
 import { Footer } from "@/components/footer";
 
 export default function PricingPage() {
-  // Stripe Checkout Links (your existing URLs)
-  const checkoutUrls: Record<PlanKey, string> = {
-    explorer: "https://buy.stripe.com/test_cNi5kE6pt7HB6zI4Y6es003",
-    transformer: "https://buy.stripe.com/test_bJe7sMcNRge70bk2PYes001",
-    implementer: "https://buy.stripe.com/test_dRmcN64hlge73nw9emes002",
-  };
-
-  // Prices (keep here for now; later you can move into plans.ts if you want)
-  const prices: Record<PlanKey, { amount: string; period: string }> = {
-    explorer: { amount: "$29", period: "/month" },
-    transformer: { amount: "$39", period: "/month" },
-    implementer: { amount: "$69", period: "/month" },
-  };
-
   return (
     <div className="min-h-screen bg-background font-sans flex flex-col">
       <Navbar />
@@ -52,7 +38,7 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* ✅ This is where Object.values(PLANS) belongs */}
+        {/* ✅ Pricing cards now pull ALL data from PLANS config */}
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {Object.values(PLANS).map((plan) => {
             const isPopular = plan.key === "transformer";
@@ -78,142 +64,45 @@ export default function PricingPage() {
                     {plan.name}
                   </CardTitle>
                   <CardDescription>
-                    {/* Uses shared config messaging */}
                     {plan.subtitle}: {plan.description}
                   </CardDescription>
                 </CardHeader>
 
                 <CardContent className="flex-1">
+                  {/* ✅ Price from config */}
                   <div className="text-3xl font-bold mb-6">
-                    {prices[plan.key].amount}
+                    {plan.pricing.amount}
                     <span className="text-sm font-normal text-muted-foreground">
-                      {prices[plan.key].period}
+                      {plan.pricing.period}
                     </span>
                   </div>
 
-                  {/* Features list (kept hard-coded per plan for now) */}
-                  {plan.key === "explorer" && (
-                    <ul className="space-y-3">
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Step 1 Discover Purpose</span>
+                  {/* ✅ Features from config - no more hardcoded lists! */}
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <Check 
+                          className={`w-4 h-4 ${
+                            plan.key === "transformer" 
+                              ? "text-primary" 
+                              : "text-green-500"
+                          }`} 
+                        />
+                        <span className="text-sm">{feature}</span>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Reflections saved</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Summary generated</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Initial interpretation of purpose</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Community Access</span>
-                      </li>
-                    </ul>
-                  )}
-
-                  {plan.key === "transformer" && (
-                    <ul className="space-y-3">
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Includes Step 1 Discover Purpose</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Step 2 Analyze Change</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Journal</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Tasks → Goals</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Milestones → Projects</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Skills to Build</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Change Analysis + Generate Insights</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">21-Day Transformation Challenge</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">Community Access</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-primary" />
-                        <span className="text-sm">
-                          Live Zoom or recordings + digital files (Skool)
-                        </span>
-                      </li>
-                    </ul>
-                  )}
-
-                  {plan.key === "implementer" && (
-                    <ul className="space-y-3">
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Includes Explorer + Transformer</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Generate Insights</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Final Blueprint</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Analytics</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Milestones → Projects</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">Community Access</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">
-                          Two Zoom sessions or recordings + digital files (Skool)
-                        </span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">
-                          Discount access to Masterclass + Inner Circle
-                        </span>
-                      </li>
-                    </ul>
-                  )}
+                    ))}
+                  </ul>
                 </CardContent>
 
                 <CardFooter>
+                  {/* ✅ CTA text and Stripe URL from config */}
                   <Button
                     className="w-full"
                     variant={plan.key === "transformer" ? "default" : "outline"}
                     asChild
                   >
                     <a
-                      href={checkoutUrls[plan.key]}
+                      href={plan.pricing.stripeCheckoutUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

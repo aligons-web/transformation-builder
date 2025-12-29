@@ -1,10 +1,12 @@
 import type { Express } from "express";
 import type { Server } from "http";
+import express from "express";
 import { requireAuth, requirePlan, requireFeature } from "./plan-gate";
 import { storage } from "./storage";
 import { db } from "./db";
 import { subscriptions } from "@shared/schema";
 import { eq } from "drizzle-orm";
+import { registerStripeWebhook } from "./stripe-webhook";
 
 // ✅ Add session type definition
 declare module "express-session" {
@@ -18,6 +20,13 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   console.log("✅ registerRoutes() loaded");
+
+  // ----------------------------
+  // STRIPE WEBHOOK
+  // ----------------------------
+  // ⚠️ IMPORTANT: Register webhook BEFORE express.json() middleware
+  // Webhooks need raw body, not parsed JSON
+  registerStripeWebhook(app);
 
   // ----------------------------
   // AUTH ROUTES

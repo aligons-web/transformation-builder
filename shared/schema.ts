@@ -1,86 +1,44 @@
-import { pgTable, text, uuid, pgEnum, timestamp, boolean } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
+// db/schema.ts - Updated with Stripe fields
+import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-/* =========================
-   USERS
-========================= */
 export const users = pgTable("users", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  username: text("username").notNull().unique(),
+  id: serial("id").primaryKey(),
+  username: text("username").unique().notNull(),
   password: text("password").notNull(),
-
-  // ✅ Admin flag
-  isAdmin: boolean("is_admin").notNull().default(false),
+  isAdmin: boolean("is_admin").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
 });
-
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-});
-
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
-
-/* =========================
-   PLANS / SUBSCRIPTIONS
-========================= */
-export const planEnum = pgEnum("plan", ["EXPLORER", "TRANSFORMER", "IMPLEMENTER"]);
 
 export const subscriptions = pgTable("subscriptions", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
 
-  userId: uuid("user_id")
-    .notNull()
-    .unique()
-    .references(() => users.id),
-
-  plan: planEnum("plan").notNull().default("EXPLORER"),
+  // Current plan
+  plan: text("plan").notNull().default("EXPLORER"),
   status: text("status").notNull().default("active"),
 
-  // ✅ ADD THESE TWO LINES FOR TRIAL SUPPORT
+  // Trial information
+  trialPlan: text("trial_plan"),
   trialEndsAt: timestamp("trial_ends_at"),
-  trialPlan: planEnum("trial_plan"),
 
-  // Stripe fields (for later use)
+  // Stripe integration fields
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
-  currentPeriodEnd: timestamp("current_period_end"),
+  stripePriceId: text("stripe_price_id"),
 
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-/* =========================
-   EXPLORER CONTENT TABLES
-========================= */
-export const reflections = pgTable("reflections", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").notNull().references(() => users.id),
+// Zod schemas for validation
+export const insertUserSchema = createInsertSchema(users);
+export const selectUserSchema = createSelectSchema(users);
+export const insertSubscriptionSchema = createInsertSchema(subscriptions);
+export const selectSubscriptionSchema = createSelectSchema(subscriptions);
 
-  topicKey: text("topic_key").notNull(),
-  content: text("content").notNull(),
-
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-export const summaries = pgTable("summaries", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").notNull().references(() => users.id),
-
-  topicKey: text("topic_key").notNull(),
-  summaryText: text("summary_text").notNull(),
-
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-export const purposeInterpretations = pgTable("purpose_interpretations", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").notNull().references(() => users.id),
-
-  interpretationText: text("interpretation_text").notNull(),
-  isInitial: boolean("is_initial").notNull().default(true),
-
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+export type User = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
+export type Subscription = typeof subscriptions.$inferSelect;
+export type InsertSubscription = typeof subscriptions.$inferInsert;

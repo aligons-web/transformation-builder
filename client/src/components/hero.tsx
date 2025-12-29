@@ -96,7 +96,7 @@ export function Hero() {
               }}
               className="bg-black/25 backdrop-blur-sm p-8 md:p-12 rounded-lg max-w-4xl text-center shadow-lg"
             >
-              <h2 className="text-3xl md:text-5xl font-heading font-bold text-[#62259D] leading-tight mb-6">
+              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white leading-tight mb-6">
                 {slides[currentSlide].text}
               </h2>
 

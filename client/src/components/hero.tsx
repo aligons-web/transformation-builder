@@ -35,7 +35,7 @@ const slides = [
   {
     id: 5,
     bg: slide5Bg,
-    text: "Start Your Journey Today with Perspective, Passion, and Purpose!",
+    text: "Start your journey now with perspective, passion, and purpose!",
     hasButton: true,
   },
 ];

@@ -16,7 +16,7 @@ const slides = [
     id: 1,
     bg: slide1Bg,
     text: "Success didn’t fix the emptiness you can’t explain.",
-    subtext: "48% of workers say their work lacks clear purpose",
+    subtext: "\"48% of workers say their work lacks clear purpose\" (Indeed)",
   },
   {
     id: 2,

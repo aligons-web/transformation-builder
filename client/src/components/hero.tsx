@@ -16,6 +16,7 @@ const slides = [
     id: 1,
     bg: slide1Bg,
     text: "Success didn’t fix the emptiness you can’t explain.",
+    subtext: "48% of workers say their work lacks clear purpose",
   },
   {
     id: 2,
@@ -99,6 +100,12 @@ export function Hero() {
               <h2 className="text-3xl md:text-5xl font-heading font-bold text-white leading-tight mb-6">
                 {slides[currentSlide].text}
               </h2>
+              
+              {slides[currentSlide].subtext && (
+                <p className="text-xl md:text-2xl text-white/90 font-medium mb-6">
+                  {slides[currentSlide].subtext}
+                </p>
+              )}
 
               {slides[currentSlide].hasButton && (
                 <Link href="/signup">

@@ -1,15 +1,51 @@
 import { createRoot } from "react-dom/client";
+import { useState } from "react";
 import App from "./App";
-import ComingSoon from "./ComingSoon";
 import "./index.css";
 
-const comingSoon = import.meta.env.VITE_TB_COMING_SOON === "true";
-const previewKey = import.meta.env.VITE_TB_PREVIEW_KEY;
+function PasswordGate() {
+  const [password, setPassword] = useState("");
+  const [unlocked, setUnlocked] = useState(
+    localStorage.getItem("unlocked") === "yes"
+  );
 
-const params = new URLSearchParams(window.location.search);
-const isPreview = params.get("preview") === previewKey;
+  if (unlocked) return <App />;
 
-createRoot(document.getElementById("root")!).render(
-  comingSoon && !isPreview ? <ComingSoon /> : <App />
-);
+  return (
+    <div style={{
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontFamily: "system-ui"
+    }}>
+      <div style={{ textAlign: "center" }}>
+        <h2>Coming Soon</h2>
+        <p style={{ color: "#666", marginBottom: "20px" }}>
+          Great and exciting things are on the horizon for 2026. Web app testers enter your passord below.
+        </p>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && password === "test123tb") {
+              localStorage.setItem("unlocked", "yes");
+              setUnlocked(true);
+            }
+          }}
+          placeholder="Password"
+          style={{ 
+            padding: "8px", 
+            fontSize: "16px",
+            border: "1px solid black",
+            backgroundColor: "white"
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+createRoot(document.getElementById("root")!).render(<PasswordGate />);
 

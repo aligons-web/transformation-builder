@@ -288,6 +288,11 @@ export async function registerRoutes(
   // IMPLEMENTER FEATURES
   // ----------------------------
 
+  // ← ADD THIS NEW ROUTE HERE
+  app.get("/api/step3/access", requirePlan("IMPLEMENTER"), async (_req, res) => {
+    res.json({ ok: true, message: "Access granted to Step 3" });
+  });
+
   app.get("/api/analytics", requirePlan("IMPLEMENTER"), async (_req, res) => {
     res.json({ ok: true, section: "Analytics Dashboard" });
   });

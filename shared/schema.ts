@@ -26,6 +26,7 @@ export const subscriptions = pgTable("subscriptions", {
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
   stripePriceId: text("stripe_price_id"),
+  currentPeriodEnd: timestamp("current_period_end"), // ✅ ADD THIS LINE
 
   // Timestamps
   createdAt: timestamp("created_at").defaultNow(),

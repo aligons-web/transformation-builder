@@ -1,3 +1,4 @@
+import { useUser } from "@/hooks/use-user";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Button } from "@/components/ui/button";
@@ -59,12 +60,71 @@ const urgencyLevels = [
 ];
 
 export default function ActionableFocusPage() {
+  const { user, isLoading } = useUser();
   const [activeTab, setActiveTab] = useState("module3");
   const [, setLocation] = useLocation();
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
   const { toast } = useToast();
   const recognitionRef = useRef<any>(null);
+
+  // ✅ FEATURE GATE: Check if user has IMPLEMENTER access
+  useEffect(() => {
+    if (!isLoading && user) {
+      if (user.plan !== "IMPLEMENTER") {
+        toast({
+          title: "Upgrade Required",
+          description: "Step 3 requires the Implementer plan.",
+          variant: "destructive"
+        });
+        setLocation("/pricing");
+      }
+    }
+  }, [user, isLoading, setLocation, toast]);
+
+  // ✅ SHOW LOADING STATE
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex">
+        <DashboardSidebar />
+        <div className="flex-1 md:ml-64 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ SHOW UPGRADE WALL IF NOT IMPLEMENTER
+  if (user && user.plan !== "IMPLEMENTER") {
+    return (
+      <div className="min-h-screen bg-background flex">
+        <DashboardSidebar />
+        <div className="flex-1 md:ml-64 flex items-center justify-center p-6">
+          <Card className="max-w-md w-full">
+            <CardHeader>
+              <CardTitle className="text-2xl">Upgrade to Implementer</CardTitle>
+              <CardDescription>
+                Step 3: Clarify Focus requires the Implementer plan to access.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-r-lg">
+                <p className="text-sm text-foreground/80">
+                  Unlock the final step of your transformation journey with modules on How, When, and Where to implement lasting change.
+                </p>
+              </div>
+              <Button onClick={() => setLocation("/pricing")} className="w-full" size="lg">
+                View Plans & Upgrade
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const load = (key: string, setter: any) => {
@@ -92,17 +152,17 @@ export default function ActionableFocusPage() {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = true;
       recognitionRef.current.interimResults = true;
-      
+
       recognitionRef.current.onresult = (event: any) => {
         if (isRecording === null) return;
-        
+
         let finalTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
           if (event.results[i].isFinal) {
             finalTranscript += event.results[i][0].transcript;
           }
         }
-        
+
         if (finalTranscript) {
           setTextAnswers(prev => ({
             ...prev,
@@ -121,7 +181,7 @@ export default function ActionableFocusPage() {
         });
       };
     }
-    
+
     return () => {
       if (recognitionRef.current) {
         recognitionRef.current.stop();
@@ -150,7 +210,7 @@ export default function ActionableFocusPage() {
       if (isRecording !== null) {
         recognitionRef.current.stop();
       }
-      
+
       setIsRecording(id);
       recognitionRef.current.start();
       toast({
@@ -165,16 +225,15 @@ export default function ActionableFocusPage() {
     Object.values(timeUseAnswers).forEach(val => {
       if (val in counts) counts[val as keyof typeof counts]++;
     });
-    
-    // If no answers yet, show equal distribution to display the chart
+
     const hasAnswers = Object.keys(timeUseAnswers).length > 0;
     const baseValue = hasAnswers ? 0 : 25;
 
     return [
-      { name: "Highly Structured", value: hasAnswers ? counts.Routine : baseValue, color: "#3b82f6" }, // Blue
-      { name: "Intentional", value: hasAnswers ? counts.Learning : baseValue, color: "#10b981" }, // Green
-      { name: "Relax Focused", value: hasAnswers ? counts.Entertainment : baseValue, color: "#f97316" }, // Orange
-      { name: "Personal Activity", value: hasAnswers ? counts.Social : baseValue, color: "#ef4444" } // Red
+      { name: "Highly Structured", value: hasAnswers ? counts.Routine : baseValue, color: "#3b82f6" },
+      { name: "Intentional", value: hasAnswers ? counts.Learning : baseValue, color: "#10b981" },
+      { name: "Relax Focused", value: hasAnswers ? counts.Entertainment : baseValue, color: "#f97316" },
+      { name: "Personal Activity", value: hasAnswers ? counts.Social : baseValue, color: "#ef4444" }
     ];
   };
 
@@ -183,10 +242,10 @@ export default function ActionableFocusPage() {
   return (
     <div className="min-h-screen bg-background flex">
       <DashboardSidebar />
-      
+
       <div className="flex-1 md:ml-64 flex flex-col">
         <DashboardHeader />
-        
+
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
           <div className="flex items-center justify-between">
             <div>
@@ -226,7 +285,7 @@ export default function ActionableFocusPage() {
                     <div className="space-y-6">
                       <h3 className="font-heading font-semibold text-xl">Time-Use Assessment</h3>
                       <p className="text-sm text-muted-foreground">Where is your time going? Select the option that best describes you.</p>
-                      
+
                       {timeUseQuiz.map((q, i) => (
                         <div key={i} className="space-y-3 p-4 rounded-lg bg-muted/30">
                           <Label className="font-medium mb-4 block">{i + 1}. {q.question}</Label>
@@ -303,7 +362,7 @@ export default function ActionableFocusPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end pt-4">
                     <Button onClick={() => setActiveTab("module4")} className="gap-2">
                       Next: When?
@@ -369,7 +428,7 @@ export default function ActionableFocusPage() {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-between pt-4">
                     <Button variant="outline" onClick={() => setActiveTab("module3")} className="gap-2">
                       <ArrowLeft className="w-4 h-4" />
@@ -437,7 +496,7 @@ export default function ActionableFocusPage() {
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="flex justify-between pt-4">
                     <Button variant="outline" onClick={() => setActiveTab("module4")} className="gap-2">
                       <ArrowLeft className="w-4 h-4" />

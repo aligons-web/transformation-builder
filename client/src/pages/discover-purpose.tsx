@@ -5,26 +5,41 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText } from "lucide-react";
+import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText, Lock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Footer } from "@/components/footer";
+import { useUser } from "@/hooks/use-user";
 
 // Content derived from "Understanding Your Path"
 // imported from lib/purpose-modules.ts to share with summary page
 import { modules } from "@/lib/purpose-modules";
 
 export default function DiscoverPurposePage() {
+  const { user } = useUser();
   const [activeModule, setActiveModule] = useState(modules[0]);
   const [isRecording, setIsRecording] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const { toast } = useToast();
-  
+
   // Refs for speech recognition
   const recognitionRef = useRef<any>(null);
 
   const [isTrialExpired, setIsTrialExpired] = useState(false);
+
+  // Helper function to check if module is locked
+  const isModuleLocked = (moduleId: number): boolean => {
+    if (!user) return true;
+    if (moduleId <= 3) return false; // Modules 1-3 always free
+    // Modules 4-9 require EXPLORER or higher
+    const planRank: Record<string, number> = {
+      EXPLORER: 1,
+      TRANSFORMER: 2,
+      IMPLEMENTER: 3,
+    };
+    return planRank[user.plan] < planRank.EXPLORER; // Changed from TRANSFORMER to EXPLORER
+  };
 
   // Load answers from localStorage on mount and check trial status
   useEffect(() => {
@@ -55,17 +70,17 @@ export default function DiscoverPurposePage() {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = true;
       recognitionRef.current.interimResults = true;
-      
+
       recognitionRef.current.onresult = (event: any) => {
         if (isRecording === null) return;
-        
+
         let finalTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
           if (event.results[i].isFinal) {
             finalTranscript += event.results[i][0].transcript;
           }
         }
-        
+
         if (finalTranscript) {
           const key = `${activeModule.id}-${isRecording}`;
           setAnswers(prev => ({
@@ -84,13 +99,13 @@ export default function DiscoverPurposePage() {
           variant: "destructive"
         });
       };
-      
+
       recognitionRef.current.onend = () => {
          // If we're still supposed to be recording but it stopped (e.g. silence), restart
          // Not strictly necessary for this mockup but good practice
       };
     }
-    
+
     return () => {
       if (recognitionRef.current) {
         recognitionRef.current.stop();
@@ -120,7 +135,7 @@ export default function DiscoverPurposePage() {
       if (isRecording !== null) {
         recognitionRef.current.stop();
       }
-      
+
       setIsRecording(index);
       recognitionRef.current.start();
       toast({
@@ -149,7 +164,7 @@ export default function DiscoverPurposePage() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      
+
       <main className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1">
@@ -184,19 +199,27 @@ export default function DiscoverPurposePage() {
                     {modules.map((module) => (
                       <button
                         key={module.id}
-                        disabled={isTrialExpired}
+                        disabled={isTrialExpired || isModuleLocked(module.id)}
                         onClick={() => {
-                            setActiveModule(module);
-                            if (isRecording !== null) {
-                                if (recognitionRef.current) recognitionRef.current.stop();
-                                setIsRecording(null);
-                            }
+                          if (isModuleLocked(module.id)) {
+                            toast({
+                              title: "Upgrade Required",
+                              description: `Module ${module.id} requires the Explorer plan or higher.`,
+                              variant: "destructive"
+                            });
+                            return;
+                          }
+                          setActiveModule(module);
+                          if (isRecording !== null) {
+                            if (recognitionRef.current) recognitionRef.current.stop();
+                            setIsRecording(null);
+                          }
                         }}
                         className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group ${
                           activeModule.id === module.id
                             ? "bg-primary text-primary-foreground shadow-md"
-                            : isTrialExpired 
-                              ? "text-muted-foreground/50 cursor-not-allowed" 
+                            : isTrialExpired || isModuleLocked(module.id)
+                              ? "text-muted-foreground/50 cursor-not-allowed opacity-60" 
                               : "hover:bg-muted text-muted-foreground hover:text-foreground"
                         }`}
                       >
@@ -204,7 +227,7 @@ export default function DiscoverPurposePage() {
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs border ${
                              activeModule.id === module.id ? "border-white/30 bg-white/20" : "border-border bg-background"
                           }`}>
-                            {module.id}
+                            {isModuleLocked(module.id) ? <Lock className="w-3 h-3" /> : module.id}
                           </div>
                           <span className="truncate max-w-[180px]">{module.title}</span>
                         </div>
@@ -215,7 +238,7 @@ export default function DiscoverPurposePage() {
                     ))}
                   </div>
                 </ScrollArea>
-                
+
                 <div className="p-4 pt-2 border-t border-border/50">
                   <Link href="/dashboard/analysis">
                     <a className="block group cursor-pointer">
@@ -256,7 +279,7 @@ export default function DiscoverPurposePage() {
                     <CardTitle className="text-3xl font-heading">{activeModule.title}</CardTitle>
                     <CardDescription className="text-lg mt-2">{activeModule.description}</CardDescription>
                   </CardHeader>
-                  
+
                   <CardContent className="p-8 space-y-8">
                     <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-xl">
                       <h3 className="font-bold text-foreground mb-2 flex items-center gap-2">
@@ -270,7 +293,7 @@ export default function DiscoverPurposePage() {
 
                     <div className="space-y-8">
                       <h3 className="font-heading font-semibold text-xl">Reflection Questions</h3>
-                      
+
                       {activeModule.questions.map((question, index) => (
                         <div key={index} className="space-y-3">
                           <label className="text-sm font-medium text-muted-foreground block">

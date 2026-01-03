@@ -7,24 +7,18 @@ channel = "stable-24_05"
 packages = ["stripe-cli"]
 
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "cloudrun"
 build = ["npm", "run", "build"]
-publicDir = "dist/public"
-
-[[ports]]
-localPort = 3001
-externalPort = 3001
+run = ["npm", "run", "start"]
+ignorePorts = false
 
 [[ports]]
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 5173
-externalPort = 5173
-
 [env]
 PORT = "5000"
+NODE_ENV = "production"
 
 [workflows]
 runButton = "Project"
@@ -38,15 +32,14 @@ author = "agent"
 task = "workflow.run"
 args = "Start application"
 
- [[workflows.workflow]]
- name = "Start application"
- author = "agent"
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
 
- [[workflows.workflow.tasks]]
- task = "shell.exec"
- args = "npm run dev"
- waitForPort = 5000
-
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
 
 [agent]
 mockupState = "MOCKUP"

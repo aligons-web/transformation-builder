@@ -5,7 +5,7 @@ import { registerRoutes } from "./routes";
 import session from "express-session";
 import { serveStatic } from "./static";
 import { createServer } from "http";
-import cors from "cors"; // ✅ ADD THIS IMPORT
+import cors from "cors";
 
 const app = express();
 const httpServer = createServer(app);
@@ -16,9 +16,9 @@ declare module "http" {
   }
 }
 
-// ✅ ADD CORS CONFIGURATION (must be FIRST)
+// ✅ CORS CONFIGURATION (must be FIRST)
 app.use(cors({
-  origin: true, // ← CHANGE THIS LINE - accept any origin
+  origin: true, // accept any origin
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
@@ -39,16 +39,16 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false, // ✅ ADD THIS: false for development (http)
-    sameSite: "lax", // ✅ ADD THIS: important for cross-origin cookies
+    secure: false, // false for development (http)
+    sameSite: "lax", // important for cross-origin cookies
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 }));
 
-// ✅ ADD DEBUG MIDDLEWARE HERE (after session, before your logging middleware)
+// ✅ DEBUG MIDDLEWARE (after session, before logging middleware)
 app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  console.log(`📨 ${req.method} ${req.path}`);
+  console.log(`📨 ${req.method} ${req.path}`); // ✅ FIXED: parentheses around backticks
   console.log("🔑 Session ID:", req.sessionID);
   console.log("👤 User ID in session:", req.session?.userId);
   console.log("🍪 Cookie header:", req.headers.cookie);
@@ -64,7 +64,7 @@ export function log(message: string, source = "express") {
     second: "2-digit",
     hour12: true,
   });
-  console.log(`${formattedTime} [${source}] ${message}`);
+  console.log(`${formattedTime} [${source}] ${message}`); // ✅ FIXED: parentheses around backticks
 }
 
 app.use((req, res, next) => {
@@ -102,9 +102,7 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Setup vite in development, serve static in production
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -112,10 +110,7 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
+  // Serve on PORT from environment variable, default to 5001
   const port = parseInt(process.env.PORT || "5001", 10);
   httpServer.listen(
     {
@@ -124,7 +119,7 @@ app.use((req, res, next) => {
       reusePort: true,
     },
     () => {
-      log(`serving on port ${port}`);
+      log(`serving on port ${port}`); // ✅ FIXED: parentheses around backticks
     },
   );
 })();

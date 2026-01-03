@@ -8,7 +8,6 @@ import {
   Flag,
   Lightbulb, 
   BarChart2, 
-  Settings, 
   LogOut,
   Sparkles,
   Calendar,
@@ -163,12 +162,6 @@ export function DashboardSidebar() {
           </div>
         </div>
 
-        <Link href="/settings">
-          <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground gap-3">
-            <Settings className="w-4 h-4" />
-            Settings
-          </Button>
-        </Link>
         <Button 
           variant="ghost" 
           className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 gap-3 mt-1"

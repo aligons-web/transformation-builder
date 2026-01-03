@@ -129,6 +129,52 @@ export function DashboardSidebar() {
             );
           }
 
+          if (item.label === "Change Analysis") {
+            return (
+              <div key="user-profile-section" className="py-4 my-2 border-t border-b border-border/40">
+                <div className="flex items-center gap-3 px-3 mb-2">
+                  <Avatar className="w-9 h-9 border border-border">
+                    <AvatarFallback className="bg-primary/10 text-primary font-semibold text-xs">
+                      {user?.username ? getInitials(user.username) : 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate leading-none mb-1">
+                      {user?.username || 'User'}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground truncate uppercase tracking-wider font-semibold">
+                      {user?.trial?.active ? `Trial: ${user.trial.daysRemaining} days` : user?.plan || 'Explorer'}
+                    </p>
+                  </div>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 gap-3 px-3 h-8 text-xs font-medium"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  Sign Out
+                </Button>
+                
+                <div className="mt-4">
+                  <Link href={item.href}>
+                    <a
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+                        location === item.href
+                          ? "bg-primary/10 text-primary"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      )}
+                    >
+                      <item.icon className={cn("w-5 h-5", location === item.href ? "text-primary" : "text-muted-foreground")} />
+                      {item.label}
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            );
+          }
+
           return (
           <Link key={item.href} href={item.href}>
             <a
@@ -147,31 +193,8 @@ export function DashboardSidebar() {
         })}
       </div>
 
-      <div className="p-4 border-t border-border/50">
-        <div className="flex items-center gap-3 p-2 mb-4 rounded-xl bg-muted/50">
-          <Avatar className="w-10 h-10 border border-border">
-            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-              {user?.username ? getInitials(user.username) : 'U'}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">
-              {user?.username || 'User'}
-            </p>
-            <p className="text-xs text-muted-foreground truncate">
-              {user?.trial?.active ? `Trial: ${user.trial.daysRemaining} days left` : user?.plan || 'Explorer'}
-            </p>
-          </div>
-        </div>
-
-        <Button 
-          variant="ghost" 
-          className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 gap-3 mt-1"
-          onClick={handleLogout}
-        >
-          <LogOut className="w-4 h-4" />
-          Sign Out
-        </Button>
+      <div className="hidden">
+        {/* Footer removed and content moved to sidebar list */}
       </div>
     </aside>
   );

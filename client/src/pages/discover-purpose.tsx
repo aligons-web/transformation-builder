@@ -26,19 +26,35 @@ export default function DiscoverPurposePage() {
   // Refs for speech recognition
   const recognitionRef = useRef<any>(null);
 
-  const [isTrialExpired, setIsTrialExpired] = useState(false);
-
+  
   // Helper function to check if module is locked
   const isModuleLocked = (moduleId: number): boolean => {
     if (!user) return true;
-    if (moduleId <= 3) return false; // Modules 1-3 always free
+
+    // Modules 1-3 are always free
+    if (moduleId <= 3) return false;
+
+    // Determine effective plan based on active trial/subscription
+    let effectivePlan = user.basePlan; // Default to base plan
+
+    // If trial is active, use trial plan
+    if (user.trial?.active && user.trial?.plan) {
+      effectivePlan = user.trial.plan;
+    }
+    // If subscription is active, use subscription plan  
+    else if (user.subscriptionStatus === "active") {
+      effectivePlan = user.plan;
+    }
+    // Otherwise fall back to basePlan (which should be EXPLORER for free users)
+
     // Modules 4-9 require EXPLORER or higher
     const planRank: Record<string, number> = {
       EXPLORER: 1,
       TRANSFORMER: 2,
       IMPLEMENTER: 3,
     };
-    return planRank[user.plan] < planRank.EXPLORER; // Changed from TRANSFORMER to EXPLORER
+
+    return planRank[effectivePlan] < planRank.EXPLORER;
   };
 
   // Load answers from localStorage on mount and check trial status
@@ -59,8 +75,7 @@ export default function DiscoverPurposePage() {
       const diffTime = Math.abs(now.getTime() - startDate.getTime()); 
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
       if (diffDays > 5) {
-        setIsTrialExpired(true);
-      }
+              }
     }
   }, []);
 
@@ -199,7 +214,7 @@ export default function DiscoverPurposePage() {
                     {modules.map((module) => (
                       <button
                         key={module.id}
-                        disabled={isTrialExpired || isModuleLocked(module.id)}
+                        disabled={isModuleLocked(module.id)}
                         onClick={() => {
                           if (isModuleLocked(module.id)) {
                             toast({
@@ -218,7 +233,7 @@ export default function DiscoverPurposePage() {
                         className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group ${
                           activeModule.id === module.id
                             ? "bg-primary text-primary-foreground shadow-md"
-                            : isTrialExpired || isModuleLocked(module.id)
+                            : isModuleLocked(module.id)
                               ? "text-muted-foreground/50 cursor-not-allowed opacity-60" 
                               : "hover:bg-muted text-muted-foreground hover:text-foreground"
                         }`}

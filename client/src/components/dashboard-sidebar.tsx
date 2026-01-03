@@ -10,6 +10,7 @@ import {
   BarChart2, 
   LogOut,
   Sparkles,
+  Compass,
   Calendar,
   Focus,
   ClipboardCheck,
@@ -21,6 +22,7 @@ import { useUser } from "@/hooks/use-user";
 
 export const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard/overview" },
+  { icon: Compass, label: "Discover Purpose", href: "/discover-purpose" },
   { icon: BookOpen, label: "Journal", href: "/dashboard/journal" },
   { icon: Target, label: "Tasks to Goals", href: "/dashboard/tasks" },
   { icon: Flag, label: "Milestones to Projects", href: "/dashboard/projects" },

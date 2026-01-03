@@ -1,6 +1,4 @@
 import { useUser } from "@/hooks/use-user";
-import { PLANS } from "@shared/config/plans";
-import { LockedStep } from "@/components/LockedStep";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Button } from "@/components/ui/button";
@@ -62,17 +60,71 @@ const urgencyLevels = [
 ];
 
 export default function ActionableFocusPage() {
-  const { user, loading } = useUser();
-  const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
-  const canAccessStep3 = PLANS[userPlan]?.access?.step3 ?? false;
-
+  const { user, isLoading } = useUser();
   const [activeTab, setActiveTab] = useState("module3");
   const [, setLocation] = useLocation();
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
   const { toast } = useToast();
   const recognitionRef = useRef<any>(null);
-  const [isRecording, setIsRecording] = useState<string | null>(null);
+
+  // ✅ FEATURE GATE: Check if user has IMPLEMENTER access
+  useEffect(() => {
+    if (!isLoading && user) {
+      if (user.plan !== "IMPLEMENTER") {
+        toast({
+          title: "Upgrade Required",
+          description: "Step 3 requires the Implementer plan.",
+          variant: "destructive"
+        });
+        setLocation("/pricing");
+      }
+    }
+  }, [user, isLoading, setLocation, toast]);
+
+  // ✅ SHOW LOADING STATE
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex">
+        <DashboardSidebar />
+        <div className="flex-1 md:ml-64 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ SHOW UPGRADE WALL IF NOT IMPLEMENTER
+  if (user && user.plan !== "IMPLEMENTER") {
+    return (
+      <div className="min-h-screen bg-background flex">
+        <DashboardSidebar />
+        <div className="flex-1 md:ml-64 flex items-center justify-center p-6">
+          <Card className="max-w-md w-full">
+            <CardHeader>
+              <CardTitle className="text-2xl">Upgrade to Implementer</CardTitle>
+              <CardDescription>
+                Step 3: Clarify Focus requires the Implementer plan to access.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-r-lg">
+                <p className="text-sm text-foreground/80">
+                  Unlock the final step of your transformation journey with modules on How, When, and Where to implement lasting change.
+                </p>
+              </div>
+              <Button onClick={() => setLocation("/pricing")} className="w-full" size="lg">
+                View Plans & Upgrade
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const load = (key: string, setter: any) => {
@@ -91,6 +143,8 @@ export default function ActionableFocusPage() {
 
   useEffect(() => { localStorage.setItem("focus-timeuse", JSON.stringify(timeUseAnswers)); }, [timeUseAnswers]);
   useEffect(() => { localStorage.setItem("focus-text", JSON.stringify(textAnswers)); }, [textAnswers]);
+
+  const [isRecording, setIsRecording] = useState<string | null>(null);
 
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -184,28 +238,6 @@ export default function ActionableFocusPage() {
   };
 
   const timeUseData = calculateTimeUseResults();
-
-  // ✅ FEATURE GATE: Loading state
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="text-muted-foreground text-sm">Loading...</span>
-      </div>
-    );
-  }
-
-  // ✅ FEATURE GATE: Check access
-  if (!canAccessStep3) {
-    return (
-      <LockedStep
-        stepTitle="Step 3: Clarify Focus"
-        requiredPlanLabel="Implementer"
-        description="You've analyzed what needs to change. Now implement your transformation with structure and accountability."
-        ctaLabel="Upgrade to Implementer"
-        ctaHref="/pricing"
-      />
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background flex">

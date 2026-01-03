@@ -139,6 +139,8 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
 
     features: [
       "Includes Explorer + Transformer",
+      "Step 3: Clarify Focus",
+      "Modules 3, 4, & 5 (How, When, Where)",
       "Generate Insights",
       "Final Blueprint",
       "Analytics",

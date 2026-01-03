@@ -10,8 +10,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { ArrowRight, Loader2 } from "lucide-react";
 import authBg from "@assets/generated_images/dramatic_technology_focus_and_target_image_for_login_page.png";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/hooks/use-user";
 
-// ✅ CHANGED: email → username (matches backend)
 const formSchema = z.object({
   username: z.string().min(3, { message: "Username must be at least 3 characters." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
@@ -22,6 +22,7 @@ export default function AuthPage() {
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("login");
   const { toast } = useToast();
+  const { refetchUser } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -31,17 +32,15 @@ export default function AuthPage() {
     },
   });
 
-  // ✅ CHANGED: Real API calls instead of setTimeout
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
     try {
       if (activeTab === "signup") {
-        // ✅ REGISTER: Call real API endpoint
         const response = await fetch("/api/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          credentials: "include", // Important for sessions
+          credentials: "include",
           body: JSON.stringify(values),
         });
 
@@ -51,20 +50,20 @@ export default function AuthPage() {
           throw new Error(data.message || "Registration failed");
         }
 
-        // Show success message with trial info
+        // ✅ Fetch user data immediately after successful registration
+        await refetchUser();
+
         toast({
           title: "Account Created! 🎉",
           description: `Welcome ${data.username}! You have 5 days of Transformer access to explore all features.`,
         });
 
-        // Redirect to dashboard
         setLocation("/dashboard");
       } else {
-        // ✅ LOGIN: Call real API endpoint
         const response = await fetch("/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          credentials: "include", // Important for sessions
+          credentials: "include",
           body: JSON.stringify(values),
         });
 
@@ -74,17 +73,17 @@ export default function AuthPage() {
           throw new Error(data.message || "Login failed");
         }
 
-        // Show success message
+        // ✅ Fetch user data immediately after successful login
+        await refetchUser();
+
         toast({
           title: "Welcome back!",
           description: `Logged in as ${data.username}`,
         });
 
-        // Redirect to dashboard
         setLocation("/dashboard");
       }
     } catch (error: any) {
-      // Show error message
       toast({
         variant: "destructive",
         title: activeTab === "signup" ? "Registration Failed" : "Login Failed",
@@ -209,7 +208,6 @@ export default function AuthPage() {
                     )}
                   />
 
-                  {/* ✅ 5-DAY TRIAL CALLOUT */}
                   <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 text-sm">
                     <p className="font-medium text-primary mb-1">🎁 5-Day Transformer Trial Included!</p>
                     <p className="text-muted-foreground text-xs">

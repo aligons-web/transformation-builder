@@ -39,6 +39,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       const response = await fetch("/api/me", {
         credentials: "include",
+        // ✅ Add cache control to prevent stale data
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
       });
 
       if (response.ok) {
@@ -57,12 +62,23 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const logout = async (): Promise<void> => {
     try {
-      await fetch("/api/logout", {
+      const response = await fetch("/api/logout", {
         method: "POST",
         credentials: "include",
       });
-      setUser(null);
-      setLocation("/auth");
+
+      if (response.ok) {
+        // ✅ Clear user state immediately
+        setUser(null);
+
+        // ✅ Clear any localStorage cache
+        localStorage.clear();
+
+        // ✅ Redirect to auth page
+        setLocation("/auth");
+      } else {
+        console.error("Logout failed:", response.statusText);
+      }
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -71,6 +87,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  // ✅ Listen for storage events to sync logout across tabs
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "logout-event") {
+        setUser(null);
+        setLocation("/auth");
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [setLocation]);
 
   const value: UserContextType = {
     user,
@@ -97,7 +126,6 @@ export function useUser(): UserContextType {
 
 export function useHasAccess(requiredPlan: Plan): boolean {
   const { user } = useUser();
-
   if (!user) return false;
 
   const planRank: Record<Plan, number> = {

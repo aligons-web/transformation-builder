@@ -21,6 +21,7 @@ export default function DiscoverPurposePage() {
   const [activeModule, setActiveModule] = useState(modules[0]);
   const [isRecording, setIsRecording] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [isTrialExpired, setIsTrialExpired] = useState(false);
   const { toast } = useToast();
 
   // Refs for speech recognition
@@ -33,6 +34,11 @@ export default function DiscoverPurposePage() {
 
     // Modules 1-3 are always free
     if (moduleId <= 3) return false;
+
+    // If trial is expired and not subscribed, lock 4-9
+    if (isTrialExpired && user.subscriptionStatus !== "active") {
+      return true;
+    }
 
     // Determine effective plan based on active trial/subscription
     let effectivePlan = user.basePlan; // Default to base plan
@@ -75,7 +81,8 @@ export default function DiscoverPurposePage() {
       const diffTime = Math.abs(now.getTime() - startDate.getTime()); 
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
       if (diffDays > 5) {
-              }
+        setIsTrialExpired(true);
+      }
     }
   }, []);
 

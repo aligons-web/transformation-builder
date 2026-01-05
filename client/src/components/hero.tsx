@@ -102,7 +102,10 @@ export function Hero() {
               </h2>
               
               {slides[currentSlide].subtext && (
-                <p className="text-xl md:text-2xl text-white/90 font-medium mb-6">
+                <p 
+                  className="text-xl md:text-2xl text-white/90 font-medium mb-6 italic"
+                  style={{ fontFamily: "Garamond, serif" }}
+                >
                   {slides[currentSlide].subtext}
                 </p>
               )}

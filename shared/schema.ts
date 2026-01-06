@@ -4,10 +4,10 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").unique().notNull(),
+  username: text("username").notNull().unique(),
   password: text("password").notNull(),
-  isAdmin: boolean("is_admin").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
+  isAdmin: boolean("isAdmin").notNull().default(false), // ✅ ADD THIS
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
 export const subscriptions = pgTable("subscriptions", {

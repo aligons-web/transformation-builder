@@ -75,7 +75,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         localStorage.clear();
 
         // ✅ Redirect to auth page
-        setLocation("/login");
+        setLocation("/auth");
       } else {
         console.error("Logout failed:", response.statusText);
       }
@@ -93,7 +93,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === "logout-event") {
         setUser(null);
-        setLocation("/login");
+        setLocation("/auth");
       }
     };
 

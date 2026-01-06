@@ -22,7 +22,7 @@ export default function AuthPage() {
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("login");
   const { toast } = useToast();
-  const { refetchUser } = useUser();
+  const { login, signup } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,48 +37,20 @@ export default function AuthPage() {
 
     try {
       if (activeTab === "signup") {
-        const response = await fetch("/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(values),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || "Registration failed");
-        }
-
-        // ✅ Fetch user data immediately after successful registration
-        await refetchUser();
+        await signup(values.username);
 
         toast({
           title: "Account Created! 🎉",
-          description: `Welcome ${data.username}! You have 5 days of Transformer access to explore all features.`,
+          description: `Welcome ${values.username}! You have 5 days of Transformer access to explore all features.`,
         });
 
         setLocation("/dashboard");
       } else {
-        const response = await fetch("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(values),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || "Login failed");
-        }
-
-        // ✅ Fetch user data immediately after successful login
-        await refetchUser();
+        await login(values.username);
 
         toast({
           title: "Welcome back!",
-          description: `Logged in as ${data.username}`,
+          description: `Logged in as ${values.username}`,
         });
 
         setLocation("/dashboard");

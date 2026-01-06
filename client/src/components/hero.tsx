@@ -32,6 +32,7 @@ const slides = [
     id: 4,
     bg: slide4Bg,
     text: "While feeling unfulfilled, you’re not lost—you’re misaligned.",
+    subtext: "The Transformation Builder app connects clarity, planning, action, feedback, and accountability",
   },
   {
     id: 5,

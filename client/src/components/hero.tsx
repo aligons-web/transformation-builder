@@ -106,7 +106,7 @@ export function Hero() {
               
               {slides[currentSlide].subtext && (
                 <p 
-                  className="text-3xl md:text-5xl text-white/90 font-medium mb-6 italic"
+                  className={`text-white/90 font-medium mb-6 italic ${slides[currentSlide].id === 1 ? 'text-2xl md:text-4xl font-bold' : 'text-3xl md:text-5xl'}`}
                   style={{ fontFamily: "Garamond, serif" }}
                 >
                   {slides[currentSlide].subtext}

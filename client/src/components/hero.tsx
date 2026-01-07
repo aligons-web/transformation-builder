@@ -22,6 +22,7 @@ const slides = [
     id: 2,
     bg: slide2Bg,
     text: "You climbed the ladder leaning against the wrong wall.",
+    subtext: "\"82% of workers over age 45 are successful in making a career transition once they pursue it\" (AIER)",
   },
   {
     id: 3,

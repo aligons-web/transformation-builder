@@ -27,6 +27,7 @@ const slides = [
     id: 3,
     bg: slide3Bg,
     text: "Your life looks good to everyone else, but it doesn’t feel right to you.",
+    subtext: "\"Up to 91% of people experience 'purpose anxiety'” (Psychology Today)",
   },
   {
     id: 4,

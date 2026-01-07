@@ -9,6 +9,8 @@ export interface PlanDefinition {
   description: string;
   cta: string;
 
+
+  
   // Pricing information
   pricing: {
     amount: string;           // Display price like "$29.99"

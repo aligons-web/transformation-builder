@@ -95,8 +95,8 @@ export function DashboardSidebar() {
           Menu
         </div>
         {sidebarItems.map((item) => {
-          const isRestricted = isTrialExpired && restrictedPaths.includes(item.href);
-
+      // ✅ Admin bypass: Admins can access everything
+      const isRestricted = !user?.isAdmin && isTrialExpired && restrictedPaths.includes(item.href);
           if ((item as any).external) {
              return (
               <a

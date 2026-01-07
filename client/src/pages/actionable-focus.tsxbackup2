@@ -63,21 +63,11 @@ const urgencyLevels = [
 
 export default function ActionableFocusPage() {
   const { user, isLoading } = useUser();
+  const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
 
-  // ✅ CRITICAL: Check admin status FIRST before checking plan
-  const canAccessStep3 = (() => {
-    // If admin, always grant access
-    if (user?.isAdmin) {
-      console.log('✅ Admin access granted to Step 3');
-      return true;
-    }
-
-    // Otherwise check plan
-    const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
-    const hasAccess = PLANS[userPlan]?.access?.step3 ?? false;
-    console.log('📋 Plan check for Step 3:', { userPlan, hasAccess });
-    return hasAccess;
-  })();
+  
+  // ✅ Admin bypass: Admins can always access
+    const canAccessStep3 = user?.isAdmin === true ? true : (PLANS[userPlan]?.access?.step3 ?? false);
 
   const [activeTab, setActiveTab] = useState("module3");
   const [, setLocation] = useLocation();

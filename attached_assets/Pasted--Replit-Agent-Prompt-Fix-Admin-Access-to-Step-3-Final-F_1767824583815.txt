@@ -1,0 +1,94 @@
+# Replit Agent Prompt: Fix Admin Access to Step 3 (Final Fix)
+
+## CRITICAL INSTRUCTIONS FOR REPLIT AGENT
+
+**DO NOT REVERT ANY EXISTING FILES. MAKE ONLY THE SPECIFIC ONE-LINE CHANGE BELOW.**
+
+## Problem Statement
+
+Admin user (aligons@uemergeacademy.com) cannot access Step 3 (Clarify Focus) page at `/actionable-focus`.
+
+**Database Status (CONFIRMED):**
+- `is_admin`: true ✓
+- `plan`: IMPLEMENTER ✓
+- Step 3 requires IMPLEMENTER plan ✓
+
+**Root Cause:**
+The admin check in `actionable-focus.tsx` uses `user?.isAdmin === true` (strict equality), but the backend returns `isAdmin` as the number `1` (from database integer), not boolean `true`. Since `1 !== true`, the check fails.
+
+## Required Fix
+
+### File: `client/src/pages/actionable-focus.tsx`
+
+**Location:** Line 70 (inside the `canAccessStep3` function)
+
+**FIND THIS LINE:**
+```typescript
+if (user?.isAdmin === true) {
+```
+
+**REPLACE WITH:**
+```typescript
+if (user?.isAdmin) {
+```
+
+**That's it!** This is the ONLY change needed.
+
+## Why This Works
+
+- `if (user?.isAdmin === true)` → Fails because `1 === true` is false
+- `if (user?.isAdmin)` → Works because `1` is truthy (and `true` is also truthy)
+
+This handles both cases:
+- If `isAdmin` is `1` (number from database) → truthy → passes
+- If `isAdmin` is `true` (boolean) → truthy → passes
+- If `isAdmin` is `0`, `false`, `null`, `undefined` → falsy → fails
+
+## Testing Instructions
+
+After making the change:
+
+1. **Logout** as admin
+2. **Login** as aligons@uemergeacademy.com
+3. **Click "Clarify Focus"** in sidebar
+4. **Verify:** Page loads (no "Upgrade Now" modal)
+
+## Files to NOT Modify
+
+- **DO NOT touch server/routes.ts** (backend is correct)
+- **DO NOT touch database** (already updated)
+- **DO NOT touch dashboard-sidebar.tsx** (already correct)
+- **DO NOT touch plans.ts** (config is correct)
+- **DO NOT modify any other files**
+
+## Acceptance Criteria
+
+✅ Admin can access Step 3 (Clarify Focus page)
+✅ Page loads without "Upgrade Now" modal
+✅ No syntax errors
+✅ No TypeScript errors
+✅ App doesn't crash
+✅ Only ONE line changed
+
+## Emergency Rollback
+
+If something breaks (it shouldn't), revert to:
+```typescript
+if (user?.isAdmin === true) {
+```
+
+---
+
+**CRITICAL:** This is a ONE-LINE change. Change `===` to just check truthiness. Do NOT refactor, do NOT add features, do NOT modify other code. Just change line 70.
+
+## Additional Context
+
+The admin check should use loose truthiness (`if (user?.isAdmin)`) instead of strict equality (`if (user?.isAdmin === true)`) because:
+
+1. Database stores `is_admin` as INTEGER (0 or 1)
+2. Backend returns it as-is (number 1)
+3. Frontend expects boolean true
+4. `1 === true` is false in JavaScript
+5. `if (1)` is true in JavaScript
+
+This is a standard pattern for handling database boolean columns that return as integers.

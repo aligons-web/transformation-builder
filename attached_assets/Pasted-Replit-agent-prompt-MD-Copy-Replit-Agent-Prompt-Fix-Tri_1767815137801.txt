@@ -1,0 +1,127 @@
+Replit agent prompt · MD
+Copy
+
+# Replit Agent Prompt: Fix Trial Expiration Bug
+
+## CRITICAL INSTRUCTIONS FOR REPLIT AGENT
+
+**DO NOT REVERT ANY EXISTING FILES. ONLY MAKE THE SPECIFIC CHANGES LISTED BELOW.**
+
+## Problem Statement
+
+Users with expired trials (trial_ends_at < current_time) are incorrectly showing as having active trials. The database correctly identifies expired trials, but the backend `/api/me` endpoint is calculating `trialActive` incorrectly.
+
+**Database Evidence:**
+- Username: testuser17
+- trial_ends_at: 2025-12-27 22:31:46.93
+- current_time: 2026-01-07 18:04:51.39
+- Database query shows: is_expired = true ✓ CORRECT
+
+**Backend Bug:**
+The `/api/me` endpoint returns `trial.active: true` when it should return `false`.
+
+## Required Fix
+
+### File: `server/routes.ts`
+
+**Location:** Around line 230, in the `/api/me` GET endpoint
+
+**FIND THIS CODE:**
+```typescript
+const sub = subRows[0];
+const now = Date.now();
+const trialActive = sub?.trialEndsAt && new Date(sub.trialEndsAt).getTime() > now;
+const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER");
+```
+
+**REPLACE WITH THIS CODE:**
+```typescript
+const sub = subRows[0];
+const now = Date.now();
+
+// ✅ FIX: Properly check if trial is expired
+const trialEndsAtTimestamp = sub?.trialEndsAt ? new Date(sub.trialEndsAt).getTime() : 0;
+const trialActive = trialEndsAtTimestamp > 0 && trialEndsAtTimestamp > now;
+
+console.log('🔍 Trial Debug for user:', user.username, {
+  trialEndsAt: sub?.trialEndsAt,
+  trialEndsAtTimestamp,
+  now,
+  difference: trialEndsAtTimestamp - now,
+  trialActive
+});
+
+const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER");
+```
+
+## What This Fix Does
+
+1. **Extracts the timestamp properly** - Converts trial_ends_at to milliseconds
+2. **Validates the timestamp exists** - Checks it's greater than 0
+3. **Compares correctly** - Only returns true if trial end time is in the future
+4. **Adds debug logging** - Shows exact values for troubleshooting
+
+## Expected Result After Fix
+
+**For testuser17 (expired trial):**
+```javascript
+{
+  trial: {
+    active: false  // ✅ SHOULD NOW BE FALSE
+  },
+  plan: "EXPLORER",  // Falls back to base plan
+  basePlan: "EXPLORER"
+}
+```
+
+**Console log should show:**
+```
+🔍 Trial Debug for user: testuser17 {
+  trialEndsAt: '2025-12-27T22:31:46.930Z',
+  trialEndsAtTimestamp: 1735340706930,
+  now: 1736272951000,
+  difference: -932244070,  // ← NEGATIVE = EXPIRED
+  trialActive: false
+}
+```
+
+## Testing Instructions
+
+After making the change:
+
+1. **Restart the server** (if needed)
+2. **Clear browser cookies** or use incognito mode
+3. **Login as testuser17**
+4. **Check the response** from `/api/me` endpoint
+5. **Verify the dashboard** shows "Trial Ended" badge instead of "5 days remaining"
+
+## Files to NOT Modify
+
+- Do not touch any frontend files
+- Do not modify database schema
+- Do not change session handling
+- Do not alter any authentication logic
+- **ONLY modify the specific lines mentioned above in server/routes.ts**
+
+## Acceptance Criteria
+
+✅ testuser17 shows trial as expired
+✅ Console log shows trialActive: false
+✅ Frontend displays "Trial Ended" badge
+✅ No other functionality is broken
+✅ All other files remain unchanged
+
+---
+
+## Emergency Rollback (if something breaks)
+
+If this change causes issues, revert ONLY these specific lines:
+
+```typescript
+// REVERT TO:
+const trialActive = sub?.trialEndsAt && new Date(sub.trialEndsAt).getTime() > now;
+```
+
+---
+
+**IMPORTANT:** This is a surgical fix. Do not refactor, do not "improve" other code, do not update dependencies. Make ONLY the changes specified above.

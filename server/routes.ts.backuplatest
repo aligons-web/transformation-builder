@@ -239,20 +239,25 @@ export async function registerRoutes(
 
       const sub = subRows[0];
       const now = Date.now();
+      const trialActive = sub?.trialEndsAt && new Date(sub.trialEndsAt).getTime() > now;
+      const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER");
 
-      // ✅ FIX: Add debug logging to see what's happening
-      const trialEndsAtTimestamp = sub?.trialEndsAt ? new Date(sub.trialEndsAt).getTime() : 0;
-      const trialActive = sub?.trialEndsAt && trialEndsAtTimestamp > now;
-
-      console.log('🔍 Trial Debug for user:', user.username, {
-        trialEndsAt: sub?.trialEndsAt,
-        trialEndsAtTimestamp,
-        now,
-        difference: trialEndsAtTimestamp - now,
-        trialActive
+      return res.json({
+        userId: user.id,
+        username: user.username,
+        isAdmin: user.isAdmin,
+        plan: currentPlan,
+        basePlan: sub?.plan ?? "EXPLORER",
+        subscriptionStatus: sub?.status ?? "active",
+        trial: trialActive
+          ? {
+              active: true,
+              endsAt: sub.trialEndsAt,
+              plan: sub.trialPlan,
+              daysRemaining: Math.ceil((new Date(sub.trialEndsAt!).getTime() - now) / (1000 * 60 * 60 * 24))
+            }
+          : { active: false },
       });
-
-      const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER")
     } catch (error) {
       console.error("Error fetching user:", error);
       return res.status(500).json({ message: "Failed to fetch user info" });

@@ -156,7 +156,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Trial Badge */}
-            {user?.trial?.active && (
+            {user?.trial?.active === true && user?.trial.daysRemaining && user.trial.daysRemaining > 0 && (
               <Card className="border-none shadow-lg bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
@@ -190,7 +190,7 @@ export default function DashboardPage() {
             )}
 
             {/* Trial Expired Badge */}
-            {user && !user.trial?.active && user.basePlan === "EXPLORER" && (
+            {user && user.trial?.active === false && user.basePlan === "EXPLORER" && !user.isAdmin && (
               <Card className="border-2 border-amber-500/50 bg-amber-50/50">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">

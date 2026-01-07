@@ -1,0 +1,246 @@
+# Replit Agent Prompt: Fix Hardcoded Navigation Links Bypassing Admin Logic
+
+## CRITICAL INSTRUCTIONS FOR REPLIT AGENT
+
+**DO NOT REVERT ANY EXISTING FILES. ONLY MAKE THE SPECIFIC CHANGES LISTED BELOW.**
+
+## Problem Statement
+
+Admin users are being redirected to "Upgrade Now" when clicking on Step 3 (Clarify Focus) card. The issue is that the navigation link is hardcoded and goes directly to a locked page, completely bypassing the admin access check logic.
+
+**Current Flow (BROKEN):**
+1. Admin clicks "Clarify Focus" card
+2. Card has hardcoded link: `/ai-analysis` or similar
+3. Page loads and checks if user has access
+4. Shows "Upgrade Now" modal (admin check never runs)
+
+**Expected Flow (CORRECT):**
+1. Admin clicks "Clarify Focus" card
+2. Check if admin → Grant access
+3. Navigate to page
+4. Page loads normally (no upgrade modal)
+
+## Root Cause
+
+The navigation cards in the Purpose Discovery page have **hardcoded `href` or `onClick` handlers** that navigate directly to locked pages without checking admin status first.
+
+## Required Fixes
+
+### File: `client/src/pages/discover-purpose.tsx`
+
+**SEARCH FOR: Step 3 / Clarify Focus card**
+
+Look for code that looks like this:
+
+**PATTERN 1 - Direct Link (WRONG):**
+```tsx
+<Link to="/ai-analysis">
+  <Card>
+    <h3>Step 3: Clarify Focus</h3>
+  </Card>
+</Link>
+```
+
+**PATTERN 2 - Button with onClick (WRONG):**
+```tsx
+<Button onClick={() => navigate('/ai-analysis')}>
+  Clarify Focus
+</Button>
+```
+
+**PATTERN 3 - Card with href (WRONG):**
+```tsx
+<Card onClick={() => window.location.href = '/ai-analysis'}>
+  Step 3: Clarify Focus
+</Card>
+```
+
+---
+
+## Solution: Conditional Navigation
+
+**Replace ANY of the above patterns with this logic:**
+
+```tsx
+import { useUser } from "@/hooks/use-user";
+import { canAccessFeature } from "@/shared/config/plan-gate";
+
+// Inside component:
+const { user } = useUser();
+const navigate = useNavigate();
+const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+const handleStep3Click = () => {
+  // Check if user has access (admin or correct plan)
+  const hasAccess = canAccessFeature(
+    user?.plan || "EXPLORER", 
+    "aiAnalysis", 
+    user?.isAdmin
+  );
+  
+  if (hasAccess) {
+    // Admin or has access → Navigate directly
+    navigate('/ai-analysis');
+  } else {
+    // No access → Show upgrade modal
+    setShowUpgradeModal(true);
+  }
+};
+
+// In JSX:
+<Card onClick={handleStep3Click} className="cursor-pointer">
+  <h3>Step 3: Clarify Focus</h3>
+  {/* Card content */}
+</Card>
+
+{/* Add upgrade modal */}
+{showUpgradeModal && (
+  <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Upgrade Required</DialogTitle>
+        <DialogDescription>
+          This feature requires the Transformer plan.
+        </DialogDescription>
+      </DialogHeader>
+      <Button onClick={() => navigate('/pricing')}>
+        View Plans
+      </Button>
+    </DialogContent>
+  </Dialog>
+)}
+```
+
+---
+
+## Alternative Solution: Wrap Card in LockedFeature
+
+If the card is just a visual element, wrap the ENTIRE navigation in LockedFeature:
+
+**BEFORE (WRONG):**
+```tsx
+<Link to="/ai-analysis">
+  <Card>Step 3: Clarify Focus</Card>
+</Link>
+```
+
+**AFTER (CORRECT):**
+```tsx
+<LockedFeature 
+  featureName="aiAnalysis" 
+  plan={user?.plan || "EXPLORER"}
+  isAdmin={user?.isAdmin}
+>
+  <Link to="/ai-analysis">
+    <Card>Step 3: Clarify Focus</Card>
+  </Link>
+</LockedFeature>
+```
+
+This way, if user doesn't have access, they see the upgrade modal BEFORE navigating.
+
+---
+
+## Files to Check for Hardcoded Links
+
+Search the entire codebase for these patterns and fix them:
+
+1. **`client/src/pages/discover-purpose.tsx`** (Main location)
+   - Look for Step 3 card
+   - Look for "Clarify Focus"
+   - Look for `/ai-analysis` link
+
+2. **`client/src/pages/dashboard.tsx`**
+   - Any quick-access cards to locked features
+
+3. **`client/src/pages/dashboard-overview.tsx`**
+   - Feature cards that navigate to locked pages
+
+4. **`client/src/components/dashboard-sidebar.tsx`**
+   - Navigation menu items to locked pages
+
+---
+
+## Search Commands to Find the Issue
+
+Run these searches in your codebase:
+
+```
+Search 1: "ai-analysis" (find all references)
+Search 2: "Clarify Focus" (find the card)
+Search 3: "Step 3" (find step 3 references)
+Search 4: "navigate('/ai-" (find navigation calls)
+Search 5: "to=\"/ai-" (find Link components)
+```
+
+---
+
+## Specific Checks
+
+For EACH navigation to these locked pages, ensure admin check happens BEFORE navigation:
+
+- `/ai-analysis` → Step 3: Clarify Focus
+- `/future-path` → Step 4: Future Path
+- `/actionable-focus` → Step 5: Actionable Focus
+- `/ai-transformation-engine` → Transformation Engine
+- `/skills-build` → Skills Builder
+
+**Pattern to follow:**
+1. Check access (with admin bypass)
+2. If yes → Navigate
+3. If no → Show upgrade modal
+
+---
+
+## Testing Instructions
+
+After making changes:
+
+1. **Login as admin:** aligons@uemergeacademy.com
+2. **Go to Purpose Discovery page**
+3. **Click "Step 3: Clarify Focus" card**
+4. **Expected:** Navigates directly to ai-analysis page (no upgrade modal)
+5. **Test with non-admin:** testuser17
+6. **Expected:** Shows upgrade modal (existing behavior preserved)
+
+---
+
+## Acceptance Criteria
+
+✅ Admin can click Step 3 card → Goes directly to content
+✅ Non-admin clicks Step 3 card → Shows upgrade modal
+✅ No hardcoded links bypass access checks
+✅ All other navigation still works
+✅ No files unnecessarily modified
+✅ No errors in console
+
+---
+
+## Files to NOT Modify
+
+- **DO NOT touch server/routes.ts** (backend is fine)
+- **DO NOT touch plan-gate.ts** (logic is already correct)
+- **DO NOT modify database**
+- **DO NOT change authentication**
+
+---
+
+## Red Flags to Watch For
+
+🚩 **Any direct `<Link to="/ai-analysis">` without access check**
+🚩 **Any `navigate('/ai-analysis')` without checking isAdmin**
+🚩 **Any `href="/ai-analysis"` without access check**
+🚩 **Cards that are clickable but don't check permissions first**
+
+---
+
+## Quick Fix Summary
+
+**The problem:** Card navigation → Locked page (bypass check) → Upgrade modal
+**The solution:** Card click → Check admin first → Then navigate or show modal
+
+This ensures the admin check happens at the POINT OF CLICK, not after loading the page.
+
+---
+
+**IMPORTANT:** Focus on the discover-purpose.tsx file first. The Step 3 card is most likely there. Find how it's navigating and add the admin check BEFORE navigation occurs.

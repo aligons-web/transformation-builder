@@ -16,6 +16,8 @@ import { useUser } from "@/hooks/use-user";
 // imported from lib/purpose-modules.ts to share with summary page
 import { modules } from "@/lib/purpose-modules";
 
+import { LockedFeature } from "@/components/LockedFeature";
+
 export default function DiscoverPurposePage() {
   const { user } = useUser();
   const [activeModule, setActiveModule] = useState(modules[0]);
@@ -262,6 +264,11 @@ export default function DiscoverPurposePage() {
                 </ScrollArea>
 
                 <div className="p-4 pt-2 border-t border-border/50">
+                  <LockedFeature 
+                    requiredPlan="TRANSFORMER"
+                    featureName="Analyze Change"
+                    isAdmin={user?.isAdmin}
+                  >
                   <Link href="/dashboard/analysis">
                     <a className="block group cursor-pointer">
                       <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-all">
@@ -277,6 +284,7 @@ export default function DiscoverPurposePage() {
                       </div>
                     </a>
                   </Link>
+                  </LockedFeature>
                 </div>
               </CardContent>
             </Card>

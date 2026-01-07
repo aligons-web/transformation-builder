@@ -438,6 +438,7 @@ export default function TransformationAnalysisPage() {
             requiredPlan="TRANSFORMER"
             featureName="Change Analysis"
             description="Unlock AI-powered analysis tools to understand what needs to change in your life"
+            isAdmin={user?.isAdmin}
           >
             <div className="flex items-center justify-between mb-8">
               <div>

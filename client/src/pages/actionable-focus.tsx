@@ -62,9 +62,9 @@ const urgencyLevels = [
 ];
 
 export default function ActionableFocusPage() {
-  const { user, loading } = useUser();
+  const { user, isLoading } = useUser();
   const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
-  const canAccessStep3 = PLANS[userPlan]?.access?.step3 ?? false;
+  const canAccessStep3 = (user?.isAdmin) || (PLANS[userPlan]?.access?.step3 ?? false);
 
   const [activeTab, setActiveTab] = useState("module3");
   const [, setLocation] = useLocation();
@@ -186,7 +186,7 @@ export default function ActionableFocusPage() {
   const timeUseData = calculateTimeUseResults();
 
   // ✅ FEATURE GATE: Loading state
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <span className="text-muted-foreground text-sm">Loading...</span>
@@ -199,10 +199,9 @@ export default function ActionableFocusPage() {
     return (
       <LockedStep
         stepTitle="Step 3: Clarify Focus"
-        requiredPlanLabel="Implementer"
+        requiredPlan="Implementer"
         description="You've analyzed what needs to change. Now implement your transformation with structure and accountability."
-        ctaLabel="Upgrade to Implementer"
-        ctaHref="/pricing"
+        isAdmin={user?.isAdmin}
       />
     );
   }

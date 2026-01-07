@@ -1,0 +1,238 @@
+# Replit Agent Prompt: Fix Admin Access to Step 3
+
+## CRITICAL INSTRUCTIONS FOR REPLIT AGENT
+
+**DO NOT REVERT ANY EXISTING FILES. ONLY MAKE THE SPECIFIC CHANGES LISTED BELOW.**
+
+## Problem Statement
+
+Admin users (isAdmin = true) are being blocked from accessing Step 3 in the Purpose Discovery flow. When an admin tries to access Step 3, they are redirected to an upgrade page instead of being granted access.
+
+**Database Evidence:**
+- Admin user: aligons@uemergeacademy.com
+- isAdmin: true in database ✓ CONFIRMED
+- Backend `/api/me` returns isAdmin: true ✓ CONFIRMED
+
+**Current Behavior:**
+Admin clicks Step 3 → Gets "Upgrade Now" modal → Cannot access content
+
+**Expected Behavior:**
+Admin clicks Step 3 → Full access granted → Can use all features
+
+## Root Cause
+
+The plan-gating logic in the frontend is not properly checking the admin status before blocking access. Admins should bypass ALL plan restrictions.
+
+## Required Fix
+
+### File: `shared/config/plan-gate.ts`
+
+**FIND THIS CODE:**
+```typescript
+export function canAccessFeature(
+  userPlan: Plan,
+  feature: PlanFeature,
+  isAdmin?: boolean
+): boolean {
+  // Admin bypass
+  if (isAdmin) {
+    return true;
+  }
+
+  const planConfig = PLAN_CONFIGS[userPlan];
+  return planConfig.features[feature] === true;
+}
+```
+
+**VERIFY IT LOOKS LIKE THIS ✓**
+
+If the admin check is missing or in the wrong place, add it at the very top of the function.
+
+---
+
+### File: `client/src/components/LockedFeature.tsx`
+
+**FIND THIS CODE SECTION:**
+```typescript
+export function LockedFeature({ featureName, plan, isAdmin, children }: LockedFeatureProps) {
+  const hasAccess = canAccessFeature(plan, featureName, isAdmin);
+  
+  if (hasAccess) {
+    return <>{children}</>;
+  }
+
+  return (
+    // ... upgrade modal code
+  );
+}
+```
+
+**VERIFY THE isAdmin PROP IS BEING PASSED TO canAccessFeature ✓**
+
+If `isAdmin` is not being passed, update the line to:
+```typescript
+const hasAccess = canAccessFeature(plan, featureName, isAdmin);
+```
+
+---
+
+### File: `client/src/pages/discover-purpose.tsx`
+
+**FIND THE STEP 3 SECTION (around line 150-200):**
+
+Look for where Step 3 content is wrapped. It should look something like:
+
+```typescript
+<LockedFeature 
+  featureName="aiAnalysis" 
+  plan={user.plan} 
+  isAdmin={user.isAdmin}
+>
+  {/* Step 3 content */}
+</LockedFeature>
+```
+
+**CRITICAL: Verify that `isAdmin={user.isAdmin}` is present**
+
+If the isAdmin prop is MISSING, add it:
+
+**BEFORE (WRONG):**
+```typescript
+<LockedFeature 
+  featureName="aiAnalysis" 
+  plan={user.plan}
+>
+```
+
+**AFTER (CORRECT):**
+```typescript
+<LockedFeature 
+  featureName="aiAnalysis" 
+  plan={user.plan}
+  isAdmin={user.isAdmin}
+>
+```
+
+---
+
+### File: `client/src/components/LockedStep.tsx`
+
+**FIND THIS CODE:**
+```typescript
+interface LockedStepProps {
+  step: number;
+  plan: Plan;
+  isAdmin?: boolean;
+  children: React.ReactNode;
+}
+
+export function LockedStep({ step, plan, isAdmin, children }: LockedStepProps) {
+  const feature = getFeatureForStep(step);
+  const hasAccess = canAccessFeature(plan, feature, isAdmin);
+  
+  if (hasAccess) {
+    return <>{children}</>;
+  }
+
+  return (
+    // ... locked step UI
+  );
+}
+```
+
+**VERIFY:**
+1. `isAdmin?: boolean` is in the interface ✓
+2. `isAdmin` is in the destructured props ✓
+3. `isAdmin` is passed to `canAccessFeature` ✓
+
+If any of these are missing, add them.
+
+---
+
+## Everywhere LockedStep is Used
+
+**Search the codebase for all instances of `<LockedStep`**
+
+For EACH instance, verify it has the isAdmin prop:
+
+**BEFORE (WRONG):**
+```typescript
+<LockedStep step={3} plan={user.plan}>
+```
+
+**AFTER (CORRECT):**
+```typescript
+<LockedStep step={3} plan={user.plan} isAdmin={user.isAdmin}>
+```
+
+**Common locations to check:**
+- `client/src/pages/discover-purpose.tsx`
+- `client/src/pages/ai-transformation-engine.tsx`
+- `client/src/pages/ai-analysis.tsx`
+- `client/src/pages/future-path.tsx`
+- `client/src/pages/actionable-focus.tsx`
+
+---
+
+## Testing Instructions
+
+After making the changes:
+
+1. **Login as admin:** aligons@uemergeacademy.com
+2. **Navigate to Purpose Discovery page**
+3. **Click on Step 3**
+4. **Verify:** Step 3 content loads (no upgrade modal)
+5. **Test all other steps** to ensure nothing broke
+
+## Expected Console Output
+
+When admin clicks Step 3, you should see:
+```
+✅ Admin access granted to step 3
+```
+
+Or in the plan-gate logic:
+```
+User isAdmin: true → Granting access to aiAnalysis
+```
+
+## Acceptance Criteria
+
+✅ Admin can access Step 3 without seeing upgrade modal
+✅ Admin can access ALL locked features
+✅ Non-admin users still see upgrade modals (don't break existing behavior)
+✅ No files are reverted or unnecessarily changed
+✅ No errors in browser console
+✅ Backend isAdmin check already works (don't modify server code)
+
+---
+
+## Files to NOT Modify
+
+- **DO NOT touch server/routes.ts** (backend admin check already works)
+- **DO NOT touch database migrations** (isAdmin column already exists)
+- **DO NOT modify authentication logic**
+- **DO NOT change session handling**
+- **DO NOT refactor unrelated code**
+
+---
+
+## Quick Checklist for Replit Agent
+
+- [ ] Verify `plan-gate.ts` has admin bypass at top of function
+- [ ] Verify `LockedFeature.tsx` accepts and uses isAdmin prop
+- [ ] Verify `LockedStep.tsx` accepts and uses isAdmin prop
+- [ ] Find ALL `<LockedStep` usage and add `isAdmin={user.isAdmin}`
+- [ ] Find ALL `<LockedFeature` usage and add `isAdmin={user.isAdmin}`
+- [ ] Test with admin account
+- [ ] Verify non-admins still blocked
+
+---
+
+## Emergency Rollback
+
+If something breaks, revert ONLY the files you modified. The changes are additive (adding props), so removing them should restore previous behavior.
+
+---
+
+**REMEMBER: This is a prop-passing fix. You're ensuring isAdmin flows from the user object → through components → to the access check. Make ONLY these surgical changes.**

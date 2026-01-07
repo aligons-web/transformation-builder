@@ -5,12 +5,14 @@ interface LockedStepProps {
   stepTitle: string;
   requiredPlan: string;
   description: string;
+  isAdmin?: boolean;
 }
 
 export function LockedStep({
   stepTitle,
   requiredPlan,
   description,
+  isAdmin,
 }: LockedStepProps) {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6">

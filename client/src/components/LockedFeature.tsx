@@ -4,6 +4,7 @@ interface LockedFeatureProps {
   requiredPlan: "TRANSFORMER" | "IMPLEMENTER";
   featureName: string;
   description?: string;
+  isAdmin?: boolean;
   children?: React.ReactNode;
 }
 
@@ -11,12 +12,13 @@ export function LockedFeature({
   requiredPlan, 
   featureName, 
   description,
+  isAdmin,
   children 
 }: LockedFeatureProps) {
   const { user } = useUser();
 
   // ✅ Admins bypass all locks
-  if (user?.isAdmin) {
+  if (isAdmin || user?.isAdmin) {
     return <>{children}</>;
   }
 

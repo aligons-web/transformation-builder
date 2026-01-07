@@ -2,6 +2,7 @@ import { DashboardSidebar, sidebarItems } from "@/components/dashboard-sidebar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
+import { useUser } from "@/hooks/use-user";
 
 const descriptions: Record<string, string> = {
   "Overview": "This dashboard guide and sitemap. View a brief explanation of each feature available in your workspace.",
@@ -17,13 +18,24 @@ const descriptions: Record<string, string> = {
 };
 
 export default function DashboardOverviewPage() {
+  const { user } = useUser();
+  
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
+
   return (
     <div className="flex h-screen bg-background">
       <DashboardSidebar />
       <main className="flex-1 overflow-y-auto md:ml-64 p-8">
         <div className="max-w-6xl mx-auto space-y-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold text-foreground">Good Morning, John</h1>
+            <h1 className="text-3xl font-heading font-bold text-foreground">
+              {getGreeting()}, {user?.username || 'User'}
+            </h1>
             <p className="text-muted-foreground mt-2">
               Here's your daily overview and transformation progress.
             </p>

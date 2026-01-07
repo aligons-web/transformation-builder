@@ -208,16 +208,16 @@ export default function ActionableFocusPage() {
   }
 
   // ✅ FEATURE GATE: Check access
-  if (!canAccessStep3) {
-    return (
-      <LockedStep
-        stepTitle="Step 3: Clarify Focus"
-        requiredPlan="Implementer"
-        description="You've analyzed what needs to change. Now implement your transformation with structure and accountability."
-        isAdmin={user?.isAdmin}
-      />
-    );
-  }
+  // if (!canAccessStep3) {
+   // return (
+   //   <LockedStep
+   //     stepTitle="Step 3: Clarify Focus"
+    //    requiredPlan="Implementer"
+    //    description="You've analyzed what needs to change. Now implement your // transformation with structure and accountability."
+    //    isAdmin={user?.isAdmin}
+   //   />
+  //  );
+ // }
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -229,8 +229,11 @@ export default function ActionableFocusPage() {
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">Step 3: Clarify Focus</h1>
-              <p className="text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
+              <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
+                Step 3: Clarify <span className="text-primary font-serif italic">Focus</span>
+              </h1>
+              <div className="h-6" />
+              <p className="text-xl text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
             </div>
           </div>
 

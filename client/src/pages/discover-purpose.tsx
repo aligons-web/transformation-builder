@@ -197,9 +197,21 @@ export default function DiscoverPurposePage() {
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Step 1: Discover <span className="text-primary font-serif italic">Purpose</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Explore the chapters of your life through guided modules derived from "Understanding Your Path." Reflect, record, and connect the dots.
           </p>
+          
+          <div className="flex items-center justify-center gap-3 p-3 max-w-sm mx-auto rounded-xl bg-muted/30 border border-primary/10">
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border ${user?.plan === 'IMPLEMENTER' ? 'bg-purple-100 text-purple-700 border-purple-200' : user?.plan === 'TRANSFORMER' ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-primary/10 text-primary border-primary/20'}`}>
+              {user?.username ? user.username.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'U'}
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-semibold">{user?.username || 'Guest User'}</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">
+                {user?.isAdmin ? 'Administrator' : user?.plan || 'Explorer Plan'}
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

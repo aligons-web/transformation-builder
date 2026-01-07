@@ -439,10 +439,13 @@ export default function TransformationAnalysisPage() {
             featureName="Change Analysis"
             description="Unlock AI-powered analysis tools to understand what needs to change in your life"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-8">
               <div>
-                <h1 className="text-3xl font-heading font-bold text-foreground">Step 2: Analyze Change</h1>
-                <p className="text-muted-foreground">Deep dive into understanding what transformation you need.</p>
+                <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
+                  Step 2: Analyze <span className="text-primary font-serif italic">Change</span>
+                </h1>
+                <div className="h-6" />
+                <p className="text-xl text-muted-foreground">Deep dive into understanding what transformation you need.</p>
               </div>
             </div>
 

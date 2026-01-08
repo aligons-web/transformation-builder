@@ -1,0 +1,356 @@
+import type { Express } from "express";
+import type { Server } from "http";
+import express from "express";
+import { requireAuth, requirePlan, requireFeature } from "./plan-gate";
+import { storage } from "./storage";
+import { db } from "./db";
+import { subscriptions } from "@shared/schema";
+import { eq } from "drizzle-orm";
+import { registerStripeWebhook } from "./stripe-webhook";
+
+// ✅ Add session type definition
+declare module "express-session" {
+  interface SessionData {
+    userId: string;
+  }
+}
+
+export async function registerRoutes(
+  httpServer: Server,
+  app: Express
+): Promise<Server> {
+  console.log("✅ registerRoutes() loaded");
+
+  // ----------------------------
+  // STRIPE WEBHOOK
+  // ----------------------------
+  // ⚠️ IMPORTANT: Register webhook BEFORE express.json() middleware
+  // Webhooks need raw body, not parsed JSON
+  registerStripeWebhook(app);
+
+  // ----------------------------
+  // AUTH ROUTES
+  // ----------------------------
+
+  /**
+   * POST /api/register
+   * Creates a new user with a 5-DAY TRANSFORMER trial
+   */
+  app.post("/api/register", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+
+      // ✅ VALIDATE INPUT
+      if (!username || !password) {
+        return res.status(400).json({ message: "Username and password required" });
+      }
+
+      // Basic validation
+      if (username.length < 3 || username.length > 50) {
+        return res.status(400).json({ message: "Username must be 3-50 characters" });
+      }
+
+      if (password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+      }
+
+      // ✅ CHECK IF USER EXISTS
+      const existingUser = await storage.getUserByUsername(username);
+      if (existingUser) {
+        return res.status(400).json({ message: "Username already exists" });
+      }
+
+      // ✅ CREATE USER
+      const newUser = await storage.createUser({ username, password });
+
+      if (!newUser || !newUser.id) {
+        throw new Error("Failed to create user");
+      }
+
+      // ✅ CREATE 5-DAY TRANSFORMER TRIAL SUBSCRIPTION
+      const trialEndsAt = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
+
+      try {
+        await db.insert(subscriptions).values({
+          userId: newUser.id,
+          plan: "EXPLORER",
+          status: "active",
+          trialPlan: "TRANSFORMER",
+          trialEndsAt,
+        });
+      } catch (subError) {
+        console.error("Failed to create subscription:", subError);
+      }
+
+      // ✅ REGENERATE SESSION - This clears any old session and creates a fresh one
+      await new Promise<void>((resolve, reject) => {
+        req.session.regenerate((err) => {
+          if (err) {
+            console.error("Session regeneration error:", err);
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+
+      // ✅ SET NEW USER ID IN FRESH SESSION
+      req.session.userId = newUser.id;
+
+      // ✅ SAVE SESSION AND SEND RESPONSE
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) {
+            console.error("Session save error:", err);
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+
+      // Send response AFTER session is saved
+      return res.json({
+        success: true,
+        userId: newUser.id,
+        username: newUser.username,
+        message: "Account created! You have 5 days of Transformer access.",
+        trial: {
+          endsAt: trialEndsAt.toISOString(),
+          plan: "TRANSFORMER"
+        }
+      });
+
+    } catch (error) {
+      console.error("Registration error:", error);
+
+      if (error instanceof Error) {
+        return res.status(500).json({ 
+          message: "Registration failed", 
+          error: error.message 
+        });
+      }
+
+      return res.status(500).json({ message: "Registration failed" });
+    }
+  });
+
+  /**
+   * POST /api/login
+   * Authenticate user and create session
+   */
+  app.post("/api/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+
+      if (!username || !password) {
+        return res.status(400).json({ message: "Username and password required" });
+      }
+
+      const user = await storage.getUserByUsername(username);
+      if (!user) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // ⚠️ TODO: Add bcrypt password verification
+      if (user.password !== password) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // ✅ REGENERATE SESSION - Clears any old session
+      await new Promise<void>((resolve, reject) => {
+        req.session.regenerate((err) => {
+          if (err) {
+            console.error("Session regeneration error:", err);
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+
+      // ✅ SET USER ID IN FRESH SESSION
+      req.session.userId = user.id;
+
+      // ✅ SAVE SESSION
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      return res.json({
+        success: true,
+        userId: user.id,
+        username: user.username,
+        message: "Logged in successfully",
+      });
+    } catch (error) {
+      console.error("Login error:", error);
+      return res.status(500).json({ message: "Login failed" });
+    }
+  });
+
+  /**
+   * POST /api/logout
+   * Destroy session
+   */
+  app.post("/api/logout", (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ message: "Logout failed" });
+      }
+      res.json({ success: true, message: "Logged out successfully" });
+    });
+  });
+
+  /**
+   * GET /api/me
+   * Returns current user info with plan details and trial status
+   */
+  /**
+   * GET /api/me
+   * Returns current user info with plan details and trial status
+   */
+  app.get("/api/me", async (req, res) => {
+    try {
+      console.log("Session data:", req.session);
+
+      const userId = req.session?.userId;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized - No session" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Get subscription with trial info
+      const subRows = await db
+        .select({
+          plan: subscriptions.plan,
+          status: subscriptions.status,
+          trialEndsAt: subscriptions.trialEndsAt,
+          trialPlan: subscriptions.trialPlan,
+        })
+        .from(subscriptions)
+        .where(eq(subscriptions.userId, userId))
+        .limit(1);
+
+      const sub = subRows[0];
+      const now = Date.now();
+
+      // ✅ FIX: Add debug logging to see what's happening
+      const trialEndsAtTimestamp = sub?.trialEndsAt ? new Date(sub.trialEndsAt).getTime() : 0;
+      const trialActive = sub?.trialEndsAt && trialEndsAtTimestamp > now;
+
+      console.log('🔍 Trial Debug for user:', user.username, {
+        trialEndsAt: sub?.trialEndsAt,
+        trialEndsAtTimestamp,
+        now,
+        difference: trialEndsAtTimestamp - now,
+        trialActive
+      });
+
+      const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER");
+
+      // Calculate days remaining in trial
+      const daysRemaining = trialActive && sub?.trialEndsAt
+        ? Math.ceil((trialEndsAtTimestamp - now) / (1000 * 60 * 60 * 24))
+        : 0;
+
+      // ✅ RETURN USER DATA WITH isAdmin
+      return res.json({
+        id: user.id,
+        username: user.username,
+        isAdmin: user.isAdmin || false,
+        plan: currentPlan,
+        basePlan: sub?.plan ?? "EXPLORER",
+        subscriptionStatus: sub?.status ?? "inactive",
+        trial: {
+          active: !!trialActive,
+          plan: sub?.trialPlan ?? null,
+          endsAt: sub?.trialEndsAt ?? null,
+          daysRemaining
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return res.status(500).json({ message: "Failed to fetch user info" });
+    }
+  });
+      }
+
+      // Get subscription with trial info
+      const subRows = await db
+        .select({
+          plan: subscriptions.plan,
+          status: subscriptions.status,
+          trialEndsAt: subscriptions.trialEndsAt,
+          trialPlan: subscriptions.trialPlan,
+        })
+        .from(subscriptions)
+        .where(eq(subscriptions.userId, userId))
+        .limit(1);
+
+      const sub = subRows[0];
+      const now = Date.now();
+
+      // ✅ FIX: Add debug logging to see what's happening
+      const trialEndsAtTimestamp = sub?.trialEndsAt ? new Date(sub.trialEndsAt).getTime() : 0;
+      const trialActive = sub?.trialEndsAt && trialEndsAtTimestamp > now;
+
+      console.log('🔍 Trial Debug for user:', user.username, {
+        trialEndsAt: sub?.trialEndsAt,
+        trialEndsAtTimestamp,
+        now,
+        difference: trialEndsAtTimestamp - now,
+        trialActive
+      });
+
+      const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER")
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return res.status(500).json({ message: "Failed to fetch user info" });
+    }
+  });
+
+  // ----------------------------
+  // EXPLORER FEATURES
+  // ----------------------------
+
+  app.post("/api/reflections", requireFeature("save-reflections"), async (_req, res) => {
+    res.json({ ok: true, message: "Reflection saved" });
+  });
+
+  // ----------------------------
+  // TRANSFORMER FEATURES
+  // ----------------------------
+
+  app.get("/api/analyze-change/overview", requirePlan("TRANSFORMER"), async (_req, res) => {
+    res.json({ ok: true, section: "Analyze Change Overview" });
+  });
+
+  app.post("/api/generate-insights", requireFeature("generate-insights"), async (_req, res) => {
+    res.json({ ok: true, message: "Insights generated" });
+  });
+
+  // ----------------------------
+  // IMPLEMENTER FEATURES
+  // ----------------------------
+
+  // ← ADD THIS NEW ROUTE HERE
+  app.get("/api/step3/access", requirePlan("IMPLEMENTER"), async (_req, res) => {
+    res.json({ ok: true, message: "Access granted to Step 3" });
+  });
+
+  app.get("/api/analytics", requirePlan("IMPLEMENTER"), async (_req, res) => {
+    res.json({ ok: true, section: "Analytics Dashboard" });
+  });
+
+  return httpServer;
+}

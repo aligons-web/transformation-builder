@@ -63,21 +63,11 @@ const urgencyLevels = [
 
 export default function ActionableFocusPage() {
   const { user, isLoading } = useUser();
+  const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
 
-  // ✅ CRITICAL: Check admin status FIRST before checking plan
-  const canAccessStep3 = (() => {
-    // If admin, always grant access
-    if (user?.isAdmin) {
-      console.log('✅ Admin access granted to Step 3');
-      return true;
-    }
-
-    // Otherwise check plan
-    const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
-    const hasAccess = PLANS[userPlan]?.access?.step3 ?? false;
-    console.log('📋 Plan check for Step 3:', { userPlan, hasAccess });
-    return hasAccess;
-  })();
+  
+  // ✅ Admin bypass: Admins can always access
+    const canAccessStep3 = user?.isAdmin === true ? true : (PLANS[userPlan]?.access?.step3 ?? false);
 
   const [activeTab, setActiveTab] = useState("module3");
   const [, setLocation] = useLocation();
@@ -208,15 +198,16 @@ export default function ActionableFocusPage() {
   }
 
   // ✅ FEATURE GATE: Check access
-  // if (!canAccessStep3) {
-   // return (
-   //   <LockedStep
-   //     stepTitle="Step 3: Clarify Focus"
-    //    requiredPlan="Implementer"
-    //    description="You've analyzed what needs to change. Now implement your // transformation with structure and accountability."
-    //    isAdmin={user?.isAdmin}
-   //   />
-  //  );
+ // if (!canAccessStep3) {
+ //   return (
+ //     <LockedStep
+ //      stepTitle="Step 3: Clarify Focus"
+ //       requiredPlan="Implementer"
+ //       description="You've analyzed what needs to change. Now 
+  //  implement your transformation with structure and accountability."
+  //     isAdmin={user?.isAdmin}
+ //     />
+ //   );
  // }
 
   return (
@@ -229,16 +220,13 @@ export default function ActionableFocusPage() {
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
-                Step 3: Clarify <span className="text-primary font-serif italic">Focus</span>
-              </h1>
-              <div className="h-6" />
-              <p className="text-xl text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
+              <h1 className="text-3xl font-heading font-bold text-foreground">Step 3: Clarify Focus</h1>
+              <p className="text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
             </div>
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8 h-12 bg-muted/50 p-1">
+            <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-8 h-auto md:h-12 bg-muted/50 p-1 gap-2 md:gap-0">
               <TabsTrigger value="module3" className="text-base">Module 3: How?</TabsTrigger>
               <TabsTrigger value="module4" className="text-base">Module 4: When?</TabsTrigger>
               <TabsTrigger value="module5" className="text-base">Module 5: Where?</TabsTrigger>

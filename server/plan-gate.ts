@@ -3,6 +3,16 @@ import { eq } from "drizzle-orm";
 import { db } from "./db";
 import { subscriptions, users } from "@shared/schema";
 
+export function canAccessModules(plan: Plan): number {
+  const planRank = {
+    EXPLORER: 3,      // Only modules 1-3
+    TRANSFORMER: 9,   // All 9 modules
+    IMPLEMENTER: 9    // All 9 modules
+  };
+
+  return planRank[plan] || 3;
+}
+
 export type Plan = "EXPLORER" | "TRANSFORMER" | "IMPLEMENTER";
 
 const PLAN_RANK: Record<Plan, number> = {

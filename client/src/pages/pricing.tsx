@@ -38,16 +38,18 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* ✅ Pricing cards now pull ALL data from PLANS config */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {Object.values(PLANS).map((plan) => {
+        {/* ✅ Pricing cards - Transformer and Implementer only, centered */}
+        <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 max-w-4xl mx-auto">
+          {Object.values(PLANS)
+            .filter((plan) => plan.key === "transformer" || plan.key === "implementer")
+            .map((plan) => {
             const isPopular = plan.key === "transformer";
 
             return (
               <Card
                 key={plan.key}
                 className={[
-                  "flex flex-col relative",
+                  "flex flex-col relative w-full md:w-[380px]",
                   isPopular
                     ? "border-primary/20 shadow-lg bg-primary/5"
                     : "border-border/50 shadow-sm hover:shadow-md transition-shadow",

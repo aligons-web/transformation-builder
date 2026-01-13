@@ -23,37 +23,51 @@ export default function DiscoverPurposePage() {
   const [activeModule, setActiveModule] = useState(modules[0]);
   const [isRecording, setIsRecording] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [isTrialExpired, setIsTrialExpired] = useState(false);
   const { toast } = useToast();
 
   // Refs for speech recognition
   const recognitionRef = useRef<any>(null);
 
-
-  // ✅ FIXED: Helper function to check if module is locked
+  
+  // Helper function to check if module is locked
   const isModuleLocked = (moduleId: number): boolean => {
     if (!user) return true;
 
-    // ✅ Admin bypass
-    if (user?.isAdmin) return false;
+    
 
     // Modules 1-3 are always free
     if (moduleId <= 3) return false;
 
-    // Modules 4-9 require TRANSFORMER or higher
+    // If trial is expired and not subscribed, lock 4-9
+    if (isTrialExpired && user.subscriptionStatus !== "active") {
+      return true;
+    }
+
+    // Determine effective plan based on active trial/subscription
+    let effectivePlan = user.basePlan; // Default to base plan
+
+    // If trial is active, use trial plan
+    if (user.trial?.active && user.trial?.plan) {
+      effectivePlan = user.trial.plan;
+    }
+    // If subscription is active, use subscription plan  
+    else if (user.subscriptionStatus === "active") {
+      effectivePlan = user.plan;
+    }
+    // Otherwise fall back to basePlan (which should be EXPLORER for free users)
+
+    // Modules 4-9 require EXPLORER or higher
     const planRank: Record<string, number> = {
       EXPLORER: 1,
       TRANSFORMER: 2,
       IMPLEMENTER: 3,
     };
 
-    const userPlan = (user?.plan || "EXPLORER") as string;
-    const userRank = planRank[userPlan] || 1;
-
-    // Need TRANSFORMER (rank 2) or higher for modules 4-9
-    return userRank < 2;
+    return planRank[effectivePlan] < planRank.EXPLORER;
   };
 
-  // Load answers from localStorage on mount
+  // Load answers from localStorage on mount and check trial status
   useEffect(() => {
     const savedAnswers = localStorage.getItem("purpose-reflections");
     if (savedAnswers) {
@@ -61,6 +75,17 @@ export default function DiscoverPurposePage() {
         setAnswers(JSON.parse(savedAnswers));
       } catch (e) {
         console.error("Failed to parse saved answers", e);
+      }
+    }
+
+    const trialStart = localStorage.getItem("trialStartDate");
+    if (trialStart) {
+      const startDate = new Date(trialStart);
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - startDate.getTime()); 
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+      if (diffDays > 5) {
+        setIsTrialExpired(true);
       }
     }
   }, []);
@@ -177,7 +202,7 @@ export default function DiscoverPurposePage() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Explore the chapters of your life through guided modules derived from "Understanding Your Path." Reflect, record, and connect the dots.
           </p>
-
+          
           <div className="flex items-center justify-center gap-3 p-3 max-w-sm mx-auto rounded-xl bg-muted/30 border border-primary/10">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border ${user?.plan === 'IMPLEMENTER' ? 'bg-purple-100 text-purple-700 border-purple-200' : user?.plan === 'TRANSFORMER' ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-primary/10 text-primary border-primary/20'}`}>
               {user?.username ? user.username.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'U'}
@@ -217,7 +242,7 @@ export default function DiscoverPurposePage() {
                           if (isModuleLocked(module.id)) {
                             toast({
                               title: "Upgrade Required",
-                              description: `Modules 4-9 require the Transformer plan or higher.`,
+                              description: `Module ${module.id} requires the Explorer plan or higher.`,
                               variant: "destructive"
                             });
                             return;

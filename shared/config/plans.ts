@@ -1,5 +1,5 @@
 // src/shared/config/plans.ts
-export type PlanKey = "explorer" | "transformer" | "implementer";
+export type PlanKey = "transformer" | "implementer";
 
 export interface PlanDefinition {
   key: PlanKey;
@@ -9,8 +9,6 @@ export interface PlanDefinition {
   description: string;
   cta: string;
 
-
-  
   // Pricing information
   pricing: {
     amount: string;           // Display price like "$29.99"
@@ -40,72 +38,35 @@ export interface PlanDefinition {
 }
 
 export const PLANS: Record<PlanKey, PlanDefinition> = {
-  explorer: {
-    key: "explorer",
-    name: "Explorer Plan",
-    subtitle: "Discover Purpose",
-    tagline: "Gain clarity about who you are and where your life is pointing.",
+  transformer: {
+    key: "transformer",
+    name: "Transformer Plan",
+    subtitle: "Discover & Analyze",
+    tagline: "Gain clarity and create your transformation plan.",
     description:
-      "Discover your purpose by reflecting on your life experiences and uncovering the themes that shape your future.",
-    cta: "Discover Your Purpose",
+      "Discover your purpose and analyze change with comprehensive tools for meaningful transformation.",
+    cta: "Start Transforming",
 
     pricing: {
       amount: "$29.99",
       period: "/month",
-      stripeCheckoutUrl: "https://buy.stripe.com/00w8wP9O3b152dm6kb8bS00",
-      stripePriceId: "price_1SjlSmEdLQjM86qTaPY7LXDU",
+      stripeCheckoutUrl: "https://buy.stripe.com/3cI7sL1hx8SX5pyaAr8bS01", // Update with new Stripe link
+      stripePriceId: "price_1Sjle7EdLQjM86qTAI3aT1lQ", // Update with new Price ID
     },
 
     features: [
-      "Step 1 Discover Purpose",
-      "Reflections saved",
-      "Summary generated",
-      "Initial interpretation of purpose",
-      "Community Access",
-    ],
-
-    access: {
-      step1: true,
-      step2: false,
-      step3: false,
-    },
-
-    community: {
-      enabled: true,
-      skoolTier: "Explorer Community — Discover Purpose",
-      includesChallenge: false,
-      includesLiveCalls: false,
-      coachingDiscount: false,
-    },
-  },
-
-  transformer: {
-    key: "transformer",
-    name: "Transformer Plan",
-    subtitle: "Analyze Change",
-    tagline: "Turn purpose into a clear and intentional plan.",
-    description:
-      "Analyze your current reality, define goals, and create a structured plan for meaningful life change.",
-    cta: "Analyze Your Change",
-
-    pricing: {
-      amount: "$39.99",
-      period: "/month",
-      stripeCheckoutUrl: "https://buy.stripe.com/3cI7sL1hx8SX5pyaAr8bS01",
-      stripePriceId: "price_1Sjle7EdLQjM86qTAI3aT1lQ",
-    },
-
-    features: [
-      "Includes Step 1 Discover Purpose",
-      "Step 2 Analyze Change",
-      "Journal",
-      "Tasks → Goals",
+      "Step 1: Discover Purpose (All 9 Modules)",
+      "Reflections saved locally",
+      "Summary & insights generated",
+      "Step 2: Analyze Change",
+      "Journal with AI insights",
+      "Tasks → Goals planning",
       "Milestones → Projects",
-      "Skills to Build",
-      "Change Analysis + Generate Insights",
+      "Skills to Build tracker",
+      "Change Analysis tools",
       "21-Day Transformation Challenge",
       "Community Access",
-      "Live Zoom or recordings + digital files (Skool)",
+      "Live Zoom calls + digital files",
     ],
 
     access: {
@@ -116,7 +77,7 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
 
     community: {
       enabled: true,
-      skoolTier: "Transformer Community — Analyze Change",
+      skoolTier: "Transformer Community",
       includesChallenge: true,
       includesLiveCalls: true,
       coachingDiscount: false,
@@ -126,29 +87,28 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
   implementer: {
     key: "implementer",
     name: "Implementer Plan",
-    subtitle: "Implement Change",
+    subtitle: "Complete Transformation",
     tagline: "Execute your plan with structure, insights, and accountability.",
     description:
-      "Implement lasting change through execution tools, analytics, and a final life blueprint designed for progress.",
+      "Everything in Transformer plus Step 3, final blueprint, advanced analytics, and coaching discounts.",
     cta: "Implement Your Change",
 
     pricing: {
-      amount: "$69.99",
+      amount: "$59.99",
       period: "/month",
-      stripeCheckoutUrl: "https://buy.stripe.com/28E9ATbWb1qvf0823V8bS02",
-      stripePriceId: "price_1SjlnNEdLQjM86qTGH3kVVqL",
+      stripeCheckoutUrl: "https://buy.stripe.com/28E9ATbWb1qvf0823V8bS02", // Update with new Stripe link
+      stripePriceId: "price_1SjlnNEdLQjM86qTGH3kVVqL", // Update with new Price ID
     },
 
     features: [
-      "Includes Explorer + Transformer",
+      "Everything in Transformer Plan",
       "Step 3: Clarify Focus",
       "Modules 3, 4, & 5 (How, When, Where)",
-      "Generate Insights",
-      "Final Blueprint",
-      "Analytics",
-      "Milestones → Projects",
-      "Community Access",
-      "Two Zoom sessions or recordings + digital files (Skool)",
+      "Journey Insights (AI-powered)",
+      "Final Life Blueprint",
+      "Advanced Analytics Dashboard",
+      "Priority Community Access",
+      "Two Zoom sessions + recordings",
       "Discount access to Masterclass + Inner Circle",
     ],
 
@@ -160,10 +120,20 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
 
     community: {
       enabled: true,
-      skoolTier: "Implementer Community — Implement Change",
+      skoolTier: "Implementer Community",
       includesChallenge: false,
       includesLiveCalls: true,
       coachingDiscount: true,
     },
   },
 };
+
+// Helper to get plan by key with type safety
+export function getPlan(key: string): PlanDefinition | undefined {
+  return PLANS[key as PlanKey];
+}
+
+// Helper to check if a plan key is valid
+export function isValidPlanKey(key: string): key is PlanKey {
+  return key === "transformer" || key === "implementer";
+}

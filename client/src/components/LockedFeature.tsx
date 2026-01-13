@@ -1,10 +1,10 @@
 import { useUser } from "@/hooks/use-user";
 
 interface LockedFeatureProps {
-  requiredPlan: "EXPLORER" | "TRANSFORMER" | "IMPLEMENTER";
+  requiredPlan: "TRANSFORMER" | "IMPLEMENTER";
   featureName: string;
   description?: string;
-  isAdmin?: boolean;
+  isAdmin?: boolean | number;
   children?: React.ReactNode;
 }
 
@@ -17,19 +17,19 @@ export function LockedFeature({
 }: LockedFeatureProps) {
   const { user } = useUser();
 
-  // ✅ Admins bypass all locks (check both number 1 and boolean true)
+  // ✅ Admin bypass - handles both 1 and true
   if (isAdmin || user?.isAdmin) {
     return <>{children}</>;
   }
 
   // Check if user has access
-  const planRank = {
+  const planRank: Record<string, number> = {
     EXPLORER: 1,
     TRANSFORMER: 2,
     IMPLEMENTER: 3,
   };
 
-  const userRank = user?.plan ? planRank[user.plan as keyof typeof planRank] : 0;
+  const userRank = user?.plan ? planRank[user.plan] : 0;
   const requiredRank = planRank[requiredPlan];
 
   // If user has access, show the content
@@ -38,9 +38,7 @@ export function LockedFeature({
   }
 
   // Determine what to show based on required plan
-  const isExplorerRequired = requiredPlan === "EXPLORER";
   const isTransformerRequired = requiredPlan === "TRANSFORMER";
-  const isImplementerRequired = requiredPlan === "IMPLEMENTER";
 
   return (
     <div className="relative">
@@ -71,31 +69,10 @@ export function LockedFeature({
             </p>
           </div>
 
-          {/* Trial status */}
-          {user?.trial?.active && (isTransformerRequired || isImplementerRequired) && (
-            <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-sm text-green-800 font-medium">
-                ✨ Good news! You have {user.trial.daysRemaining} days remaining.
-                <br />
-                {isTransformerRequired ? "This feature will unlock soon!" : "Upgrade to Implementer to access this feature."}
-              </p>
-            </div>
-          )}
-
-          {!user?.trial?.active && user?.basePlan === "EXPLORER" && (
-            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
-              <p className="text-sm text-amber-800">
-                {isExplorerRequired 
-                  ? "Start your free trial or upgrade to unlock modules 4-9."
-                  : "Your trial has ended. Upgrade to continue accessing premium features."}
-              </p>
-            </div>
-          )}
-
           {/* CTA Buttons */}
           <div className="flex flex-col gap-3">
             <button 
-              className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-4 py-2 rounded-lg font-medium"
+              className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-4 py-3 rounded-lg font-medium"
               onClick={() => window.location.href = '/pricing'}
             >
               Upgrade to {requiredPlan}
@@ -115,20 +92,13 @@ export function LockedFeature({
               {requiredPlan} includes:
             </p>
             <ul className="text-sm text-muted-foreground space-y-1">
-              {isExplorerRequired ? (
+              {isTransformerRequired ? (
                 <>
-                  <li>✓ Discover Purpose (9 modules)</li>
-                  <li>✓ Reflections saved</li>
-                  <li>✓ Summary generated</li>
-                  <li>✓ Community Access</li>
-                </>
-              ) : isTransformerRequired ? (
-                <>
-                  <li>✓ All Explorer Features</li>
-                  <li>✓ Change Analysis Tools</li>
+                  <li>✓ All 9 Modules in Step 1</li>
+                  <li>✓ Step 2: Analyze Change</li>
                   <li>✓ AI-Powered Insights</li>
                   <li>✓ 21-Day Challenge</li>
-                  <li>✓ Live Community Calls</li>
+                  <li>✓ Community Access</li>
                 </>
               ) : (
                 <>

@@ -120,7 +120,7 @@ export function Hero() {
                     className="text-lg px-8 py-6 font-bold text-white shadow-xl hover:scale-105 transition-transform mt-4"
                     style={{ backgroundColor: "#f2805a" }}
                   >
-                    Start Your 5-Day Trial
+                    Start Free — Create Your Account!
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>

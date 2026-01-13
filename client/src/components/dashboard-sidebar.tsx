@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { 
@@ -11,13 +10,12 @@ import {
   LogOut,
   Sparkles,
   Compass,
-  Calendar,
   Focus,
   ClipboardCheck,
   Users
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/use-user";
 
 export const sidebarItems = [
@@ -38,20 +36,6 @@ export const sidebarItems = [
 export function DashboardSidebar() {
   const [location] = useLocation();
   const { user, logout } = useUser();
-  const [isTrialExpired, setIsTrialExpired] = useState(false);
-
-  useEffect(() => {
-    const trialStart = localStorage.getItem("trialStartDate");
-    if (trialStart) {
-      const startDate = new Date(trialStart);
-      const now = new Date();
-      const diffTime = Math.abs(now.getTime() - startDate.getTime()); 
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-      if (diffDays > 5) {
-        setIsTrialExpired(true);
-      }
-    }
-  }, []);
 
   // Get user initials for avatar
   const getInitials = (name: string) => {
@@ -68,16 +52,38 @@ export function DashboardSidebar() {
     await logout();
   };
 
-  // Step 2 and Step 3 items that should be disabled after trial
-  const restrictedPaths = [
-    "/dashboard/tasks",
-    "/dashboard/projects",
-    "/dashboard/skills",
-    "/dashboard/analysis",
-    "/actionable-focus",
-    "/ai-transformation-engine",
-    "/final-summary"
-  ];
+  // ✅ Define which paths require which plans
+  const pathRequirements: Record<string, string> = {
+    "/dashboard/tasks": "TRANSFORMER",
+    "/dashboard/projects": "TRANSFORMER",
+    "/dashboard/skills": "TRANSFORMER",
+    "/dashboard/analysis": "TRANSFORMER",
+    "/actionable-focus": "IMPLEMENTER",
+    "/ai-transformation-engine": "IMPLEMENTER",
+    "/final-summary": "IMPLEMENTER",
+  };
+
+  // ✅ Check if path is locked
+  const isPathLocked = (path: string): boolean => {
+    if (!user) return true;
+
+    // Admin bypass
+    if (user?.isAdmin) return false;
+
+    const requiredPlan = pathRequirements[path];
+    if (!requiredPlan) return false; // No restriction
+
+    const planRank: Record<string, number> = {
+      EXPLORER: 1,
+      TRANSFORMER: 2,
+      IMPLEMENTER: 3,
+    };
+
+    const userRank = planRank[user.plan || "EXPLORER"] || 1;
+    const requiredRank = planRank[requiredPlan] || 1;
+
+    return userRank < requiredRank;
+  };
 
   return (
     <aside className="w-64 border-r border-border/50 bg-card/50 backdrop-blur-xl fixed h-screen flex flex-col z-40 hidden md:flex">
@@ -95,10 +101,9 @@ export function DashboardSidebar() {
           Menu
         </div>
         {sidebarItems.map((item) => {
-      // ✅ Admin bypass: Admins can access everything
-      const isRestricted = !user?.isAdmin && isTrialExpired && restrictedPaths.includes(item.href);
+          // External links (like Community)
           if ((item as any).external) {
-             return (
+            return (
               <a
                 key={item.href}
                 href={item.href}
@@ -111,17 +116,20 @@ export function DashboardSidebar() {
                 <item.icon className="w-5 h-5 text-muted-foreground" />
                 {item.label}
               </a>
-             );
+            );
           }
 
-          if (isRestricted) {
+          const locked = isPathLocked(item.href);
+
+          // Locked items
+          if (locked) {
             return (
               <div
                 key={item.href}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-muted-foreground/50 cursor-not-allowed",
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-muted-foreground/50 cursor-not-allowed"
                 )}
-                title="Trial expired. Upgrade to access."
+                title="Upgrade required"
               >
                 <item.icon className="w-5 h-5 text-muted-foreground/50" />
                 {item.label}
@@ -129,20 +137,21 @@ export function DashboardSidebar() {
             );
           }
 
+          // Accessible items
           return (
-          <Link key={item.href} href={item.href}>
-            <a
-              className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
-                location === item.href
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              )}
-            >
-              <item.icon className={cn("w-5 h-5", location === item.href ? "text-primary" : "text-muted-foreground")} />
-              {item.label}
-            </a>
-          </Link>
+            <Link key={item.href} href={item.href}>
+              <a
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+                  location === item.href
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+              >
+                <item.icon className={cn("w-5 h-5", location === item.href ? "text-primary" : "text-muted-foreground")} />
+                {item.label}
+              </a>
+            </Link>
           );
         })}
       </div>
@@ -159,7 +168,7 @@ export function DashboardSidebar() {
               {user?.username || 'User'}
             </p>
             <p className="text-xs text-muted-foreground truncate">
-              {user?.trial?.active ? `Trial: ${user.trial.daysRemaining} days left` : user?.plan || 'Explorer'}
+              {user?.isAdmin ? 'Administrator' : user?.plan || 'Explorer'}
             </p>
           </div>
         </div>

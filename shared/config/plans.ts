@@ -64,7 +64,7 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
       "Milestones → Projects",
       "Skills to Build tracker",
       "Change Analysis tools",
-      "21-Day Transformation Challenge",
+      "3-Day Boot Camp",
       "Community Access",
       "Live Zoom calls + digital files",
     ],

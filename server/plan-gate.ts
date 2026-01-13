@@ -3,16 +3,6 @@ import { eq } from "drizzle-orm";
 import { db } from "./db";
 import { subscriptions, users } from "@shared/schema";
 
-export function canAccessModules(plan: Plan): number {
-  const planRank = {
-    EXPLORER: 3,      // Only modules 1-3
-    TRANSFORMER: 9,   // All 9 modules
-    IMPLEMENTER: 9    // All 9 modules
-  };
-
-  return planRank[plan] || 3;
-}
-
 export type Plan = "EXPLORER" | "TRANSFORMER" | "IMPLEMENTER";
 
 const PLAN_RANK: Record<Plan, number> = {
@@ -21,12 +11,22 @@ const PLAN_RANK: Record<Plan, number> = {
   IMPLEMENTER: 3,
 };
 
+// Helper function for module access
+export function canAccessModules(plan: Plan): number {
+  const planRank = {
+    EXPLORER: 3,      // Only modules 1-3
+    TRANSFORMER: 9,   // All 9 modules
+    IMPLEMENTER: 9    // All 9 modules
+  };
+  return planRank[plan] || 3;
+}
+
 declare global {
   namespace Express {
     interface Request {
       authUserId?: string;
       userPlan?: Plan;
-      isAdmin?: boolean; // ✅ ADD THIS
+      isAdmin?: boolean;
     }
   }
 }
@@ -37,6 +37,7 @@ function getUserIdFromRequest(req: Request): string | undefined {
 
   const passportUserId = (req as any).user?.id as string | undefined;
   if (passportUserId) return passportUserId;
+
   return undefined;
 }
 
@@ -50,10 +51,10 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
 }
 
 /**
- * ✅ UPDATED: Checks for admin status first, then trial/plan
+ * ✅ UPDATED: No trial logic - checks admin, then subscription plan
  */
 async function fetchUserPlan(userId: string): Promise<{ plan: Plan; isAdmin: boolean }> {
-  // ✅ Check if user is admin
+  // Check if user is admin
   const userRows = await db
     .select({ isAdmin: users.isAdmin })
     .from(users)
@@ -62,7 +63,7 @@ async function fetchUserPlan(userId: string): Promise<{ plan: Plan; isAdmin: boo
 
   const isAdmin = userRows[0]?.isAdmin ?? false;
 
-  // ✅ Admins always get IMPLEMENTER access
+  // Admins always get IMPLEMENTER access
   if (isAdmin) {
     return { plan: "IMPLEMENTER", isAdmin: true };
   }
@@ -72,8 +73,6 @@ async function fetchUserPlan(userId: string): Promise<{ plan: Plan; isAdmin: boo
     .select({
       plan: subscriptions.plan,
       status: subscriptions.status,
-      trialEndsAt: subscriptions.trialEndsAt,
-      trialPlan: subscriptions.trialPlan,
     })
     .from(subscriptions)
     .where(eq(subscriptions.userId, userId))
@@ -82,12 +81,7 @@ async function fetchUserPlan(userId: string): Promise<{ plan: Plan; isAdmin: boo
   const row = rows[0];
   if (!row) return { plan: "EXPLORER", isAdmin: false };
 
-  // Check for active trial
-  if (row.trialEndsAt && new Date(row.trialEndsAt).getTime() > Date.now()) {
-    return { plan: (row.trialPlan as Plan) ?? "TRANSFORMER", isAdmin: false };
-  }
-
-  // Return base plan
+  // Return subscription plan
   return { plan: row.plan as Plan, isAdmin: false };
 }
 
@@ -124,15 +118,15 @@ export function requirePlan(requiredPlan: Plan) {
 }
 
 export const FEATURE_REQUIREMENTS: Record<string, Plan> = {
-  // Explorer baseline examples:
+  // Explorer baseline features
   "save-reflections": "EXPLORER",
   "generate-summary": "EXPLORER",
-  "initial-purpose-interpretation": "EXPLORER",
-  // Transformer examples:
+
+  // Transformer features
   "analyze-change": "TRANSFORMER",
   "generate-insights": "TRANSFORMER",
-  "clarify-focus": "TRANSFORMER",
-  // Implementer examples:
+
+  // Implementer features
   "final-blueprint": "IMPLEMENTER",
   "analytics": "IMPLEMENTER",
 };

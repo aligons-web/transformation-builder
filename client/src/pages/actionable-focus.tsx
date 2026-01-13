@@ -1,6 +1,4 @@
 import { useUser } from "@/hooks/use-user";
-import { PLANS } from "@shared/config/plans";
-import { LockedStep } from "@/components/LockedStep";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Button } from "@/components/ui/button";
@@ -9,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Target, Clock, MapPin, Mic, AlertCircle, CheckCircle2, ArrowRight, ArrowLeft, Sparkles, MicOff } from "lucide-react";
+import { Target, MapPin, Mic, AlertCircle, ArrowRight, ArrowLeft, Sparkles, MicOff } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
@@ -63,11 +61,27 @@ const urgencyLevels = [
 
 export default function ActionableFocusPage() {
   const { user, isLoading } = useUser();
-  const userPlan = (user?.plan ?? "explorer") as keyof typeof PLANS;
 
-  
-  // ✅ Admin bypass: Admins can always access
-    const canAccessStep3 = user?.isAdmin === true ? true : (PLANS[userPlan]?.access?.step3 ?? false);
+  // ✅ Check access to Step 3
+  const canAccessStep3 = (() => {
+    // Admin bypass - handles both 1 and true
+    if (user?.isAdmin) {
+      console.log('✅ Admin access granted to Step 3');
+      return true;
+    }
+
+    // Check plan
+    const planRank: Record<string, number> = {
+      EXPLORER: 1,
+      TRANSFORMER: 2,
+      IMPLEMENTER: 3,
+    };
+
+    const userPlan = user?.plan || "EXPLORER";
+    const hasAccess = planRank[userPlan] >= 3; // Need IMPLEMENTER (rank 3)
+    console.log('📋 Step 3 access check:', { userPlan, hasAccess });
+    return hasAccess;
+  })();
 
   const [activeTab, setActiveTab] = useState("module3");
   const [, setLocation] = useLocation();
@@ -188,7 +202,7 @@ export default function ActionableFocusPage() {
 
   const timeUseData = calculateTimeUseResults();
 
-  // ✅ FEATURE GATE: Loading state
+  // ✅ Loading state
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -197,19 +211,40 @@ export default function ActionableFocusPage() {
     );
   }
 
-  // ✅ FEATURE GATE: Check access
- // if (!canAccessStep3) {
- //   return (
- //     <LockedStep
- //      stepTitle="Step 3: Clarify Focus"
- //       requiredPlan="Implementer"
- //       description="You've analyzed what needs to change. Now 
-  //  implement your transformation with structure and accountability."
-  //     isAdmin={user?.isAdmin}
- //     />
- //   );
- // }
+  // ✅ Access denied - show upgrade prompt
+  if (!canAccessStep3) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <div className="max-w-md text-center space-y-6 bg-white rounded-lg shadow-xl p-8">
+          <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold">Step 3: Clarify Focus</h1>
+          <p className="text-muted-foreground">
+            This step requires the Implementer plan to access modules 3, 4, and 5.
+          </p>
+          <div className="flex flex-col gap-3">
+            <button 
+              onClick={() => window.location.href = '/pricing'}
+              className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-6 py-3 rounded-lg font-medium"
+            >
+              Upgrade to Implementer
+            </button>
+            <button 
+              onClick={() => window.history.back()}
+              className="w-full border px-6 py-2 rounded-lg"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
+  // ✅ Main content - user has access
   return (
     <div className="min-h-screen bg-background flex">
       <DashboardSidebar />

@@ -34,7 +34,7 @@ export async function registerRoutes(
 
   /**
    * POST /api/register
-   * Creates a new user with a 5-DAY TRANSFORMER trial
+   * Creates a new user with EXPLORER plan
    */
   app.post("/api/register", async (req, res) => {
     try {
@@ -67,16 +67,12 @@ export async function registerRoutes(
         throw new Error("Failed to create user");
       }
 
-      // ✅ CREATE 5-DAY TRANSFORMER TRIAL SUBSCRIPTION
-      const trialEndsAt = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
-
+      // ✅ CREATE EXPLORER SUBSCRIPTION (no trial)
       try {
         await db.insert(subscriptions).values({
           userId: newUser.id,
           plan: "EXPLORER",
           status: "active",
-          trialPlan: "TRANSFORMER",
-          trialEndsAt,
         });
       } catch (subError) {
         console.error("Failed to create subscription:", subError);
@@ -114,11 +110,7 @@ export async function registerRoutes(
         success: true,
         userId: newUser.id,
         username: newUser.username,
-        message: "Account created! You have 5 days of Transformer access.",
-        trial: {
-          endsAt: trialEndsAt.toISOString(),
-          plan: "TRANSFORMER"
-        }
+        message: "Account created successfully!",
       });
 
     } catch (error) {
@@ -208,12 +200,10 @@ export async function registerRoutes(
 
   /**
    * GET /api/me
-   * Returns current user info with plan details and trial status
+   * Returns current user info with plan details (no trial)
    */
   app.get("/api/me", async (req, res) => {
     try {
-      console.log("Session data:", req.session);
-
       const userId = req.session?.userId;
 
       if (!userId) {
@@ -225,34 +215,28 @@ export async function registerRoutes(
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Get subscription with trial info
+      // Get subscription
       const subRows = await db
         .select({
           plan: subscriptions.plan,
           status: subscriptions.status,
-          trialEndsAt: subscriptions.trialEndsAt,
-          trialPlan: subscriptions.trialPlan,
         })
         .from(subscriptions)
         .where(eq(subscriptions.userId, userId))
         .limit(1);
 
       const sub = subRows[0];
-      const now = Date.now();
+      const currentPlan = sub?.plan ?? "EXPLORER";
 
-      // ✅ FIX: Add debug logging to see what's happening
-      const trialEndsAtTimestamp = sub?.trialEndsAt ? new Date(sub.trialEndsAt).getTime() : 0;
-      const trialActive = sub?.trialEndsAt && trialEndsAtTimestamp > now;
-
-      console.log('🔍 Trial Debug for user:', user.username, {
-        trialEndsAt: sub?.trialEndsAt,
-        trialEndsAtTimestamp,
-        now,
-        difference: trialEndsAtTimestamp - now,
-        trialActive
+      // ✅ Return user data with isAdmin
+      return res.json({
+        id: user.id,
+        username: user.username,
+        isAdmin: user.isAdmin ? 1 : 0,
+        plan: currentPlan,
+        basePlan: sub?.plan ?? "EXPLORER",
+        subscriptionStatus: sub?.status ?? "inactive",
       });
-
-      const currentPlan = trialActive ? (sub.trialPlan ?? "TRANSFORMER") : (sub?.plan ?? "EXPLORER")
     } catch (error) {
       console.error("Error fetching user:", error);
       return res.status(500).json({ message: "Failed to fetch user info" });
@@ -283,7 +267,6 @@ export async function registerRoutes(
   // IMPLEMENTER FEATURES
   // ----------------------------
 
-  // ← ADD THIS NEW ROUTE HERE
   app.get("/api/step3/access", requirePlan("IMPLEMENTER"), async (_req, res) => {
     res.json({ ok: true, message: "Access granted to Step 3" });
   });

@@ -10,6 +10,13 @@ export default function LandingPage() {
       <Navbar />
       <main>
         <Hero />
+        
+        <div className="container mx-auto px-4 py-12 text-center max-w-5xl">
+          <h2 className="text-2xl md:text-3xl font-heading font-semibold text-foreground leading-relaxed">
+            Sign up now to unlock instant access to the first 3 modules at no cost. When you're ready to go deeper, upgrade to Transformer or Implementer plan for full access to advanced tools, resources community support.
+          </h2>
+        </div>
+
         <Benefits />
       </main>
       <Footer />

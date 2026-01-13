@@ -28,7 +28,7 @@ export function Benefits() {
   return (
     <section className="pt-0 pb-12 bg-background relative">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
           {benefits.map((benefit, index) => (
             <motion.div
               key={index}

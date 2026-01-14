@@ -3,14 +3,26 @@ import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Crown, Briefcase, Sparkles } from "lucide-react";
+import { Plus, TrendingUp, CheckCircle2, Clock, ChevronLeft, ChevronRight, Flag, Folder, CheckSquare, Target, Sparkles, Briefcase, Zap, Crown } from "lucide-react";
 import { useState, useEffect } from "react";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
+import { cn } from "@/lib/utils";
 import { useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
 
+type EventType = "milestone" | "project" | "task" | "goal";
+
+interface CalendarEvent {
+  id: string;
+  title: string;
+  date: Date;
+  type: EventType;
+}
+
 export default function DashboardPage() {
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [location, setLocation] = useLocation();
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [skillsChecked, setSkillsChecked] = useState<string[]>([]);
   const [otherSkillText, setOtherSkillText] = useState("");
 
@@ -37,6 +49,74 @@ export default function DashboardPage() {
   // Determine if we are on the tasks page or projects page (or general)
   const isTasksPage = location === "/dashboard/tasks";
   const isProjectsPage = location === "/dashboard/projects";
+
+  // Mock data - In a real app this would come from a store or API
+  const [events] = useState<CalendarEvent[]>([
+    {
+      id: "1",
+      title: "Project Alpha Launch",
+      date: new Date(),
+      type: "project"
+    },
+    {
+      id: "2",
+      title: "Q1 Milestone",
+      date: new Date(new Date().setDate(new Date().getDate() + 3)),
+      type: "milestone"
+    },
+    {
+      id: "3",
+      title: "Website Redesign",
+      date: new Date(new Date().setDate(new Date().getDate() + 10)),
+      type: "project"
+    },
+    {
+      id: "4",
+      title: "Complete Module 3",
+      date: new Date(new Date().setDate(new Date().getDate() + 1)),
+      type: "task"
+    },
+    {
+      id: "5",
+      title: "Career Pivot Goal",
+      date: new Date(new Date().setDate(new Date().getDate() + 5)),
+      type: "goal"
+    },
+    {
+      id: "6",
+      title: "Weekly Review",
+      date: new Date(new Date().setDate(new Date().getDate() + 7)),
+      type: "task"
+    }
+  ]);
+
+  const monthStart = startOfMonth(currentDate);
+  const monthEnd = endOfMonth(monthStart);
+  const startDate = startOfWeek(monthStart);
+  const endDate = endOfWeek(monthEnd);
+
+  const calendarDays = eachDayOfInterval({
+    start: startDate,
+    end: endDate,
+  });
+
+  const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
+  const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
+
+  const getEventsForDay = (day: Date) => {
+    return events.filter(event => {
+      const isSameDate = isSameDay(event.date, day);
+      if (!isSameDate) return false;
+
+      if (isTasksPage) {
+        return event.type === "task" || event.type === "goal";
+      }
+      if (isProjectsPage) {
+        return event.type === "milestone" || event.type === "project";
+      }
+      return true; 
+    });
+  };
 
   const getPageTitle = () => {
     if (isTasksPage) return "Tasks to Goals";
@@ -75,35 +155,63 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Upgrade Banner - Only show for non-admin EXPLORER or TRANSFORMER users */}
-            {user && !user.isAdmin && user.plan !== "IMPLEMENTER" && (
-              <Card className="border-2 border-primary/50 bg-gradient-to-r from-primary/5 to-secondary/5">
+            {/* Trial Badge */}
+            {user?.trial?.active === true && user?.trial.daysRemaining && user.trial.daysRemaining > 0 && (
+              <Card className="border-none shadow-lg bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <Crown className="w-6 h-6 text-primary" />
+                      <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                        <Zap className="w-6 h-6" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-foreground">
-                          {user.plan === "TRANSFORMER" 
-                            ? "Unlock Step 3 & Final Blueprint" 
-                            : "Unlock All Features"}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {user.plan === "TRANSFORMER"
-                            ? "Upgrade to Implementer for complete transformation access"
-                            : "Upgrade to Transformer or Implementer to unlock all modules and features"}
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-lg">TRANSFORMER TRIAL ACTIVE</h3>
+                          <Badge className="bg-white/30 text-white border-white/50 hover:bg-white/40">
+                            {user.trial.plan}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-white/90">
+                          {user.trial.daysRemaining} {user.trial.daysRemaining === 1 ? 'day' : 'days'} remaining • Full access to all features
+                        </p>
+                      </div>
+                    </div>
+                    <Button 
+                      variant="secondary" 
+                      className="bg-white text-orange-600 hover:bg-white/90 font-semibold gap-2"
+                      onClick={() => window.location.href = '/pricing'}
+                    >
+                      <Crown className="w-4 h-4" />
+                      Upgrade Now
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Trial Expired Badge */}
+            {user && user.trial?.active === false && user.basePlan === "EXPLORER" && !user.isAdmin && (
+              <Card className="border-2 border-amber-500/50 bg-amber-50/50">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-amber-100 rounded-lg">
+                        <Clock className="w-6 h-6 text-amber-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-amber-900">Trial Ended</h3>
+                        <p className="text-sm text-amber-700">
+                          Upgrade to continue accessing premium features
                         </p>
                       </div>
                     </div>
                     <Button 
                       variant="default" 
-                      className="gap-2"
+                      className="bg-amber-600 hover:bg-amber-700 text-white gap-2"
                       onClick={() => window.location.href = '/pricing'}
                     >
                       <Crown className="w-4 h-4" />
-                      Upgrade Now
+                      View Plans
                     </Button>
                   </div>
                 </CardContent>

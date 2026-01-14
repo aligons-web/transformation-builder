@@ -117,7 +117,7 @@ export function Hero() {
                 <Link href="/signup">
                   <Button 
                     size="lg" 
-                    className="text-lg px-8 py-6 font-bold text-white shadow-xl hover:scale-105 transition-transform mt-4"
+                    className="text-lg px-8 py-6 font-bold text-white shadow-xl hover:scale-105 transition-transform mt-4 cursor-pointer"
                     style={{ backgroundColor: "#f2805a" }}
                   >
                     Start Free — Create Your Account!

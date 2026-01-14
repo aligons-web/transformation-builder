@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, Home } from "lucide-react";
 import authBg from "@assets/generated_images/dramatic_technology_focus_and_target_image_for_login_page.png";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
@@ -67,7 +67,16 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex w-full bg-background">
+    <div className="min-h-screen flex w-full bg-background relative">
+      {/* Home Button */}
+      <div className="absolute top-4 left-4 z-50">
+        <Link href="/">
+          <Button variant="ghost" size="icon" className="bg-background/50 hover:bg-background text-foreground rounded-full">
+            <Home className="w-6 h-6" />
+          </Button>
+        </Link>
+      </div>
+
       {/* Left Side - Image */}
       <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-muted">
         <img 

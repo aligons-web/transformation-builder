@@ -41,7 +41,7 @@ export default function DashboardPage() {
   const getPageTitle = () => {
     if (isTasksPage) return "Tasks to Goals";
     if (isProjectsPage) return "Milestones to Projects";    
-    return `Good Morning, ${user?.username || "User"}`;
+    return `Welcome, ${user?.username || "User"}`;
   };
 
   const getPageSubtitle = () => {

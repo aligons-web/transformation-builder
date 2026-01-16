@@ -40,10 +40,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const fetchUser = async (throwOn401: boolean = false): Promise<void> => {
     setIsLoading(true);
     try {
-      // MOCK IMPLEMENTATION
-      const storedUser = localStorage.getItem("mock_user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
+      // MOCK IMPLEMENTATION - SESSION
+      const sessionUser = localStorage.getItem("mock_session");
+      if (sessionUser) {
+        setUser(JSON.parse(sessionUser));
       } else {
         setUser(null);
       }
@@ -57,26 +57,21 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const login = async (username: string, password: string): Promise<void> => {
     try {
-      // MOCK IMPLEMENTATION
+      // MOCK IMPLEMENTATION - LOGIN
       await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
       
-      const mockUser: User = {
-        userId: "mock-user-" + Math.random().toString(36).substring(7),
-        username: username,
-        isAdmin: username.toLowerCase().includes("admin"),
-        plan: "TRANSFORMER", // Default trial plan
-        basePlan: "EXPLORER",
-        subscriptionStatus: "active",
-        trial: {
-          active: true,
-          plan: "TRANSFORMER",
-          daysRemaining: 5,
-          endsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
-        }
-      };
+      const storedUsers = JSON.parse(localStorage.getItem("mock_users_db") || "{}");
+      const existingUser = storedUsers[username];
 
-      localStorage.setItem("mock_user", JSON.stringify(mockUser));
-      setUser(mockUser);
+      if (!existingUser) {
+        throw new Error("User not found. Please sign up first.");
+      }
+
+      // In a real app we would check password here
+      const userToLogin = existingUser;
+      
+      localStorage.setItem("mock_session", JSON.stringify(userToLogin));
+      setUser(userToLogin);
     } catch (error: any) {
       console.error("Login error:", error);
       throw error;
@@ -85,9 +80,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const signup = async (username: string, password: string): Promise<void> => {
     try {
-      // MOCK IMPLEMENTATION
+      // MOCK IMPLEMENTATION - SIGNUP
       await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
       
+      const storedUsers = JSON.parse(localStorage.getItem("mock_users_db") || "{}");
+      
+      if (storedUsers[username]) {
+        throw new Error("Username already exists. Please login instead.");
+      }
+
       const mockUser: User = {
         userId: "mock-user-" + Math.random().toString(36).substring(7),
         username: username,
@@ -103,7 +104,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
       };
 
-      localStorage.setItem("mock_user", JSON.stringify(mockUser));
+      // Save to "DB"
+      storedUsers[username] = mockUser;
+      localStorage.setItem("mock_users_db", JSON.stringify(storedUsers));
+
+      // Auto login after signup
+      localStorage.setItem("mock_session", JSON.stringify(mockUser));
       setUser(mockUser);
     } catch (error: any) {
       console.error("Registration error:", error);
@@ -113,8 +119,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const logout = async (): Promise<void> => {
     try {
-      // MOCK IMPLEMENTATION
-      localStorage.removeItem("mock_user");
+      // MOCK IMPLEMENTATION - LOGOUT
+      localStorage.removeItem("mock_session");
       setUser(null);
       setLocation("/login");
     } catch (error) {

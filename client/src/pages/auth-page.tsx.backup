@@ -37,16 +37,16 @@ export default function AuthPage() {
 
     try {
       if (activeTab === "signup") {
-        await signup(values.username, values.password);
+        await signup(values.username);
 
         toast({
           title: "Account Created! 🎉",
-          description: `Welcome ${values.username}! Your account has been created successfully.`,
+          description: `Welcome ${values.username}! You have 5 days of Transformer access to explore all features.`,
         });
 
         setLocation("/dashboard");
       } else {
-        await login(values.username, values.password);
+        await login(values.username);
 
         toast({
           title: "Welcome back!",
@@ -68,6 +68,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex w-full bg-background relative">
+      {/* Home Button */}
       <div className="absolute top-4 left-4 z-50">
         <Link href="/">
           <Button variant="ghost" size="icon" className="bg-background/50 hover:bg-background text-foreground rounded-full">
@@ -76,6 +77,7 @@ export default function AuthPage() {
         </Link>
       </div>
 
+      {/* Left Side - Image */}
       <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-muted">
         <img 
           src={authBg} 
@@ -94,6 +96,7 @@ export default function AuthPage() {
         </div>
       </div>
 
+      {/* Right Side - Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
@@ -187,10 +190,9 @@ export default function AuthPage() {
                   />
 
                   <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 text-sm">
-                    <p className="font-medium text-primary mb-1">🎁 Access 3 Modules Free!</p>
+                    <p className="font-medium text-primary mb-1">🎁 5-Day Transformer Trial Included!</p>
                     <p className="text-muted-foreground text-xs">
-                    Access 3 modules free. No credit card needed. Get full access to Explorer and Transformer features by upgrading. 
-
+                      Get full access to Explorer and Transformer features for 5 days. No credit card required.
                     </p>
                   </div>
 
@@ -202,7 +204,7 @@ export default function AuthPage() {
                       </>
                     ) : (
                       <>
-                                              Create Account & Access 3 Free Modules! 
+                        Create Account & Start Trial
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </>
                     )}

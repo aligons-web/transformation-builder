@@ -26,8 +26,8 @@ interface UserContextType {
   isAuthenticated: boolean;
   refetchUser: () => Promise<void>;
   logout: () => Promise<void>;
-  login: (username: string) => Promise<void>;
-  signup: (username: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
+  signup: (username: string, password: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -37,11 +37,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [, setLocation] = useLocation();
 
-  const fetchUser = async (): Promise<void> => {
+  const fetchUser = async (throwOn401: boolean = false): Promise<void> => {
     setIsLoading(true);
     try {
-      // Mock implementation: check localStorage
-      const storedUser = localStorage.getItem("mock_user_session");
+      // MOCK IMPLEMENTATION
+      const storedUser = localStorage.getItem("mock_user");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       } else {
@@ -55,53 +55,72 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const login = async (username: string): Promise<void> => {
-    // Mock login logic
-    const mockUser: User = {
-      userId: "mock-user-id",
-      username: username,
-      isAdmin: false,
-      plan: "TRANSFORMER",
-      basePlan: "EXPLORER",
-      subscriptionStatus: "active",
-      trial: {
-        active: true,
-        plan: "TRANSFORMER",
-        daysRemaining: 5,
-        endsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
-      }
-    };
-    
-    localStorage.setItem("mock_user_session", JSON.stringify(mockUser));
-    // Also set trial start date for other components that use it
-    if (!localStorage.getItem("trialStartDate")) {
-      localStorage.setItem("trialStartDate", new Date().toISOString());
+  const login = async (username: string, password: string): Promise<void> => {
+    try {
+      // MOCK IMPLEMENTATION
+      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
+      
+      const mockUser: User = {
+        userId: "mock-user-" + Math.random().toString(36).substring(7),
+        username: username,
+        isAdmin: username.toLowerCase().includes("admin"),
+        plan: "TRANSFORMER", // Default trial plan
+        basePlan: "EXPLORER",
+        subscriptionStatus: "active",
+        trial: {
+          active: true,
+          plan: "TRANSFORMER",
+          daysRemaining: 5,
+          endsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
+        }
+      };
+
+      localStorage.setItem("mock_user", JSON.stringify(mockUser));
+      setUser(mockUser);
+    } catch (error: any) {
+      console.error("Login error:", error);
+      throw error;
     }
-    
-    setUser(mockUser);
-    return Promise.resolve();
   };
 
-  const signup = async (username: string): Promise<void> => {
-    // Mock signup is same as login for this prototype
-    return login(username);
+  const signup = async (username: string, password: string): Promise<void> => {
+    try {
+      // MOCK IMPLEMENTATION
+      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
+      
+      const mockUser: User = {
+        userId: "mock-user-" + Math.random().toString(36).substring(7),
+        username: username,
+        isAdmin: username.toLowerCase().includes("admin"),
+        plan: "TRANSFORMER", // Default trial plan
+        basePlan: "EXPLORER",
+        subscriptionStatus: "active",
+        trial: {
+          active: true,
+          plan: "TRANSFORMER",
+          daysRemaining: 5,
+          endsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
+        }
+      };
+
+      localStorage.setItem("mock_user", JSON.stringify(mockUser));
+      setUser(mockUser);
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      throw error;
+    }
   };
 
   const logout = async (): Promise<void> => {
     try {
+      // MOCK IMPLEMENTATION
+      localStorage.removeItem("mock_user");
       setUser(null);
-      localStorage.removeItem("mock_user_session");
-      localStorage.removeItem("trialStartDate"); // Optional: clear trial start on logout if desired
       setLocation("/login");
-      
-      // Notify other tabs
-      window.dispatchEvent(new StorageEvent("storage", {
-        key: "logout-event",
-        newValue: Date.now().toString()
-      }));
-      
     } catch (error) {
       console.error("Logout error:", error);
+      setUser(null);
+      setLocation("/login");
     }
   };
 
@@ -109,19 +128,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     fetchUser();
   }, []);
 
-  // Listen for storage events to sync logout across tabs
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "logout-event") {
-        setUser(null);
-        localStorage.removeItem("mock_user_session");
-        setLocation("/login");
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [setLocation]);
 
   const value: UserContextType = {
     user,

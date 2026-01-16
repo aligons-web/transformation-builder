@@ -91,7 +91,7 @@ export async function registerRoutes(
       });
 
       // ✅ SET NEW USER ID IN FRESH SESSION
-      req.session.userId = newUser.id;
+      req.session.userId = String(newUser.id);
 
       // ✅ SAVE SESSION AND SEND RESPONSE
       await new Promise<void>((resolve, reject) => {
@@ -139,39 +139,72 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Username and password required" });
       }
 
-      const user = await storage.getUserByUsername(username);
+      console.log("🔍 Login attempt for username:", username);
+
+      let user;
+      try {
+        user = await storage.getUserByUsername(username);
+      } catch (dbError) {
+        console.error("❌ Database error during getUserByUsername:", dbError);
+        throw new Error(`Database error: ${dbError instanceof Error ? dbError.message : String(dbError)}`);
+      }
+
       if (!user) {
+        console.log("❌ User not found:", username);
         return res.status(401).json({ message: "Invalid credentials" });
       }
+
+      console.log("✅ User found:", user.id, user.username);
 
       // ⚠️ TODO: Add bcrypt password verification
       if (user.password !== password) {
+        console.log("❌ Password mismatch for user:", username);
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
+      console.log("✅ Password verified, regenerating session...");
+
       // ✅ REGENERATE SESSION - Clears any old session
-      await new Promise<void>((resolve, reject) => {
-        req.session.regenerate((err) => {
-          if (err) {
-            console.error("Session regeneration error:", err);
-            reject(err);
-          } else {
-            resolve();
-          }
+      try {
+        await new Promise<void>((resolve, reject) => {
+          req.session.regenerate((err) => {
+            if (err) {
+              console.error("❌ Session regeneration error:", err);
+              reject(err);
+            } else {
+              console.log("✅ Session regenerated");
+              resolve();
+            }
+          });
         });
-      });
+      } catch (sessionError) {
+        console.error("❌ Session regeneration failed:", sessionError);
+        throw new Error(`Session error: ${sessionError instanceof Error ? sessionError.message : String(sessionError)}`);
+      }
 
       // ✅ SET USER ID IN FRESH SESSION
-      req.session.userId = user.id;
+      req.session.userId = String(user.id);
+      console.log("✅ User ID set in session:", req.session.userId);
 
       // ✅ SAVE SESSION
-      await new Promise<void>((resolve, reject) => {
-        req.session.save((err) => {
-          if (err) reject(err);
-          else resolve();
+      try {
+        await new Promise<void>((resolve, reject) => {
+          req.session.save((err) => {
+            if (err) {
+              console.error("❌ Session save error:", err);
+              reject(err);
+            } else {
+              console.log("✅ Session saved successfully");
+              resolve();
+            }
+          });
         });
-      });
+      } catch (saveError) {
+        console.error("❌ Session save failed:", saveError);
+        throw new Error(`Session save error: ${saveError instanceof Error ? saveError.message : String(saveError)}`);
+      }
 
+      console.log("✅ Login successful for:", username);
       return res.json({
         success: true,
         userId: user.id,
@@ -179,8 +212,18 @@ export async function registerRoutes(
         message: "Logged in successfully",
       });
     } catch (error) {
-      console.error("Login error:", error);
-      return res.status(500).json({ message: "Login failed" });
+      console.error("❌ Login error:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorStack = error instanceof Error ? error.stack : undefined;
+      console.error("Login error details:", {
+        message: errorMessage,
+        stack: errorStack,
+        username: req.body?.username,
+      });
+      return res.status(500).json({ 
+        message: "Login failed",
+        error: errorMessage 
+      });
     }
   });
 
@@ -216,17 +259,26 @@ export async function registerRoutes(
       }
 
       // Get subscription
+      const userIdNumber = parseInt(userId, 10);
       const subRows = await db
         .select({
           plan: subscriptions.plan,
           status: subscriptions.status,
         })
         .from(subscriptions)
-        .where(eq(subscriptions.userId, userId))
+        .where(eq(subscriptions.userId, userIdNumber))
         .limit(1);
 
       const sub = subRows[0];
       const currentPlan = sub?.plan ?? "EXPLORER";
+
+      // ✅ DEBUG LOGGING
+      console.log('🔍 /api/me DEBUG:', {
+        username: user.username,
+        isAdmin: user.isAdmin,
+        isAdminType: typeof user.isAdmin,
+        currentPlan: currentPlan
+      });
 
       // ✅ Return user data with isAdmin
       return res.json({

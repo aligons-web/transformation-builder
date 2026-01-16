@@ -11,15 +11,13 @@ export function Footer() {
           <Link href="/founders-program">
             <a className="hover:text-primary transition-colors">Founder's Program</a>
           </Link>
-          <Link href="/network">
-            <a className="hover:text-primary transition-colors">LIFE Transformation Network</a>
-          </Link>
+          <a href="https://www.skool.com/life-transformation-network-2320/about" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">LIFE Transformation Network</a>
           <Link href="/pricing">
             <a className="hover:text-primary transition-colors">Pricing</a>
           </Link>
-          <Link href="/admin">
+          {/* <Link href="/admin">
             <a className="hover:text-primary transition-colors">Admin Dashboard</a>
-          </Link>
+          </Link> */}
         </div>
         <div className="flex flex-col items-center justify-center mb-4 leading-none">
           <span className="font-heading font-bold text-lg tracking-normal uppercase text-foreground">Transformation</span>

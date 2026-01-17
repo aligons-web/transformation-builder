@@ -160,8 +160,8 @@ export default function AffiliateProgramPage() {
           </Card>
 
           <div className="flex justify-center mb-12">
-            <Button size="lg" className="bg-primary text-primary-foreground text-lg px-8 py-6 h-auto shadow-xl hover:translate-y-[-2px] transition-all">
-                Apply for Affiliate Program
+            <Button size="lg" className="bg-primary text-primary-foreground text-lg px-8 py-6 h-auto shadow-xl hover:translate-y-[-2px] transition-all" disabled>
+                Coming Soon
             </Button>
           </div>
         </div>

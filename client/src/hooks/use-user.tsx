@@ -3,13 +3,6 @@ import { useLocation } from "wouter";
 
 type Plan = "EXPLORER" | "TRANSFORMER" | "IMPLEMENTER";
 
-interface TrialInfo {
-  active: boolean;
-  endsAt?: string;
-  plan?: Plan;
-  daysRemaining?: number;
-}
-
 interface User {
   userId: string;
   username: string;
@@ -17,7 +10,6 @@ interface User {
   plan: Plan;
   basePlan: Plan;
   subscriptionStatus: string;
-  trial: TrialInfo;
 }
 
 interface UserContextType {
@@ -37,13 +29,27 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [, setLocation] = useLocation();
 
-  const fetchUser = async (throwOn401: boolean = false): Promise<void> => {
+  const fetchUser = async (): Promise<void> => {
     setIsLoading(true);
     try {
-      // MOCK IMPLEMENTATION
-      const storedUser = localStorage.getItem("mock_user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
+      const response = await fetch("/api/me", {
+        credentials: "include", // Important for cookies/session
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // 🔍 DEBUG - Add this line
+        console.log("API /api/me response:", data);
+        
+        setUser({
+          userId: String(data.id),
+          username: data.username,
+          isAdmin: Boolean(data.isAdmin),
+          plan: data.plan || "EXPLORER",
+          basePlan: data.basePlan || "EXPLORER",
+          subscriptionStatus: data.subscriptionStatus || "inactive",
+        });
       } else {
         setUser(null);
       }
@@ -56,69 +62,48 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   const login = async (username: string, password: string): Promise<void> => {
-    try {
-      // MOCK IMPLEMENTATION
-      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
-      
-      const mockUser: User = {
-        userId: "mock-user-" + Math.random().toString(36).substring(7),
-        username: username,
-        isAdmin: username.toLowerCase().includes("admin"),
-        plan: "TRANSFORMER", // Default trial plan
-        basePlan: "EXPLORER",
-        subscriptionStatus: "active",
-        trial: {
-          active: true,
-          plan: "TRANSFORMER",
-          daysRemaining: 5,
-          endsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
-        }
-      };
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ username, password }),
+    });
 
-      localStorage.setItem("mock_user", JSON.stringify(mockUser));
-      setUser(mockUser);
-    } catch (error: any) {
-      console.error("Login error:", error);
-      throw error;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Login failed");
     }
+
+    // Fetch user data after successful login
+    await fetchUser();
   };
 
   const signup = async (username: string, password: string): Promise<void> => {
-    try {
-      // MOCK IMPLEMENTATION
-      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
-      
-      const mockUser: User = {
-        userId: "mock-user-" + Math.random().toString(36).substring(7),
-        username: username,
-        isAdmin: username.toLowerCase().includes("admin"),
-        plan: "TRANSFORMER", // Default trial plan
-        basePlan: "EXPLORER",
-        subscriptionStatus: "active",
-        trial: {
-          active: true,
-          plan: "TRANSFORMER",
-          daysRemaining: 5,
-          endsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
-        }
-      };
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ username, password }),
+    });
 
-      localStorage.setItem("mock_user", JSON.stringify(mockUser));
-      setUser(mockUser);
-    } catch (error: any) {
-      console.error("Registration error:", error);
-      throw error;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Registration failed");
     }
+
+    // Fetch user data after successful signup
+    await fetchUser();
   };
 
   const logout = async (): Promise<void> => {
     try {
-      // MOCK IMPLEMENTATION
-      localStorage.removeItem("mock_user");
-      setUser(null);
-      setLocation("/login");
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
     } catch (error) {
       console.error("Logout error:", error);
+    } finally {
       setUser(null);
       setLocation("/login");
     }
@@ -128,7 +113,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     fetchUser();
   }, []);
 
-
   const value: UserContextType = {
     user,
     isLoading,
@@ -136,7 +120,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     refetchUser: fetchUser,
     logout,
     login,
-    signup
+    signup,
   };
 
   return (

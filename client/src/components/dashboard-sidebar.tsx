@@ -61,6 +61,7 @@ export function DashboardSidebar() {
     "/actionable-focus": "IMPLEMENTER",
     "/ai-transformation-engine": "IMPLEMENTER",
     "/final-summary": "IMPLEMENTER",
+    "/dashboard/analytics": "IMPLEMENTER",
   };
 
   // ✅ Check if path is locked

@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import type { Server } from "http";
+import { subscriptions, waitlist } from "@shared/schema";
 import express from "express";
 import { requireAuth, requirePlan, requireFeature } from "./plan-gate";
 import { storage } from "./storage";
@@ -259,15 +260,14 @@ export async function registerRoutes(
       }
 
       // Get subscription
-      const userIdNumber = parseInt(userId, 10);
       const subRows = await db
-        .select({
-          plan: subscriptions.plan,
-          status: subscriptions.status,
-        })
-        .from(subscriptions)
-        .where(eq(subscriptions.userId, userIdNumber))
-        .limit(1);
+      .select({
+        plan: subscriptions.plan,
+        status: subscriptions.status,
+      })
+      .from(subscriptions)
+      .where(eq(subscriptions.userId, userId))
+      .limit(1);
 
       const sub = subRows[0];
       const currentPlan = sub?.plan ?? "EXPLORER";
@@ -311,6 +311,7 @@ export async function registerRoutes(
     res.json({ ok: true, section: "Analyze Change Overview" });
   });
 
+  
   app.post("/api/generate-insights", requireFeature("generate-insights"), async (_req, res) => {
     res.json({ ok: true, message: "Insights generated" });
   });
@@ -327,5 +328,105 @@ export async function registerRoutes(
     res.json({ ok: true, section: "Analytics Dashboard" });
   });
 
+  // ADD THIS TO YOUR routes.ts FILE (inside the registerRoutes function)
+
+  // ----------------------------
+  // WAITLIST ROUTES
+  // ----------------------------
+
+  /**
+   * POST /api/waitlist
+   * Add a new entry to the founder's waiting list
+   */
+  app.post("/api/waitlist", async (req, res) => {
+    try {
+      const { email, firstName, lastName, transformationGoal, agreeToUpdates } = req.body;
+
+      // Validate required fields
+      if (!email || !firstName) {
+        return res.status(400).json({ message: "Email and first name are required" });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Please enter a valid email address" });
+      }
+
+      // Check if email already exists
+      const existingEntry = await db
+        .select()
+        .from(waitlist)
+        .where(eq(waitlist.email, email.toLowerCase()))
+        .limit(1);
+
+      if (existingEntry.length > 0) {
+        return res.status(400).json({ message: "This email is already on the waiting list" });
+      }
+
+      // Insert new waitlist entry
+      const newEntry = await db.insert(waitlist).values({
+        email: email.toLowerCase(),
+        firstName: firstName.trim(),
+        lastName: lastName?.trim() || null,
+        transformationGoal: transformationGoal?.trim() || null,
+        agreeToUpdates: agreeToUpdates ?? true,
+      }).returning();
+
+      console.log("✅ New waitlist signup:", email);
+
+      return res.json({
+        success: true,
+        message: "Successfully joined the waiting list!",
+        id: newEntry[0]?.id,
+      });
+
+    } catch (error) {
+      console.error("Waitlist signup error:", error);
+
+      // Handle unique constraint violation
+      if ((error as any)?.code === "23505") {
+        return res.status(400).json({ message: "This email is already on the waiting list" });
+      }
+
+      return res.status(500).json({ message: "Failed to join waiting list. Please try again." });
+    }
+  });
+
+  /**
+   * GET /api/waitlist (Admin only)
+   * Get all waitlist entries
+   */
+  app.get("/api/waitlist", requireAuth, async (req, res) => {
+    try {
+      // Check if user is admin
+      const userId = req.authUserId;
+      const user = await storage.getUser(userId!);
+
+      if (!user?.isAdmin) {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const entries = await db
+        .select()
+        .from(waitlist)
+        .orderBy(waitlist.createdAt);
+
+      return res.json({
+        success: true,
+        count: entries.length,
+        entries,
+      });
+
+    } catch (error) {
+      console.error("Error fetching waitlist:", error);
+      return res.status(500).json({ message: "Failed to fetch waitlist" });
+    }
+  });
+
+  // Don't forget to import waitlist from schema at the top of routes.ts:
+  // import { subscriptions, waitlist } from "@shared/schema";
+
+  
   return httpServer;
 }

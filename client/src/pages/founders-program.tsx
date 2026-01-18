@@ -16,7 +16,7 @@ export default function FoundersProgramPage() {
             Back to Home
           </Button>
         </Link>
-        
+
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
@@ -29,14 +29,14 @@ export default function FoundersProgramPage() {
 
           <Card className="mb-12 border-primary/10 shadow-lg overflow-hidden">
             <CardHeader className="bg-primary/5 border-b border-primary/10 pb-8 pt-8 text-center">
-                <h2 className="text-2xl font-bold text-foreground">Transformation Builder – Founder’s Program</h2>
+                <h2 className="text-2xl font-bold text-foreground">Transformation Builder – Founder's Program</h2>
                 <p className="text-primary font-medium">LIFE Transformation Network by U eMerge Academy, LLC</p>
             </CardHeader>
             <CardContent className="p-8 md:p-12">
                 <div className="mb-12">
-                    <h3 className="text-2xl font-bold mb-4 text-primary">What Is the Founder’s Program?</h3>
+                    <h3 className="text-2xl font-bold mb-4 text-primary">What Is the Founder's Program?</h3>
                     <p className="text-lg text-muted-foreground mb-4">
-                        The Founder’s Program is a limited early-access opportunity for individuals who want to be among the first to experience, influence, and benefit from the Transformation Builder Web Application.
+                        The Founder's Program is a limited early-access opportunity for individuals who want to be among the first to experience, influence, and benefit from the Transformation Builder Web Application.
                     </p>
                     <p className="text-muted-foreground mb-4">
                         Founder participants are placed on a priority waiting list and invited to be among the first users of the trial version of the platform before public release.
@@ -50,9 +50,9 @@ export default function FoundersProgramPage() {
                   <section>
                     <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
                         <Star className="w-6 h-6 text-primary fill-primary/20" />
-                        Founder’s Program Core Benefits
+                        Founder's Program Core Benefits
                     </h3>
-                    
+
                     <div className="grid md:grid-cols-1 gap-6">
                         <div className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
                             <h4 className="text-xl font-bold mb-3 text-primary flex items-center gap-2">
@@ -61,7 +61,7 @@ export default function FoundersProgramPage() {
                             <ul className="space-y-2 ml-2">
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                                    <span>Be added to the Founder’s Waiting List</span>
+                                    <span>Be added to the Founder's Waiting List</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
@@ -119,7 +119,7 @@ export default function FoundersProgramPage() {
                         <Users className="w-6 h-6 text-primary fill-primary/20" />
                         Additional Founder Member Benefits
                     </h3>
-                    
+
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="bg-card border border-border rounded-xl p-6">
                             <h4 className="text-lg font-bold mb-2 text-foreground">4. Beta Testing & Feature Influence</h4>
@@ -180,7 +180,7 @@ export default function FoundersProgramPage() {
                             <ul className="space-y-2 text-sm text-muted-foreground">
                                 <li className="flex items-start gap-2">
                                     <span className="shrink-0">•</span>
-                                    <span>“Founding Member” designation within the platform</span>
+                                    <span>"Founding Member" designation within the platform</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="shrink-0">•</span>
@@ -212,9 +212,9 @@ export default function FoundersProgramPage() {
                         </li>
                     </ul>
                   </section>
-                  
+
                   <section className="text-center">
-                    <h3 className="text-2xl font-bold mb-6">Who the Founder’s Program Is For</h3>
+                    <h3 className="text-2xl font-bold mb-6">Who the Founder's Program Is For</h3>
                     <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="p-4 bg-background rounded-lg border border-border shadow-sm">
                             <p className="font-medium text-sm">Believe in personal growth & reinvention</p>
@@ -235,13 +235,16 @@ export default function FoundersProgramPage() {
           </Card>
 
           <div className="text-center mb-16 bg-primary/5 p-8 rounded-2xl border border-primary/20">
-            <h2 className="text-3xl font-bold mb-4 text-foreground">Join the Founder’s Waiting List</h2>
+            <h2 className="text-3xl font-bold mb-4 text-foreground">Join the Founder's Waiting List</h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Be among the first to experience the Transformation Builder and secure your place at founding pricing—before public launch.
             </p>
-            <Button size="lg" className="bg-primary text-primary-foreground text-lg px-10 py-6 h-auto shadow-xl hover:translate-y-[-2px] transition-all rounded-full">
-                Join Waiting List
-            </Button>
+            {/* ✅ UPDATED: Now links to /waitlist page */}
+            <Link href="/waitlist">
+              <Button size="lg" className="bg-primary text-primary-foreground text-lg px-10 py-6 h-auto shadow-xl hover:translate-y-[-2px] transition-all rounded-full">
+                  Join Waiting List
+              </Button>
+            </Link>
           </div>
         </div>
       </main>

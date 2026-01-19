@@ -14,11 +14,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 // Webhook secret from Stripe Dashboard
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-// Map Stripe Price IDs to your plan keys
-const PRICE_TO_PLAN_MAP: Record<string, "EXPLORER" | "TRANSFORMER" | "IMPLEMENTER"> = {
-  "price_1SjlSmEdLQjM86qTaPY7LXDU": "EXPLORER",      // $29.99
-  "price_1Sjle7EdLQjM86qTAI3aT1lQ": "TRANSFORMER",   // $39.99
-  "price_1SjlnNEdLQjM86qTGH3kVVqL": "IMPLEMENTER",   // $69.99
+// ✅ Map Stripe Price IDs to your plan keys
+// TEST MODE Price IDs - Replace with LIVE Price IDs when ready for production
+const PRICE_TO_PLAN_MAP: Record<string, "TRANSFORMER" | "IMPLEMENTER"> = {
+  // Test Mode Price IDs
+  "price_1SrMCMEdLQjM86qTkh7bSRTv": "TRANSFORMER",   // $29.99/month
+  "price_1SrMDFEdLQjM86qTyNO9tRgL": "IMPLEMENTER",   // $49.99/month
+
+  // TODO: Add Live Mode Price IDs here when ready for production
+  // "price_live_transformer_xxx": "TRANSFORMER",
+  // "price_live_implementer_xxx": "IMPLEMENTER",
 };
 
 export function registerStripeWebhook(app: Express) {
@@ -197,7 +202,7 @@ async function handleSubscriptionDeleted(event: Stripe.Event) {
     return;
   }
 
-  // Downgrade to EXPLORER (free plan)
+  // Downgrade to EXPLORER (free plan - no paid features)
   await db
     .update(subscriptions)
     .set({
@@ -207,7 +212,7 @@ async function handleSubscriptionDeleted(event: Stripe.Event) {
     })
     .where(eq(subscriptions.stripeSubscriptionId, subscription.id));
 
-  console.log(`✅ Downgraded user to EXPLORER plan`);
+  console.log(`✅ Downgraded user to EXPLORER plan (subscription cancelled)`);
 }
 
 /**

@@ -50,8 +50,9 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
     pricing: {
       amount: "$29.99",
       period: "/month",
-      stripeCheckoutUrl: "https://buy.stripe.com/3cI7sL1hx8SX5pyaAr8bS01", // Update with new Stripe link
-      stripePriceId: "price_1Sjle7EdLQjM86qTAI3aT1lQ", // Update with new Price ID
+      // ✅ TEST MODE URLs - Replace with live URLs when ready for production
+      stripeCheckoutUrl: "https://buy.stripe.com/test_00w8wP9O3b152dm6kb8bS00",
+      stripePriceId: "price_1SrMCMEdLQjM86qTkh7bSRTv",
     },
 
     features: [
@@ -66,7 +67,7 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
       "Change Analysis tools",
       "3-Day Boot Camp",
       "Community Access",
-      "Live Zoom calls + digital files",
+      "1 Live Zoom call per month + digital files",
     ],
 
     access: {
@@ -90,14 +91,15 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
     subtitle: "Complete Transformation",
     tagline: "Execute your plan with structure, insights, and accountability.",
     description:
-      "Everything in Transformer plus Step 3, final blueprint, advanced analytics, and coaching discounts.",
+      "Everything in Transformer plus Step 3, final blueprint, advanced analytics, and coaching for the transformation journey.",
     cta: "Implement Your Change",
 
     pricing: {
-      amount: "$59.99",
+      amount: "$49.99",
       period: "/month",
-      stripeCheckoutUrl: "https://buy.stripe.com/28E9ATbWb1qvf0823V8bS02", // Update with new Stripe link
-      stripePriceId: "price_1SjlnNEdLQjM86qTGH3kVVqL", // Update with new Price ID
+      // ✅ TEST MODE URLs - Replace with live URLs when ready for production
+      stripeCheckoutUrl: "https://buy.stripe.com/test_3cI7sL1hx8SX5pyaAr8bS01",
+      stripePriceId: "price_1SrMDFEdLQjM86qTyNO9tRgL",
     },
 
     features: [
@@ -108,8 +110,8 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
       "Final Life Blueprint",
       "Advanced Analytics Dashboard",
       "Priority Community Access",
-      "Two Zoom sessions + recordings",
-      "Discount access to Masterclass + Inner Circle",
+      "Two Zoom sessions (an accountability session & insights session) + recordings",
+      "Emphasis on continous knowledge development, tracking progress, and building skills for the journey.",
     ],
 
     access: {

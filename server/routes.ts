@@ -1,13 +1,29 @@
+import Stripe from "stripe";
 import type { Express } from "express";
 import type { Server } from "http";
-import { subscriptions, waitlist } from "@shared/schema";
 import express from "express";
 import { requireAuth, requirePlan, requireFeature } from "./plan-gate";
 import { storage } from "./storage";
 import { db } from "./db";
-import { subscriptions } from "@shared/schema";
+import { subscriptions, waitlist } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { registerStripeWebhook } from "./stripe-webhook";
+
+// ✅ Initialize Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2023-10-16",
+});
+
+// ✅ Price ID mapping - UPDATE THESE when switching to live mode
+const PLAN_PRICE_IDS: Record<string, string> = {
+  // Test Mode Price IDs
+  transformer: "price_1SrMCMEdLQjM86qTkh7bSRTv",
+  implementer: "price_1SrMDFEdLQjM86qTyNO9tRgL",
+
+  // TODO: Add Live Mode Price IDs when ready
+  // transformer: "price_live_xxx",
+  // implementer: "price_live_xxx",
+};
 
 // ✅ Add session type definition
 declare module "express-session" {
@@ -261,13 +277,13 @@ export async function registerRoutes(
 
       // Get subscription
       const subRows = await db
-      .select({
-        plan: subscriptions.plan,
-        status: subscriptions.status,
-      })
-      .from(subscriptions)
-      .where(eq(subscriptions.userId, userId))
-      .limit(1);
+        .select({
+          plan: subscriptions.plan,
+          status: subscriptions.status,
+        })
+        .from(subscriptions)
+        .where(eq(subscriptions.userId, userId))
+        .limit(1);
 
       const sub = subRows[0];
       const currentPlan = sub?.plan ?? "EXPLORER";
@@ -311,7 +327,6 @@ export async function registerRoutes(
     res.json({ ok: true, section: "Analyze Change Overview" });
   });
 
-  
   app.post("/api/generate-insights", requireFeature("generate-insights"), async (_req, res) => {
     res.json({ ok: true, message: "Insights generated" });
   });
@@ -327,8 +342,6 @@ export async function registerRoutes(
   app.get("/api/analytics", requirePlan("IMPLEMENTER"), async (_req, res) => {
     res.json({ ok: true, section: "Analytics Dashboard" });
   });
-
-  // ADD THIS TO YOUR routes.ts FILE (inside the registerRoutes function)
 
   // ----------------------------
   // WAITLIST ROUTES
@@ -424,9 +437,145 @@ export async function registerRoutes(
     }
   });
 
-  // Don't forget to import waitlist from schema at the top of routes.ts:
-  // import { subscriptions, waitlist } from "@shared/schema";
+  // ----------------------------
+  // STRIPE CHECKOUT ROUTES
+  // ----------------------------
 
-  
+  /**
+   * POST /api/create-checkout-session
+   * Creates a Stripe Checkout Session with user metadata
+   */
+  app.post("/api/create-checkout-session", async (req, res) => {
+    try {
+      const userId = req.session?.userId;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Please log in first" });
+      }
+
+      const { planKey } = req.body; // "transformer" or "implementer"
+
+      if (!planKey || !PLAN_PRICE_IDS[planKey]) {
+        return res.status(400).json({ message: "Invalid plan selected" });
+      }
+
+      const priceId = PLAN_PRICE_IDS[planKey];
+
+      // Get user info
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Check if user already has a Stripe customer ID
+      const existingSub = await db
+        .select({ stripeCustomerId: subscriptions.stripeCustomerId })
+        .from(subscriptions)
+        .where(eq(subscriptions.userId, userId))
+        .limit(1);
+
+      let customerId = existingSub[0]?.stripeCustomerId;
+
+      // Create or retrieve Stripe customer
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.username, // Assuming username is email
+          metadata: {
+            userId: userId, // ✅ This links Stripe customer to your user
+          },
+        });
+        customerId = customer.id;
+
+        // Save customer ID to database
+        await db
+          .update(subscriptions)
+          .set({ stripeCustomerId: customerId })
+          .where(eq(subscriptions.userId, userId));
+      } else {
+        // Update existing customer metadata to ensure userId is set
+        await stripe.customers.update(customerId, {
+          metadata: {
+            userId: userId,
+          },
+        });
+      }
+
+      // Determine success and cancel URLs
+      const baseUrl = process.env.APP_URL || `https://${req.get("host")}`;
+
+      // Create Checkout Session
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1,
+          },
+        ],
+        mode: "subscription",
+        success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${baseUrl}/pricing?canceled=true`,
+        metadata: {
+          userId: userId, // ✅ Also add to session metadata as backup
+          planKey: planKey,
+        },
+        subscription_data: {
+          metadata: {
+            userId: userId, // ✅ Add to subscription metadata
+            planKey: planKey,
+          },
+        },
+      });
+
+      console.log(`✅ Created checkout session for user ${userId}, plan: ${planKey}`);
+
+      return res.json({
+        sessionId: session.id,
+        url: session.url,
+      });
+
+    } catch (error) {
+      console.error("❌ Error creating checkout session:", error);
+      return res.status(500).json({ 
+        message: "Failed to create checkout session",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  /**
+   * GET /api/checkout/success
+   * Verifies checkout session and returns status
+   */
+  app.get("/api/checkout/success", async (req, res) => {
+    try {
+      const sessionId = req.query.session_id as string;
+
+      if (!sessionId) {
+        return res.status(400).json({ message: "No session ID provided" });
+      }
+
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+      if (session.payment_status === "paid") {
+        return res.json({
+          success: true,
+          message: "Payment successful!",
+          customerEmail: session.customer_details?.email,
+        });
+      } else {
+        return res.json({
+          success: false,
+          message: "Payment not completed",
+        });
+      }
+
+    } catch (error) {
+      console.error("Error verifying checkout:", error);
+      return res.status(500).json({ message: "Failed to verify checkout" });
+    }
+  });
+
   return httpServer;
 }

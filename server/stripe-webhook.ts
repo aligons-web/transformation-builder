@@ -63,6 +63,10 @@ export function registerStripeWebhook(app: Express) {
       try {
         // Handle different event types
         switch (event.type) {
+          case "checkout.session.completed":
+            await handleCheckoutCompleted(event);
+            break;
+
           case "customer.subscription.created":
           case "customer.subscription.updated":
             await handleSubscriptionChange(event);
@@ -74,10 +78,6 @@ export function registerStripeWebhook(app: Express) {
 
           case "invoice.payment_failed":
             await handlePaymentFailed(event);
-            break;
-
-          case "checkout.session.completed":
-            await handleCheckoutCompleted(event);
             break;
 
           default:
@@ -94,12 +94,112 @@ export function registerStripeWebhook(app: Express) {
 }
 
 /**
+ * Handle successful checkout completion
+ * This is the PRIMARY handler that links user to subscription
+ */
+async function handleCheckoutCompleted(event: Stripe.Event) {
+  const session = event.data.object as Stripe.Checkout.Session;
+
+  console.log("✅ Checkout completed:", session.id);
+  console.log("📝 Session metadata:", session.metadata);
+
+  // Get userId from session metadata (we set this when creating checkout)
+  const userId = session.metadata?.userId;
+  const planKey = session.metadata?.planKey;
+
+  if (!userId) {
+    console.error("⚠️ No userId in session metadata");
+    return;
+  }
+
+  console.log(`📝 Processing checkout for user: ${userId}, plan: ${planKey}`);
+
+  // Get subscription details
+  if (!session.subscription) {
+    console.error("⚠️ No subscription in session");
+    return;
+  }
+
+  const subscription = await stripe.subscriptions.retrieve(
+    session.subscription as string
+  );
+
+  // Get the price ID and map to plan
+  const priceId = subscription.items.data[0]?.price.id;
+  const plan = PRICE_TO_PLAN_MAP[priceId];
+
+  if (!plan) {
+    console.error(`⚠️ Unknown price ID: ${priceId}`);
+    return;
+  }
+
+  const customerId = session.customer as string;
+
+  // Update or create subscription in database
+  const existingSub = await db
+    .select()
+    .from(subscriptions)
+    .where(eq(subscriptions.userId, userId))
+    .limit(1);
+
+  if (existingSub.length > 0) {
+    // Update existing subscription
+    await db
+      .update(subscriptions)
+      .set({
+        plan,
+        status: "active",
+        stripeSubscriptionId: subscription.id,
+        stripeCustomerId: customerId,
+        stripePriceId: priceId,
+        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        updatedAt: new Date(),
+      })
+      .where(eq(subscriptions.userId, userId));
+
+    console.log(`✅ Updated subscription for user ${userId} to ${plan}`);
+  } else {
+    // Create new subscription
+    await db.insert(subscriptions).values({
+      userId,
+      plan,
+      status: "active",
+      stripeSubscriptionId: subscription.id,
+      stripeCustomerId: customerId,
+      stripePriceId: priceId,
+      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+    });
+
+    console.log(`✅ Created subscription for user ${userId} with plan ${plan}`);
+  }
+}
+
+/**
  * Handle subscription created or updated
  */
 async function handleSubscriptionChange(event: Stripe.Event) {
   const subscription = event.data.object as Stripe.Subscription;
 
   console.log("📝 Processing subscription change:", subscription.id);
+  console.log("📝 Subscription metadata:", subscription.metadata);
+
+  // Try to get userId from subscription metadata
+  let userId = subscription.metadata?.userId;
+
+  // If not in subscription metadata, try customer metadata
+  if (!userId) {
+    const customerId = subscription.customer as string;
+    const customer = await stripe.customers.retrieve(customerId);
+
+    if (!customer.deleted) {
+      userId = customer.metadata?.userId;
+    }
+  }
+
+  if (!userId) {
+    console.log("ℹ️ No userId found - checkout.session.completed will handle this");
+    return;
+  }
 
   // Get the price ID from the subscription
   const priceId = subscription.items.data[0]?.price.id;
@@ -117,37 +217,14 @@ async function handleSubscriptionChange(event: Stripe.Event) {
     return;
   }
 
-  // Get customer email from Stripe
-  const customerId = subscription.customer as string;
-  const customer = await stripe.customers.retrieve(customerId);
-
-  if (customer.deleted) {
-    console.error("⚠️ Customer was deleted");
-    return;
-  }
-
-  const email = customer.email;
-
-  if (!email) {
-    console.error("⚠️ No email found for customer");
-    return;
-  }
-
-  // Find user by email (you might need to add email field to users table)
-  // For now, we'll use customer metadata to store userId
-  const userId = customer.metadata?.userId;
-
-  if (!userId) {
-    console.error("⚠️ No userId in customer metadata. Customer needs to be linked.");
-    return;
-  }
-
   // Determine subscription status
   const status = subscription.status === "active" || subscription.status === "trialing"
     ? "active"
     : "inactive";
 
-  // Update or create subscription in database
+  const customerId = subscription.customer as string;
+
+  // Update subscription in database
   const existingSub = await db
     .select()
     .from(subscriptions)
@@ -155,7 +232,6 @@ async function handleSubscriptionChange(event: Stripe.Event) {
     .limit(1);
 
   if (existingSub.length > 0) {
-    // Update existing subscription
     await db
       .update(subscriptions)
       .set({
@@ -163,19 +239,22 @@ async function handleSubscriptionChange(event: Stripe.Event) {
         status,
         stripeSubscriptionId: subscription.id,
         stripeCustomerId: customerId,
+        stripePriceId: priceId,
+        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
         updatedAt: new Date(),
       })
       .where(eq(subscriptions.userId, userId));
 
     console.log(`✅ Updated subscription for user ${userId} to ${plan}`);
   } else {
-    // Create new subscription
     await db.insert(subscriptions).values({
       userId,
       plan,
       status,
       stripeSubscriptionId: subscription.id,
       stripeCustomerId: customerId,
+      stripePriceId: priceId,
+      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
     });
 
     console.log(`✅ Created subscription for user ${userId} with plan ${plan}`);
@@ -222,37 +301,8 @@ async function handlePaymentFailed(event: Stripe.Event) {
   const invoice = event.data.object as Stripe.Invoice;
 
   console.log("⚠️ Payment failed for invoice:", invoice.id);
-
-  // You might want to:
-  // 1. Send email to user about failed payment
-  // 2. Temporarily suspend access (grace period)
-  // 3. Log the event for monitoring
-
-  // For now, just log it
   console.log(`Customer ${invoice.customer} payment failed`);
-}
 
-/**
- * Handle successful checkout completion
- */
-async function handleCheckoutCompleted(event: Stripe.Event) {
-  const session = event.data.object as Stripe.Checkout.Session;
-
-  console.log("✅ Checkout completed:", session.id);
-
-  // Get subscription from session
-  if (session.subscription) {
-    const subscription = await stripe.subscriptions.retrieve(
-      session.subscription as string
-    );
-
-    // Just call handleSubscriptionChange directly with the subscription data
-    // We create a minimal event structure that TypeScript will accept
-    await handleSubscriptionChange({
-      ...event,
-      data: {
-        object: subscription as any,
-      },
-    } as Stripe.Event);
-  }
+  // Optional: You could update subscription status to "past_due" here
+  // or send notification to user
 }

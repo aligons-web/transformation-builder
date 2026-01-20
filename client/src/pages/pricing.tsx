@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { PLANS, type PlanKey } from "@shared/config/plans";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
-import { ArrowLeft, Check } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { ArrowLeft, Check, Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -12,8 +13,66 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
+import { useUser } from "@/hooks/use-user";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PricingPage() {
+  const { user, isAuthenticated } = useUser();
+  const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  // Check if URL has canceled parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const wasCanceled = urlParams.get("canceled") === "true";
+
+  const handleSubscribe = async (planKey: PlanKey) => {
+    // If not logged in, redirect to login
+    if (!isAuthenticated) {
+      toast({
+        title: "Please log in first",
+        description: "You need to create an account or log in to subscribe.",
+      });
+      setLocation("/login?redirect=/pricing");
+      return;
+    }
+
+    setLoadingPlan(planKey);
+
+    try {
+      const response = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ planKey }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to start checkout");
+      }
+
+      const data = await response.json();
+
+      // Redirect to Stripe Checkout
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error("No checkout URL received");
+      }
+
+    } catch (error: any) {
+      console.error("Checkout error:", error);
+      toast({
+        variant: "destructive",
+        title: "Checkout failed",
+        description: error.message || "Please try again later.",
+      });
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background font-sans flex flex-col">
       <Navbar />
@@ -36,6 +95,22 @@ export default function PricingPage() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Choose the path that fits your journey.
           </p>
+
+          {/* Show message if checkout was canceled */}
+          {wasCanceled && (
+            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
+              Checkout was canceled. Feel free to try again when you're ready!
+            </div>
+          )}
+
+          {/* Show current plan if logged in */}
+          {user && user.plan !== "EXPLORER" && (
+            <div className="mt-4 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+              <p className="text-sm text-primary">
+                You're currently on the <strong>{user.plan}</strong> plan
+              </p>
+            </div>
+          )}
         </div>
 
         {/* ✅ Pricing cards - Transformer and Implementer only, centered */}
@@ -44,6 +119,8 @@ export default function PricingPage() {
             .filter((plan) => plan.key === "transformer" || plan.key === "implementer")
             .map((plan) => {
             const isPopular = plan.key === "transformer";
+            const isCurrentPlan = user?.plan?.toLowerCase() === plan.key;
+            const isLoading = loadingPlan === plan.key;
 
             return (
               <Card
@@ -53,11 +130,18 @@ export default function PricingPage() {
                   isPopular
                     ? "border-primary/20 shadow-lg bg-primary/5"
                     : "border-border/50 shadow-sm hover:shadow-md transition-shadow",
+                  isCurrentPlan ? "ring-2 ring-primary" : "",
                 ].join(" ")}
               >
                 {isPopular && (
                   <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
                     POPULAR
+                  </div>
+                )}
+
+                {isCurrentPlan && (
+                  <div className="absolute top-0 left-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-br-lg rounded-tl-lg">
+                    CURRENT PLAN
                   </div>
                 )}
 
@@ -79,7 +163,7 @@ export default function PricingPage() {
                     </span>
                   </div>
 
-                  {/* ✅ Features from config - no more hardcoded lists! */}
+                  {/* ✅ Features from config */}
                   <ul className="space-y-3">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-center gap-2">
@@ -97,19 +181,22 @@ export default function PricingPage() {
                 </CardContent>
 
                 <CardFooter>
-                  {/* ✅ CTA text and Stripe URL from config */}
                   <Button
                     className="w-full"
                     variant={plan.key === "transformer" ? "default" : "outline"}
-                    asChild
+                    onClick={() => handleSubscribe(plan.key)}
+                    disabled={isLoading || isCurrentPlan}
                   >
-                    <a
-                      href={plan.pricing.stripeCheckoutUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {plan.cta}
-                    </a>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Processing...
+                      </>
+                    ) : isCurrentPlan ? (
+                      "Current Plan"
+                    ) : (
+                      plan.cta
+                    )}
                   </Button>
                 </CardFooter>
               </Card>

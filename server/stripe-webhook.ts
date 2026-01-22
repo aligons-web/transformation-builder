@@ -6,6 +6,13 @@ import { db } from "./db";
 import { subscriptions, users } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
+// ✅ Add this after imports
+declare module "http" {
+  interface IncomingMessage {
+    rawBody?: Buffer;
+  }
+}
+
 // Initialize Stripe with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
@@ -27,15 +34,20 @@ const PRICE_TO_PLAN_MAP: Record<string, "TRANSFORMER" | "IMPLEMENTER"> = {
 };
 
 export function registerStripeWebhook(app: Express) {
+  // ✅ Test route to verify webhook registration
+  app.get("/api/stripe/test", (req, res) => {
+    console.log("🔔 Stripe test route hit!");
+    res.json({ message: "Stripe webhook routes are registered!" });
+  });
   /**
    * POST /api/stripe/webhook
    * Handles Stripe webhook events
    * 
    * IMPORTANT: This endpoint MUST use raw body, not JSON parsing
    */
+
   app.post(
     "/api/stripe/webhook",
-    express.raw({ type: "application/json" }),
     async (req: Request, res: Response) => {
       const sig = req.headers["stripe-signature"];
 
@@ -47,9 +59,9 @@ export function registerStripeWebhook(app: Express) {
       let event: Stripe.Event;
 
       try {
-        // Verify webhook signature
+        // ✅ Use rawBody instead of body
         event = stripe.webhooks.constructEvent(
-          req.body,
+          req.rawBody as Buffer,  // Changed from req.body
           sig,
           webhookSecret
         );
@@ -57,6 +69,7 @@ export function registerStripeWebhook(app: Express) {
         console.error("⚠️ Webhook signature verification failed:", err);
         return res.status(400).send(`Webhook Error: ${err}`);
       }
+      
 
       console.log(`✅ Received Stripe event: ${event.type}`);
 

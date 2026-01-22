@@ -44,6 +44,7 @@ export async function registerRoutes(
   // ⚠️ IMPORTANT: Register webhook BEFORE express.json() middleware
   // Webhooks need raw body, not parsed JSON
   registerStripeWebhook(app);
+  console.log("✅ Stripe webhook registered");
 
   // ----------------------------
   // AUTH ROUTES

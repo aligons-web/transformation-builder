@@ -111,7 +111,7 @@ app.use((req, res, next) => {
   }
 
   // Serve on PORT from environment variable, default to 5001
-  const port = parseInt(process.env.PORT || "5001", 10);
+  const port = parseInt(process.env.PORT || "5003", 10);
   httpServer.listen(
     {
       port,

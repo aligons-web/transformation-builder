@@ -14,10 +14,11 @@ declare module "http" {
 }
 
 // Initialize Stripe with your secret key
-//const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {//
-const stripe = new Stripe("sk_test_51Sdf0JEdLQjM86qTmzZgf4a9FW6LxZTUjEJInYrcWOxMraiMtJ8XnZDfTpywlztKX5nWU3V218XzsDCGk31JZvHO009WzOfgbU",
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
 });
+// const stripe = new // Stripe("sk_test_51Sdf0JEdLQjM86qTmzZgf4a9FW6LxZTUjEJInYrcWOxMraiMtJ8XnZDfTpywlztKX5nWU3V218XzsDCGk31JZvHO009WzOfgbU",
+
 
 // Webhook secret from Stripe Dashboard
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;

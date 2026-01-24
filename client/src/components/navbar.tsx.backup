@@ -58,7 +58,7 @@ export function Navbar() {
           </Link>
           <div className="flex items-center gap-4 ml-4">
             <Link href="/signup">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 cursor-pointer">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20">
                 Start Journey
               </Button>
             </Link>
@@ -97,7 +97,7 @@ export function Navbar() {
                 </Link>
                 <hr className="border-border" />
                 <Link href="/signup">
-                  <Button className="w-full justify-start bg-primary cursor-pointer">
+                  <Button className="w-full justify-start bg-primary">
                     Start Journey
                   </Button>
                 </Link>

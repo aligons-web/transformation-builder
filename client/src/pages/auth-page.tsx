@@ -85,7 +85,8 @@ export default function AuthPage() {
         <div className="absolute inset-0 bg-primary/20 mix-blend-multiply" />
         <div className="relative z-10 p-12 flex flex-col justify-between h-full text-white">
           <div className="font-heading font-bold text-3xl">LIFE Transformation</div>
-          <blockquote className="space-y-2">
+          <blockquote className="space-y-2 bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-white/20">
+            
             <p className="text-2xl font-serif italic">
               "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle."
             </p>

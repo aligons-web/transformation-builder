@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText, Lock, ChevronDown } from "lucide-react";
+import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText, Lock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -18,9 +18,6 @@ import { modules } from "@/lib/purpose-modules";
 
 import { LockedFeature } from "@/components/LockedFeature";
 
-// Book cover image for CTA
-import bookCover from "@/assets/uypbookcta.jpg";
-
 export default function DiscoverPurposePage() {
   const { user } = useUser();
   const [activeModule, setActiveModule] = useState(modules[0]);
@@ -30,19 +27,6 @@ export default function DiscoverPurposePage() {
 
   // Refs for speech recognition
   const recognitionRef = useRef<any>(null);
-
-  // ✅ FIX: Use refs to track current recording state for the speech recognition callback
-  const isRecordingRef = useRef<number | null>(null);
-  const activeModuleRef = useRef(activeModule);
-
-  // Keep refs in sync with state
-  useEffect(() => {
-    isRecordingRef.current = isRecording;
-  }, [isRecording]);
-
-  useEffect(() => {
-    activeModuleRef.current = activeModule;
-  }, [activeModule]);
 
 
   // ✅ FIXED: Helper function to check if module is locked
@@ -69,36 +53,6 @@ export default function DiscoverPurposePage() {
     return userRank < 2;
   };
 
-  // Helper function to go to next module
-  const goToNextModule = () => {
-    const currentIndex = modules.findIndex(m => m.id === activeModule.id);
-    if (currentIndex < modules.length - 1) {
-      const nextModule = modules[currentIndex + 1];
-      if (!isModuleLocked(nextModule.id)) {
-        // Stop any ongoing recording
-        if (isRecording !== null && recognitionRef.current) {
-          recognitionRef.current.stop();
-          setIsRecording(null);
-        }
-        setActiveModule(nextModule);
-        // Scroll to top of the card
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        toast({
-          title: "Upgrade Required",
-          description: `Module ${nextModule.id} requires the Transformer plan or higher.`,
-          variant: "destructive"
-        });
-      }
-    }
-  };
-
-  // Check if there's a next module available
-  const hasNextModule = () => {
-    const currentIndex = modules.findIndex(m => m.id === activeModule.id);
-    return currentIndex < modules.length - 1;
-  };
-
   // Load answers from localStorage on mount
   useEffect(() => {
     const savedAnswers = localStorage.getItem("purpose-reflections");
@@ -111,7 +65,6 @@ export default function DiscoverPurposePage() {
     }
   }, []);
 
-  // ✅ FIX: Set up speech recognition only once, use refs for current values
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -120,11 +73,7 @@ export default function DiscoverPurposePage() {
       recognitionRef.current.interimResults = true;
 
       recognitionRef.current.onresult = (event: any) => {
-        // ✅ FIX: Use refs instead of state to get current values
-        const currentRecordingIndex = isRecordingRef.current;
-        const currentModule = activeModuleRef.current;
-
-        if (currentRecordingIndex === null) return;
+        if (isRecording === null) return;
 
         let finalTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -134,7 +83,7 @@ export default function DiscoverPurposePage() {
         }
 
         if (finalTranscript) {
-          const key = `${currentModule.id}-${currentRecordingIndex}`;
+          const key = `${activeModule.id}-${isRecording}`;
           setAnswers(prev => ({
             ...prev,
             [key]: (prev[key] || '') + ' ' + finalTranscript
@@ -153,8 +102,8 @@ export default function DiscoverPurposePage() {
       };
 
       recognitionRef.current.onend = () => {
-        // If we're still supposed to be recording but it stopped (e.g. silence), restart
-        // Not strictly necessary for this mockup but good practice
+         // If we're still supposed to be recording but it stopped (e.g. silence), restart
+         // Not strictly necessary for this mockup but good practice
       };
     }
 
@@ -163,7 +112,7 @@ export default function DiscoverPurposePage() {
         recognitionRef.current.stop();
       }
     };
-  }, [toast]); // ✅ FIX: Remove activeModule.id and isRecording from dependencies
+  }, [activeModule.id, isRecording, toast]);
 
   const toggleRecording = (index: number) => {
     if (!recognitionRef.current) {
@@ -228,25 +177,6 @@ export default function DiscoverPurposePage() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Explore the chapters of your life through guided modules derived from "Understanding Your Path." Reflect, record, and connect the dots.
           </p>
-
-          {/* Book CTA Section */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 p-4 rounded-xl bg-muted/20 border border-border/50 max-w-3xl mx-auto">
-            <p className="text-sm text-muted-foreground text-left flex-1">
-              Take your experience deeper—purchase the companion book to the Transformation Builder app on Amazon and follow the author's vivid journey to "Understanding Your Path" as you begin discovering your path.
-            </p>
-            <a 
-              href="https://www.amazon.com/Understanding-Your-Path-Discovering-purpose/dp/B0F6DG44HV" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="shrink-0 hover:opacity-90 transition-opacity cursor-pointer"
-            >
-              <img 
-                src={bookCover} 
-                alt="Understanding Your Path by Alexander Ligons" 
-                className="w-24 h-auto rounded-md shadow-md hover:shadow-lg transition-shadow"
-              />
-            </a>
-          </div>
 
           <div className="flex items-center justify-center gap-3 p-3 max-w-sm mx-auto rounded-xl bg-muted/30 border border-primary/10">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border ${user?.plan === 'IMPLEMENTER' ? 'bg-purple-100 text-purple-700 border-purple-200' : user?.plan === 'TRANSFORMER' ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-primary/10 text-primary border-primary/20'}`}>
@@ -398,7 +328,7 @@ export default function DiscoverPurposePage() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className={`absolute right-2 top-2 transition-colors cursor-pointer ${isRecording === index ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
+                              className={`absolute right-2 top-2 transition-colors ${isRecording === index ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
                               onClick={() => toggleRecording(index)}
                               title={isRecording === index ? "Stop Recording" : "Start Recording"}
                             >
@@ -413,39 +343,21 @@ export default function DiscoverPurposePage() {
                       ))}
                     </div>
 
-                    <div className="flex flex-col items-center pt-4 gap-4">
-                      {/* Save and Summary buttons */}
-                      <div className="flex justify-center gap-4 w-full">
-                        <Button 
-                          size="lg" 
-                          className="shadow-lg shadow-primary/20 cursor-pointer hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] active:shadow-md transition-all duration-150" 
-                          onClick={handleSaveReflections}
-                        >
-                          Save Reflections
-                        </Button>
-                        {activeModule.id === 9 && (
-                          <Link href="/discover-purpose/summary">
-                            <Button size="lg" variant="outline" className="border-primary/20 hover:bg-primary/5 gap-2 cursor-pointer">
-                              <FileText className="w-4 h-4" />
-                              Summary
-                            </Button>
-                          </Link>
-                        )}
-                      </div>
-
-                      {/* Next Module Navigation Arrow */}
-                      {hasNextModule() && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={goToNextModule}
-                          className="flex flex-col items-center gap-1 h-auto py-3 px-6 cursor-pointer hover:bg-primary/5 hover:text-primary transition-all group"
-                        >
-                          <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors">
-                            Next Module
-                          </span>
-                          <ChevronDown className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-y-1 transition-all" />
-                        </Button>
+                    <div className="flex justify-end pt-4 gap-4">
+                      <Button 
+                        size="lg" 
+                        className="shadow-lg shadow-primary/20 cursor-pointer hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] active:shadow-md transition-all duration-150" 
+                        onClick={handleSaveReflections}
+                      >
+                        Save Reflections
+                      </Button>
+                      {activeModule.id === 9 && (
+                        <Link href="/discover-purpose/summary">
+                          <Button size="lg" variant="outline" className="border-primary/20 hover:bg-primary/5 gap-2 cursor-pointer">
+                            <FileText className="w-4 h-4" />
+                            Summary
+                          </Button>
+                        </Link>
                       )}
                     </div>
                   </CardContent>

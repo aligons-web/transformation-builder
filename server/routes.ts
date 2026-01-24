@@ -1,4 +1,4 @@
-import Stripe from "stripe";
+import { Stripe } from "stripe";
 import type { Express } from "express";
 import type { Server } from "http";
 import express from "express";

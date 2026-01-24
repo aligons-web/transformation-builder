@@ -18,7 +18,6 @@ const stripeKey = process.env.STRIPE_TEST_SECRET_KEY;
 if (!stripeKey) throw new Error("Missing STRIPE_TEST_SECRET_KEY");
 const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 
-});
 // const stripe = new // Stripe("sk_test_51Sdf0JEdLQjM86qTmzZgf4a9FW6LxZTUjEJInYrcWOxMraiMtJ8XnZDfTpywlztKX5nWU3V218XzsDCGk31JZvHO009WzOfgbU",
 
 

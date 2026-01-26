@@ -30,28 +30,25 @@ app.use(
     },
   }),
 );
+
 app.use(express.urlencoded({ extended: false }));
 
-// ✅ FIXED: Session configuration for production
-const isProduction = process.env.NODE_ENV === "production";
-
 app.use(session({
-  secret: process.env.SESSION_SECRET || "your-secret-key",
+  secret: "your-secret-key",
   resave: false,
   saveUninitialized: false,
-  proxy: isProduction, // Trust Railway's proxy
   cookie: {
     httpOnly: true,
-    secure: isProduction, // true for HTTPS in production
-    sameSite: isProduction ? "none" : "lax", // "none" needed for cross-origin in production
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    secure: false, // false for development (http)
+    sameSite: "lax", // important for cross-origin cookies
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 }));
 
 // ✅ DEBUG MIDDLEWARE (after session, before logging middleware)
 app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  console.log(`📨 ${req.method} ${req.path}`);
+  console.log(`📨 ${req.method} ${req.path}`); // ✅ FIXED: parentheses around backticks
   console.log("🔑 Session ID:", req.sessionID);
   console.log("👤 User ID in session:", req.session?.userId);
   console.log("🍪 Cookie header:", req.headers.cookie);
@@ -67,7 +64,7 @@ export function log(message: string, source = "express") {
     second: "2-digit",
     hour12: true,
   });
-  console.log(`${formattedTime} [${source}] ${message}`);
+  console.log(`${formattedTime} [${source}] ${message}`); // ✅ FIXED: parentheses around backticks
 }
 
 app.use((req, res, next) => {
@@ -113,7 +110,7 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // Serve on PORT from environment variable, default to 5003
+  // Serve on PORT from environment variable, default to 5001
   const port = parseInt(process.env.PORT || "5003", 10);
   httpServer.listen(
     {
@@ -122,7 +119,7 @@ app.use((req, res, next) => {
       reusePort: true,
     },
     () => {
-      log(`serving on port ${port}`);
+      log(`serving on port ${port}`); // ✅ FIXED: parentheses around backticks
     },
   );
 })();

@@ -1,3 +1,4 @@
+import { registerAiAnalysisRoutes } from "./routes/ai-analyze";
 import { Stripe } from "stripe";
 import type { Express } from "express";
 import type { Server } from "http";
@@ -8,7 +9,6 @@ import { db } from "./db";
 import { subscriptions, waitlist } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { registerStripeWebhook } from "./stripe-webhook";
-import { registerAiAnalysisRoutes } from "./routes/ai-analyze";
 
 // ✅ Initialize Stripe
 const stripeKey = process.env.STRIPE_TEST_SECRET_KEY;
@@ -50,12 +50,6 @@ export async function registerRoutes(
   // Webhooks need raw body, not parsed JSON
   registerStripeWebhook(app);
   console.log("✅ Stripe webhook registered");
-
-  // ----------------------------
-  // AI ANALYSIS ROUTES
-  // ----------------------------
-  registerAiAnalysisRoutes(app);
-  console.log("✅ AI analysis routes registered");
 
   // ----------------------------
   // AUTH ROUTES

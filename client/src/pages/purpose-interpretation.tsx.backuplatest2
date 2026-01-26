@@ -5,93 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { ArrowLeft, Sparkles, Target, Lightbulb, Compass, ArrowRight, Heart, Briefcase, RefreshCw, AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useAiAnalysis } from "@/hooks/use-ai-analysis";
+import { useAiAnalysis, PurposeInterpretationResult } from "@/hooks/use-ai-analysis";
 import { modules } from "@/lib/purpose-modules";
 import { LocalStorageWarning } from "@/components/LocalStorageWarning";
-
-// Type that matches actual API response (snake_case)
-interface PurposeInterpretationResponse {
-  purpose_statement?: string;
-  purposeStatement?: string;
-  connecting_the_dots?: string;
-  connectingTheDots?: string;
-  personal_development?: {
-    key_themes?: string[];
-    themes?: string[];
-    strengths?: string[];
-    growth_opportunities?: string[];
-    growthAreas?: string[];
-    actionable_next_step?: string;
-    nextStep?: string;
-  };
-  personalDevelopment?: {
-    themes?: string[];
-    strengths?: string[];
-    growthAreas?: string[];
-    nextStep?: string;
-  };
-  professional_development?: {
-    key_themes?: string[];
-    themes?: string[];
-    strengths?: string[];
-    growth_opportunities?: string[];
-    growthAreas?: string[];
-    actionable_next_step?: string;
-    nextStep?: string;
-  };
-  professionalDevelopment?: {
-    themes?: string[];
-    strengths?: string[];
-    growthAreas?: string[];
-    nextStep?: string;
-  };
-  spiritual_development?: {
-    key_themes?: string[];
-    themes?: string[];
-    strengths?: string[];
-    growth_opportunities?: string[];
-    growthAreas?: string[];
-    actionable_next_step?: string;
-    nextStep?: string;
-  };
-  spiritualDevelopment?: {
-    themes?: string[];
-    strengths?: string[];
-    growthAreas?: string[];
-    nextStep?: string;
-  };
-}
-
-// Helper to normalize the response (handle both snake_case and camelCase)
-function normalizeResponse(data: PurposeInterpretationResponse) {
-  return {
-    purposeStatement: data.purpose_statement || data.purposeStatement || "",
-    connectingTheDots: data.connecting_the_dots || data.connectingTheDots || "",
-    personalDevelopment: {
-      themes: data.personal_development?.key_themes || data.personal_development?.themes || data.personalDevelopment?.themes || [],
-      strengths: data.personal_development?.strengths || data.personalDevelopment?.strengths || [],
-      growthAreas: data.personal_development?.growth_opportunities || data.personal_development?.growthAreas || data.personalDevelopment?.growthAreas || [],
-      nextStep: data.personal_development?.actionable_next_step || data.personal_development?.nextStep || data.personalDevelopment?.nextStep || "",
-    },
-    professionalDevelopment: {
-      themes: data.professional_development?.key_themes || data.professional_development?.themes || data.professionalDevelopment?.themes || [],
-      strengths: data.professional_development?.strengths || data.professionalDevelopment?.strengths || [],
-      growthAreas: data.professional_development?.growth_opportunities || data.professional_development?.growthAreas || data.professionalDevelopment?.growthAreas || [],
-      nextStep: data.professional_development?.actionable_next_step || data.professional_development?.nextStep || data.professionalDevelopment?.nextStep || "",
-    },
-    spiritualDevelopment: {
-      themes: data.spiritual_development?.key_themes || data.spiritual_development?.themes || data.spiritualDevelopment?.themes || [],
-      strengths: data.spiritual_development?.strengths || data.spiritualDevelopment?.strengths || [],
-      growthAreas: data.spiritual_development?.growth_opportunities || data.spiritual_development?.growthAreas || data.spiritualDevelopment?.growthAreas || [],
-      nextStep: data.spiritual_development?.actionable_next_step || data.spiritual_development?.nextStep || data.spiritualDevelopment?.nextStep || "",
-    },
-  };
-}
 
 export default function PurposeInterpretationPage() {
   const [reflections, setReflections] = useState<Record<string, string>>({});
   const [hasReflections, setHasReflections] = useState(false);
-  const [cachedResult, setCachedResult] = useState<PurposeInterpretationResponse | null>(null);
+  const [cachedResult, setCachedResult] = useState<PurposeInterpretationResult | null>(null);
 
   const { analyze, isLoading, error, result } = useAiAnalysis();
 
@@ -150,7 +71,7 @@ export default function PurposeInterpretationPage() {
         reflectionsHash: JSON.stringify(reflections)
       };
       localStorage.setItem("purpose-interpretation-cache", JSON.stringify(cacheData));
-      setCachedResult(result.structured as PurposeInterpretationResponse);
+      setCachedResult(result.structured as PurposeInterpretationResult);
     }
   }, [result]);
 
@@ -167,9 +88,8 @@ export default function PurposeInterpretationPage() {
     runAnalysis();
   };
 
-  // Get the interpretation data (from cache or fresh result) and normalize it
-  const rawData = cachedResult || (result?.structured as PurposeInterpretationResponse);
-  const interpretation = rawData ? normalizeResponse(rawData) : null;
+  // Get the interpretation data (from cache or fresh result)
+  const interpretation = cachedResult || (result?.structured as PurposeInterpretationResult);
 
   // No reflections state
   if (!hasReflections) {
@@ -306,7 +226,7 @@ export default function PurposeInterpretationPage() {
                       <>
                         <div>
                           <h4 className="text-xs font-bold uppercase text-rose-600 mb-2">Key Themes</h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1">
                             {interpretation.personalDevelopment.themes?.map((theme, i) => (
                               <li key={i} className="flex gap-2 items-start text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5 shrink-0" />
@@ -317,22 +237,11 @@ export default function PurposeInterpretationPage() {
                         </div>
                         <div>
                           <h4 className="text-xs font-bold uppercase text-rose-600 mb-2">Strengths</h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1">
                             {interpretation.personalDevelopment.strengths?.map((strength, i) => (
                               <li key={i} className="flex gap-2 items-start text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 shrink-0" />
                                 <span className="text-muted-foreground">{strength}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="text-xs font-bold uppercase text-rose-600 mb-2">Growth Areas</h4>
-                          <ul className="space-y-2">
-                            {interpretation.personalDevelopment.growthAreas?.map((area, i) => (
-                              <li key={i} className="flex gap-2 items-start text-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
-                                <span className="text-muted-foreground">{area}</span>
                               </li>
                             ))}
                           </ul>
@@ -361,7 +270,7 @@ export default function PurposeInterpretationPage() {
                       <>
                         <div>
                           <h4 className="text-xs font-bold uppercase text-blue-600 mb-2">Key Themes</h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1">
                             {interpretation.professionalDevelopment.themes?.map((theme, i) => (
                               <li key={i} className="flex gap-2 items-start text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
@@ -372,22 +281,11 @@ export default function PurposeInterpretationPage() {
                         </div>
                         <div>
                           <h4 className="text-xs font-bold uppercase text-blue-600 mb-2">Strengths</h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1">
                             {interpretation.professionalDevelopment.strengths?.map((strength, i) => (
                               <li key={i} className="flex gap-2 items-start text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 shrink-0" />
                                 <span className="text-muted-foreground">{strength}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="text-xs font-bold uppercase text-blue-600 mb-2">Growth Areas</h4>
-                          <ul className="space-y-2">
-                            {interpretation.professionalDevelopment.growthAreas?.map((area, i) => (
-                              <li key={i} className="flex gap-2 items-start text-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
-                                <span className="text-muted-foreground">{area}</span>
                               </li>
                             ))}
                           </ul>
@@ -416,7 +314,7 @@ export default function PurposeInterpretationPage() {
                       <>
                         <div>
                           <h4 className="text-xs font-bold uppercase text-purple-600 mb-2">Key Themes</h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1">
                             {interpretation.spiritualDevelopment.themes?.map((theme, i) => (
                               <li key={i} className="flex gap-2 items-start text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 shrink-0" />
@@ -427,22 +325,11 @@ export default function PurposeInterpretationPage() {
                         </div>
                         <div>
                           <h4 className="text-xs font-bold uppercase text-purple-600 mb-2">Strengths</h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1">
                             {interpretation.spiritualDevelopment.strengths?.map((strength, i) => (
                               <li key={i} className="flex gap-2 items-start text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 shrink-0" />
                                 <span className="text-muted-foreground">{strength}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="text-xs font-bold uppercase text-purple-600 mb-2">Growth Areas</h4>
-                          <ul className="space-y-2">
-                            {interpretation.spiritualDevelopment.growthAreas?.map((area, i) => (
-                              <li key={i} className="flex gap-2 items-start text-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
-                                <span className="text-muted-foreground">{area}</span>
                               </li>
                             ))}
                           </ul>

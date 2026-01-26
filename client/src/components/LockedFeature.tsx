@@ -97,7 +97,7 @@ export function LockedFeature({
                   <li>✓ All 9 Modules in Step 1</li>
                   <li>✓ Step 2: Analyze Change</li>
                   <li>✓ AI-Powered Insights</li>
-                  <li>✓ 21-Day Challenge</li>
+                  <li>✓ 3-Day Bootcamp</li>
                   <li>✓ Community Access</li>
                 </>
               ) : (

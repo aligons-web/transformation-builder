@@ -1,0 +1,171 @@
+import { Navbar } from "@/components/navbar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
+import { ArrowLeft, Sparkles, Target, Lightbulb, Compass, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+
+export default function PurposeInterpretationPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate AI analysis delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background font-sans">
+      <Navbar />
+
+      <main className="container mx-auto px-4 pt-24 pb-12">
+        <div className="max-w-4xl mx-auto mb-8">
+          <Link href="/discover-purpose/summary">
+            <Button variant="ghost" className="mb-6 gap-2 hover:bg-transparent hover:text-primary p-0 cursor-pointer">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Summary
+            </Button>
+          </Link>
+
+          <div className="mb-10">
+            <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1">
+              AI Analysis
+            </Badge>
+            <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground">
+              Interpretation of Your <span className="text-primary font-serif italic">Purpose</span>
+            </h1>
+            <p className="text-muted-foreground mt-2 text-lg">
+              Based on your reflections, here are the emerging themes and possibilities for your future path.
+            </p>
+          </div>
+
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <div className="relative w-16 h-16">
+                <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+                <Sparkles className="absolute inset-0 m-auto w-6 h-6 text-primary animate-pulse" />
+              </div>
+              <p className="text-lg font-medium text-muted-foreground animate-pulse">
+                Analyzing your journey...
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {/* Key Insights */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="bg-orange-50/50 border-orange-100 shadow-sm">
+                  <CardHeader>
+                    <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center mb-2">
+                      <Lightbulb className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <CardTitle className="text-xl">Core Themes</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      <li className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-2 shrink-0" />
+                        <span className="text-muted-foreground">Resilience through adversity is a recurring pattern in your story.</span>
+                      </li>
+                      <li className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-2 shrink-0" />
+                        <span className="text-muted-foreground">You value deep connection and community impact over individual accolades.</span>
+                      </li>
+                      <li className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-2 shrink-0" />
+                        <span className="text-muted-foreground">Your "dungeon" experiences have equipped you with unique empathy.</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-blue-50/50 border-blue-100 shadow-sm">
+                  <CardHeader>
+                    <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mb-2">
+                      <Compass className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <CardTitle className="text-xl">Potential Directions</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      <li className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 shrink-0" />
+                        <span className="text-muted-foreground">Mentorship or counseling roles where your story can inspire others.</span>
+                      </li>
+                      <li className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 shrink-0" />
+                        <span className="text-muted-foreground">Creative leadership in organizations undergoing transition.</span>
+                      </li>
+                      <li className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 shrink-0" />
+                        <span className="text-muted-foreground">Building community structures that support marginalized voices.</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Detailed Analysis */}
+              <Card className="border-primary/10 shadow-md overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-primary to-blue-400" />
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-2xl">
+                    <Target className="w-6 h-6 text-primary" />
+                    Strategic Synthesis
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Your Unique Value Proposition</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Your journey suggests that you possess a rare combination of "uncommon beginnings" resilience and a high "thirst quotient" for growth. This positions you uniquely to bridge gaps between struggling communities and resources. You aren't just surviving; you are designed to build pathways for others.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Connecting the Dots</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      The "interruption" you identified in Module 8 wasn't a detour but a shortcut to your true calling. It forced you to develop the "attitude that opens doors" (Module 5). Your future impact lies in leveraging these hard-won skills to solve problems that others overlook.
+                    </p>
+                  </div>
+
+                  <div className="bg-muted/30 p-6 rounded-xl border border-border/50">
+                    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-primary" />
+                      Suggested Next Steps
+                    </h3>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="bg-background p-4 rounded-lg border border-border/50">
+                        <span className="text-xs font-bold text-primary uppercase tracking-wider">Immediate</span>
+                        <p className="mt-1 font-medium">Draft a personal mission statement incorporating your "clues of vision".</p>
+                      </div>
+                      <div className="bg-background p-4 rounded-lg border border-border/50">
+                        <span className="text-xs font-bold text-primary uppercase tracking-wider">Short Term</span>
+                        <p className="mt-1 font-medium">Identify 3 organizations that align with your "thirst quotient".</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="flex justify-center pt-8">
+                <Link href="/dashboard/analysis">
+                  <Button 
+                    size="lg" 
+                    className="h-14 px-8 text-lg rounded-full shadow-lg shadow-primary/20 gap-2 cursor-pointer hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] active:shadow-md transition-all duration-150"
+                  >
+                    Step 2: Analyze Change
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -8,13 +8,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles, ArrowRight, Bot, Loader2, Clock, RefreshCw, AlertCircle, AlertTriangle } from "lucide-react";
+import { Sparkles, ArrowRight, Bot, Loader2, Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { LockedFeature } from "@/components/LockedFeature";
-import { useAiAnalysis } from "@/hooks/use-ai-analysis";
 
 const skillsList = [
   "Computer Skills", "Communication", "Social Media",
@@ -270,42 +269,14 @@ const successTypes = [
   "A highly effective Communicator"
 ];
 
-// Types for AI response
-interface TransformationAnalysisResponse {
-  subconsciousInsight?: {
-    pattern?: string;
-    description?: string;
-    recommendation?: string;
-  };
-  timeUseInsight?: {
-    type?: string;
-    description?: string;
-    recommendation?: string;
-  };
-  workStyleInsight?: {
-    preference?: string;
-    description?: string;
-    careerSuggestions?: string[];
-  };
-  resourceGaps?: {
-    primaryGap?: string;
-    strategy?: string;
-  };
-  transformationRecommendation?: {
-    focus?: string;
-    rationale?: string;
-    immediateAction?: string;
-  };
-  overallInsight?: string;
-}
-
 export default function TransformationAnalysisPage() {
-  const { user, isLoading: userLoading } = useUser();
+  const { user, isLoading } = useUser();
   const [activeTab, setActiveTab] = useState("module1");
   const [subconsciousAnswers, setSubconsciousAnswers] = useState<Record<number, string>>({});
   const [preferenceAnswers, setPreferenceAnswers] = useState<Record<number, string>>({});
   const [isRecording, setIsRecording] = useState<string | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [skillsChecked, setSkillsChecked] = useState<string[]>([]);
   const [resourcesChecked, setResourcesChecked] = useState<string[]>([]);
   const [timeUseAnswers, setTimeUseAnswers] = useState<Record<number, string>>({});
@@ -313,19 +284,9 @@ export default function TransformationAnalysisPage() {
   const [successChecked, setSuccessChecked] = useState<string[]>([]);
   const [otherSuccessText, setOtherSuccessText] = useState("");
   const [otherSkillText, setOtherSkillText] = useState("");
-  const [aiAnalysisResult, setAiAnalysisResult] = useState<TransformationAnalysisResponse | null>(null);
-
   const { toast } = useToast();
   const recognitionRef = useRef<any>(null);
-  const isRecordingRef = useRef<string | null>(null);
   const [, setLocation] = useLocation();
-
-  const { analyze, isLoading: isAnalyzing, error: aiError, result: aiResult } = useAiAnalysis();
-
-  // Keep ref in sync
-  useEffect(() => {
-    isRecordingRef.current = isRecording;
-  }, [isRecording]);
 
   useEffect(() => {
     const load = (key: string, setter: any) => {
@@ -347,21 +308,6 @@ export default function TransformationAnalysisPage() {
     load("analysis-success", setSuccessChecked);
     load("analysis-success-other", setOtherSuccessText);
     load("analysis-skill-other", setOtherSkillText);
-
-    // Load cached AI result
-    const cachedAi = localStorage.getItem("analysis-ai-result");
-    if (cachedAi) {
-      try {
-        const { result, timestamp } = JSON.parse(cachedAi);
-        const hoursSinceCache = (Date.now() - timestamp) / (1000 * 60 * 60);
-        if (hoursSinceCache < 24) {
-          setAiAnalysisResult(result);
-          setShowAnalysis(true);
-        }
-      } catch (e) {
-        console.error("Failed to parse cached AI result", e);
-      }
-    }
   }, []);
 
   useEffect(() => { localStorage.setItem("analysis-subconscious", JSON.stringify(subconsciousAnswers)); }, [subconsciousAnswers]);
@@ -374,19 +320,6 @@ export default function TransformationAnalysisPage() {
   useEffect(() => { localStorage.setItem("analysis-success-other", JSON.stringify(otherSuccessText)); }, [otherSuccessText]);
   useEffect(() => { localStorage.setItem("analysis-skill-other", JSON.stringify(otherSkillText)); }, [otherSkillText]);
 
-  // Cache AI result when received
-  useEffect(() => {
-    if (aiResult?.structured) {
-      const cacheData = {
-        result: aiResult.structured,
-        timestamp: Date.now()
-      };
-      localStorage.setItem("analysis-ai-result", JSON.stringify(cacheData));
-      setAiAnalysisResult(aiResult.structured as TransformationAnalysisResponse);
-      setShowAnalysis(true);
-    }
-  }, [aiResult]);
-
   useEffect(() => {
     if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) return;
 
@@ -396,8 +329,7 @@ export default function TransformationAnalysisPage() {
     recognitionRef.current.interimResults = true;
 
     recognitionRef.current.onresult = (event: any) => {
-      const currentRecording = isRecordingRef.current;
-      if (currentRecording === null) return;
+      if (isRecording === null) return;
 
       let finalTranscript = '';
       for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -409,7 +341,7 @@ export default function TransformationAnalysisPage() {
       if (finalTranscript) {
         setTextAnswers(prev => ({
           ...prev,
-          [currentRecording]: (prev[currentRecording] || '') + ' ' + finalTranscript
+          [isRecording]: (prev[isRecording] || '') + ' ' + finalTranscript
         }));
       }
     };
@@ -427,7 +359,7 @@ export default function TransformationAnalysisPage() {
     return () => {
       if (recognitionRef.current) recognitionRef.current.stop();
     };
-  }, [toast]);
+  }, [isRecording, toast]);
 
   const calculatePreferenceResults = () => {
     const counts = { People: 0, Things: 0, Data: 0, Mixed: 0 };
@@ -457,35 +389,35 @@ export default function TransformationAnalysisPage() {
   const preferenceData = calculatePreferenceResults();
   const { subCount, conCount } = calculateSubconsciousResults();
 
-  const handleAnalyze = async () => {
-    // Gather all data
-    const analysisData = {
-      subconsciousAnswers,
-      preferenceAnswers,
-      timeUseAnswers,
-      skillsChecked,
-      resourcesChecked,
-      successChecked,
-      textAnswers,
-      otherSuccessText,
-      otherSkillText
-    };
+  const calculateTimeUseResult = () => {
+    const counts = { A: 0, B: 0, C: 0, D: 0 };
+    Object.values(timeUseAnswers).forEach(val => {
+      if (val in counts) counts[val as keyof typeof counts]++;
+    });
 
-    // Clear cached result to get fresh analysis
-    localStorage.removeItem("analysis-ai-result");
-    setAiAnalysisResult(null);
+    const max = Math.max(...Object.values(counts));
+    const types = Object.keys(counts).filter(k => counts[k as keyof typeof counts] === max);
 
-    await analyze("transformation-analysis", analysisData);
+    if (Object.keys(timeUseAnswers).length < 4) return null;
+
+    if (types.includes("A")) return { type: "A", title: "Highly Disciplined & Self-Driven", desc: "You value structure and productivity." };
+    if (types.includes("B")) return { type: "B", title: "Independent Learner", desc: "You prioritize skill development and growth." };
+    if (types.includes("C")) return { type: "C", title: "Relaxation Focused", desc: "You tend to prioritize entertainment and downtime." };
+    if (types.includes("D")) return { type: "D", title: "Socially Connected", desc: "You value shared experiences and connection." };
+    return null;
   };
 
-  const handleRegenerate = () => {
-    localStorage.removeItem("analysis-ai-result");
-    setAiAnalysisResult(null);
-    setShowAnalysis(false);
-    handleAnalyze();
+  const timeUseResult = calculateTimeUseResult();
+
+  const handleAnalyze = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setShowAnalysis(true);
+    }, 2000);
   };
 
-  if (userLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -515,17 +447,6 @@ export default function TransformationAnalysisPage() {
                 </h1>
                 <div className="h-6" />
                 <p className="text-xl text-muted-foreground">Deep dive into understanding what transformation you need.</p>
-              </div>
-            </div>
-
-            {/* LocalStorage Warning */}
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 mb-6">
-              <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-semibold mb-1">Your data is saved locally in this browser</p>
-                <p className="text-amber-700">
-                  To avoid losing your work, don't clear your browser data or use a different browser/device.
-                </p>
               </div>
             </div>
 
@@ -633,7 +554,7 @@ export default function TransformationAnalysisPage() {
                 </Card>
 
                 <div className="flex justify-end">
-                  <Button onClick={() => setActiveTab("module2")} className="gap-2 cursor-pointer">
+                  <Button onClick={() => setActiveTab("module2")} className="gap-2">
                     Continue to Module 2
                     <ArrowRight className="w-4 h-4" />
                   </Button>
@@ -748,7 +669,7 @@ export default function TransformationAnalysisPage() {
                     onClick={handleAnalyze} 
                     disabled={isAnalyzing}
                     size="lg"
-                    className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-primary/20 cursor-pointer"
+                    className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-primary/20"
                   >
                     {isAnalyzing ? (
                       <>
@@ -764,32 +685,7 @@ export default function TransformationAnalysisPage() {
                   </Button>
                 </div>
 
-                {/* Error State */}
-                {aiError && !isAnalyzing && (
-                  <Card className="border-red-200 bg-red-50">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4">
-                        <div className="p-2 bg-red-100 rounded-full">
-                          <AlertCircle className="w-6 h-6 text-red-600" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-red-800 mb-2">Analysis Failed</h3>
-                          <p className="text-red-700 mb-4">{aiError}</p>
-                          <Button 
-                            onClick={handleRegenerate} 
-                            variant="outline" 
-                            className="gap-2 border-red-300 text-red-700 hover:bg-red-100 cursor-pointer"
-                          >
-                            <RefreshCw className="w-4 h-4" />
-                            Try Again
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-
-                {showAnalysis && aiAnalysisResult && (
+                {showAnalysis && (
                   <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <Card className="border-primary/20 bg-primary/5">
@@ -800,65 +696,40 @@ export default function TransformationAnalysisPage() {
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                          {/* Subconscious Insight */}
-                          {aiAnalysisResult.subconsciousInsight && (
-                            <div>
-                              <h4 className="font-semibold mb-1">Subconscious Drivers</h4>
-                              <div className="h-4 bg-muted rounded-full overflow-hidden flex">
-                                <div className="bg-blue-500 h-full transition-all duration-1000" style={{ width: `${(subCount / (subCount + conCount || 1)) * 100}%` }} />
-                                <div className="bg-purple-500 h-full transition-all duration-1000" style={{ width: `${(conCount / (subCount + conCount || 1)) * 100}%` }} />
-                              </div>
-                              <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                                <span>Impulsive ({subCount})</span>
-                                <span>Logical ({conCount})</span>
-                              </div>
-                              <p className="text-sm mt-2 text-muted-foreground">
-                                {aiAnalysisResult.subconsciousInsight.description}
-                              </p>
-                              {aiAnalysisResult.subconsciousInsight.recommendation && (
-                                <p className="text-sm mt-2 text-primary font-medium">
-                                  💡 {aiAnalysisResult.subconsciousInsight.recommendation}
-                                </p>
-                              )}
+                          <div>
+                            <h4 className="font-semibold mb-1">Subconscious Drivers</h4>
+                            <div className="h-4 bg-muted rounded-full overflow-hidden flex">
+                              <div className="bg-blue-500 h-full transition-all duration-1000" style={{ width: `${(subCount / (subCount + conCount || 1)) * 100}%` }} />
+                              <div className="bg-purple-500 h-full transition-all duration-1000" style={{ width: `${(conCount / (subCount + conCount || 1)) * 100}%` }} />
                             </div>
-                          )}
+                            <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                              <span>Impulsive ({subCount})</span>
+                              <span>Logical ({conCount})</span>
+                            </div>
+                            <p className="text-sm mt-2 text-muted-foreground">
+                              {subCount > conCount 
+                                ? "You tend to make decisions based on instinct and emotion. This can be powerful but may lead to reactive choices."
+                                : "You prioritize logic and analysis. This reduces risk but may lead to overthinking."}
+                            </p>
+                          </div>
 
-                          {/* Work Style Preference */}
-                          {aiAnalysisResult.workStyleInsight && (
-                            <div>
-                               <h4 className="font-semibold mb-1">Work Style Preference</h4>
-                               <div className="h-[200px] w-full">
-                                 <ResponsiveContainer width="100%" height="100%">
-                                   <BarChart data={preferenceData}>
-                                     <XAxis dataKey="name" fontSize={12} />
-                                     <YAxis fontSize={12} />
-                                     <Tooltip />
-                                     <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                                       {preferenceData.map((entry, index) => (
-                                         <Cell key={`cell-${index}`} fill={entry.color} />
-                                       ))}
-                                     </Bar>
-                                   </BarChart>
-                                 </ResponsiveContainer>
-                               </div>
-                               <p className="text-sm mt-2 text-muted-foreground">
-                                 {aiAnalysisResult.workStyleInsight.description}
-                               </p>
-                               {aiAnalysisResult.workStyleInsight.careerSuggestions && aiAnalysisResult.workStyleInsight.careerSuggestions.length > 0 && (
-                                 <div className="mt-2">
-                                   <p className="text-xs font-semibold text-primary mb-1">Career Suggestions:</p>
-                                   <ul className="text-sm text-muted-foreground">
-                                     {aiAnalysisResult.workStyleInsight.careerSuggestions.map((suggestion, i) => (
-                                       <li key={i} className="flex items-center gap-1">
-                                         <span className="w-1 h-1 rounded-full bg-primary"></span>
-                                         {suggestion}
-                                       </li>
+                          <div>
+                             <h4 className="font-semibold mb-1">Work Style Preference</h4>
+                             <div className="h-[200px] w-full">
+                               <ResponsiveContainer width="100%" height="100%">
+                                 <BarChart data={preferenceData}>
+                                   <XAxis dataKey="name" fontSize={12} />
+                                   <YAxis fontSize={12} />
+                                   <Tooltip />
+                                   <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                                     {preferenceData.map((entry, index) => (
+                                       <Cell key={`cell-${index}`} fill={entry.color} />
                                      ))}
-                                   </ul>
-                                 </div>
-                               )}
-                            </div>
-                          )}
+                                   </Bar>
+                                 </BarChart>
+                               </ResponsiveContainer>
+                             </div>
+                          </div>
                         </CardContent>
                       </Card>
 
@@ -870,87 +741,45 @@ export default function TransformationAnalysisPage() {
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                          {/* Time Use Insight */}
-                          {aiAnalysisResult.timeUseInsight && (
+                          {timeUseResult && (
                             <div className="p-4 bg-white/60 rounded-lg border border-primary/10">
-                              <h4 className="font-semibold text-primary mb-1">{aiAnalysisResult.timeUseInsight.type}</h4>
-                              <p className="text-sm text-foreground/80">{aiAnalysisResult.timeUseInsight.description}</p>
-                              {aiAnalysisResult.timeUseInsight.recommendation && (
-                                <p className="text-sm mt-2 text-primary font-medium">
-                                  💡 {aiAnalysisResult.timeUseInsight.recommendation}
-                                </p>
-                              )}
+                              <h4 className="font-semibold text-primary mb-1">{timeUseResult.title}</h4>
+                              <p className="text-sm text-foreground/80">{timeUseResult.desc}</p>
                             </div>
                           )}
 
-                          {/* Resource Gaps */}
-                          {aiAnalysisResult.resourceGaps && (
-                            <div className="space-y-2">
-                               <h4 className="font-semibold">Resource Gap Strategy:</h4>
-                               <div className="p-3 bg-amber-50 rounded-lg border border-amber-100">
-                                 <p className="text-sm font-medium text-amber-800">
-                                   Primary Gap: {aiAnalysisResult.resourceGaps.primaryGap}
-                                 </p>
-                                 <p className="text-sm text-amber-700 mt-1">
-                                   {aiAnalysisResult.resourceGaps.strategy}
-                                 </p>
-                               </div>
-                            </div>
-                          )}
+                          <div className="space-y-2">
+                             <h4 className="font-semibold">Recommended Focus Areas:</h4>
+                             <ul className="space-y-2">
+                               {skillsChecked.slice(0, 3).map(skill => (
+                                 <li key={skill} className="flex items-center gap-2 text-sm">
+                                   <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                   Build expertise in {skill}
+                                 </li>
+                               ))}
+                               {resourcesChecked.length > 0 && (
+                                 <li className="flex items-center gap-2 text-sm text-amber-600">
+                                   <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                   Address {resourcesChecked[0].toLowerCase()} gap
+                                 </li>
+                               )}
+                             </ul>
+                          </div>
 
-                          {/* Transformation Recommendation */}
-                          {aiAnalysisResult.transformationRecommendation && (
-                            <div className="pt-4 border-t border-primary/10">
-                              <h4 className="font-semibold mb-2">Your Transformation Focus:</h4>
-                              <p className="text-sm font-medium text-primary">
-                                {aiAnalysisResult.transformationRecommendation.focus}
-                              </p>
-                              <p className="text-sm text-muted-foreground mt-1">
-                                {aiAnalysisResult.transformationRecommendation.rationale}
-                              </p>
-                              {aiAnalysisResult.transformationRecommendation.immediateAction && (
-                                <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-100">
-                                  <p className="text-sm font-medium text-green-800">
-                                    🎯 This Week: {aiAnalysisResult.transformationRecommendation.immediateAction}
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-                          )}
+                          <div className="pt-4 border-t border-primary/10">
+                            <p className="text-sm italic text-muted-foreground">
+                              "Based on your inputs, your transformation should focus on leveraging your natural preference for 
+                              <span className="font-semibold text-foreground"> {preferenceData.sort((a,b) => b.value - a.value)[0].name} </span> 
+                              while building structure to support your goals."
+                            </p>
+                          </div>
 
-                          <Button 
-                            className="w-full mt-4 cursor-pointer" 
-                            onClick={() => setLocation("/actionable-focus")}
-                          >
+                          <Button className="w-full mt-4" onClick={() => setLocation("/actionable-focus")}>
                             Proceed to Clarify Focus
                             <ArrowRight className="ml-2 w-4 h-4" />
                           </Button>
                         </CardContent>
                       </Card>
-                    </div>
-
-                    {/* Overall Insight */}
-                    {aiAnalysisResult.overallInsight && (
-                      <Card className="border-primary/20 bg-gradient-to-r from-indigo-50 to-purple-50">
-                        <CardContent className="p-6">
-                          <p className="text-foreground/90 leading-relaxed italic">
-                            "{aiAnalysisResult.overallInsight}"
-                          </p>
-                        </CardContent>
-                      </Card>
-                    )}
-
-                    {/* Regenerate Button */}
-                    <div className="flex justify-center">
-                      <Button 
-                        variant="outline" 
-                        onClick={handleRegenerate}
-                        disabled={isAnalyzing}
-                        className="gap-2 cursor-pointer"
-                      >
-                        <RefreshCw className={`w-4 h-4 ${isAnalyzing ? 'animate-spin' : ''}`} />
-                        Regenerate Analysis
-                      </Button>
                     </div>
                   </div>
                 )}

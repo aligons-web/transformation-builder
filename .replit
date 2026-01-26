@@ -4,7 +4,7 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
-packages = ["stripe-cli", "lacus", "psmisc"]
+packages = ["stripe-cli", "lacus", "psmisc", "lsof"]
 
 [deployment]
 deploymentTarget = "cloudrun"
@@ -15,6 +15,18 @@ ignorePorts = false
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[[ports]]
+localPort = 5001
+externalPort = 3000
+
+[[ports]]
+localPort = 5005
+externalPort = 3001
+
+[[ports]]
+localPort = 5006
+externalPort = 3002
 
 [env]
 PORT = "5000"

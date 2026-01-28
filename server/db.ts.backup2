@@ -8,7 +8,7 @@ if (!process.env.SUPABASE_DATABASE_URL) {
 
 export const pool = new Pool({
   connectionString: process.env.SUPABASE_DATABASE_URL,
-  ssl: false,
+  ssl: { rejectUnauthorized: false },
 });
 
 export const db = drizzle(pool);

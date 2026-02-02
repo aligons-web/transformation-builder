@@ -1,0 +1,6 @@
+SUPABASE_DATABASE_URL=postgresql://postgres.idfwizbzuqumzgfcxxrf:Al-2026TB-WeathCreator@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=no-verify
+STRIPE_TEST_SECRET_KEY=sk_test_51Sdf0JEdLQjM86qTmzZgf4a9FW6LxZTUjEJ1nYrcW0xMraiMtJ8XnZDfTpyvlztKX5nWU3V218XzsDCGk31JZvH0089WzOfgbU
+STRIPE_WEBHOOK_SECRET=whsec_placeholder_for_testing
+NODE_ENV=development
+ANTHROPIC_API_KEY=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
+PORT=5003

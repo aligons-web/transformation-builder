@@ -1,13 +1,19 @@
-import "dotenv/config";
+import { config } from "dotenv";
+config();
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
-if (!process.env.SUPABASE_DATABASE_URL) {
-  throw new Error("SUPABASE_DATABASE_URL is not set");
+const DATABASE_URL = process.env.RAILWAY_DATABASE_URL;
+
+if (!DATABASE_URL) {
+  throw new Error(
+    "Missing RAILWAY_DATABASE_URL environment variable. " +
+    "Set it to your Railway PostgreSQL public connection string."
+  );
 }
 
 export const pool = new Pool({
-  connectionString: process.env.SUPABASE_DATABASE_URL,
+  connectionString: DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
 

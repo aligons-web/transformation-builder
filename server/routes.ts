@@ -1,3 +1,5 @@
+import { config } from "dotenv";
+config();
 import { Stripe } from "stripe";
 import type { Express } from "express";
 import type { Server } from "http";

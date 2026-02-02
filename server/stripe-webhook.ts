@@ -1,3 +1,5 @@
+import { config } from "dotenv";
+config();
 // server/stripe-webhook.ts
 import type { Express, Request, Response } from "express";
 import express from "express";

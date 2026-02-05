@@ -6,23 +6,19 @@ import session from "express-session";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import cors from "cors";
-
 const app = express();
 const httpServer = createServer(app);
-
 declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
   }
 }
-
 // ✅ CORS CONFIGURATION (must be FIRST)
 app.use(cors({
   origin: true, // accept any origin
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
-
 app.use(
   express.json({
     verify: (req, _res, buf) => {
@@ -31,10 +27,8 @@ app.use(
   }),
 );
 app.use(express.urlencoded({ extended: false }));
-
 // ✅ FIXED: Session configuration for production
 const isProduction = process.env.NODE_ENV === "production";
-
 app.use(session({
   secret: process.env.SESSION_SECRET || "your-secret-key",
   resave: false,
@@ -47,7 +41,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
   },
 }));
-
 // ✅ DEBUG MIDDLEWARE (after session, before logging middleware)
 app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -59,7 +52,6 @@ app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   next();
 });
-
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -69,18 +61,15 @@ export function log(message: string, source = "express") {
   });
   console.log(`${formattedTime} [${source}] ${message}`);
 }
-
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
   const originalResJson = res.json;
   res.json = function (bodyJson, ...args) {
     capturedJsonResponse = bodyJson;
     return originalResJson.apply(res, [bodyJson, ...args]);
   };
-
   res.on("finish", () => {
     const duration = Date.now() - start;
     if (path.startsWith("/api")) {
@@ -91,21 +80,16 @@ app.use((req, res, next) => {
       log(logLine);
     }
   });
-
   next();
 });
-
 (async () => {
   await registerRoutes(httpServer, app);
-
- app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-  const status = err.status || err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  console.error("Express error:", err);
-  res.status(status).json({ message });
-});
-
-
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    console.error("Express error:", err);
+    res.status(status).json({ message });
+  });
   // Setup vite in development, serve static in production
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
@@ -113,10 +97,9 @@ app.use((req, res, next) => {
     const { setupVite } = await import("./vite");
     await setupVite(httpServer, app);
   }
-
   // ✅ Railway-safe port
-const port = Number(process.env.PORT) || 5000;
-
-httpServer.listen(port, "0.0.0.0", () => {
-  log(`serving on port ${port}`);
-});
+  const port = Number(process.env.PORT) || 5000;
+  httpServer.listen(port, "0.0.0.0", () => {
+    log(`serving on port ${port}`);
+  });
+})();

@@ -239,12 +239,11 @@ export default function FoundersProgramPage() {
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Be among the first to experience the Transformation Builder and secure your place at founding pricing—before public launch.
             </p>
-            {/* ✅ UPDATED: Now links to /waitlist page */}
-            <Link href="https://786bb9df.sibforms.com/serve/MUIFAAT8sG5YPYCt9DMW9mvBO3nYdK8R44_-D15XGSv5UQzC4f5qzv2iBu91N7Q_aUnn9OD_kRwZ6kp6yfyJa3UetQyH4mZS6qTY3FwmUN4j-xVPzFpZf_oXBf9MSRl9kzf5kS27cKVoTyULHS37ZUHOI9alkG1gzgeeEjbfTFP89pcxKOTHNtk0_eEWA-qFZGIDqcahTaK14BMQPQ==">
+            <a href="https://786bb9df.sibforms.com/serve/MUIFAAT8sG5YPYCt9DMW9mvBO3nYdK8R44_-D15XGSv5UQzC4f5qzv2iBu91N7Q_aUnn9OD_kRwZ6kp6yfyJa3UetQyH4mZS6qTY3FwmUN4j-xVPzFpZf_oXBf9MSRl9kzf5kS27cKVoTyULHS37ZUHOI9alkG1gzgeeEjbfTFP89pcxKOTHNtk0_eEWA-qFZGIDqcahTaK14BMQPQ==" target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-primary text-primary-foreground text-lg px-10 py-6 h-auto shadow-xl hover:translate-y-[-2px] transition-all rounded-full">
                   Join Waiting List
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </main>

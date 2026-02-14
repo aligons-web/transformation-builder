@@ -21,7 +21,7 @@ export function DashboardHeader() {
         <span className="font-heading font-bold text-lg">Transformation BUILDER</span>
       </div>
 
-      <div className="hidden md:flex items-center flex-1 max-w-2xl mx-4">
+      <div className="hidden md:flex items-center flex-1 max-w-2xl mx-4 mt-2">
         <img 
           src={dashboardHeaderImage} 
           alt="Dashboard Indicators" 

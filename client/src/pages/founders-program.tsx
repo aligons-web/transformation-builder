@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { ArrowLeft, CheckCircle2, Star, ShieldCheck, Zap, Users, Gift } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import headerFounder from "@assets/headerfounder_1771083347191.jpg";
 
 export default function FoundersProgramPage() {
   return (
@@ -25,6 +26,14 @@ export default function FoundersProgramPage() {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               A limited early-access opportunity for individuals who want to be among the first to experience, influence, and benefit from the Transformation Builder.
             </p>
+          </div>
+
+          <div className="mb-12 rounded-xl overflow-hidden shadow-xl">
+            <img 
+              src={headerFounder} 
+              alt="Transformation Builder Founder's Program" 
+              className="w-full h-auto object-cover"
+            />
           </div>
 
           <Card className="mb-12 border-primary/10 shadow-lg overflow-hidden">

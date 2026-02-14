@@ -67,10 +67,8 @@ export default function DashboardPage() {
                 <p className="text-muted-foreground">{getPageSubtitle()}</p>
               </div>
               <div className="flex gap-3">
-                {/* View Reports hidden for Phase 1 - uncomment when Analytics is implemented
                 <Button variant="outline">View Reports</Button>
-                */}
-                <Button className="gap-2 cursor-pointer" onClick={() => setLocation("/dashboard/journal")}>
+                <Button className="gap-2">
                   <Plus className="w-4 h-4" />
                   New Entry
                 </Button>
@@ -101,7 +99,7 @@ export default function DashboardPage() {
                     </div>
                     <Button 
                       variant="default" 
-                      className="gap-2 cursor-pointer"
+                      className="gap-2"
                       onClick={() => window.location.href = '/pricing'}
                     >
                       <Crown className="w-4 h-4" />
@@ -144,7 +142,7 @@ export default function DashboardPage() {
                   <div className="pt-4 border-t border-border/50">
                     <Button 
                       onClick={() => setLocation("/dashboard/future-path")} 
-                      className="w-full gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-md h-12 cursor-pointer"
+                      className="w-full gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-md h-12"
                     >
                       <Sparkles className="w-4 h-4" />
                       Generate Career Options & Suggestions
@@ -164,8 +162,8 @@ export default function DashboardPage() {
                   <p className="text-sm italic text-muted-foreground mb-4">
                     "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work."
                   </p>
-                  <Button size="sm" variant="outline" className="w-full bg-white/50 hover:bg-white cursor-pointer" onClick={() => setLocation("/discover-purpose")}>
-                    Start Your Journey
+                  <Button size="sm" variant="outline" className="w-full bg-white/50 hover:bg-white">
+                    Read More
                   </Button>
                 </CardContent>
               </Card>

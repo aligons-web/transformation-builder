@@ -18,16 +18,40 @@ interface CalendarEvent {
   title: string;
   date: Date;
   type: EventType;
-  completed?: boolean;
 }
 
 export default function DashboardTasksPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
-
-  // Start with empty state - users add their own tasks and goals
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  
+  // Mock data for Tasks & Goals
+  const [events, setEvents] = useState<CalendarEvent[]>([
+    {
+      id: "1",
+      title: "Complete Module 3",
+      date: new Date(new Date().setDate(new Date().getDate() + 1)),
+      type: "task"
+    },
+    {
+      id: "2",
+      title: "Career Pivot Goal",
+      date: new Date(new Date().setDate(new Date().getDate() + 5)),
+      type: "goal"
+    },
+    {
+      id: "3",
+      title: "Weekly Review",
+      date: new Date(new Date().setDate(new Date().getDate() + 7)),
+      type: "task"
+    },
+    {
+      id: "4",
+      title: "Update Resume",
+      date: new Date(),
+      type: "task"
+    }
+  ]);
 
   const [newEvent, setNewEvent] = useState<Partial<CalendarEvent>>({
     type: "task",
@@ -51,12 +75,6 @@ export default function DashboardTasksPage() {
     return events.filter(event => isSameDay(event.date, day));
   };
 
-  // Calculate real stats from user data
-  const completedTasks = events.filter(e => e.type === "task" && e.completed).length;
-  const totalTasks = events.filter(e => e.type === "task").length;
-  const completedGoals = events.filter(e => e.type === "goal" && e.completed).length;
-  const totalGoals = events.filter(e => e.type === "goal").length;
-
   const handleCreateEvent = () => {
     if (!newEvent.title || !newEvent.date) return;
 
@@ -64,24 +82,17 @@ export default function DashboardTasksPage() {
       id: Math.random().toString(36).substr(2, 9),
       title: newEvent.title,
       date: new Date(newEvent.date),
-      type: newEvent.type as EventType,
-      completed: false
+      type: newEvent.type as EventType
     };
 
     setEvents([...events, event]);
     setIsDialogOpen(false);
     setNewEvent({ type: "task", date: new Date() });
-
+    
     toast({
       title: "Entry Added",
       description: `Successfully added ${event.type}: ${event.title}`,
     });
-  };
-
-  const toggleEventComplete = (eventId: string) => {
-    setEvents(events.map(e => 
-      e.id === eventId ? { ...e, completed: !e.completed } : e
-    ));
   };
 
   return (
@@ -94,10 +105,10 @@ export default function DashboardTasksPage() {
               <h1 className="text-3xl font-heading font-bold text-foreground">Tasks to Goals</h1>
               <p className="text-muted-foreground mt-2">Track your daily tasks and long-term goals.</p>
             </div>
-
+            
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="gap-2 cursor-pointer">
+                <Button className="gap-2">
                   <Plus className="w-4 h-4" />
                   New Entry
                 </Button>
@@ -132,7 +143,7 @@ export default function DashboardTasksPage() {
                       </SelectContent>
                     </Select>
                   </div>
-
+                  
                   <div className="grid gap-2">
                     <Label htmlFor="title">Title</Label>
                     <Input 
@@ -142,7 +153,7 @@ export default function DashboardTasksPage() {
                       onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
                     />
                   </div>
-
+                  
                   <div className="grid gap-2">
                     <Label htmlFor="date">Date</Label>
                     <Input 
@@ -154,69 +165,34 @@ export default function DashboardTasksPage() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="cursor-pointer">Cancel</Button>
-                  <Button onClick={handleCreateEvent} disabled={!newEvent.title || !newEvent.date} className="cursor-pointer">Save Entry</Button>
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                  <Button onClick={handleCreateEvent} disabled={!newEvent.title || !newEvent.date}>Save Entry</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
           </div>
 
-          {/* Stats based on real user data */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Tasks
-                </CardTitle>
-                <CheckCircle2 className="h-4 w-4 text-blue-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {totalTasks > 0 ? `${completedTasks}/${totalTasks}` : "No tasks yet"}
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {totalTasks > 0 
-                    ? `${Math.round((completedTasks / totalTasks) * 100)}% completed`
-                    : "Add your first task"
-                  }
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Goals
-                </CardTitle>
-                <Target className="h-4 w-4 text-orange-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {totalGoals > 0 ? `${completedGoals}/${totalGoals}` : "No goals yet"}
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {totalGoals > 0 
-                    ? `${Math.round((completedGoals / totalGoals) * 100)}% achieved`
-                    : "Set your first goal"
-                  }
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  This Month
-                </CardTitle>
-                <TrendingUp className="h-4 w-4 text-green-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{events.length}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Total entries
-                </p>
-              </CardContent>
-            </Card>
+            {[
+              { label: "Focus Score", value: "85%", icon: TrendingUp, color: "text-green-500", trend: "+5% from last week" },
+              { label: "Tasks Completed", value: "12/15", icon: CheckCircle2, color: "text-blue-500", trend: "On track" },
+              { label: "Journal Streak", value: "7 Days", icon: Clock, color: "text-orange-500", trend: "Keep it up!" },
+            ].map((stat, i) => (
+              <Card key={i} className="shadow-sm hover:shadow-md transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    {stat.label}
+                  </CardTitle>
+                  <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stat.value}</div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {stat.trend}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -225,13 +201,13 @@ export default function DashboardTasksPage() {
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle>Task & Goal Calendar</CardTitle>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" className="h-7 w-7 cursor-pointer" onClick={prevMonth}>
+                    <Button variant="outline" size="icon" className="h-7 w-7" onClick={prevMonth}>
                       <ChevronLeft className="w-4 h-4" />
                     </Button>
                     <span className="text-sm font-medium w-32 text-center">
                       {format(currentDate, "MMMM yyyy")}
                     </span>
-                    <Button variant="outline" size="icon" className="h-7 w-7 cursor-pointer" onClick={nextMonth}>
+                    <Button variant="outline" size="icon" className="h-7 w-7" onClick={nextMonth}>
                       <ChevronRight className="w-4 h-4" />
                     </Button>
                   </div>
@@ -247,7 +223,7 @@ export default function DashboardTasksPage() {
                       const dayEvents = getEventsForDay(day);
                       const isToday = isSameDay(day, new Date());
                       const isCurrentMonth = isSameMonth(day, currentDate);
-
+                      
                       return (
                         <div 
                           key={day.toString()} 
@@ -269,15 +245,12 @@ export default function DashboardTasksPage() {
                             {dayEvents.map((event) => (
                               <div 
                                 key={event.id}
-                                onClick={() => toggleEventComplete(event.id)}
                                 className={cn(
                                   "text-[10px] p-1.5 rounded border truncate cursor-pointer transition-all hover:scale-[1.02]",
-                                  event.type === "task" && !event.completed && "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
-                                  event.type === "task" && event.completed && "bg-blue-50/50 text-blue-400 border-blue-100 line-through",
-                                  event.type === "goal" && !event.completed && "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100",
-                                  event.type === "goal" && event.completed && "bg-orange-50/50 text-orange-400 border-orange-100 line-through"
+                                  event.type === "task" && "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
+                                  event.type === "goal" && "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100"
                                 )}
-                                title={`${event.title} (click to toggle complete)`}
+                                title={event.title}
                               >
                                 <div className="flex items-center gap-1.5">
                                   {event.type === "task" && <CheckSquare className="w-3 h-3 shrink-0" />}
@@ -308,49 +281,21 @@ export default function DashboardTasksPage() {
             <div className="space-y-8">
               <Card>
                 <CardHeader>
-                  <CardTitle>Upcoming</CardTitle>
+                  <CardTitle>Upcoming Tasks</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {events.filter(e => !e.completed && e.date >= new Date()).length > 0 ? (
-                    <div className="space-y-4">
-                      {events
-                        .filter(e => !e.completed && e.date >= new Date())
-                        .sort((a, b) => a.date.getTime() - b.date.getTime())
-                        .slice(0, 5)
-                        .map((event) => (
-                          <div 
-                            key={event.id} 
-                            className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border/50 cursor-pointer"
-                            onClick={() => toggleEventComplete(event.id)}
-                          >
-                            <div className={cn(
-                              "w-5 h-5 rounded-full border-2",
-                              event.type === "task" ? "border-blue-400" : "border-orange-400"
-                            )} />
-                            <div className="flex-1">
-                              <h4 className="font-medium text-sm">{event.title}</h4>
-                              <p className="text-xs text-muted-foreground">
-                                {format(event.date, "MMM d, yyyy")}
-                              </p>
-                            </div>
-                            <span className={cn(
-                              "text-xs font-medium px-2 py-1 rounded-full",
-                              event.type === "task" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"
-                            )}>
-                              {event.type === "task" ? "Task" : "Goal"}
-                            </span>
-                          </div>
-                        ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <p className="text-muted-foreground text-sm mb-4">No upcoming tasks or goals</p>
-                      <Button variant="outline" size="sm" onClick={() => setIsDialogOpen(true)} className="cursor-pointer">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add your first entry
-                      </Button>
-                    </div>
-                  )}
+                  <div className="space-y-4">
+                    {[1, 2, 3].map((_, i) => (
+                      <div key={i} className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border/50 cursor-pointer">
+                        <div className="w-5 h-5 rounded-full border-2 border-primary/30" />
+                        <div className="flex-1">
+                          <h4 className="font-medium text-sm">Complete Weekly Reflection</h4>
+                          <p className="text-xs text-muted-foreground">Due Today at 5:00 PM</p>
+                        </div>
+                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">High Priority</span>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </div>

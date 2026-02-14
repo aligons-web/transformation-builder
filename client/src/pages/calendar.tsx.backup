@@ -20,15 +20,26 @@ interface CalendarEvent {
   date: Date;
   type: EventType;
   description: string;
-  completed?: boolean;
 }
 
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  // Start with empty state - users add their own entries
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-
+  const [events, setEvents] = useState<CalendarEvent[]>([
+    {
+      id: "1",
+      title: "Complete Module 2",
+      date: new Date(),
+      type: "task",
+      description: "Finish the capacity assessment"
+    },
+    {
+      id: "2",
+      title: "Career Transition",
+      date: new Date(new Date().setDate(new Date().getDate() + 5)),
+      type: "goal",
+      description: "Define the new career path"
+    }
+  ]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newEvent, setNewEvent] = useState<Partial<CalendarEvent>>({
     type: "task",
@@ -57,14 +68,13 @@ export default function CalendarPage() {
       title: newEvent.title,
       date: new Date(newEvent.date),
       type: newEvent.type as EventType,
-      description: newEvent.description || "",
-      completed: false
+      description: newEvent.description || ""
     };
 
     setEvents([...events, event]);
     setIsDialogOpen(false);
     setNewEvent({ type: "task", date: new Date() });
-
+    
     toast({
       title: "Entry Added",
       description: `Successfully added ${event.type}: ${event.title}`,
@@ -73,12 +83,6 @@ export default function CalendarPage() {
 
   const getEventsForDay = (day: Date) => {
     return events.filter(event => isSameDay(event.date, day));
-  };
-
-  const toggleEventComplete = (eventId: string) => {
-    setEvents(events.map(e => 
-      e.id === eventId ? { ...e, completed: !e.completed } : e
-    ));
   };
 
   return (
@@ -91,10 +95,10 @@ export default function CalendarPage() {
               <h1 className="text-3xl font-heading font-bold text-foreground">Calendar</h1>
               <p className="text-muted-foreground mt-2">Track your goals and tasks timeline</p>
             </div>
-
+            
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="gap-2 bg-primary hover:bg-primary/90 cursor-pointer">
+                <Button className="gap-2 bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4" />
                   New Entry
                 </Button>
@@ -141,7 +145,7 @@ export default function CalendarPage() {
                       </SelectContent>
                     </Select>
                   </div>
-
+                  
                   <div className="grid gap-2">
                     <Label htmlFor="title">Title</Label>
                     <Input 
@@ -151,7 +155,7 @@ export default function CalendarPage() {
                       onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
                     />
                   </div>
-
+                  
                   <div className="grid gap-2">
                     <Label htmlFor="date">Date</Label>
                     <Input 
@@ -161,7 +165,7 @@ export default function CalendarPage() {
                       onChange={(e) => setNewEvent({...newEvent, date: new Date(e.target.value)})}
                     />
                   </div>
-
+                  
                   <div className="grid gap-2">
                     <Label htmlFor="description">Description</Label>
                     <Textarea 
@@ -173,8 +177,8 @@ export default function CalendarPage() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="cursor-pointer">Cancel</Button>
-                  <Button onClick={handleCreateEvent} disabled={!newEvent.title || !newEvent.date} className="cursor-pointer">Save Entry</Button>
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                  <Button onClick={handleCreateEvent} disabled={!newEvent.title || !newEvent.date}>Save Entry</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -186,111 +190,73 @@ export default function CalendarPage() {
                 {format(currentDate, "MMMM yyyy")}
               </CardTitle>
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon" onClick={prevMonth} className="cursor-pointer">
+                <Button variant="outline" size="icon" onClick={prevMonth}>
                   <ChevronLeft className="w-4 h-4" />
                 </Button>
-                <Button variant="outline" onClick={() => setCurrentDate(new Date())} className="cursor-pointer">
+                <Button variant="outline" onClick={() => setCurrentDate(new Date())}>
                   Today
                 </Button>
-                <Button variant="outline" size="icon" onClick={nextMonth} className="cursor-pointer">
+                <Button variant="outline" size="icon" onClick={nextMonth}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              {events.length === 0 ? (
-                <div className="text-center py-16 border-2 border-dashed border-border/50 rounded-lg">
-                  <CalendarIcon className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-foreground mb-2">Your calendar is empty</h3>
-                  <p className="text-muted-foreground text-sm mb-4">Start adding tasks, goals, milestones, and projects</p>
-                  <Button onClick={() => setIsDialogOpen(true)} className="cursor-pointer">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add your first entry
-                  </Button>
-                </div>
-              ) : (
-                <div className="grid grid-cols-7 gap-px bg-muted/20 rounded-lg overflow-hidden border border-border/50">
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                    <div key={day} className="bg-muted/50 p-2 text-center text-sm font-medium text-muted-foreground">
-                      {day}
-                    </div>
-                  ))}
-                  {calendarDays.map((day, dayIdx) => {
-                    const dayEvents = getEventsForDay(day);
-                    const isToday = isSameDay(day, new Date());
-                    const isCurrentMonth = isSameMonth(day, currentDate);
-
-                    return (
-                      <div 
-                        key={day.toString()} 
-                        className={cn(
-                          "min-h-[120px] bg-card p-2 transition-colors hover:bg-accent/5",
-                          !isCurrentMonth && "bg-muted/10 text-muted-foreground",
-                          isToday && "bg-primary/5"
-                        )}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <span className={cn(
-                            "text-sm font-medium w-7 h-7 flex items-center justify-center rounded-full",
-                            isToday ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                          )}>
-                            {format(day, "d")}
-                          </span>
-                        </div>
-                        <div className="space-y-1.5">
-                          {dayEvents.map((event) => (
-                            <div 
-                              key={event.id}
-                              onClick={() => toggleEventComplete(event.id)}
-                              className={cn(
-                                "text-xs p-1.5 rounded-md border truncate cursor-pointer transition-all hover:scale-[1.02]",
-                                event.type === "goal" && !event.completed && "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100",
-                                event.type === "goal" && event.completed && "bg-orange-50/50 text-orange-400 border-orange-100 line-through",
-                                event.type === "task" && !event.completed && "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
-                                event.type === "task" && event.completed && "bg-blue-50/50 text-blue-400 border-blue-100 line-through",
-                                event.type === "milestone" && !event.completed && "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100",
-                                event.type === "milestone" && event.completed && "bg-purple-50/50 text-purple-400 border-purple-100 line-through",
-                                event.type === "project" && !event.completed && "bg-green-50 text-green-700 border-green-200 hover:bg-green-100",
-                                event.type === "project" && event.completed && "bg-green-50/50 text-green-400 border-green-100 line-through"
-                              )}
-                              title={`${event.title} (click to toggle complete)`}
-                            >
-                              <div className="flex items-center gap-1.5">
-                                {event.type === "goal" && <Target className="w-3 h-3 shrink-0" />}
-                                {event.type === "task" && <CheckSquare className="w-3 h-3 shrink-0" />}
-                                {event.type === "milestone" && <Flag className="w-3 h-3 shrink-0" />}
-                                {event.type === "project" && <Folder className="w-3 h-3 shrink-0" />}
-                                <span className="truncate font-medium">{event.title}</span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+              <div className="grid grid-cols-7 gap-px bg-muted/20 rounded-lg overflow-hidden border border-border/50">
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                  <div key={day} className="bg-muted/50 p-2 text-center text-sm font-medium text-muted-foreground">
+                    {day}
+                  </div>
+                ))}
+                {calendarDays.map((day, dayIdx) => {
+                  const dayEvents = getEventsForDay(day);
+                  const isToday = isSameDay(day, new Date());
+                  const isCurrentMonth = isSameMonth(day, currentDate);
+                  
+                  return (
+                    <div 
+                      key={day.toString()} 
+                      className={cn(
+                        "min-h-[120px] bg-card p-2 transition-colors hover:bg-accent/5",
+                        !isCurrentMonth && "bg-muted/10 text-muted-foreground",
+                        isToday && "bg-primary/5"
+                      )}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={cn(
+                          "text-sm font-medium w-7 h-7 flex items-center justify-center rounded-full",
+                          isToday ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+                        )}>
+                          {format(day, "d")}
+                        </span>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {events.length > 0 && (
-                <div className="flex gap-4 mt-4 text-xs text-muted-foreground justify-end">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-blue-500" />
-                    <span>Tasks</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-orange-500" />
-                    <span>Goals</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-purple-500" />
-                    <span>Milestones</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-green-500" />
-                    <span>Projects</span>
-                  </div>
-                </div>
-              )}
+                      <div className="space-y-1.5">
+                        {dayEvents.map((event) => (
+                          <div 
+                            key={event.id}
+                            className={cn(
+                              "text-xs p-1.5 rounded-md border truncate cursor-pointer transition-all hover:scale-[1.02]",
+                              event.type === "goal" && "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100",
+                              event.type === "task" && "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
+                              event.type === "milestone" && "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100",
+                              event.type === "project" && "bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
+                            )}
+                            title={event.title}
+                          >
+                            <div className="flex items-center gap-1.5">
+                              {event.type === "goal" && <Target className="w-3 h-3 shrink-0" />}
+                              {event.type === "task" && <CheckSquare className="w-3 h-3 shrink-0" />}
+                              {event.type === "milestone" && <Flag className="w-3 h-3 shrink-0" />}
+                              {event.type === "project" && <Folder className="w-3 h-3 shrink-0" />}
+                              <span className="truncate font-medium">{event.title}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </CardContent>
           </Card>
         </div>

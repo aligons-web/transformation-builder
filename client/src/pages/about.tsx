@@ -19,7 +19,7 @@ import stock2 from "@assets/stock_images/professional_diverse_78f88680.jpg";
 import stock3 from "@assets/stock_images/professional_diverse_60c21c44.jpg";
 import stock4 from "@assets/stock_images/professional_diverse_d8add0de.jpg";
 import { homedir } from "os";
-import { EnvironmentModuleNode } from "vite";
+import journeyPathImage from "@assets/journeypath2_1771081561926.jpg";
 
 export default function AboutPage() {
   const testimonials = [
@@ -61,7 +61,7 @@ export default function AboutPage() {
         <main className="flex-1 ml-64 flex flex-col min-h-screen">
           <div className="flex-1">
             {/* Hero Header */}
-            <section className="relative h-[30vh] flex items-center justify-center overflow-hidden">
+            <section className="relative py-24 flex items-center justify-center overflow-hidden">
               <div className="absolute inset-0 -z-10">
                 <img
                   src={heroBg}
@@ -80,10 +80,22 @@ export default function AboutPage() {
                   <h1 className="text-4xl md:text-6xl font-heading font-bold text-foreground mb-4">
                     About the Journey
                   </h1>
-                  <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                  <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
                     Understanding the philosophy and purpose behind your
                     transformation.
                   </p>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="relative mx-auto max-w-5xl mt-8 rounded-xl overflow-hidden shadow-2xl"
+                  >
+                    <img
+                      src={journeyPathImage}
+                      alt="Journey Path Landscape"
+                      className="w-full h-auto object-cover"
+                    />
+                  </motion.div>
                 </motion.div>
               </div>
             </section>

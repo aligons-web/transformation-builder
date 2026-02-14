@@ -1,8 +1,8 @@
-import { Bell, Search, Menu } from "lucide-react";
+import { Bell, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DashboardSidebar } from "./dashboard-sidebar";
+import dashboardHeaderImage from "@assets/dashboardenhanced_1771088576959.jpg";
 
 export function DashboardHeader() {
   return (
@@ -21,14 +21,12 @@ export function DashboardHeader() {
         <span className="font-heading font-bold text-lg">Transformation BUILDER</span>
       </div>
 
-      <div className="hidden md:flex items-center flex-1 max-w-md">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search journals, goals, or skills..." 
-            className="pl-10 bg-muted/30 border-transparent focus:border-primary/50 focus:bg-background transition-all"
-          />
-        </div>
+      <div className="hidden md:flex items-center flex-1 max-w-2xl mx-4">
+        <img 
+          src={dashboardHeaderImage} 
+          alt="Dashboard Indicators" 
+          className="w-full h-12 object-cover rounded-lg shadow-sm opacity-90 hover:opacity-100 transition-opacity"
+        />
       </div>
 
       <div className="flex items-center gap-3">

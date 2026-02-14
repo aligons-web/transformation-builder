@@ -1,8 +1,9 @@
 import { DashboardSidebar, sidebarItems } from "@/components/dashboard-sidebar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Link } from "wouter";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Lock, ExternalLink } from "lucide-react";
 import { useUser } from "@/hooks/use-user";
+import { useToast } from "@/hooks/use-toast";
 
 const descriptions: Record<string, string> = {
   "Overview": "This dashboard guide and sitemap. View a brief explanation of each feature available in your workspace.",
@@ -14,17 +15,65 @@ const descriptions: Record<string, string> = {
   "Clarify Focus": "Define actionable steps, map your skills, and create a concrete plan for your future.",
   "Journey Insights": "Deep dive into your transformation journey with AI-generated insights and spiritual connections.",
   "Final Blueprint": "Your comprehensive transformation document, summarizing your purpose, analysis, and action plan.",
-  "Analytics": "Visual metrics tracking your engagement, progress, and time spent on your transformation journey."
+  "Analytics": "Visual metrics tracking your engagement, progress, and time spent on your transformation journey.",
+  "Community": "Connect with others on their transformation journey. Share insights and support each other."
 };
+
+// Features that require transformer or implementer plan
+const transformerPlanFeatures = ["Skills to Build", "Change Analysis"];
+
+// Features that require implementer plan only
+const implementerPlanFeatures = ["Clarify Focus", "Journey Insights", "Final Blueprint", "Analytics"];
 
 export default function DashboardOverviewPage() {
   const { user } = useUser();
-  
+  const { toast } = useToast();
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Good Morning";
     if (hour < 18) return "Good Afternoon";
     return "Good Evening";
+  };
+
+  const userPlan = user?.subscriptionPlan?.toLowerCase() || "";
+  const isAdmin = user?.role === "admin" || user?.isAdmin === true;
+  const isTransformerOrImplementer = userPlan === "transformer" || userPlan === "implementer";
+  const isImplementer = userPlan === "implementer";
+
+  const hasAccess = (label: string): boolean => {
+    // Admins have access to everything
+    if (isAdmin) {
+      return true;
+    }
+    if (transformerPlanFeatures.includes(label)) {
+      return isTransformerOrImplementer;
+    }
+    if (implementerPlanFeatures.includes(label)) {
+      return isImplementer;
+    }
+    return true;
+  };
+
+  const getRequiredPlan = (label: string): string => {
+    if (transformerPlanFeatures.includes(label)) {
+      return "Transformer or Implementer";
+    }
+    if (implementerPlanFeatures.includes(label)) {
+      return "Implementer";
+    }
+    return "";
+  };
+
+  const handleRestrictedClick = (e: React.MouseEvent, label: string) => {
+    if (!hasAccess(label)) {
+      e.preventDefault();
+      toast({
+        title: "Upgrade Required",
+        description: `This feature requires the ${getRequiredPlan(label)} plan. Please upgrade to access.`,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -40,32 +89,90 @@ export default function DashboardOverviewPage() {
               Here's your daily overview and transformation progress.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sidebarItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <a className="block h-full group">
-                  <Card className="h-full border-muted-foreground/20 hover:border-primary/50 transition-all hover:shadow-md cursor-pointer bg-card/50 hover:bg-card">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                          <item.icon className="w-6 h-6" />
+            {sidebarItems.map((item) => {
+              const isLocked = !hasAccess(item.label);
+              const isCommunity = item.label === "Community";
+
+              // Community card opens external link
+              if (isCommunity) {
+                return (
+                  <a 
+                    key={item.href}
+                    href="https://www.skool.com/life-transformation-network-2320/about"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block h-full group"
+                  >
+                    <Card className="h-full border-muted-foreground/20 hover:border-primary/50 transition-all hover:shadow-md cursor-pointer bg-card/50 hover:bg-card">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            <item.icon className="w-6 h-6" />
+                          </div>
+                          <ExternalLink className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all" />
                         </div>
-                        <ArrowRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                      </div>
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                        {item.label}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-sm leading-relaxed text-muted-foreground/80">
-                        {descriptions[item.label] || "Explore this feature to continue your transformation journey."}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            ))}
+                        <CardTitle className="text-xl group-hover:text-primary transition-colors flex items-center gap-2">
+                          {item.label}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="text-sm leading-relaxed text-muted-foreground/80">
+                          {descriptions[item.label] || "Explore this feature to continue your transformation journey."}
+                        </CardDescription>
+                      </CardContent>
+                    </Card>
+                  </a>
+                );
+              }
+
+              return (
+                <Link key={item.href} href={item.href}>
+                  <a 
+                    className="block h-full group"
+                    onClick={(e) => handleRestrictedClick(e, item.label)}
+                  >
+                    <Card className={`h-full border-muted-foreground/20 transition-all cursor-pointer bg-card/50 ${
+                      isLocked 
+                        ? "opacity-70 hover:border-muted-foreground/40" 
+                        : "hover:border-primary/50 hover:shadow-md hover:bg-card"
+                    }`}>
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className={`p-2.5 rounded-lg transition-colors ${
+                            isLocked
+                              ? "bg-muted text-muted-foreground"
+                              : "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground"
+                          }`}>
+                            <item.icon className="w-6 h-6" />
+                          </div>
+                          {isLocked ? (
+                            <Lock className="w-5 h-5 text-muted-foreground" />
+                          ) : (
+                            <ArrowRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          )}
+                        </div>
+                        <CardTitle className={`text-xl transition-colors ${
+                          isLocked ? "text-muted-foreground" : "group-hover:text-primary"
+                        }`}>
+                          {item.label}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="text-sm leading-relaxed text-muted-foreground/80">
+                          {descriptions[item.label] || "Explore this feature to continue your transformation journey."}
+                          {isLocked && (
+                            <span className="block mt-2 text-xs font-medium text-amber-600 dark:text-amber-400">
+                              Requires {getRequiredPlan(item.label)} plan
+                            </span>
+                          )}
+                        </CardDescription>
+                      </CardContent>
+                    </Card>
+                  </a>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </main>

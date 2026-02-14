@@ -61,7 +61,7 @@ export default function AboutPage() {
         <main className="flex-1 ml-64 flex flex-col min-h-screen">
           <div className="flex-1">
             {/* Hero Header */}
-            <section className="relative py-24 flex items-center justify-center overflow-hidden">
+            <section className="relative pt-12 pb-8 flex items-center justify-center overflow-hidden">
               <div className="absolute inset-0 -z-10">
                 <img
                   src={heroBg}
@@ -100,7 +100,7 @@ export default function AboutPage() {
               </div>
             </section>
 
-            <div className="container mx-auto px-8 py-8">
+            <div className="container mx-auto px-8 pb-8">
               <div className="mb-4">
                 <Link href="/">
                   <Button

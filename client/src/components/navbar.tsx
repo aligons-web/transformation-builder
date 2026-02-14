@@ -54,7 +54,7 @@ export function Navbar() {
               Affiliate Program
           </Link>
           <Link href="/founders-program" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
-              Founder's Program
+              Join Waiting List 
           </Link>
           <div className="flex items-center gap-4 ml-4">
             <Link href="/signup">

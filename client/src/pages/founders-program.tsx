@@ -21,27 +21,28 @@ export default function FoundersProgramPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-              Founder's Program
+              Join the Transformation Builder web app waiting list.
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              A limited early-access opportunity for individuals who want to be among the first to experience, influence, and benefit from the Transformation Builder.
+              Be among the first to experience the benefits of a new web app to integrate life transformation activities, reflections, and intentions to build a positive future.
             </p>
           </div>
 
           <div className="mb-12 rounded-xl overflow-hidden shadow-xl">
             <img 
               src={headerFounder} 
-              alt="Transformation Builder Founder's Program" 
+              alt="Transformation Builder Program" 
               className="w-full h-auto object-cover"
             />
           </div>
 
           <Card className="mb-12 border-primary/10 shadow-lg overflow-hidden">
             <CardHeader className="bg-primary/5 border-b border-primary/10 pb-8 pt-8 text-center">
-                <h2 className="text-2xl font-bold text-foreground">Transformation Builder – Founder's Program</h2>
+                <h2 className="text-2xl font-bold text-foreground">Transformation Builder First Participant's Program</h2>
                 <p className="text-primary font-medium">LIFE Transformation Network by U eMerge Academy, LLC</p>
             </CardHeader>
             <CardContent className="p-8 md:p-12">
+                {/* 
                 <div className="mb-12">
                     <h3 className="text-2xl font-bold mb-4 text-primary">What Is the Founder's Program?</h3>
                     <p className="text-lg text-muted-foreground mb-4">
@@ -54,8 +55,10 @@ export default function FoundersProgramPage() {
                         This program is designed to reward early supporters with lifetime value, early influence, and locked-in pricing.
                     </p>
                 </div>
+                */}
 
                 <div className="space-y-12">
+                  {/*
                   <section>
                     <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
                         <Star className="w-6 h-6 text-primary fill-primary/20" />
@@ -221,6 +224,7 @@ export default function FoundersProgramPage() {
                         </li>
                     </ul>
                   </section>
+                  */}
 
                   <section className="text-center">
                     <h3 className="text-2xl font-bold mb-6">Who the Founder's Program Is For</h3>

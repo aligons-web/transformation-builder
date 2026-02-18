@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import bcrypt from 'bcryptjs';
 import { config } from "dotenv";
 config();
 import { Stripe } from "stripe";
@@ -189,12 +188,19 @@ export async function registerRoutes(
 
       console.log("✅ User found:", user.id, user.username);
 
-      // ⚠️ TODO: Add bcrypt password verification
-      if (user.password !== password) {
+      // ✅ Support both hashed and plain text passwords
+      let isValidPassword = false;
+      if (user.password.startsWith('$2')) {
+        isValidPassword = await bcrypt.compare(password, user.password);
+      } else {
+        isValidPassword = user.password === password;
+      }
+      
+      if (!isValidPassword) {
         console.log("❌ Password mismatch for user:", username);
         return res.status(401).json({ message: "Invalid credentials" });
       }
-
+      
       console.log("✅ Password verified, regenerating session...");
 
       // ✅ REGENERATE SESSION - Clears any old session

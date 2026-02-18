@@ -36,10 +36,10 @@ export default function DashboardOverviewPage() {
     return "Good Evening";
   };
 
-  const userPlan = user?.subscriptionPlan?.toLowerCase() || "";
+  const userPlan = user?.subscriptionPlan?.toLowerCase() || user?.plan?.toLowerCase() || "";
   const isAdmin = user?.role === "admin" || user?.isAdmin === true;
-  const isTransformerOrImplementer = userPlan === "transformer" || userPlan === "implementer";
-  const isImplementer = userPlan === "implementer";
+  const isTransformerOrImplementer = userPlan === "transformer" || userPlan === "implementer" || userPlan === "founder";
+  const isImplementer = userPlan === "implementer" || userPlan === "founder";
 
   const hasAccess = (label: string): boolean => {
     // Admins have access to everything

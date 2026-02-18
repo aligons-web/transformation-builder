@@ -75,6 +75,7 @@ export default function ActionableFocusPage() {
       EXPLORER: 1,
       TRANSFORMER: 2,
       IMPLEMENTER: 3,
+      FOUNDER: 3,  // Full access for founders
     };
 
     const userPlan = user?.plan || "EXPLORER";

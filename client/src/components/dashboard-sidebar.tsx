@@ -79,6 +79,7 @@ export function DashboardSidebar() {
       EXPLORER: 1,
       TRANSFORMER: 2,
       IMPLEMENTER: 3,
+      FOUNDER: 3,  // Full access for founders
     };
 
     const userRank = planRank[user.plan || "EXPLORER"] || 1;

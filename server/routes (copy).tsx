@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import bcrypt from 'bcryptjs';
 import { config } from "dotenv";
 config();
 import { Stripe } from "stripe";

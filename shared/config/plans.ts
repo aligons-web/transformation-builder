@@ -65,7 +65,7 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
       "Milestones → Projects",
       "Skills to Build tracker",
       "Change Analysis tools",
-      "3-Day Boot Camp",
+      "1-Day Boot Camp",
       "Community Access",
       "1 Live Zoom call per month + digital files",
     ],
@@ -91,7 +91,7 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
     subtitle: "Complete Transformation",
     tagline: "Execute your plan with structure, insights, and accountability.",
     description:
-      "Everything in Transformer plus Step 3, final blueprint, advanced analytics, and coaching for the transformation journey.",
+      "Transformer Plan + Step 3, final blueprint, and coaching for the transformation journey.",
     cta: "Implement Your Change",
 
     pricing: {
@@ -108,8 +108,7 @@ export const PLANS: Record<PlanKey, PlanDefinition> = {
       "Modules 3, 4, & 5 (How, When, Where)",
       "Journey Insights (AI-powered)",
       "Final Life Blueprint",
-      "Advanced Analytics Dashboard",
-      "Priority Community Access",
+      "Community Access to other Implementers",
       "Two Zoom sessions (an accountability session & insights session) + recordings",
       "Emphasis on continous knowledge development, tracking progress, and building skills for the journey.",
     ],

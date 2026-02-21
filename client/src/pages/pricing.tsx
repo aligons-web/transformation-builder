@@ -182,7 +182,7 @@ export default function PricingPage() {
 
                 <CardFooter>
                   <Button
-                    className="w-full"
+                    className="w-full cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200"
                     variant={plan.key === "transformer" ? "default" : "outline"}
                     onClick={() => handleSubscribe(plan.key)}
                     disabled={isLoading || isCurrentPlan}

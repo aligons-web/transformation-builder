@@ -61,7 +61,7 @@ export default function DashboardPage() {
           <div className="flex justify-center">
             <Button 
               size="lg" 
-              className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8"
+              className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-primary/90 hover:bg-primary"
               onClick={() => setLocation("/discover-purpose")}
             >
               Start here

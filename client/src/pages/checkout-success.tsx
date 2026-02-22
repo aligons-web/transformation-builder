@@ -104,12 +104,12 @@ export default function CheckoutSuccessPage() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/dashboard">
-                  <Button size="lg" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200">
                     Go to Dashboard
                   </Button>
                 </Link>
                 <Link href="/discover-purpose">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200">
                     Start Step 1
                   </Button>
                 </Link>

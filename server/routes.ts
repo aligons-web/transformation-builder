@@ -15,8 +15,8 @@ import { registerStripeWebhook } from "./stripe-webhook";
 import { registerAiAnalysisRoutes } from "./routes/ai-analyze";
 
 // ✅ Initialize Stripe
-const stripeKey = process.env.STRIPE_TEST_SECRET_KEY;
-if (!stripeKey) throw new Error("Missing STRIPE_TEST_SECRET_KEY");
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeKey) throw new Error("Missing STRIPE_SECRET_KEY");
 const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 
 //const stripe = new //Stripe("sk_test_51Sdf0JEdLQjM86qTmzZgf4a9FW6LxZTUjEJInYrcWOxMraiMtJ8XnZDfTpywlztKX5nWU3V218XzsDCGk31JZvHO009WzOfgbU", {
@@ -26,12 +26,10 @@ const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 // ✅ Price ID mapping - UPDATE THESE when switching to live mode
 const PLAN_PRICE_IDS: Record<string, string> = {
   // Test Mode Price IDs
-  transformer: "price_1SrMCMEdLQjM86qTkh7bSRTv",
-  implementer: "price_1SrMDFEdLQjM86qTyNO9tRgL",
+  transformer: "price_1SrLViEdLQjM86qTCom9p6zd",
+  implementer: "price_1SrLYSEdLQjM86qTNqO1XrJb",
 
-  // TODO: Add Live Mode Price IDs when ready
-  // transformer: "price_live_xxx",
-  // implementer: "price_live_xxx",
+ 
 };
 
 // ✅ Add session type definition

@@ -16,8 +16,8 @@ declare module "http" {
 }
 
 // Initialize Stripe with your secret key
-const stripeKey = process.env.STRIPE_TEST_SECRET_KEY;
-if (!stripeKey) throw new Error("Missing STRIPE_TEST_SECRET_KEY");
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeKey) throw new Error("Missing STRIPE_SECRET_KEY");
 const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 
 // const stripe = new // Stripe("sk_test_51Sdf0JEdLQjM86qTmzZgf4a9FW6LxZTUjEJInYrcWOxMraiMtJ8XnZDfTpywlztKX5nWU3V218XzsDCGk31JZvHO009WzOfgbU",
@@ -29,9 +29,9 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 // ✅ Map Stripe Price IDs to your plan keys
 // TEST MODE Price IDs - Replace with LIVE Price IDs when ready for production
 const PRICE_TO_PLAN_MAP: Record<string, "TRANSFORMER" | "IMPLEMENTER"> = {
-  // Test Mode Price IDs
-  "price_1SrMCMEdLQjM86qTkh7bSRTv": "TRANSFORMER",   // $29.99/month
-  "price_1SrMDFEdLQjM86qTyNO9tRgL": "IMPLEMENTER",   // $49.99/month
+
+  "price_1SrLViEdLQjM86qTCom9p6zd": "TRANSFORMER",   // $29.99/month
+  "price_1SrLYSEdLQjM86qTNqO1XrJb": "IMPLEMENTER",   // $49.99/month
 
   // TODO: Add Live Mode Price IDs here when ready for production
   // "price_live_transformer_xxx": "TRANSFORMER",

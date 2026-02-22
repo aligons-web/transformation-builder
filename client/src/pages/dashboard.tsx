@@ -58,6 +58,15 @@ export default function DashboardPage() {
         <DashboardHeader />
 
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
+          <div className="flex justify-center">
+            <Button 
+              size="lg" 
+              className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8"
+              onClick={() => setLocation("/discover-purpose")}
+            >
+              Start here
+            </Button>
+          </div>
 
           {/* Welcome Section */}
           <div className="flex flex-col gap-4">

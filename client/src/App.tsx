@@ -1,3 +1,4 @@
+import CheckoutSuccessPage from "@/pages/checkout-success";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -37,7 +38,7 @@ import SubmitTestimonialPage from "@/pages/submit-testimonial";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={LandingPage} />
+           <Route path="/" component={LandingPage} />
       <Route path="/discover-purpose" component={DiscoverPurposePage} />
       <Route path="/discover-purpose/summary" component={PurposeSummaryPage} />
       <Route path="/discover-purpose/interpretation" component={PurposeInterpretationPage} />
@@ -50,6 +51,7 @@ function Router() {
       <Route path="/waitlist" component={WaitlistPage} />
       <Route path="/network" component={LifeTransformationNetworkPage} />
       <Route path="/pricing" component={PricingPage} />
+      <Route path="/checkout/success" component={CheckoutSuccessPage} />
       <Route path="/admin" component={AdminDashboardPage} />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/dashboard/overview" component={DashboardOverviewPage} />

@@ -58,7 +58,7 @@ export default function DashboardPage() {
         <DashboardHeader />
 
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
-          <div className="flex justify-center">
+          <div className="flex justify-start">
             <Button 
               size="lg" 
               className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-primary/90 hover:bg-primary"

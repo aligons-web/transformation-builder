@@ -237,7 +237,7 @@ export default function FoundersProgramPage() {
 
               {/* This section remains visible */}
               <section className="text-center">
-                <h3 className="text-2xl font-bold mb-6">Who the Waiting List Program is for:</h3>
+                <h3 className="text-2xl font-bold mb-6">Who are candidates for the Waiting List?</h3>
                 <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="p-4 bg-background rounded-lg border border-border shadow-sm">
                     <p className="font-medium text-sm">Believe in personal growth & reinvention</p>

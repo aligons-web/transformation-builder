@@ -1,7 +1,15 @@
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowLeft, CheckCircle2, Star, ShieldCheck, Zap, Users, Gift } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Star,
+  ShieldCheck,
+  Zap,
+  Users,
+  Gift,
+} from "lucide-react";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import headerFounder from "@assets/headerfounder_1771083347191.jpg";
@@ -12,7 +20,10 @@ export default function FoundersProgramPage() {
       <Navbar />
       <main className="container mx-auto px-4 pt-32 pb-12 flex-1">
         <Link href="/">
-          <Button variant="ghost" className="gap-2 mb-8 pl-0 hover:pl-2 transition-all cursor-pointer">
+          <Button
+            variant="ghost"
+            className="gap-2 mb-8 pl-0 hover:pl-2 transition-all cursor-pointer"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Button>
@@ -21,26 +32,33 @@ export default function FoundersProgramPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-              Join the Transformation Builder 
-                <br />web app waiting list.
+              Join the Transformation Builder
+              <br />
+              web app waiting list.
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Be among the first to experience the benefits of a new web app to integrate life transformation activities, reflections, and intentions to build a positive future.
+              Be among the first to experience the benefits of a new web app to
+              integrate life transformation activities, reflections, and
+              intentions to build a positive future.
             </p>
           </div>
 
           <div className="mb-12 rounded-xl overflow-hidden shadow-xl">
-            <img 
-              src={headerFounder} 
-              alt="Transformation Builder Program" 
+            <img
+              src={headerFounder}
+              alt="Transformation Builder Program"
               className="w-full h-auto object-cover"
             />
           </div>
 
           <Card className="mb-12 border-primary/10 shadow-lg overflow-hidden">
             <CardHeader className="bg-primary/5 border-b border-primary/10 pb-8 pt-8 text-center">
-              <h2 className="text-2xl font-bold text-foreground">Transformation Builder First Participant's Program</h2>
-              <p className="text-primary font-medium">LIFE Transformation Network by U eMerge Academy, LLC</p>
+              <h2 className="text-2xl font-bold text-foreground">
+                Transformation Builder First Participant's Program
+              </h2>
+              <p className="text-primary font-medium">
+                LIFE Transformation Network by U eMerge Academy, LLC
+              </p>
             </CardHeader>
 
             <CardContent className="p-8 md:p-12">
@@ -237,19 +255,29 @@ export default function FoundersProgramPage() {
 
               {/* This section remains visible */}
               <section className="text-center">
-                <h3 className="text-2xl font-bold mb-6">Who are candidates for the Waiting List?</h3>
+                <h3 className="text-2xl font-bold mb-6">
+                  Who are candidates for the Waiting List?
+                </h3>
                 <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="p-4 bg-background rounded-lg border border-border shadow-sm">
-                    <p className="font-medium text-sm">Believe in personal growth & reinvention</p>
+                    <p className="font-medium text-sm">
+                      Believe in personal growth & reinvention
+                    </p>
                   </div>
                   <div className="p-4 bg-background rounded-lg border border-border shadow-sm">
-                    <p className="font-medium text-sm">Want early access to a purpose-driven platform</p>
+                    <p className="font-medium text-sm">
+                      Want early access to a purpose-driven platform
+                    </p>
                   </div>
                   <div className="p-4 bg-background rounded-lg border border-border shadow-sm">
-                    <p className="font-medium text-sm">Value long-term connections with influence</p>
+                    <p className="font-medium text-sm">
+                      Value long-term connections with influence
+                    </p>
                   </div>
                   <div className="p-4 bg-background rounded-lg border border-border shadow-sm">
-                    <p className="font-medium text-sm">Desire to grow alongside an evolving ecosystem</p>
+                    <p className="font-medium text-sm">
+                      Desire to grow alongside an evolving ecosystem
+                    </p>
                   </div>
                 </div>
               </section>
@@ -257,12 +285,22 @@ export default function FoundersProgramPage() {
           </Card>
 
           <div className="text-center mb-16 bg-primary/5 p-8 rounded-2xl border border-primary/20">
-            <h2 className="text-3xl font-bold mb-4 text-foreground">Join the Founder's Waiting List</h2>
+            <h2 className="text-3xl font-bold mb-4 text-foreground">
+              Join the Founder's Waiting List
+            </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Be among the first to experience the Transformation Builder and secure your place at founding pricing—before public launch.
+              Be among the first to experience the Transformation Builder and
+              secure your place at founding pricing—before public launch.
             </p>
-            <a href="https://786bb9df.sibforms.com/serve/MUIFAAT8sG5YPYCt9DMW9mvBO3nYdK8R44_-D15XGSv5UQzC4f5qzv2iBu91N7Q_aUnn9OD_kRwZ6kp6yfyJa3UetQyH4mZS6qTY3FwmUN4j-xVPzFpZf_oXBf9MSRl9kzf5kS27cKVoTyULHS37ZUHOI9alkG1gzgeeEjbfTFP89pcxKOTHNtk0_eEWA-qFZGIDqcahTaK14BMQPQ==" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-primary text-primary-foreground text-lg px-10 py-6 h-auto shadow-xl hover:translate-y-[-2px] hover:scale-105 hover:shadow-2xl hover:brightness-110 transition-all duration-300 rounded-full cursor-pointer">
+            <a
+              href="https://preview.mailerlite.io/preview/2181756/forms/183204006082905804"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                size="lg"
+                className="bg-primary text-primary-foreground text-lg px-10 py-6 h-auto shadow-xl hover:translate-y-[-2px] hover:scale-105 hover:shadow-2xl hover:brightness-110 transition-all duration-300 rounded-full cursor-pointer"
+              >
                 Join Waiting List
               </Button>
             </a>

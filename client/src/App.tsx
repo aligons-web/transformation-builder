@@ -26,6 +26,7 @@ import PurposeInterpretationPage from "@/pages/purpose-interpretation";
 import AboutPage from "@/pages/about";
 import AffiliateProgramPage from "@/pages/affiliate-program";
 import FoundersProgramPage from "@/pages/founders-program";
+import FoundersPage from "@/pages/founders-page";
 import LifeTransformationNetworkPage from "@/pages/life-transformation-network";
 import PricingPage from "@/pages/pricing";
 import AdminDashboardPage from "@/pages/admin-dashboard";
@@ -48,6 +49,7 @@ function Router() {
       <Route path="/submit-testimonial" component={SubmitTestimonialPage} />
       <Route path="/affiliate-program" component={AffiliateProgramPage} />
       <Route path="/founders-program" component={FoundersProgramPage} />
+      <Route path="/founders" component={FoundersPage} />
       <Route path="/waitlist" component={WaitlistPage} />
       <Route path="/network" component={LifeTransformationNetworkPage} />
       <Route path="/pricing" component={PricingPage} />

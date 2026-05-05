@@ -354,7 +354,7 @@ export default function FoundersPage() {
               <li>Grow with the platform as it expands</li>
             </ul>
 
-            <a href="#" className="btn-primary" style={{ marginTop: '12px' }}>Start Now</a>
+            <a href="https://buy.stripe.com/9B628r0dt3yDg4cfUL8bS03" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ marginTop: '12px' }}>Start Now</a>
 
             <div className="urgency">
               <p>⚡ First 25 Founders Only — Locked-In Pricing</p>

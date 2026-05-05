@@ -141,15 +141,15 @@ export default function AboutPage() {
                           <p className="mb-4">
                             Whether you are experiencing a transition you chose
                             or one that was thrust upon you, the principles of
-                            transformation remain the same. This workbook is
+                            transformation remain the same. This workbook and the Transformation Builder App are
                             designed to provide you with the tools, questions,
                             and reflections necessary to move from where you are
                             to where you desire to be.
                           </p>
                           <p>
                             It is not merely about coping with change, but about
-                            leveraging it for growth. By engaging with these
-                            materials, you are taking a proactive step towards
+                            leveraging it for growth. By engaging and connecting with these
+                            resources, you are taking a proactive step towards
                             defining your future rather than letting
                             circumstances define you.
                           </p>
@@ -179,8 +179,7 @@ export default function AboutPage() {
                             If you have completed the revised edition of the
                             Understanding Your Path book, you are already
                             familiar with the foundational concepts of
-                            self-discovery. This workbook takes those concepts
-                            further, moving from understanding to action.
+                            self-discovery. The workbook is the printed copy and Transformation Builder web app is the digital format. Both are designed to take you                           further moving from understanding to action.
                           </p>
                           <p className="mb-4">
                             The journey ahead requires commitment. It asks you
@@ -191,7 +190,7 @@ export default function AboutPage() {
                           <p>
                             As you proceed, remember that this is your journey.
                             The insights you gain are yours to keep and apply.
-                            The work you do here will lay the groundwork for the
+                            The efforts you put forth here will lay the groundwork for the
                             chapters of your life yet to be written.
                           </p>
                         </div>

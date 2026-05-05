@@ -7,7 +7,7 @@ export default function FoundersPage() {
       <nav>
         <div className="container">
           <div className="logo">Transformation Builder</div>
-          <a href="#join" className="nav-cta">Join Now</a>
+          <a href="https://buy.stripe.com/9B628r0dt3yDg4cfUL8bS03" className="nav-cta" target="_blank">Join Now</a>
         </div>
       </nav>
 
@@ -374,7 +374,12 @@ export default function FoundersPage() {
           <p className="section-text">
             With clarity, strategy, and the right guidance — your transformation begins today.
           </p>
-          <a href="#join" className="btn-primary">Join the Founder's Program Today</a>
+           <p className="section-text">
+         If you are not ready to join the Founder's Program today, we have another option to stay  informed of the latest developments and offerings.
+           </p>
+           <a href="https://preview.mailerlite.io/preview/2181756/forms/183204006082905804" className="btn-primary">Join the waiting list</a>
+          <p className="section-text">
+                     </p>
         </div>
       </section>
 

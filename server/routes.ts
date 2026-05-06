@@ -15,6 +15,7 @@ import { eq } from "drizzle-orm";
 import { registerStripeWebhook } from "./stripe-webhook";
 import { registerAiAnalysisRoutes } from "./routes/ai-analyze";
 import { registerAdminSubscriberRoutes } from "./routes/admin-subscribers";
+import { registerAdminStatsRoutes } from "./routes/admin-stats";
 
 // ✅ Initialize Stripe
 const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -62,6 +63,7 @@ export async function registerRoutes(
   console.log("✅ AI analysis routes registered");
 
   registerAdminSubscriberRoutes(app);
+  registerAdminStatsRoutes(app);
 
   // ----------------------------
   // AUTH ROUTES

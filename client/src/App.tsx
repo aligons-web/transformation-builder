@@ -35,6 +35,7 @@ import WaitlistPage from "@/pages/waitlist";
 import FinalSummaryPage from "@/pages/final-summary";
 
 import SubmitTestimonialPage from "@/pages/submit-testimonial";
+import AdminSubscribersPage from "./pages/admin-subscribers";
 
 function Router() {
   return (
@@ -68,6 +69,7 @@ function Router() {
       <Route path="/actionable-focus" component={ActionableFocusPage} />
       <Route path="/final-summary" component={FinalSummaryPage} />
       <Route path="/dashboard/*" component={DashboardPage} />
+      <Route path="/admin/subscribers" component={AdminSubscribersPage} />
       <Route component={NotFound} />
     </Switch>
   );

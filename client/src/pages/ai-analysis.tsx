@@ -15,6 +15,7 @@ import { useLocation } from "wouter";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { LockedFeature } from "@/components/LockedFeature";
 import { useAiAnalysis } from "@/hooks/use-ai-analysis";
+import lifeTransformationBookCover from "@assets/newcovertouse_1780441406692.png";
 
 const skillsList = [
   "Computer Skills", "Communication", "Social Media",
@@ -508,7 +509,7 @@ export default function TransformationAnalysisPage() {
             description="Unlock AI-powered analysis tools to understand what needs to change in your life"
             isAdmin={user?.isAdmin}
           >
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
               <div>
                 <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
                   Step 2: Analyze <span className="text-primary font-serif italic">Change</span>
@@ -516,6 +517,19 @@ export default function TransformationAnalysisPage() {
                 <div className="h-6" />
                 <p className="text-xl text-muted-foreground">Deep dive into understanding what transformation you need.</p>
               </div>
+              <a 
+                href="https://www.amazon.com/LIFE-Transformation-Intentionally-Focused-Everyday/dp/B0FBL8WTQP/ref=sr_1_1?crid=CQRE3281JMMJ&dib=eyJ2IjoiMSJ9._MC2RTkT1fZIPJEQhTz0ijaXvgtB8hhRapB-H0BpeInGjHj071QN20LucGBJIEps.0AaZi-gZm6Slqv0UzYZPYeb8h1PLkGgpQcX2K93j-f4&dib_tag=se&keywords=alexander+ligons+transformation+workbook&qid=1780441263&sprefix=%2Caps%2C213&sr=8-1" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="shrink-0 hover:opacity-90 transition-opacity cursor-pointer"
+                title="Purchase LIFE Transformation Workbook on Amazon"
+              >
+                <img 
+                  src={lifeTransformationBookCover} 
+                  alt="LIFE Transformation Workbook by Alexander Ligons" 
+                  className="w-24 h-auto rounded-md shadow-md hover:shadow-lg transition-shadow"
+                />
+              </a>
             </div>
 
             {/* LocalStorage Warning */}

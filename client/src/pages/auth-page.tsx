@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ArrowRight, Loader2, Home } from "lucide-react";
-import authBg from "@assets/TBFsplashpg2_1781108057490.jpg";
+import authBg from "@assets/TBFsplashpg3_1781108285124.jpg";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
 
@@ -80,7 +80,7 @@ export default function AuthPage() {
         <img 
           src={authBg} 
           alt="Transformation Journey" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-left"
         />
         <div className="absolute inset-0 bg-primary/20 mix-blend-multiply" />
         <div className="relative z-10 p-12 flex flex-col justify-between h-full text-white">

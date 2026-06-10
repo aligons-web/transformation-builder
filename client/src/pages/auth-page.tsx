@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ArrowRight, Loader2, Home } from "lucide-react";
-import authBg from "@assets/generated_images/dramatic_technology_focus_and_target_image_for_login_page.png";
+import authBg from "@assets/tbuildercover_1781107803431.png";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
 

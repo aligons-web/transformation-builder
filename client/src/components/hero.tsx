@@ -5,41 +5,41 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 
 // Images
-import slide1Bg from "@assets/image1_1766715734865.jpg";
-import slide2Bg from "@assets/image2_1766715734865.jpg";
-import slide3Bg from "@assets/image3_1766715734865.jpg";
-import slide4Bg from "@assets/image4_1766715734866.jpg";
-import slide5Bg from "@assets/image5_1766715734866.jpg";
+import slide1Bg from "@assets/slider1_1781059489395.jpg";
+import slide2Bg from "@assets/slider2_1781059489396.jpg";
+import slide3Bg from "@assets/slider3_1781059489396.jpg";
+import slide4Bg from "@assets/slider4_1781059489396.jpg";
+import slide5Bg from "@assets/slider5_1781059489396.jpg";
 
 const slides = [
   {
     id: 1,
     bg: slide1Bg,
-    text: "Success didn’t fix the emptiness you can’t explain.",
-    subtext: "\"48% of workers say their work lacks clear purpose\" (Indeed)",
+    text: <>Success didn't fix the<br/><span className="text-[#D4A843]">emptiness</span> you can't explain.</>,
+    subtext: <>"<span className="text-[#f0d68a]">48% of workers say their work lacks clear purpose.</span>" (Indeed)</>,
   },
   {
     id: 2,
     bg: slide2Bg,
-    text: "You climbed the ladder leaning against the wrong wall.",
-    subtext: "\"82% of workers over age 45 are successful in making a career transition once they pursue it\" (AIER)",
+    text: <>You climbed the ladder<br/>leaning against the <span className="text-[#D4A843]">wrong wall.</span></>,
+    subtext: <>"<span className="text-[#f0d68a]">82% of workers over age 45 are successful in making<br/>a career transition once they pursue it.</span>" (AIER)</>,
   },
   {
     id: 3,
     bg: slide3Bg,
-    text: "Your life looks good to everyone else, but it doesn’t feel right to you.",
-    subtext: "\"Up to 91% of people experience 'purpose anxiety'” (Psychology Today)",
+    text: <>Your life looks good to everyone else,<br/>but it <span className="text-[#D4A843]">doesn't feel right</span> to you.</>,
+    subtext: <>"<span className="text-[#f0d68a]">Up to 91% of people experience 'purpose anxiety'.</span>"<br/>(Psychology Today)</>,
   },
   {
     id: 4,
     bg: slide4Bg,
-    text: "While feeling unfulfilled, you’re not lost—you’re misaligned.",
-    subtext: "The Transformation Builder app connects clarity, planning, action, feedback, and accountability",
+    text: <>While feeling unfulfilled,<br/>you're not lost— you're <span className="text-[#D4A843]">misaligned.</span></>,
+    subtext: <span className="border-l-2 border-[#D4A843] pl-4 block mt-2">The Transformation Builder app connects clarity, planning,<br/>action, feedback, and accountability.</span>,
   },
   {
     id: 5,
     bg: slide5Bg,
-    text: "Start your journey now with perspective, passion, and purpose!",
+    text: <>Start your journey now with<br/><span className="text-[#D4A843]">perspective, passion, and purpose!</span></>,
     hasButton: true,
   },
 ];
@@ -64,7 +64,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative w-full h-[90vh] overflow-hidden bg-black">
+    <section className="relative w-full h-[190px] overflow-hidden bg-black mt-20">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -78,14 +78,14 @@ export function Hero() {
           <img
             src={slides[currentSlide].bg}
             alt={`Slide ${currentSlide + 1}`}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-right"
           />
           
-          {/* Overlay for readability if needed, though text has its own box */}
-          <div className="absolute inset-0 bg-black/20" />
+          {/* Overlay to hide the baked-in text from the images so our HTML text shows cleanly */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0B0E13] via-[#0B0E13]/90 to-transparent w-[70%]" />
 
           {/* Content Container */}
-          <div className="absolute inset-0 flex items-center justify-center p-4">
+          <div className="absolute inset-0 flex items-center justify-start p-4 pl-12 md:pl-24">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ 
@@ -98,16 +98,15 @@ export function Hero() {
                   delay: 0.5 
                 } 
               }}
-              className="bg-black/25 backdrop-blur-sm p-8 md:p-12 rounded-lg max-w-4xl text-center shadow-lg"
+              className="max-w-2xl text-left"
             >
-              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white leading-tight mb-6">
+              <h2 className="text-xl md:text-2xl font-heading font-bold text-white leading-tight mb-2">
                 {slides[currentSlide].text}
               </h2>
               
               {slides[currentSlide].subtext && (
                 <p 
-                  className="text-2xl md:text-4xl font-bold text-white/90 mb-6 italic"
-                  style={{ fontFamily: "Garamond, serif" }}
+                  className="text-sm md:text-base font-medium text-[#f0d68a] mb-2"
                 >
                   {slides[currentSlide].subtext}
                 </p>
@@ -116,12 +115,12 @@ export function Hero() {
               {slides[currentSlide].hasButton && (
                 <Link href="/signup">
                   <Button 
-                    size="lg" 
-                    className="text-lg px-8 py-6 font-bold text-white shadow-xl hover:scale-105 transition-transform mt-4 cursor-pointer"
+                    size="sm" 
+                    className="text-sm px-4 py-2 font-bold text-white shadow-xl hover:scale-105 transition-transform mt-2 cursor-pointer rounded-full"
                     style={{ backgroundColor: "#f2805a" }}
                   >
                     Start Free — Create Your Account!
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               )}
@@ -133,29 +132,29 @@ export function Hero() {
       {/* Controls */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-white/10 transition-colors z-20"
+        className="absolute left-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors z-20"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-10 h-10" style={{ color: "#f2805a" }} />
+        <ChevronLeft className="w-8 h-8" style={{ color: "#f2805a" }} />
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-white/10 transition-colors z-20"
+        className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors z-20"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-10 h-10" style={{ color: "#f2805a" }} />
+        <ChevronRight className="w-8 h-8" style={{ color: "#f2805a" }} />
       </button>
 
       {/* Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
+            className={`w-2 h-2 rounded-full transition-all ${
               index === currentSlide 
-                ? "bg-[#f2805a] w-8" 
+                ? "bg-[#f2805a] w-6" 
                 : "bg-white/50 hover:bg-white/80"
             }`}
             aria-label={`Go to slide ${index + 1}`}

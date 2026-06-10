@@ -39,17 +39,17 @@ export function Benefits() {
             >
               <Link href={benefit.link}>
                 <a className="block h-full">
-                  <Card className="h-full border-none shadow-lg hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm group hover:-translate-y-1 cursor-pointer">
+                  <Card className="h-full border-none shadow-lg hover:shadow-xl transition-all duration-300 bg-white group hover:-translate-y-1 cursor-pointer">
                     <CardHeader className="pb-4">
-                      <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                        <benefit.icon className="w-7 h-7 text-primary" />
+                      <div className="w-14 h-14 rounded-2xl bg-[#f2805a]/10 flex items-center justify-center mb-4 group-hover:bg-[#f2805a]/20 transition-colors">
+                        <benefit.icon className="w-7 h-7 text-[#f2805a]" />
                       </div>
-                      <CardTitle className="text-xl font-heading font-semibold">
+                      <CardTitle className="text-xl font-heading font-semibold text-slate-900">
                         {benefit.title}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-slate-600 leading-relaxed">
                         {benefit.description}
                       </p>
                     </CardContent>

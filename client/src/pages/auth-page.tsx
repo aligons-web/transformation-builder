@@ -68,12 +68,13 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex w-full bg-background relative">
-      <div className="absolute top-4 left-4 z-50">
+      <div className="absolute top-4 left-4 z-50 flex items-center gap-3">
         <Link href="/">
-          <Button variant="ghost" size="icon" className="bg-background/50 hover:bg-background text-foreground rounded-full">
-            <Home className="w-6 h-6" />
+          <Button variant="ghost" size="icon" className="bg-background/80 hover:bg-background text-foreground rounded-full shadow-sm">
+            <Home className="w-5 h-5" />
           </Button>
         </Link>
+        <span className="font-heading font-bold text-xl text-white drop-shadow-md">Transformation Builder</span>
       </div>
 
       <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-muted">
@@ -83,8 +84,7 @@ export default function AuthPage() {
           className="absolute inset-0 w-full h-full object-cover object-left"
         />
         <div className="absolute inset-0 bg-primary/20 mix-blend-multiply" />
-        <div className="relative z-10 p-12 flex flex-col justify-between h-full text-white">
-          <div className="font-heading font-bold text-3xl">LIFE Transformation</div>
+        <div className="relative z-10 p-12 flex flex-col justify-end h-full text-white">
           <blockquote className="space-y-2 bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-white/20">
             
             <p className="text-2xl font-serif italic">

@@ -266,10 +266,10 @@ export default function DiscoverPurposePage() {
           <div className="lg:col-span-4">
             <Card className="sticky top-24 border-border/50 bg-card/50 backdrop-blur-sm">
               <CardHeader>
-                <Link href="/">
+                <Link href="/dashboard">
                   <Button variant="ghost" size="sm" className="w-full justify-start mb-4 text-muted-foreground hover:text-foreground">
                     <ChevronDown className="w-4 h-4 mr-2 rotate-90" />
-                    Back to Home
+                    Back to Dashboard
                   </Button>
                 </Link>
                 <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 transition-colors">
@@ -349,11 +349,11 @@ export default function DiscoverPurposePage() {
                       </div>
                     </a>
                   </Link>
-                  <Link href="/actionable-focus">
+                  <Link href="/dashboard/overview">
                     <a className="block mt-4 group cursor-pointer">
                       <Button variant="outline" className="w-full justify-start border-primary/20 hover:bg-primary/5 hover:text-primary">
                         <ChevronRight className="w-4 h-4 mr-2" />
-                        Go to Step 3: Actionable Focus
+                        Overview
                       </Button>
                     </a>
                   </Link>

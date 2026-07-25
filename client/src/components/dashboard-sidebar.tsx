@@ -12,7 +12,8 @@ import {
   Compass,
   Focus,
   ClipboardCheck,
-  Users
+  Users,
+  CalendarDays
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -22,8 +23,9 @@ export const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard/overview" },
   { icon: Compass, label: "Discover Purpose", href: "/discover-purpose" },
   { icon: BookOpen, label: "Journal", href: "/dashboard/journal" },
-  { icon: Target, label: "Tasks to Goals", href: "/dashboard/tasks" },
-  { icon: Flag, label: "Milestones to Projects", href: "/dashboard/projects" },
+  { icon: Target, label: "Tasks to Goals", href: "/dashboard/calendar" },
+  { icon: Flag, label: "Milestones to Projects", href: "/dashboard/calendar" },
+  { icon: CalendarDays, label: "Calendar", href: "/dashboard/calendar" },
   { icon: Lightbulb, label: "Skills to Build", href: "/dashboard/skills" },
   { icon: Sparkles, label: "Change Analysis", href: "/dashboard/analysis" },
   { icon: Focus, label: "Clarify Focus", href: "/actionable-focus" },

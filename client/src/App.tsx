@@ -38,6 +38,7 @@ import SubmitTestimonialPage from "@/pages/submit-testimonial";
 import AdminSubscribersPage from "./pages/admin-subscribers";
 
 import DashboardFoundationPage from "@/pages/dashboard-foundation";
+import DashboardCalendarPage from "@/pages/dashboard-calendar";
 
 function Router() {
   return (
@@ -61,6 +62,7 @@ function Router() {
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/dashboard/overview" component={DashboardOverviewPage} />
       <Route path="/dashboard/foundation" component={DashboardFoundationPage} />
+      <Route path="/dashboard/calendar" component={DashboardCalendarPage} />
       <Route path="/dashboard/analytics" component={AnalyticsPage} />
       <Route path="/dashboard/journal" component={JournalPage} />
       <Route path="/dashboard/projects" component={DashboardProjectsPage} />

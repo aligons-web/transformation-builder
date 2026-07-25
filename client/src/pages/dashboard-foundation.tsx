@@ -3,6 +3,7 @@ import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Link } from "wouter";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +24,7 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
+  ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocalStorage } from "@/hooks/use-local-storage";
@@ -253,22 +255,30 @@ export default function DashboardFoundationPage() {
       <main className="flex-1 overflow-y-auto md:ml-64 p-8">
         <div className="max-w-3xl mx-auto space-y-8">
           {/* Header */}
-          <div>
-            <h1 className="text-3xl font-heading font-bold text-foreground">
-              Life Direction Foundation
-            </h1>
-            <p className="text-muted-foreground mt-2 leading-relaxed">
-              These nine layers form the foundation beneath every goal, project,
-              and task. A task without purpose feels meaningless. A purpose
-              without tasks never becomes reality. Start wherever you have
-              clarity — you can return to fill in the rest as it becomes clear.
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">
-              {filledCount} of {FOUNDATION_ITEMS.length} defined —{" "}
-              {filledCount === FOUNDATION_ITEMS.length
-                ? "your foundation is set"
-                : "take your time, this is deep work"}
-            </p>
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-heading font-bold text-foreground">
+                Life Direction Foundation
+              </h1>
+              <p className="text-muted-foreground mt-2 leading-relaxed max-w-2xl">
+                These nine layers form the foundation beneath every goal, project,
+                and task. A task without purpose feels meaningless. A purpose
+                without tasks never becomes reality. Start wherever you have
+                clarity — you can return to fill in the rest as it becomes clear.
+              </p>
+              <p className="text-sm text-muted-foreground mt-2">
+                {filledCount} of {FOUNDATION_ITEMS.length} defined —{" "}
+                {filledCount === FOUNDATION_ITEMS.length
+                  ? "your foundation is set"
+                  : "take your time, this is deep work"}
+              </p>
+            </div>
+            
+            <Link href="/dashboard/calendar">
+              <Button className="shrink-0 gap-2 bg-primary hover:bg-primary/90">
+                Go to Calendar <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
           </div>
 
           {/* Foundation Cards */}
@@ -369,16 +379,24 @@ export default function DashboardFoundationPage() {
 
           {/* Connection reminder */}
           <Card className="bg-muted/30 border-dashed">
-            <CardContent className="pt-5 pb-4 text-center text-sm text-muted-foreground space-y-2">
-              <p className="font-medium">
-                Identity → Values → Cause → Calling → Purpose → Mission →
-                Vision → Legacy
-              </p>
-              <p>
-                This foundation feeds into everything on your Transformation
-                Calendar — every project, goal, milestone, and daily habit
-                traces back to the direction you define here.
-              </p>
+            <CardContent className="pt-5 pb-4 flex flex-col items-center text-center text-sm text-muted-foreground space-y-4">
+              <div className="space-y-2">
+                <p className="font-medium">
+                  Identity → Values → Cause → Calling → Purpose → Mission →
+                  Vision → Legacy
+                </p>
+                <p>
+                  This foundation feeds into everything on your Transformation
+                  Calendar — every project, goal, milestone, and daily habit
+                  traces back to the direction you define here.
+                </p>
+              </div>
+              
+              <Link href="/dashboard/calendar">
+                <Button className="gap-2 bg-primary hover:bg-primary/90 mt-2">
+                  Go to Calendar <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>

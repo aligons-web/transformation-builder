@@ -56,6 +56,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -192,9 +193,10 @@ export default function DashboardTasksPage() {
   const { toast } = useToast();
 
   // --- Data state ---
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [reflections, setReflections] = useState<WeeklyReflection[]>([]);
+  const [goals, setGoals] = useLocalStorage<Goal[]>("tb-tasks-goals", []);
+  const [tasks, setTasks] = useLocalStorage<Task[]>("tb-tasks-tasks", []);
+  const [reflections, setReflections] = useLocalStorage<WeeklyReflection[]>("tb-tasks-reflections", []);
+  
 
   // --- Create-dialog state ---
   type CreateMode = "task" | "goal";

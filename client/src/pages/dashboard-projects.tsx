@@ -56,6 +56,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -147,9 +148,9 @@ export default function DashboardProjectsPage() {
   const { toast } = useToast();
 
   // --- Data state ---
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [milestones, setMilestones] = useState<Milestone[]>([]);
-  const [reviews, setReviews] = useState<ProjectReview[]>([]);
+  const [projects, setProjects] = useLocalStorage<Project[]>("tb-projects-projects", []);
+  const [milestones, setMilestones] = useLocalStorage<Milestone[]>("tb-projects-milestones", []);
+  const [reviews, setReviews] = useLocalStorage<ProjectReview[]>("tb-projects-reviews", []);
 
   // --- Create-dialog state ---
   type CreateMode = "project" | "milestone";
@@ -1250,7 +1251,7 @@ export default function DashboardProjectsPage() {
                                       : "text-muted-foreground"
                                   )}
                                 >
-                                  {format(ms.targetDate, "MMM d")}
+                         us         {format(ms.targetDate, "MMM d")}
                                   {ms.successMeasure && (
                                     <> · {ms.successMeasure}</>
                                   )}

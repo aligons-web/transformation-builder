@@ -22,10 +22,11 @@ import { useUser } from "@/hooks/use-user";
 export const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard/overview" },
   { icon: Compass, label: "Discover Purpose", href: "/discover-purpose" },
-  { icon: BookOpen, label: "Journal", href: "/dashboard/journal" },
+  { icon: Target, label: "Foundation", href: "/dashboard/foundation" },
   { icon: Target, label: "Tasks to Goals", href: "/dashboard/calendar" },
   { icon: Flag, label: "Milestones to Projects", href: "/dashboard/calendar" },
   { icon: CalendarDays, label: "Calendar", href: "/dashboard/calendar" },
+  { icon: BookOpen, label: "Journal", href: "/dashboard/journal" },
   { icon: Lightbulb, label: "Skills to Build", href: "/dashboard/skills" },
   { icon: Sparkles, label: "Change Analysis", href: "/dashboard/analysis" },
   { icon: Focus, label: "Clarify Focus", href: "/actionable-focus" },

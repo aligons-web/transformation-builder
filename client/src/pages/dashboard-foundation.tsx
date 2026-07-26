@@ -3,7 +3,6 @@ import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Link } from "wouter";
 import {
   Dialog,
   DialogContent,
@@ -24,9 +23,11 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
-  ArrowRight,
+  Loader2,
+  Sparkle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 
 // ---------------------------------------------------------------------------
@@ -231,6 +232,92 @@ export default function DashboardFoundationPage() {
   const [dialogItem, setDialogItem] = useState<FoundationItemConfig | null>(
     null
   );
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedInsight, setGeneratedInsight] = useLocalStorage<string>(
+    "tb-assignment-insight",
+    ""
+  );
+  const [showInsightDialog, setShowInsightDialog] = useState(false);
+  const { toast } = useToast();
+
+  async function generateAssignmentClues() {
+    const filledItems = FOUNDATION_ITEMS.filter(
+      (item) => foundation[item.key].trim().length > 0
+    );
+    if (filledItems.length < 3) {
+      toast({
+        title: "More Reflections Needed",
+        description:
+          "Fill in at least 3 foundation items so the analysis has enough to work with.",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const prompt = `You are a biblical counselor and life-purpose coach. Based on the following personal reflections, identify which biblical character(s) this person most resembles and provide clues about their God-given assignment.
+
+Here are their reflections:
+
+Identity: ${foundation.identity || "(not yet defined)"}
+Values: ${foundation.values || "(not yet defined)"}
+Cause: ${foundation.cause || "(not yet defined)"}
+Calling: ${foundation.calling || "(not yet defined)"}
+Life Purpose: ${foundation.purpose || "(not yet defined)"}
+Life Mission: ${foundation.mission || "(not yet defined)"}
+Vision: ${foundation.vision || "(not yet defined)"}
+Legacy: ${foundation.legacy || "(not yet defined)"}
+Current Assignment: ${foundation.assignment || "(not yet defined)"}
+
+Consider biblical figures including Noah, Abraham, Joseph, Moses, David, Solomon, Nehemiah, Esther, Daniel, Paul, and any others whose patterns fit.
+
+Provide a warm, insightful response with:
+
+1. **Your Biblical Resemblance** — The top 2–3 biblical characters this person most resembles and a specific explanation of why, connecting directly to what they wrote.
+
+2. **Patterns Worth Noticing** — Common threads between their reflections and these biblical figures — shared burdens, leadership styles, or types of assignments God gave.
+
+3. **Clues to Your Assignment** — Based on these patterns, what their God-given assignment in this season might look like. Be specific and actionable, not generic.
+
+4. **A Word of Encouragement** — A brief, personal encouragement connecting their foundation to God's purposes, including a relevant scripture.
+
+Write in second person ("you"). Be specific to what they shared — do not give generic advice. If some fields are not yet defined, note what clarity in those areas might reveal.`;
+
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1500,
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+
+      const data = await response.json();
+      const text =
+        data.content
+          ?.map((item: any) => (item.type === "text" ? item.text : ""))
+          .filter(Boolean)
+          .join("\n") || "";
+
+      if (text) {
+        setGeneratedInsight(text);
+        setShowInsightDialog(true);
+      } else {
+        toast({
+          title: "No Response",
+          description: "The analysis could not be generated. Please try again.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Could not connect to generate insights. Please try again.",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  }
 
   function updateField(key: FoundationKey, value: string) {
     setFoundation((prev) => ({ ...prev, [key]: value }));
@@ -255,30 +342,22 @@ export default function DashboardFoundationPage() {
       <main className="flex-1 overflow-y-auto md:ml-64 p-8">
         <div className="max-w-3xl mx-auto space-y-8">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">
-                Life Direction Foundation
-              </h1>
-              <p className="text-muted-foreground mt-2 leading-relaxed max-w-2xl">
-                These nine layers form the foundation beneath every goal, project,
-                and task. A task without purpose feels meaningless. A purpose
-                without tasks never becomes reality. Start wherever you have
-                clarity — you can return to fill in the rest as it becomes clear.
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">
-                {filledCount} of {FOUNDATION_ITEMS.length} defined —{" "}
-                {filledCount === FOUNDATION_ITEMS.length
-                  ? "your foundation is set"
-                  : "take your time, this is deep work"}
-              </p>
-            </div>
-            
-            <Link href="/dashboard/calendar">
-              <Button className="shrink-0 gap-2 bg-primary hover:bg-primary/90">
-                Go to Calendar <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
+          <div>
+            <h1 className="text-3xl font-heading font-bold text-foreground">
+              Life Direction Foundation
+            </h1>
+            <p className="text-muted-foreground mt-2 leading-relaxed">
+              These nine layers form the foundation beneath every goal, project,
+              and task. A task without purpose feels meaningless. A purpose
+              without tasks never becomes reality. Start wherever you have
+              clarity — you can return to fill in the rest as it becomes clear.
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              {filledCount} of {FOUNDATION_ITEMS.length} defined —{" "}
+              {filledCount === FOUNDATION_ITEMS.length
+                ? "your foundation is set"
+                : "take your time, this is deep work"}
+            </p>
           </div>
 
           {/* Foundation Cards */}
@@ -377,26 +456,69 @@ export default function DashboardFoundationPage() {
             })}
           </div>
 
+          {/* Assignment Clues */}
+          <Card className="bg-gradient-to-r from-amber-50/50 to-violet-50/50 border-amber-200/50">
+            <CardContent className="pt-5 pb-4 space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center shrink-0">
+                  <Sparkle className="w-5 h-5 text-amber-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-sm">
+                    Discover Your Biblical Resemblance
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+                    See which biblical character you resemble most and uncover
+                    clues to your assignment once you've added your reflections
+                    and responses above. The more you define, the more specific
+                    the insight becomes.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 ml-12">
+                <Button
+                  onClick={generateAssignmentClues}
+                  disabled={isGenerating}
+                  className="gap-2 cursor-pointer"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Analyzing your foundation…
+                    </>
+                  ) : (
+                    <>
+                      <Sparkle className="w-4 h-4" />
+                      Generate Clues to Your Assignment
+                    </>
+                  )}
+                </Button>
+                {generatedInsight && !isGenerating && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowInsightDialog(true)}
+                    className="cursor-pointer"
+                  >
+                    View Previous Insight
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Connection reminder */}
           <Card className="bg-muted/30 border-dashed">
-            <CardContent className="pt-5 pb-4 flex flex-col items-center text-center text-sm text-muted-foreground space-y-4">
-              <div className="space-y-2">
-                <p className="font-medium">
-                  Identity → Values → Cause → Calling → Purpose → Mission →
-                  Vision → Legacy
-                </p>
-                <p>
-                  This foundation feeds into everything on your Transformation
-                  Calendar — every project, goal, milestone, and daily habit
-                  traces back to the direction you define here.
-                </p>
-              </div>
-              
-              <Link href="/dashboard/calendar">
-                <Button className="gap-2 bg-primary hover:bg-primary/90 mt-2">
-                  Go to Calendar <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
+            <CardContent className="pt-5 pb-4 text-center text-sm text-muted-foreground space-y-2">
+              <p className="font-medium">
+                Identity → Values → Cause → Calling → Purpose → Mission →
+                Vision → Legacy
+              </p>
+              <p>
+                This foundation feeds into everything on your Transformation
+                Calendar — every project, goal, milestone, and daily habit
+                traces back to the direction you define here.
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -462,6 +584,44 @@ export default function DashboardFoundationPage() {
             </div>
           </DialogContent>
         )}
+      </Dialog>
+
+      {/* Generated Insight Dialog */}
+      <Dialog open={showInsightDialog} onOpenChange={setShowInsightDialog}>
+        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center">
+                <Sparkle className="w-5 h-5 text-amber-600" />
+              </div>
+              Your Biblical Resemblance & Assignment Clues
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-2 text-sm leading-relaxed whitespace-pre-wrap">
+            {generatedInsight}
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowInsightDialog(false)}
+              className="cursor-pointer"
+            >
+              Close
+            </Button>
+            <Button
+              onClick={generateAssignmentClues}
+              disabled={isGenerating}
+              className="gap-2 cursor-pointer"
+            >
+              {isGenerating ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Sparkle className="w-4 h-4" />
+              )}
+              Regenerate
+            </Button>
+          </div>
+        </DialogContent>
       </Dialog>
     </div>
   );

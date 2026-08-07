@@ -438,10 +438,10 @@ export function AiPreview() {
                         <p className="text-base font-semibold text-foreground leading-relaxed">
                           Upload all assessments, questionnaires, exercises, quizzes, and reflection assignments to create a more complete picture of your transformation journey and the framework guiding it.
                         </p>
-                        <p className="text-base font-semibold text-foreground leading-relaxed">
+                        <p className="text-base text-foreground leading-relaxed">
                           Including these materials in the roadmap/framework assessment provides valuable context about your current strengths, needs, progress, and areas for growth.
                         </p>
-                        <p className="text-base font-semibold text-foreground leading-relaxed">
+                        <p className="text-base text-foreground leading-relaxed">
                           It also helps identify patterns, clarify priorities, and ensure that the roadmap is personalized, actionable, and aligned with your goals.
                         </p>
 

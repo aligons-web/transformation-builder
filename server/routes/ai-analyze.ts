@@ -1,8 +1,6 @@
 import { Express } from "express";
 import Anthropic from "@anthropic-ai/sdk";
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const pdfParse = require("pdf-parse");
+import pdfParse from "pdf-parse";
 
 // Initialize Anthropic client
 const anthropic = new Anthropic({

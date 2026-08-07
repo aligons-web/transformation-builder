@@ -339,25 +339,62 @@ export function AiPreview() {
           <div className="lg:w-1/2">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
               Transformation <br />
-              <span className="text-primary">Roadmap/Pathway</span>
+              <span className="text-primary">Roadmap/Framework</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
               Select a life domain you want to transform. Our AI engine analyzes your inputs from Discover Purpose, Analyze Change, and Clarify Focus to generate a personalized roadmap.
             </p>
 
-            <div className="space-y-4">
-              {[
-                { icon: Heart, text: "Personal Advancement" },
-                { icon: Briefcase, text: "Professional Reinvention" },
-                { icon: Zap, text: "Spiritual Awareness" }
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-white/60 shadow-sm">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <span className="font-medium text-foreground">{item.text}</span>
+            <div className="space-y-5">
+
+              {/* Personal Advancement */}
+              <div className="flex gap-4 p-5 rounded-xl bg-white/60 border border-white/60 shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
+                  <Heart className="w-5 h-5 text-primary" />
                 </div>
-              ))}
+                <div>
+                  <p className="font-semibold text-foreground mb-1">Personal Advancement</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Personal advancement focuses on growing who you are — your mindset, habits, relationships, health, and emotional well-being. It is the intentional work of becoming a better version of yourself in the areas of life that matter most. This domain is for anyone ready to break old patterns and build a life aligned with their values and purpose.
+                  </p>
+                  <p className="text-xs text-primary/80 mt-2 italic">
+                    Example: Committing to a daily discipline of physical exercise, journaling, and meaningful relationships to build lasting confidence and emotional resilience.
+                  </p>
+                </div>
+              </div>
+
+              {/* Professional Reinvention */}
+              <div className="flex gap-4 p-5 rounded-xl bg-white/60 border border-white/60 shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
+                  <Briefcase className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground mb-1">Professional Reinvention</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Professional reinvention is the process of reshaping your career, business, or vocational calling to reflect your true gifts and direction. It may involve transitioning industries, launching a venture, developing new skills, or redefining your leadership identity. This domain is for those who sense that their work should be more meaningful, impactful, or fulfilling than it currently is.
+                  </p>
+                  <p className="text-xs text-primary/80 mt-2 italic">
+                    Example: Leaving a corporate career to launch a coaching practice that leverages your expertise and life experience to help others navigate major transitions.
+                  </p>
+                </div>
+              </div>
+
+              {/* Spiritual Awareness */}
+              <div className="flex gap-4 p-5 rounded-xl bg-white/60 border border-white/60 shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
+                  <Zap className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground mb-1">Spiritual Awareness</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Spiritual awareness is the deepening of your understanding of who you are, why you are here, and how you are connected to something greater than yourself. It encompasses faith, inner peace, moral clarity, and a sense of divine purpose that guides your decisions. This domain is for those seeking to move beyond surface-level living and anchor their transformation in a deeper, lasting truth.
+                  </p>
+                  <p className="text-xs text-primary/80 mt-2 italic">
+                    Example: Developing a consistent practice of prayer, study, and reflection that brings clarity to your calling and shapes the way you lead, love, and serve others.
+                  </p>
+                </div>
+              </div>
+
             </div>
           </div>
 

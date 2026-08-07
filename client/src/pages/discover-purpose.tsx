@@ -225,8 +225,11 @@ export default function DiscoverPurposePage() {
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Step 1: Discover <span className="text-primary font-serif italic">Purpose</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-4">
             Explore the chapters of your life through guided modules derived from "Understanding Your Path." Reflect, record, and connect the dots.
+          </p>
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto mb-8">
+            Go to 'Step 1: Discover Purpose' and start "Uncommon Beginnings" under "Modules."
           </p>
 
           {/* Book CTA Section */}

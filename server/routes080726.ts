@@ -1,3 +1,5 @@
+
+import bcrypt from 'bcryptjs';
 import bcrypt from 'bcryptjs';
 import { config } from "dotenv";
 config();
@@ -14,12 +16,24 @@ import { registerStripeWebhook } from "./stripe-webhook";
 import { registerAiAnalysisRoutes } from "./routes/ai-analyze";
 import { registerAdminSubscriberRoutes } from "./routes/admin-subscribers";
 import { registerAdminStatsRoutes } from "./routes/admin-stats";
-import { PLANS, isValidPlanKey } from "@shared/config/plans";
 
 // ✅ Initialize Stripe
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 if (!stripeKey) throw new Error("Missing STRIPE_SECRET_KEY");
 const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
+
+//const stripe = new //Stripe("sk_test_51Sdf0JEdLQjM86qTmzZgf4a9FW6LxZTUjEJInYrcWOxMraiMtJ8XnZDfTpywlztKX5nWU3V218XzsDCGk31JZvHO009WzOfgbU", {
+//  apiVersion: "2023-10-16",
+// });
+
+// ✅ Price ID mapping - UPDATE THESE when switching to live mode
+const PLAN_PRICE_IDS: Record<string, string> = {
+  // Test Mode Price IDs
+  transformer: "price_1SrLViEdLQjM86qTCom9p6zd",
+  implementer: "price_1SrLYSEdLQjM86qTNqO1XrJb",
+
+ 
+};
 
 // ✅ Add session type definition
 declare module "express-session" {
@@ -461,13 +475,11 @@ export async function registerRoutes(
 
       const { planKey } = req.body; // "transformer" or "implementer"
 
-      // ✅ Validate plan using shared config
-      if (!planKey || !isValidPlanKey(planKey)) {
+      if (!planKey || !PLAN_PRICE_IDS[planKey]) {
         return res.status(400).json({ message: "Invalid plan selected" });
       }
 
-      // ✅ Get Price ID from single source of truth
-      const priceId = PLANS[planKey].pricing.stripePriceId;
+      const priceId = PLAN_PRICE_IDS[planKey];
 
       // Get user info
       const user = await storage.getUser(userId);
@@ -489,31 +501,16 @@ export async function registerRoutes(
         const customer = await stripe.customers.create({
           email: user.username, // Assuming username is email
           metadata: {
-            userId: userId,
+            userId: userId, // ✅ This links Stripe customer to your user
           },
         });
         customerId = customer.id;
 
-        // ✅ FIX Issue 3: Save customer ID — insert if no row exists, update if it does
-        const existingRow = await db
-          .select()
-          .from(subscriptions)
-          .where(eq(subscriptions.userId, userId))
-          .limit(1);
-
-        if (existingRow.length > 0) {
-          await db
-            .update(subscriptions)
-            .set({ stripeCustomerId: customerId })
-            .where(eq(subscriptions.userId, userId));
-        } else {
-          await db.insert(subscriptions).values({
-            userId: userId,
-            plan: "EXPLORER",
-            status: "active",
-            stripeCustomerId: customerId,
-          });
-        }
+        // Save customer ID to database
+        await db
+          .update(subscriptions)
+          .set({ stripeCustomerId: customerId })
+          .where(eq(subscriptions.userId, userId));
       } else {
         // Update existing customer metadata to ensure userId is set
         await stripe.customers.update(customerId, {
@@ -540,12 +537,12 @@ export async function registerRoutes(
         success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${baseUrl}/pricing?canceled=true`,
         metadata: {
-          userId: userId,
+          userId: userId, // ✅ Also add to session metadata as backup
           planKey: planKey,
         },
         subscription_data: {
           metadata: {
-            userId: userId,
+            userId: userId, // ✅ Add to subscription metadata
             planKey: planKey,
           },
         },

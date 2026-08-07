@@ -357,7 +357,7 @@ export function AiPreview() {
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     Personal advancement focuses on growing who you are — your mindset, habits, relationships, health, and emotional well-being. It is the intentional work of becoming a better version of yourself in the areas of life that matter most. This domain is for anyone ready to break old patterns and build a life aligned with their values and purpose.
                   </p>
-                  <p className="text-xs text-primary/80 mt-2 italic">
+                  <p className="text-xs text-primary/80 mt-2 italic font-bold">
                     Example: Committing to a daily discipline of physical exercise, journaling, and meaningful relationships to build lasting confidence and emotional resilience.
                   </p>
                 </div>
@@ -373,7 +373,7 @@ export function AiPreview() {
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     Professional reinvention is the process of reshaping your career, business, or vocational calling to reflect your true gifts and direction. It may involve transitioning industries, launching a venture, developing new skills, or redefining your leadership identity. This domain is for those who sense that their work should be more meaningful, impactful, or fulfilling than it currently is.
                   </p>
-                  <p className="text-xs text-primary/80 mt-2 italic">
+                  <p className="text-xs text-primary/80 mt-2 italic font-bold">
                     Example: Leaving a corporate career to launch a coaching practice that leverages your expertise and life experience to help others navigate major transitions.
                   </p>
                 </div>
@@ -389,7 +389,7 @@ export function AiPreview() {
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     Spiritual awareness is the deepening of your understanding of who you are, why you are here, and how you are connected to something greater than yourself. It encompasses faith, inner peace, moral clarity, and a sense of divine purpose that guides your decisions. This domain is for those seeking to move beyond surface-level living and anchor their transformation in a deeper, lasting truth.
                   </p>
-                  <p className="text-xs text-primary/80 mt-2 italic">
+                  <p className="text-xs text-primary/80 mt-2 italic font-bold">
                     Example: Developing a consistent practice of prayer, study, and reflection that brings clarity to your calling and shapes the way you lead, love, and serve others.
                   </p>
                 </div>
@@ -420,7 +420,7 @@ export function AiPreview() {
 
                       {/* Upload Instructions */}
                       <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
-                        <p className="text-sm text-foreground/80 leading-relaxed">
+                        <p className="text-base font-semibold text-foreground leading-relaxed">
                           Upload all your assessments, questionnaires, exercises, quizzes, and reflection assignments for a clearer picture of your transformation path or framework.
                         </p>
 

@@ -1,5 +1,8 @@
 import { Express } from "express";
 import Anthropic from "@anthropic-ai/sdk";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const pdfParse = require("pdf-parse");
 
 // Initialize Anthropic client
 const anthropic = new Anthropic({
@@ -488,7 +491,7 @@ function formatTransformationAnalysisData(data: Record<string, any>): string {
 }
 
 function formatRoadmapData(data: Record<string, any>): string {
-  const { category, purposeData, analysisData, focusData } = data;
+  const { category, purposeData, analysisData, focusData, uploadedDocuments } = data;
 
   let formatted = `## Roadmap Request for: ${category || "General"}\n\n`;
 
@@ -498,7 +501,6 @@ function formatRoadmapData(data: Record<string, any>): string {
     const entries = Object.entries(purposeData).filter(([_, v]) => v && typeof v === 'string' && (v as string).trim());
     formatted += `Total reflection entries: ${entries.length}\n`;
 
-    // Include a sample of their reflections
     entries.slice(0, 5).forEach(([key, value]) => {
       formatted += `- Entry ${key}: "${(value as string).substring(0, 200)}${(value as string).length > 200 ? '...' : ''}"\n`;
     });
@@ -529,11 +531,64 @@ function formatRoadmapData(data: Record<string, any>): string {
     formatted += "\n";
   }
 
+  // Uploaded documents (assessments, quizzes, exercises, etc.)
+  if (uploadedDocuments && Array.isArray(uploadedDocuments) && uploadedDocuments.length > 0) {
+    formatted += `### Uploaded Assessment Documents\n`;
+    formatted += `The user has uploaded ${uploadedDocuments.length} document(s) containing their assessments, questionnaires, exercises, quizzes, and/or reflection assignments. Incorporate these into the roadmap:\n\n`;
+    uploadedDocuments.forEach((doc: { fileName: string; text: string }, idx: number) => {
+      formatted += `#### Document ${idx + 1}: ${doc.fileName}\n`;
+      if (doc.text && doc.text.trim()) {
+        // Limit each doc to 3000 chars to stay within token budget
+        const excerpt = doc.text.trim().substring(0, 3000);
+        formatted += `${excerpt}${doc.text.length > 3000 ? "\n[...truncated for length]" : ""}\n\n`;
+      } else {
+        formatted += `(No readable text could be extracted from this file.)\n\n`;
+      }
+    });
+  }
+
   return formatted;
 }
 
 // Main API handler
 export function registerAiAnalysisRoutes(app: Express) {
+
+  /**
+   * POST /api/extract-pdf-text
+   * Accepts base64-encoded PDFs, extracts readable text using pdf-parse
+   */
+  app.post("/api/extract-pdf-text", async (req, res) => {
+    try {
+      const { files } = req.body as { files: { name: string; base64: string }[] };
+
+      if (!files || !Array.isArray(files)) {
+        return res.status(400).json({ success: false, error: "No files provided" });
+      }
+
+      const documents: { fileName: string; text: string }[] = [];
+
+      for (const file of files) {
+        try {
+          // Strip data URL prefix if present (e.g. "data:application/pdf;base64,")
+          const base64Data = file.base64.includes(",")
+            ? file.base64.split(",")[1]
+            : file.base64;
+
+          const buffer = Buffer.from(base64Data, "base64");
+          const parsed = await pdfParse(buffer);
+          documents.push({ fileName: file.name, text: parsed.text || "" });
+        } catch (err) {
+          console.warn(`Failed to parse PDF "${file.name}":`, err);
+          documents.push({ fileName: file.name, text: "" });
+        }
+      }
+
+      return res.json({ success: true, documents });
+    } catch (error) {
+      console.error("PDF extraction error:", error);
+      return res.status(500).json({ success: false, error: "Failed to extract PDF text" });
+    }
+  });
 
   // Health check for AI service
   app.get("/api/ai-analyze/health", (req, res) => {

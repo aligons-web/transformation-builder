@@ -141,15 +141,14 @@ export function AiPreview() {
       if (file.type !== "application/pdf") return;
       const reader = new FileReader();
       reader.onload = (ev) => {
-        const content = ev.target?.result as string;
+        const base64 = ev.target?.result as string;
         setUploadedFiles(prev => [
           ...prev.filter(f => f.name !== file.name),
-          { name: file.name, size: file.size, content: content.substring(0, 5000) }
+          { name: file.name, size: file.size, content: base64 }
         ]);
       };
-      reader.readAsText(file);
+      reader.readAsDataURL(file);
     });
-    // Reset input so same file can be re-uploaded if needed
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -160,20 +159,36 @@ export function AiPreview() {
   const handleGenerate = async () => {
     if (!category) return;
 
-    // Clear cached roadmap
     localStorage.removeItem("transformation-roadmap-cache");
     setGeneratedRoadmap(null);
 
-    // Prepare data for AI
+    // Extract text from uploaded PDFs server-side
+    let extractedDocuments: { fileName: string; text: string }[] = [];
+    if (uploadedFiles.length > 0) {
+      try {
+        const extractRes = await fetch("/api/extract-pdf-text", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            files: uploadedFiles.map(f => ({ name: f.name, base64: f.content }))
+          })
+        });
+        if (extractRes.ok) {
+          const extractData = await extractRes.json();
+          extractedDocuments = extractData.documents || [];
+        }
+      } catch (err) {
+        console.warn("PDF extraction failed, proceeding without documents:", err);
+      }
+    }
+
     const roadmapData = {
       category,
       purposeData,
       analysisData,
       focusData,
-      uploadedDocuments: uploadedFiles.map(f => ({
-        fileName: f.name,
-        excerpt: f.content
-      }))
+      uploadedDocuments: extractedDocuments
     };
 
     await analyze("transformation-roadmap", roadmapData);
@@ -529,7 +544,7 @@ export function AiPreview() {
                             Generating Roadmap...
                           </>
                         ) : (
-                          "Generate Roadmap"
+                          "Generate Roadmap/Framework"
                         )}
                       </Button>
                     </div>

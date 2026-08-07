@@ -228,8 +228,8 @@ export default function DiscoverPurposePage() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-4">
             Explore the chapters of your life through guided modules derived from "Understanding Your Path." Reflect, record, and connect the dots.
           </p>
-          <p className="text-base text-muted-foreground max-w-2xl mx-auto mb-8">
-            Go to 'Step 1: Discover Purpose' and start "Uncommon Beginnings" under "Modules."
+          <p className="text-lg font-bold text-foreground max-w-2xl mx-auto mb-8">
+            Go to 'Step 1: Discover Purpose' and start 'Uncommon Beginnings' (Module 1) under 'Modules.'
           </p>
 
           {/* Book CTA Section */}

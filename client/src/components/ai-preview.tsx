@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Wand2, Briefcase, Heart, Zap, Target, Clock, MapPin, ArrowRight, Loader2, CheckCircle2, Lightbulb, Sparkles, RefreshCw, AlertCircle, AlertTriangle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Wand2, Briefcase, Heart, Zap, Target, Clock, MapPin, ArrowRight, Loader2, CheckCircle2, Lightbulb, Sparkles, RefreshCw, AlertCircle, AlertTriangle, UploadCloud, FileText, X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from "recharts";
 import { useAiAnalysis } from "@/hooks/use-ai-analysis";
 
@@ -27,6 +27,8 @@ export function AiPreview() {
   const [category, setCategory] = useState<string>("");
   const [showInterpretation, setShowInterpretation] = useState(false);
   const [generatedRoadmap, setGeneratedRoadmap] = useState<RoadmapResponse | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: number; content: string }[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Data State
   const [purposeData, setPurposeData] = useState<Record<string, string>>({});
@@ -133,6 +135,28 @@ export function AiPreview() {
 
   const timeUseData = calculateFocusSummary();
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    files.forEach(file => {
+      if (file.type !== "application/pdf") return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const content = ev.target?.result as string;
+        setUploadedFiles(prev => [
+          ...prev.filter(f => f.name !== file.name),
+          { name: file.name, size: file.size, content: content.substring(0, 5000) }
+        ]);
+      };
+      reader.readAsText(file);
+    });
+    // Reset input so same file can be re-uploaded if needed
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleRemoveFile = (name: string) => {
+    setUploadedFiles(prev => prev.filter(f => f.name !== name));
+  };
+
   const handleGenerate = async () => {
     if (!category) return;
 
@@ -145,7 +169,11 @@ export function AiPreview() {
       category,
       purposeData,
       analysisData,
-      focusData
+      focusData,
+      uploadedDocuments: uploadedFiles.map(f => ({
+        fileName: f.name,
+        excerpt: f.content
+      }))
     };
 
     await analyze("transformation-roadmap", roadmapData);
@@ -311,7 +339,7 @@ export function AiPreview() {
           <div className="lg:w-1/2">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
               Transformation <br />
-              <span className="text-primary">Roadmap</span>
+              <span className="text-primary">Roadmap/Pathway</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
               Select a life domain you want to transform. Our AI engine analyzes your inputs from Discover Purpose, Analyze Change, and Clarify Focus to generate a personalized roadmap.
@@ -352,6 +380,56 @@ export function AiPreview() {
                     </div>
 
                     <div className="space-y-6">
+
+                      {/* Upload Instructions */}
+                      <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
+                        <p className="text-sm text-foreground/80 leading-relaxed">
+                          Upload all your assessments, questionnaires, exercises, quizzes, and reflection assignments for a clearer picture of your transformation path or framework.
+                        </p>
+
+                        {/* Upload Button */}
+                        <div>
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept=".pdf"
+                            multiple
+                            className="hidden"
+                            onChange={handleFileUpload}
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="w-full gap-2 border-dashed border-primary/40 hover:border-primary hover:bg-primary/5 cursor-pointer"
+                            onClick={() => fileInputRef.current?.click()}
+                          >
+                            <UploadCloud className="w-4 h-4 text-primary" />
+                            Upload PDF Documents
+                          </Button>
+                        </div>
+
+                        {/* Uploaded Files List */}
+                        {uploadedFiles.length > 0 && (
+                          <ul className="space-y-2">
+                            {uploadedFiles.map(file => (
+                              <li key={file.name} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white/70 border border-border/50">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <FileText className="w-4 h-4 text-primary shrink-0" />
+                                  <span className="text-xs text-foreground truncate">{file.name}</span>
+                                </div>
+                                <button
+                                  onClick={() => handleRemoveFile(file.name)}
+                                  className="text-muted-foreground hover:text-destructive transition-colors shrink-0 cursor-pointer"
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-muted-foreground">Select Category</label>
                         <Select value={category} onValueChange={setCategory}>

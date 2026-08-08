@@ -1,6 +1,6 @@
 import { Express } from "express";
 import Anthropic from "@anthropic-ai/sdk";
-import pdfParse from "pdf-parse";
+import * as pdfParse from "pdf-parse";
 
 // Initialize Anthropic client
 const anthropic = new Anthropic({

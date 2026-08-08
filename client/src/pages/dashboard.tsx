@@ -119,8 +119,49 @@ export default function DashboardPage() {
                   </div>
                 </CardContent>
               </Card>
-            )}
-          </div>
+    )}
+
+              {/* Manage Subscription - Only show for paying subscribers */}
+              {user && !user.isAdmin && (user.plan === "TRANSFORMER" || user.plan === "IMPLEMENTER") && (
+                <Card className="border border-border/50 bg-white/50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold text-foreground">
+                          Current Plan: {user.plan === "TRANSFORMER" ? "Transformer" : "Implementer"}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Manage your billing, payment method, or cancel your subscription
+                        </p>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        className="cursor-pointer"
+                        onClick={async () => {
+                          try {
+                            const res = await fetch("/api/create-portal-session", {
+                              method: "POST",
+                              credentials: "include",
+                            });
+                            const data = await res.json();
+                            if (data.url) {
+                              window.location.href = data.url;
+                            } else {
+                              alert("Unable to open subscription management. Please try again.");
+                            }
+                          } catch (err) {
+                            console.error("Portal error:", err);
+                            alert("Something went wrong. Please try again.");
+                          }
+                        }}
+                      >
+                        Manage Subscription
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
 
           {/* Main Content Area */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -600,5 +600,41 @@ export async function registerRoutes(
     }
   });
 
+  /**
+   * POST /api/create-portal-session
+   * Creates a Stripe Customer Portal session for subscription management
+   */
+  app.post("/api/create-portal-session", async (req, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Please log in first" });
+      }
+
+      const existingSub = await db
+        .select({ stripeCustomerId: subscriptions.stripeCustomerId })
+        .from(subscriptions)
+        .where(eq(subscriptions.userId, userId))
+        .limit(1);
+
+      const customerId = existingSub[0]?.stripeCustomerId;
+      if (!customerId) {
+        return res.status(400).json({ message: "No subscription found" });
+      }
+
+      const baseUrl = process.env.APP_URL || `https://${req.get("host")}`;
+
+      const session = await stripe.billingPortal.sessions.create({
+        customer: customerId,
+        return_url: `${baseUrl}/dashboard`,
+      });
+
+      return res.json({ url: session.url });
+    } catch (error) {
+      console.error("Portal session error:", error);
+      return res.status(500).json({ message: "Failed to create portal session" });
+    }
+  });
+  
   return httpServer;
 }

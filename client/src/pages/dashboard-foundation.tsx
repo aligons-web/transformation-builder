@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,6 +26,9 @@ import {
   ChevronUp,
   Loader2,
   Sparkle,
+  LayoutDashboard,
+  BarChart2,
+  Focus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -341,6 +345,37 @@ Write in second person ("you"). Be specific to what they shared — do not give 
       <DashboardSidebar />
       <main className="flex-1 overflow-y-auto md:ml-64 p-8">
         <div className="max-w-3xl mx-auto space-y-8">
+          {/* Navigation Buttons */}
+          <div className="flex flex-wrap gap-3">
+            <Link href="/dashboard">
+              <Button
+                size="sm"
+                className="bg-orange-500 text-white hover:bg-orange-600 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 gap-2 cursor-pointer"
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                Back to Dashboard
+              </Button>
+            </Link>
+            <Link href="/discover-purpose">
+              <Button size="sm" variant="outline" className="gap-2 cursor-pointer hover:scale-[1.02] transition-all duration-200">
+                <Compass className="w-4 h-4" />
+                Step 1: Discover Purpose
+              </Button>
+            </Link>
+            <Link href="/dashboard/analysis">
+              <Button size="sm" variant="outline" className="gap-2 cursor-pointer hover:scale-[1.02] transition-all duration-200">
+                <BarChart2 className="w-4 h-4" />
+                Step 2: Change Analysis
+              </Button>
+            </Link>
+            <Link href="/actionable-focus">
+              <Button size="sm" variant="outline" className="gap-2 cursor-pointer hover:scale-[1.02] transition-all duration-200">
+                <Focus className="w-4 h-4" />
+                Step 3: Clarify Focus
+              </Button>
+            </Link>
+          </div>
+
           {/* Header */}
           <div>
             <h1 className="text-3xl font-heading font-bold text-foreground">

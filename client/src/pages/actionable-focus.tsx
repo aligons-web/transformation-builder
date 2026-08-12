@@ -7,10 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Target, MapPin, Mic, AlertCircle, ArrowRight, ArrowLeft, Sparkles, MicOff, AlertTriangle } from "lucide-react";
+import { Target, MapPin, Mic, AlertCircle, ArrowRight, ArrowLeft, Sparkles, MicOff, AlertTriangle, Compass, BarChart2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
+import { Badge } from "@/components/ui/badge";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 const timeUseQuiz = [
@@ -267,10 +268,28 @@ export default function ActionableFocusPage() {
         <DashboardHeader />
 
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <Link href="/discover-purpose">
+              <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 px-4 py-1.5 cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-colors flex items-center gap-1.5">
+                <Compass className="w-3.5 h-3.5" />
+                Step 1: Discover Purpose
+              </Badge>
+            </Link>
+            <Link href="/dashboard/analysis">
+              <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 px-4 py-1.5 cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-colors flex items-center gap-1.5">
+                <BarChart2 className="w-3.5 h-3.5" />
+                Step 2: Change Analysis
+              </Badge>
+            </Link>
+          </div>
+
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-heading font-bold text-foreground">Step 3: Clarify Focus</h1>
-              <p className="text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
+              <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
+                Step 3: Clarify <span className="text-primary font-serif italic">Focus</span>
+              </h1>
+              <div className="h-6" />
+              <p className="text-xl text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
             </div>
           </div>
 

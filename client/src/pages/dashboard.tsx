@@ -48,7 +48,7 @@ export default function DashboardPage() {
   const getPageSubtitle = () => {
     if (isTasksPage) return "Track your daily tasks and long-term goals.";
     if (isProjectsPage) return "Visualize your project timelines and key milestones.";
-    return "Here's your daily overview and transformation progress.";
+    return "Welcome to your Transformation Builder dashboard—your daily overview and transformation progress at a glance.";
   };
 
   return (
@@ -118,6 +118,7 @@ export default function DashboardPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h1 className="text-3xl font-heading font-bold text-foreground">{getPageTitle()}</h1>
+                <div className="h-2" />
                 <p className="text-muted-foreground">{getPageSubtitle()}</p>
               </div>
               <div className="flex gap-3">

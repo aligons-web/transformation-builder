@@ -3,7 +3,8 @@ import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Crown, Briefcase, Sparkles } from "lucide-react";
+import { Plus, Crown, Briefcase, Sparkles, Layers, Dumbbell, BarChart2, Focus } from "lucide-react";
+import { Link } from "wouter";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
@@ -58,7 +59,7 @@ export default function DashboardPage() {
         <DashboardHeader />
 
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
-          <div className="flex justify-start">
+          <div className="flex flex-wrap gap-3 justify-start">
             <Button 
               size="lg" 
               className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-primary/90 hover:bg-primary"
@@ -66,6 +67,50 @@ export default function DashboardPage() {
             >
               Start here
             </Button>
+            <Link href="/dashboard/foundation">
+              <Button
+                size="lg"
+                variant="outline"
+                className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 gap-2"
+              >
+                <Layers className="w-4 h-4" />
+                Foundation
+              </Button>
+            </Link>
+            <a
+              href="https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=ecffe8d8300346e495eaaca79e2b2dc1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 gap-2"
+              >
+                <Dumbbell className="w-4 h-4" />
+                Exercises
+              </Button>
+            </a>
+            <Link href="/dashboard/analysis">
+              <Button
+                size="lg"
+                variant="outline"
+                className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 gap-2"
+              >
+                <BarChart2 className="w-4 h-4" />
+                Step 2: Change Analysis
+              </Button>
+            </Link>
+            <Link href="/actionable-focus">
+              <Button
+                size="lg"
+                variant="outline"
+                className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 gap-2"
+              >
+                <Focus className="w-4 h-4" />
+                Step 3: Clarify Focus
+              </Button>
+            </Link>
           </div>
 
           {/* Welcome Section */}

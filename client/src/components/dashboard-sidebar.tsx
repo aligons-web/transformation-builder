@@ -14,7 +14,8 @@ import {
   ClipboardCheck,
   Users,
   CalendarDays,
-  Layers
+  Layers,
+  Dumbbell
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -24,6 +25,7 @@ export const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard/overview" },
   { icon: Compass, label: "Discover Purpose", href: "/discover-purpose" },
   { icon: Layers, label: "Foundation", href: "/dashboard/foundation" },
+  { icon: Dumbbell, label: "Exercises", href: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=ecffe8d8300346e495eaaca79e2b2dc1", external: true },
   { icon: Target, label: "Tasks to Goals", href: "/dashboard/calendar" },
   { icon: Flag, label: "Milestones to Projects", href: "/dashboard/calendar" },
   { icon: CalendarDays, label: "Calendar", href: "/dashboard/calendar" },

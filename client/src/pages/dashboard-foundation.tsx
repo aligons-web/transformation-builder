@@ -24,7 +24,6 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
-  Loader2,
   Sparkle,
   LayoutDashboard,
   BarChart2,
@@ -237,91 +236,21 @@ export default function DashboardFoundationPage() {
   const [dialogItem, setDialogItem] = useState<FoundationItemConfig | null>(
     null
   );
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedInsight, setGeneratedInsight] = useLocalStorage<string>(
-    "tb-assignment-insight",
-    ""
-  );
   const [showInsightDialog, setShowInsightDialog] = useState(false);
   const { toast } = useToast();
 
-  async function generateAssignmentClues() {
+  function viewFoundationSummary() {
     const filledItems = FOUNDATION_ITEMS.filter(
       (item) => foundation[item.key].trim().length > 0
     );
-    if (filledItems.length < 3) {
+    if (filledItems.length === 0) {
       toast({
-        title: "More Reflections Needed",
-        description:
-          "Fill in at least 3 foundation items so the analysis has enough to work with.",
+        title: "Nothing to Show Yet",
+        description: "Fill in at least one foundation item to view your summary.",
       });
       return;
     }
-
-    setIsGenerating(true);
-    try {
-      const prompt = `You are a biblical counselor and life-purpose coach. Based on the following personal reflections, identify which biblical character(s) this person most resembles and provide clues about their God-given assignment.
-
-Here are their reflections:
-
-Identity: ${foundation.identity || "(not yet defined)"}
-Values: ${foundation.values || "(not yet defined)"}
-Cause: ${foundation.cause || "(not yet defined)"}
-Calling: ${foundation.calling || "(not yet defined)"}
-Life Purpose: ${foundation.purpose || "(not yet defined)"}
-Life Mission: ${foundation.mission || "(not yet defined)"}
-Vision: ${foundation.vision || "(not yet defined)"}
-Legacy: ${foundation.legacy || "(not yet defined)"}
-Current Assignment: ${foundation.assignment || "(not yet defined)"}
-
-Consider biblical figures including Noah, Abraham, Joseph, Moses, David, Solomon, Nehemiah, Esther, Daniel, Paul, and any others whose patterns fit.
-
-Provide a warm, insightful response with:
-
-1. **Your Biblical Resemblance** — The top 2–3 biblical characters this person most resembles and a specific explanation of why, connecting directly to what they wrote.
-
-2. **Patterns Worth Noticing** — Common threads between their reflections and these biblical figures — shared burdens, leadership styles, or types of assignments God gave.
-
-3. **Clues to Your Assignment** — Based on these patterns, what their God-given assignment in this season might look like. Be specific and actionable, not generic.
-
-4. **A Word of Encouragement** — A brief, personal encouragement connecting their foundation to God's purposes, including a relevant scripture.
-
-Write in second person ("you"). Be specific to what they shared — do not give generic advice. If some fields are not yet defined, note what clarity in those areas might reveal.`;
-
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-6",
-          max_tokens: 1500,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-
-      const data = await response.json();
-      const text =
-        data.content
-          ?.map((item: any) => (item.type === "text" ? item.text : ""))
-          .filter(Boolean)
-          .join("\n") || "";
-
-      if (text) {
-        setGeneratedInsight(text);
-        setShowInsightDialog(true);
-      } else {
-        toast({
-          title: "No Response",
-          description: "The analysis could not be generated. Please try again.",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Could not connect to generate insights. Please try again.",
-      });
-    } finally {
-      setIsGenerating(false);
-    }
+    setShowInsightDialog(true);
   }
 
   function updateField(key: FoundationKey, value: string) {
@@ -513,32 +442,12 @@ Write in second person ("you"). Be specific to what they shared — do not give 
               </div>
               <div className="flex items-center gap-3 ml-12">
                 <Button
-                  onClick={generateAssignmentClues}
-                  disabled={isGenerating}
+                  onClick={viewFoundationSummary}
                   className="gap-2 cursor-pointer"
                 >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Analyzing your foundation…
-                    </>
-                  ) : (
-                    <>
-                      <Sparkle className="w-4 h-4" />
-                      Generate Clues to Your Assignment
-                    </>
-                  )}
+                  <Sparkle className="w-4 h-4" />
+                  View My Foundation Summary
                 </Button>
-                {generatedInsight && !isGenerating && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowInsightDialog(true)}
-                    className="cursor-pointer"
-                  >
-                    View Previous Insight
-                  </Button>
-                )}
               </div>
             </CardContent>
           </Card>
@@ -653,7 +562,7 @@ Write in second person ("you"). Be specific to what they shared — do not give 
         )}
       </Dialog>
 
-      {/* Generated Insight Dialog */}
+      {/* Foundation Summary Dialog */}
       <Dialog open={showInsightDialog} onOpenChange={setShowInsightDialog}>
         <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
           <DialogHeader>
@@ -661,11 +570,22 @@ Write in second person ("you"). Be specific to what they shared — do not give 
               <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center">
                 <Sparkle className="w-5 h-5 text-amber-600" />
               </div>
-              Your Biblical Resemblance & Assignment Clues
+              My Life Direction Foundation
             </DialogTitle>
           </DialogHeader>
-          <div className="py-2 text-sm leading-relaxed whitespace-pre-wrap">
-            {generatedInsight}
+          <div className="py-2 space-y-4">
+            {FOUNDATION_ITEMS.map((item) => {
+              const value = foundation[item.key].trim();
+              if (!value) return null;
+              return (
+                <div key={item.key} className={cn("rounded-lg p-4", item.bg)}>
+                  <p className={cn("text-xs font-semibold uppercase tracking-wider mb-1", item.color)}>
+                    {item.label}
+                  </p>
+                  <p className="text-sm leading-relaxed text-foreground">{value}</p>
+                </div>
+              );
+            })}
           </div>
           <div className="flex justify-end gap-2 pt-2 flex-wrap">
             <Button
@@ -679,25 +599,34 @@ Write in second person ("you"). Be specific to what they shared — do not give 
               variant="outline"
               className="gap-2 cursor-pointer"
               onClick={() => {
+                const rows = FOUNDATION_ITEMS
+                  .filter((item) => foundation[item.key].trim())
+                  .map((item) => `${item.label.toUpperCase()}\n${foundation[item.key].trim()}`)
+                  .join("\n\n");
                 const printWindow = window.open("", "_blank");
-                if (printWindow && generatedInsight) {
+                if (printWindow) {
                   printWindow.document.write(`
                     <!DOCTYPE html>
                     <html>
                       <head>
-                        <title>Biblical Resemblance & Assignment Clues</title>
+                        <title>My Life Direction Foundation</title>
                         <style>
                           body { font-family: Georgia, serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; line-height: 1.7; }
                           h1 { font-size: 1.5rem; margin-bottom: 8px; }
                           .subtitle { color: #666; font-size: 0.9rem; margin-bottom: 32px; }
-                          pre { white-space: pre-wrap; font-family: Georgia, serif; font-size: 0.95rem; }
+                          .section { margin-bottom: 24px; }
+                          .label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 4px; }
+                          .value { font-size: 0.95rem; }
                           @media print { button { display: none; } }
                         </style>
                       </head>
                       <body>
-                        <h1>Your Biblical Resemblance & Assignment Clues</h1>
-                        <p class="subtitle">Generated by Transformation Builder</p>
-                        <pre>${generatedInsight.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
+                        <h1>My Life Direction Foundation</h1>
+                        <p class="subtitle">Transformation Builder — ${new Date().toLocaleDateString()}</p>
+                        ${FOUNDATION_ITEMS
+                          .filter((item) => foundation[item.key].trim())
+                          .map((item) => `<div class="section"><p class="label">${item.label}</p><p class="value">${foundation[item.key].trim().replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`)
+                          .join("")}
                         <script>window.onload = () => { window.print(); }<\/script>
                       </body>
                     </html>
@@ -708,18 +637,6 @@ Write in second person ("you"). Be specific to what they shared — do not give 
             >
               <FileDown className="w-4 h-4" />
               Save to PDF
-            </Button>
-            <Button
-              onClick={generateAssignmentClues}
-              disabled={isGenerating}
-              className="gap-2 cursor-pointer"
-            >
-              {isGenerating ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Sparkle className="w-4 h-4" />
-              )}
-              Regenerate
             </Button>
           </div>
         </DialogContent>

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText, Lock, ChevronDown } from "lucide-react";
+import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText, Lock, ChevronDown, LayoutDashboard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -270,8 +270,11 @@ export default function DiscoverPurposePage() {
             <Card className="sticky top-24 border-border/50 bg-card/50 backdrop-blur-sm">
               <CardHeader>
                 <Link href="/dashboard">
-                  <Button variant="ghost" size="sm" className="w-full justify-start mb-4 text-muted-foreground hover:text-foreground">
-                    <ChevronDown className="w-4 h-4 mr-2 rotate-90" />
+                  <Button
+                    size="sm"
+                    className="w-full justify-start mb-4 bg-orange-500 text-white hover:bg-orange-600 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                  >
+                    <LayoutDashboard className="w-4 h-4 mr-2" />
                     Back to Dashboard
                   </Button>
                 </Link>

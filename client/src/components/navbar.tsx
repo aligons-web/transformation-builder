@@ -1,14 +1,16 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/hooks/use-user";
 
 import logo from "@assets/webapplogo3_1765811527974.png";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { user, logout } = useUser();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,12 +58,23 @@ export function Navbar() {
           <Link href="/founders-program" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
               Join Waiting List 
           </Link>
-          <div className="flex items-center gap-4 ml-4">
+          <div className="flex items-center gap-2 ml-4">
             <Link href="/signup">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 cursor-pointer">
                 Start Journey
               </Button>
             </Link>
+            {user && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => logout()}
+                title="Log out"
+                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+              >
+                <LogOut className="w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
 
@@ -101,6 +114,16 @@ export function Navbar() {
                     Start Journey
                   </Button>
                 </Link>
+                {user && (
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-2 text-destructive border-destructive/30 hover:bg-destructive/10 cursor-pointer"
+                    onClick={() => logout()}
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Log Out
+                  </Button>
+                )}
               </div>
             </SheetContent>
           </Sheet>

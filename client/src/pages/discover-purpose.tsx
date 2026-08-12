@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText, Lock, ChevronDown, LayoutDashboard } from "lucide-react";
+import { Mic, ChevronRight, BookOpen, Save, Compass, Lightbulb, MicOff, FileText, Lock, ChevronDown, LayoutDashboard, BarChart2, Focus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -219,9 +219,20 @@ export default function DiscoverPurposePage() {
 
       <main className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1">
-            Understanding Your Path
-          </Badge>
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+            <Link href="/dashboard/analysis">
+              <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 px-4 py-1.5 cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-colors flex items-center gap-1.5">
+                <BarChart2 className="w-3.5 h-3.5" />
+                Step 2: Change Analysis
+              </Badge>
+            </Link>
+            <Link href="/actionable-focus">
+              <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 px-4 py-1.5 cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-colors flex items-center gap-1.5">
+                <Focus className="w-3.5 h-3.5" />
+                Step 3: Clarify Focus
+              </Badge>
+            </Link>
+          </div>
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Step 1: Discover <span className="text-primary font-serif italic">Purpose</span>
           </h1>

@@ -8,10 +8,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles, ArrowRight, Bot, Loader2, Clock, RefreshCw, AlertCircle, AlertTriangle } from "lucide-react";
+import { Sparkles, ArrowRight, Bot, Loader2, Clock, RefreshCw, AlertCircle, AlertTriangle, Compass, Focus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
+import { Link } from "wouter";
+import { Badge } from "@/components/ui/badge";
 import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { LockedFeature } from "@/components/LockedFeature";
 import { useAiAnalysis } from "@/hooks/use-ai-analysis";
@@ -509,6 +511,21 @@ export default function TransformationAnalysisPage() {
             description="Unlock AI-powered analysis tools to understand what needs to change in your life"
             isAdmin={user?.isAdmin}
           >
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <Link href="/discover-purpose">
+                <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 px-4 py-1.5 cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-colors flex items-center gap-1.5">
+                  <Compass className="w-3.5 h-3.5" />
+                  Step 1: Discover Purpose
+                </Badge>
+              </Link>
+              <Link href="/actionable-focus">
+                <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 px-4 py-1.5 cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-colors flex items-center gap-1.5">
+                  <Focus className="w-3.5 h-3.5" />
+                  Step 3: Clarify Focus
+                </Badge>
+              </Link>
+            </div>
+
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
               <div>
                 <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">

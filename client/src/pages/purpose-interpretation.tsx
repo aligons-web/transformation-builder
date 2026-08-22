@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { ArrowLeft, Sparkles, Target, Lightbulb, Compass, ArrowRight, Heart, Briefcase, RefreshCw, AlertCircle } from "lucide-react";
+import { ArrowLeft, Sparkles, Target, Lightbulb, Compass, ArrowRight, Heart, Briefcase, RefreshCw, AlertCircle, Printer } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAiAnalysis } from "@/hooks/use-ai-analysis";
 import { modules } from "@/lib/purpose-modules";
@@ -477,8 +477,16 @@ export default function PurposeInterpretationPage() {
                 </Card>
               )}
 
-              {/* Regenerate Button */}
-              <div className="flex justify-center">
+              {/* Result Actions */}
+              <div className="flex justify-center gap-3 flex-wrap print:hidden">
+                <Button
+                  variant="outline"
+                  onClick={() => window.print()}
+                  className="gap-2 cursor-pointer"
+                >
+                  <Printer className="w-4 h-4" />
+                  Print to PDF
+                </Button>
                 <Button 
                   variant="outline" 
                   onClick={handleRegenerate}

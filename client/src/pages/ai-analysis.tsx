@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles, ArrowRight, Bot, Loader2, Clock, RefreshCw, AlertCircle, AlertTriangle, Compass, Focus } from "lucide-react";
+import { Sparkles, ArrowRight, Bot, Loader2, Clock, RefreshCw, AlertCircle, AlertTriangle, Compass, Focus, Printer } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
@@ -971,8 +971,16 @@ export default function TransformationAnalysisPage() {
                       </Card>
                     )}
 
-                    {/* Regenerate Button */}
-                    <div className="flex justify-center">
+                    {/* Result Actions */}
+                    <div className="flex justify-center gap-3 flex-wrap print:hidden">
+                      <Button
+                        variant="outline"
+                        onClick={() => window.print()}
+                        className="gap-2 cursor-pointer"
+                      >
+                        <Printer className="w-4 h-4" />
+                        Print to PDF
+                      </Button>
                       <Button 
                         variant="outline" 
                         onClick={handleRegenerate}

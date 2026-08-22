@@ -37,7 +37,7 @@ export default function LandingPage() {
                 <img
                   src={welcomeButtonImage}
                   alt="Transformation Builder welcome video"
-                  className="block w-full h-[150px] object-cover"
+                  className="block w-full h-[180px] object-contain bg-[#081130]"
                 />
               </a>
             </div>

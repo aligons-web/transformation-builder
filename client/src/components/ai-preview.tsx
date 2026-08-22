@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Wand2, Briefcase, Heart, Zap, Target, Clock, MapPin, ArrowRight, Loader2, CheckCircle2, Lightbulb, Sparkles, RefreshCw, AlertCircle, AlertTriangle, UploadCloud, FileText, X } from "lucide-react";
+import { Link } from "wouter";
+import { Wand2, Briefcase, Heart, Zap, Target, Clock, MapPin, ArrowRight, Loader2, CheckCircle2, Lightbulb, Sparkles, RefreshCw, AlertCircle, AlertTriangle, UploadCloud, FileText, X, LayoutDashboard, Layers, Dumbbell, BookOpen, CalendarDays, Compass, BarChart2, Focus } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from "recharts";
 import { useAiAnalysis } from "@/hooks/use-ai-analysis";
@@ -206,6 +207,64 @@ export function AiPreview() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[100px] -z-10" />
 
       <div className="container mx-auto px-4 space-y-16">
+
+        {/* Page Navigation */}
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-wrap items-center gap-2">
+            <Link href="/dashboard">
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <LayoutDashboard className="w-4 h-4" />
+                Dashboard
+              </Button>
+            </Link>
+            <Link href="/dashboard/foundation">
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <Layers className="w-4 h-4" />
+                Foundation
+              </Button>
+            </Link>
+            <a
+              href="https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=ecffe8d8300346e495eaaca79e2b2dc1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <Dumbbell className="w-4 h-4" />
+                Exercises
+              </Button>
+            </a>
+            <Link href="/dashboard/journal">
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <BookOpen className="w-4 h-4" />
+                Journal
+              </Button>
+            </Link>
+            <Link href="/dashboard/calendar">
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <CalendarDays className="w-4 h-4" />
+                Calendar
+              </Button>
+            </Link>
+            <Link href="/discover-purpose">
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <Compass className="w-4 h-4" />
+                Step 1: Purpose
+              </Button>
+            </Link>
+            <Link href="/dashboard/analysis">
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <BarChart2 className="w-4 h-4" />
+                Step 2: Analysis
+              </Button>
+            </Link>
+            <Link href="/actionable-focus">
+              <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
+                <Focus className="w-4 h-4" />
+                Step 3: Clarity
+              </Button>
+            </Link>
+          </div>
+        </div>
 
         {/* LocalStorage Warning */}
         <div className="max-w-5xl mx-auto">

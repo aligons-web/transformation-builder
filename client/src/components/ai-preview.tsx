@@ -612,10 +612,22 @@ export function AiPreview() {
                           Upload all assessments, questionnaires, exercises, quizzes, and reflection assignments to create a more complete picture of your transformation journey and the framework guiding it.
                         </p>
                         <p className="text-base text-foreground leading-relaxed">
+                          Need to complete other assessments before completing the transformation roadmap/framework.{" "}
+                          <a
+                            href="https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=ecffe8d8300346e495eaaca79e2b2dc1"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
+                          >
+                            Visit the community
+                          </a>{" "}
+                          to access personal assessments.
+                        </p>
+                        <p className="text-base text-foreground leading-relaxed">
                           Including these materials in the roadmap/framework assessment provides valuable context about your current strengths, needs, progress, and areas for growth.
                         </p>
                         <p className="text-base text-foreground leading-relaxed">
-                          It also helps identify patterns, clarify priorities, and ensure that the roadmap is personalized, actionable, and aligned with your goals.
+                          It also helps identify and connect patterns, clarify priorities, and ensure that the roadmap is personalized, actionable, and aligned with your goals.
                         </p>
 
                         {/* Upload Button */}

@@ -11,7 +11,6 @@ import {
   Sparkles,
   Compass,
   Focus,
-  ClipboardCheck,
   Users,
   CalendarDays,
   Layers,
@@ -36,7 +35,6 @@ export const sidebarItems = [
   { icon: Sparkles, label: "Change Analysis", href: "/dashboard/analysis" },
   { icon: Focus, label: "Clarify Focus", href: "/actionable-focus" },
   { icon: Lightbulb, label: "Journey Insights", href: "/ai-transformation-engine" },
-  { icon: ClipboardCheck, label: "Final Blueprint", href: "/final-summary" },
   { icon: Users, label: "Community", href: "https://www.skool.com/life-transformation-network-2320", external: true },
   // Analytics hidden for Phase 1 - uncomment when tracking is implemented
   // { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },

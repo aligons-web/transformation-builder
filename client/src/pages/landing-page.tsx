@@ -32,12 +32,12 @@ export default function LandingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Watch the Transformation Builder welcome video"
-                className="block w-full rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                className="block w-fit max-w-full mx-auto rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
               >
                 <img
                   src={welcomeButtonImage}
                   alt="Transformation Builder welcome video"
-                  className="block w-full h-[180px] object-contain bg-[#081130]"
+                  className="block w-auto max-w-full h-[180px]"
                 />
               </a>
             </div>

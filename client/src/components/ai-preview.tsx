@@ -624,10 +624,7 @@ export function AiPreview() {
                           to access personal assessments.
                         </p>
                         <p className="text-base text-foreground leading-relaxed">
-                          Including these materials in the roadmap/framework assessment provides valuable context about your current strengths, needs, progress, and areas for growth.
-                        </p>
-                        <p className="text-base text-foreground leading-relaxed">
-                          It also helps identify and connect patterns, clarify priorities, and ensure that the roadmap is personalized, actionable, and aligned with your goals.
+                          Including these materials in the roadmap/framework assessment provides valuable context about your current strengths, needs, progress, and areas for growth. It identify and connect patterns, clarify priorities, and ensure that the roadmap is personalized, actionable, and aligned with your goals.
                         </p>
 
                         {/* Upload Button */}

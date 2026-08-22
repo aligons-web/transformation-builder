@@ -24,7 +24,7 @@ export default function LandingPage() {
                   Sign up now to unlock instant access to the first 3 modules at no cost.
                 </h2>
                 <p className="text-lg text-white/90 drop-shadow-md leading-relaxed">
-                  When you're ready to go deeper, upgrade to the Transformer or Implementer Plan for full access to advanced tools, resources, and community support. <span className="font-semibold text-white">An onboarding video coming soon!</span>
+                  When you're ready to go deeper, upgrade to the Transformer or Implementer Plan for full access to advanced tools, resources, and community support. <span className="font-semibold text-white">Watch the welcome video.</span>
                 </p>
               </div>
               <a

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { ArrowLeft, Sparkles, Target, Lightbulb, Compass, ArrowRight, Heart, Briefcase, RefreshCw, AlertCircle, Printer } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useAiAnalysis } from "@/hooks/use-ai-analysis";
 import { modules } from "@/lib/purpose-modules";
 import { LocalStorageWarning } from "@/components/LocalStorageWarning";
@@ -92,68 +92,54 @@ export default function PurposeInterpretationPage() {
   const [reflections, setReflections] = useState<Record<string, string>>({});
   const [hasReflections, setHasReflections] = useState(false);
   const [cachedResult, setCachedResult] = useState<PurposeInterpretationResponse | null>(null);
-  const [initComplete, setInitComplete] = useState(false);
 
   const { analyze, isLoading, error, result } = useAiAnalysis();
 
-  // Guard ref to prevent duplicate API calls
-  const analysisTriggeredRef = useRef(false);
-
-  // ──────────────────────────────────────────────────────────────
-  // FIX: Single initialization effect that loads reflections AND
-  // checks the cache in one pass. This guarantees cachedResult is
-  // set before the auto-trigger effect ever evaluates.
-  // ──────────────────────────────────────────────────────────────
+  // Load reflections from localStorage
   useEffect(() => {
-    let loadedReflections: Record<string, string> = {};
-    let hasContent = false;
-
-    // 1. Load reflections
     const savedAnswers = localStorage.getItem("purpose-reflections");
     if (savedAnswers) {
       try {
-        loadedReflections = JSON.parse(savedAnswers);
-        hasContent = Object.values(loadedReflections).some(
+        const parsed = JSON.parse(savedAnswers);
+        setReflections(parsed);
+
+        // Check if there are actual answers
+        const hasContent = Object.values(parsed).some(
           (val) => typeof val === "string" && val.trim().length > 0
         );
+        setHasReflections(hasContent);
       } catch (e) {
         console.error("Failed to parse saved answers", e);
       }
     }
+  }, []);
 
-    setReflections(loadedReflections);
-    setHasReflections(hasContent);
-
-    // 2. Check cache using the reflections we just loaded (not stale state)
+  // Check for cached AI result
+  useEffect(() => {
     const cached = localStorage.getItem("purpose-interpretation-cache");
     if (cached) {
       try {
         const { result: cachedData, timestamp, reflectionsHash } = JSON.parse(cached);
-        const currentHash = JSON.stringify(loadedReflections);
+        const currentHash = JSON.stringify(reflections);
         const hoursSinceCache = (Date.now() - timestamp) / (1000 * 60 * 60);
 
+        // Use cache if less than 24 hours old and reflections haven't changed
         if (hoursSinceCache < 24 && reflectionsHash === currentHash) {
           setCachedResult(cachedData);
+          return;
         }
       } catch (e) {
         console.error("Failed to parse cached result", e);
       }
     }
+  }, [reflections]);
 
-    // 3. Signal that initialization is done
-    setInitComplete(true);
-  }, []);
-
-  // ──────────────────────────────────────────────────────────────
-  // Auto-trigger: only runs AFTER init is complete, so cachedResult
-  // is already populated if a valid cache exists.
-  // ──────────────────────────────────────────────────────────────
+  // Trigger AI analysis when reflections are loaded
   useEffect(() => {
-    if (initComplete && hasReflections && !cachedResult && !isLoading && !result && !analysisTriggeredRef.current) {
-      analysisTriggeredRef.current = true;
+    if (hasReflections && !cachedResult && !isLoading && !result) {
       runAnalysis();
     }
-  }, [initComplete, hasReflections, cachedResult, isLoading, result]);
+  }, [hasReflections, cachedResult]);
 
   // Cache successful results
   useEffect(() => {
@@ -178,7 +164,6 @@ export default function PurposeInterpretationPage() {
   const handleRegenerate = () => {
     localStorage.removeItem("purpose-interpretation-cache");
     setCachedResult(null);
-    analysisTriggeredRef.current = false;
     runAnalysis();
   };
 
@@ -494,6 +479,14 @@ export default function PurposeInterpretationPage() {
 
               {/* Result Actions */}
               <div className="flex justify-center gap-3 flex-wrap print:hidden">
+                <Button
+                  variant="outline"
+                  onClick={() => window.print()}
+                  className="gap-2 cursor-pointer"
+                >
+                  <Printer className="w-4 h-4" />
+                  Print to PDF
+                </Button>
                 <Button 
                   variant="outline" 
                   onClick={handleRegenerate}
@@ -516,18 +509,6 @@ export default function PurposeInterpretationPage() {
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>
-              </div>
-
-              {/* Bottom Print Action */}
-              <div className="flex justify-center pt-4 print:hidden">
-                <Button
-                  variant="outline"
-                  onClick={() => window.print()}
-                  className="gap-2 cursor-pointer"
-                >
-                  <Printer className="w-4 h-4" />
-                  Print to PDF
-                </Button>
               </div>
             </div>
           )}

@@ -60,6 +60,13 @@ export default function DashboardPage() {
 
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
           <div className="flex flex-wrap gap-3 justify-start">
+              <Button
+                size="lg"
+                className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-green-600 text-white hover:bg-green-700"
+                onClick={() => window.open("https://youtu.be/oeUjmyO8cV0", "_blank", "noopener,noreferrer")}
+              >
+                How it Works
+              </Button>
             <Button 
               size="lg" 
               className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-primary/90 hover:bg-primary"

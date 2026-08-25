@@ -403,7 +403,7 @@ export default function DiscoverPurposePage() {
                 transition={{ duration: 0.3 }}
               >
                 <Card className="border-primary/10 shadow-lg bg-white/80 backdrop-blur-md">
-                  <CardHeader className="pb-6 border-b border-border/50">
+                  <CardHeader className="pb-4 border-b border-border/50">
                     <div className="flex items-center gap-2 text-primary mb-2">
                       <BookOpen className="w-5 h-5" />
                       <span className="font-medium">Chapter {activeModule.id}</span>

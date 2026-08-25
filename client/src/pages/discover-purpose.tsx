@@ -21,6 +21,18 @@ import { LockedFeature } from "@/components/LockedFeature";
 // Book cover image for CTA
 import bookCover from "@/assets/uypbookcta.jpg";
 
+const moduleOverviewLinks: Record<number, string> = {
+  1: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=d3bff72653724a8ca0730c78420d72a7",
+  2: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=3143d30794ae439e96c71bf14a4a0c0c",
+  3: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=3ab27459b2044f34b84909f67c88f5e9",
+  4: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=c8c93384132d4adc9baf1788bf0dac80",
+  5: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=c7d85310c5a1402fa1036eeabd587e11",
+  6: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=d732ce57cb984920b0a90bb470a898e1",
+  7: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=5432d44805b14dfca59d21a9f3207119",
+  8: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=2c649afc5f724532928dff1923f41550",
+  9: "https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=460927d221b9464cbac6bed7d6300a65",
+};
+
 export default function DiscoverPurposePage() {
   const { user } = useUser();
   const [activeModule, setActiveModule] = useState(modules[0]);
@@ -398,7 +410,7 @@ export default function DiscoverPurposePage() {
                     </div>
                     <CardTitle className="text-3xl font-heading">{activeModule.title}</CardTitle>
                     <CardDescription className="text-lg mt-2">{activeModule.description}</CardDescription>
-                    {activeModule.id === 1 && (
+                    {moduleOverviewLinks[activeModule.id] && (
                       <div className="mt-4">
                         <Button
                           asChild
@@ -406,7 +418,7 @@ export default function DiscoverPurposePage() {
                           className="bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md hover:scale-[1.02] transition-all duration-200"
                         >
                           <a
-                            href="https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=d3bff72653724a8ca0730c78420d72a7"
+                            href={moduleOverviewLinks[activeModule.id]}
                             target="_blank"
                             rel="noopener noreferrer"
                           >

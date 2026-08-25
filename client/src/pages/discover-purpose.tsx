@@ -398,6 +398,23 @@ export default function DiscoverPurposePage() {
                     </div>
                     <CardTitle className="text-3xl font-heading">{activeModule.title}</CardTitle>
                     <CardDescription className="text-lg mt-2">{activeModule.description}</CardDescription>
+                    {activeModule.id === 1 && (
+                      <div className="mt-4">
+                        <Button
+                          asChild
+                          size="sm"
+                          className="bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                        >
+                          <a
+                            href="https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=d3bff72653724a8ca0730c78420d72a7"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Watch Overview
+                          </a>
+                        </Button>
+                      </div>
+                    )}
                   </CardHeader>
 
                   <CardContent className="p-8 space-y-8">

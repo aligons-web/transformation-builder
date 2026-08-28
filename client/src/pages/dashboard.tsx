@@ -67,6 +67,13 @@ export default function DashboardPage() {
               >
                 How it Works
               </Button>
+              <Button
+                size="lg"
+                className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-blue-600 text-white hover:bg-blue-700"
+                onClick={() => window.open("https://youtu.be/uaerBn8C23A", "_blank", "noopener,noreferrer")}
+              >
+                Welcome Transformers
+              </Button>
             <Button 
               size="lg" 
               className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-primary/90 hover:bg-primary"

@@ -533,6 +533,21 @@ export default function TransformationAnalysisPage() {
                 </h1>
                 <div className="h-6" />
                 <p className="text-xl text-muted-foreground">Deep dive into understanding what transformation you need.</p>
+                <div className="mt-4">
+                  <Button
+                    asChild
+                    size="sm"
+                    className="bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                  >
+                    <a
+                      href="https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=100c0240110c401db8fd8f558c7a210f"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Watch Overview
+                    </a>
+                  </Button>
+                </div>
               </div>
               <a 
                 href="https://www.amazon.com/LIFE-Transformation-Intentionally-Focused-Everyday/dp/B0FBL8WTQP/ref=sr_1_1?crid=CQRE3281JMMJ&dib=eyJ2IjoiMSJ9._MC2RTkT1fZIPJEQhTz0ijaXvgtB8hhRapB-H0BpeInGjHj071QN20LucGBJIEps.0AaZi-gZm6Slqv0UzYZPYeb8h1PLkGgpQcX2K93j-f4&dib_tag=se&keywords=alexander+ligons+transformation+workbook&qid=1780441263&sprefix=%2Caps%2C213&sr=8-1" 

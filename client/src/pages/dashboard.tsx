@@ -63,7 +63,7 @@ export default function DashboardPage() {
               <Button
                 size="lg"
                 className="cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200 px-8 bg-green-600 text-white hover:bg-green-700"
-                onClick={() => window.open("https://youtu.be/8odfNAAeo48", "_blank", "noopener,noreferrer")}
+                onClick={() => window.open("https://youtu.be/WD-35J8Egj0", "_blank", "noopener,noreferrer")}
               >
                 How it Works
               </Button>

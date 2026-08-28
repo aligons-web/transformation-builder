@@ -290,6 +290,21 @@ export default function ActionableFocusPage() {
               </h1>
               <div className="h-6" />
               <p className="text-xl text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
+                <div className="mt-4">
+                  <Button
+                    asChild
+                    size="sm"
+                    className="bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                  >
+                    <a
+                      href="https://www.skool.com/life-transformation-network-2320/classroom/c0d27652?md=cefb5d4476a3439098b8ee6d9003e03c"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Watch Overview
+                    </a>
+                  </Button>
+                </div>
             </div>
           </div>
 

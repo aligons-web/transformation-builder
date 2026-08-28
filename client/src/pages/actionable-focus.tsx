@@ -289,7 +289,7 @@ export default function ActionableFocusPage() {
                 Step 3: Clarify <span className="text-primary font-serif italic">Focus</span>
               </h1>
               <div className="h-6" />
-              <p className="text-xl text-muted-foreground">Modules 3, 4, & 5: How, When, and Where of Transformation.</p>
+                <p className="text-xl text-muted-foreground">Modules 1, 2, & 3: How, When, and Where of Transformation.</p>
                 <div className="mt-4">
                   <Button
                     asChild
@@ -321,9 +321,9 @@ export default function ActionableFocusPage() {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-8 h-auto md:h-12 bg-muted/50 p-1 gap-2 md:gap-0">
-              <TabsTrigger value="module3" className="text-base">Module 3: How?</TabsTrigger>
-              <TabsTrigger value="module4" className="text-base">Module 4: When?</TabsTrigger>
-              <TabsTrigger value="module5" className="text-base">Module 5: Where?</TabsTrigger>
+              <TabsTrigger value="module3" className="text-base">Module 1: How?</TabsTrigger>
+              <TabsTrigger value="module4" className="text-base">Module 2: When?</TabsTrigger>
+              <TabsTrigger value="module5" className="text-base">Module 3: Where?</TabsTrigger>
             </TabsList>
 
             {/* MODULE 3 */}

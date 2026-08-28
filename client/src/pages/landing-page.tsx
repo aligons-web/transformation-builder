@@ -28,7 +28,7 @@ export default function LandingPage() {
                 </p>
               </div>
               <a
-                href="https://youtu.be/oeUjmyO8cV0"
+                href="https://youtu.be/8odfNAAeo48"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Watch the Transformation Builder welcome video"

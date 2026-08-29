@@ -577,8 +577,8 @@ export default function TransformationAnalysisPage() {
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 mb-8 h-auto md:h-12 bg-muted/50 p-1 gap-2 md:gap-0">
-                <TabsTrigger value="module1" className="text-base">Module 1: Why is transformation needed?</TabsTrigger>
-                <TabsTrigger value="module2" className="text-base">Module 2: What will be your transformation?</TabsTrigger>
+                <TabsTrigger value="module1" className="text-base data-[state=inactive]:bg-amber-50/70 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 1: Why is transformation needed?</TabsTrigger>
+                <TabsTrigger value="module2" className="text-base data-[state=inactive]:bg-amber-50/70 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 2: What will be your transformation?</TabsTrigger>
               </TabsList>
 
               <TabsContent value="module1" className="space-y-8">

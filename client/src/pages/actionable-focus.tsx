@@ -321,9 +321,9 @@ export default function ActionableFocusPage() {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-8 h-auto md:h-12 bg-muted/50 p-1 gap-2 md:gap-0">
-              <TabsTrigger value="module3" className="text-base data-[state=inactive]:bg-amber-50 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 1: How?</TabsTrigger>
-              <TabsTrigger value="module4" className="text-base data-[state=inactive]:bg-amber-50 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 2: When?</TabsTrigger>
-              <TabsTrigger value="module5" className="text-base data-[state=inactive]:bg-amber-50 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 3: Where?</TabsTrigger>
+              <TabsTrigger value="module3" className="text-base data-[state=inactive]:bg-amber-50/70 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 1: How?</TabsTrigger>
+              <TabsTrigger value="module4" className="text-base data-[state=inactive]:bg-amber-50/70 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 2: When?</TabsTrigger>
+              <TabsTrigger value="module5" className="text-base data-[state=inactive]:bg-amber-50/70 data-[state=inactive]:text-amber-800 data-[state=inactive]:border data-[state=inactive]:border-amber-200">Module 3: Where?</TabsTrigger>
             </TabsList>
 
             {/* MODULE 3 */}

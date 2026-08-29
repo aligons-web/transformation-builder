@@ -74,7 +74,7 @@ export default function AuthPage() {
             <Home className="w-5 h-5" />
           </Button>
         </Link>
-        <span className="font-heading font-bold text-xl text-white drop-shadow-md">Transformation Builder</span>
+        <span className="font-heading font-bold text-xl text-primary drop-shadow-md">Transformation Builder</span>
       </div>
 
       <div className="flex-1 flex items-center justify-center p-8 pt-24 lg:pt-28">

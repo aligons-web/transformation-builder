@@ -52,7 +52,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background step-page-background flex">
       <DashboardSidebar />
 
       <div className="flex-1 md:ml-64 flex flex-col">

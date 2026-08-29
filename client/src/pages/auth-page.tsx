@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ArrowRight, Loader2, Home } from "lucide-react";
-import authBg from "@assets/TBFsplashpg3_1781108285124.jpg";
+import loginImage from "@assets/loginImage_1788029426703.png";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
 
@@ -77,26 +77,18 @@ export default function AuthPage() {
         <span className="font-heading font-bold text-xl text-white drop-shadow-md">Transformation Builder</span>
       </div>
 
-      <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-muted">
-        <img 
-          src={authBg} 
-          alt="Transformation Journey" 
-          className="absolute inset-0 w-full h-full object-cover object-left"
-        />
-        <div className="absolute inset-0 bg-primary/20 mix-blend-multiply" />
-        <div className="relative z-10 p-12 flex flex-col justify-end h-full text-white">
-          <blockquote className="space-y-2 bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-white/20">
-            
-            <p className="text-2xl font-serif italic">
-              "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle."
-            </p>
-            <footer className="text-white/80 font-medium">— Steve Jobs</footer>
-          </blockquote>
-        </div>
-      </div>
+      <div className="flex-1 flex items-center justify-center p-8 pt-24 lg:pt-28">
+        <div className="w-full max-w-6xl flex items-stretch gap-8">
+          <div className="hidden lg:flex w-1/2 relative overflow-hidden rounded-2xl shadow-xl self-stretch">
+            <img
+              src={loginImage}
+              alt="Transformation Builder empowered journey"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          </div>
 
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-8">
+          <div className="flex-1 flex items-center justify-center">
+            <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
             <h1 className="text-3xl font-bold font-heading mb-2">Welcome to the Transformation Builder</h1>
             <p className="text-muted-foreground">
@@ -218,9 +210,11 @@ export default function AuthPage() {
             <a href="#" className="underline underline-offset-4 hover:text-primary">Terms of Service</a>{" "}
             and{" "}
             <a href="#" className="underline underline-offset-4 hover:text-primary">Privacy Policy</a>.
+            </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

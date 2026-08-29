@@ -256,7 +256,7 @@ export default function DiscoverPurposePage() {
           </p>
 
           {/* Book CTA Section */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 p-4 rounded-xl bg-muted/20 border border-border/50 max-w-3xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 p-4 rounded-xl bg-muted/50 border border-border/50 max-w-3xl mx-auto">
             <p className="text-sm text-muted-foreground text-left flex-1">
               Take your experience deeper—purchase the companion book to the Transformation Builder app on Amazon and follow the author's vivid journey to "Understanding Your Path" as you begin discovering your path.
             </p>
@@ -274,7 +274,7 @@ export default function DiscoverPurposePage() {
             </a>
           </div>
 
-          <div className="flex items-center justify-center gap-3 p-3 max-w-sm mx-auto rounded-xl bg-muted/30 border border-primary/10">
+          <div className="flex items-center justify-center gap-3 p-3 max-w-sm mx-auto rounded-xl bg-muted/60 border border-primary/10">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border ${user?.plan === 'IMPLEMENTER' ? 'bg-purple-100 text-purple-700 border-purple-200' : user?.plan === 'TRANSFORMER' ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-primary/10 text-primary border-primary/20'}`}>
               {user?.username ? user.username.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'U'}
             </div>

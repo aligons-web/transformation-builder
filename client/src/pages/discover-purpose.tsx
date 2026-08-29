@@ -309,7 +309,7 @@ export default function DiscoverPurposePage() {
                 </CardTitle>
                 <div className="h-4" />
                 <CardTitle className="text-lg">Modules</CardTitle>
-                <CardDescription>Select below Module 1 or the module you are continuing. If on a mobile device scroll down after selecting the module to begin your reflection process.</CardDescription>
+                <CardDescription>Select below Module 1 or the module you are continuing. If on a mobile device, scroll down after selecting the module to begin your reflection process.</CardDescription>
               </CardHeader>
               <CardContent className="p-0">
                 <ScrollArea className="h-[60vh]">

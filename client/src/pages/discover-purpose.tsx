@@ -226,7 +226,7 @@ export default function DiscoverPurposePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background font-sans">
+    <div className="min-h-screen bg-background step-page-background font-sans">
       <Navbar />
 
       <main className="container mx-auto px-4 pt-24 pb-12">

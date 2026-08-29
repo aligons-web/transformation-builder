@@ -132,6 +132,13 @@
   .text-balance {
     text-wrap: balance;
   }
+  .step-page-background {
+    background-image: url('/backgroundforappRev2_1788026417621.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-color: #fff8f1;
+  }
   .glass-panel {
     @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
   }

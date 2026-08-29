@@ -229,7 +229,7 @@ export default function ActionableFocusPage() {
   // ✅ Access denied - show upgrade prompt
   if (!canAccessStep3) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8">
+      <div className="min-h-screen step-page-background flex items-center justify-center p-8">
         <div className="max-w-md text-center space-y-6 bg-white rounded-lg shadow-xl p-8">
           <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -261,7 +261,7 @@ export default function ActionableFocusPage() {
 
   // ✅ Main content - user has access
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background step-page-background flex">
       <DashboardSidebar />
 
       <div className="flex-1 md:ml-64 flex flex-col">

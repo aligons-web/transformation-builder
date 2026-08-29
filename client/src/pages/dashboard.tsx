@@ -266,7 +266,7 @@ export default function DashboardPage() {
 
             {/* Right Column: Quick Actions */}
             <div className="space-y-8">
-              <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 border-none">
+              <Card className="bg-white/50 border-none">
                 <CardHeader>
                   <CardTitle className="text-lg">Daily Inspiration</CardTitle>
                 </CardHeader>

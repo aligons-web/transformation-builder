@@ -1,0 +1,809 @@
+# TRANSFORMATION BUILDER
+
+## PRIVACY POLICY
+
+**Effective Date: August 31, 2026**
+**Last Updated: August 31, 2026**
+
+U eMerge Academy, LLC (“U eMerge Academy,” “Transformation Builder,” “we,” “us,” or “our”) respects your privacy and is committed to handling personal information responsibly.
+
+This Privacy Policy explains how we collect, use, store, disclose, and protect information when you use the Transformation Builder website, web application, artificial intelligence features, assessments, journals, dashboards, programs, subscriptions, and related services.
+
+By using Transformation Builder, you acknowledge the practices described in this Privacy Policy.
+
+---
+
+# 1. ABOUT TRANSFORMATION BUILDER
+
+Transformation Builder is a personal, professional, business, leadership, and spiritual development platform designed to help users gain perspective, clarify focus, identify purpose, establish goals, develop skills, plan projects, and track progress.
+
+The Platform may include:
+
+* Questionnaires;
+* Assessments;
+* Journal entries;
+* Self-ratings;
+* AI-assisted analysis;
+* Purpose-development exercises;
+* Goal and task tracking;
+* Projects and milestones;
+* Skill development;
+* Personal dashboards;
+* Calendars;
+* Progress tracking;
+* Gamification features;
+* Analytics;
+* Educational content;
+* Community features; and
+* Related personal-development resources.
+
+Because many of these features depend upon information you voluntarily provide, some information collected through Transformation Builder may be personal or reflective in nature.
+
+---
+
+# 2. INFORMATION WE COLLECT
+
+We may collect information in several ways depending upon how you use Transformation Builder.
+
+## A. Account Information
+
+When you create an account, we may collect:
+
+* Name;
+* Email address;
+* Username;
+* Password or authentication credentials;
+* Profile photograph or avatar;
+* Account preferences;
+* Notification preferences;
+* User role or account status; and
+* Other profile information you voluntarily provide.
+
+Passwords may be processed or stored using authentication technologies designed to protect account credentials.
+
+---
+
+## B. Assessment and Questionnaire Information
+
+Transformation Builder may collect responses to questionnaires, assessments, ratings, and reflection exercises.
+
+This may include information concerning:
+
+* Personal goals;
+* Professional interests;
+* Career direction;
+* Skills;
+* Talents;
+* Strengths;
+* Challenges;
+* Experiences;
+* Interests;
+* Values;
+* Purpose;
+* Personal priorities;
+* Business interests;
+* Leadership development;
+* Spiritual development; and
+* Other matters you choose to discuss.
+
+You control what you enter into these fields.
+
+---
+
+## C. Journal and Reflection Content
+
+If you use journaling or reflection tools, we may store the content you enter.
+
+Journal entries may contain personal information depending on what you choose to write.
+
+We strongly recommend that you do not enter unnecessary highly sensitive information such as:
+
+* Social Security numbers;
+* Financial account credentials;
+* Credit card numbers;
+* Government identification numbers;
+* Medical records;
+* Passwords;
+* Authentication codes; or
+* Highly confidential information concerning another person.
+
+Transformation Builder is not designed to function as a secure repository for these types of information.
+
+---
+
+## D. Goals, Tasks, Projects, and Skill Information
+
+We may collect information you create or save regarding:
+
+* Goals;
+* Tasks;
+* Projects;
+* Milestones;
+* Skills;
+* Learning activities;
+* Development activities;
+* Calendar items;
+* Progress measurements;
+* Activity completion; and
+* Related planning information.
+
+This information is used primarily to provide the Platform's planning, tracking, analysis, and dashboard features.
+
+---
+
+## E. AI Input and Output Data
+
+When you use artificial intelligence features, we may process information you submit to generate:
+
+* Assessments;
+* Summaries;
+* Insights;
+* Questions;
+* Recommendations;
+* Goal ideas;
+* Project ideas;
+* Action steps;
+* Reflections;
+* Content; and
+* Other AI-assisted results.
+
+Information submitted to AI features may be transmitted to third-party artificial intelligence service providers when necessary to generate requested responses.
+
+We seek to limit these disclosures to information reasonably necessary to provide the requested AI service.
+
+You should avoid entering unnecessary sensitive or confidential information into AI-enabled fields.
+
+---
+
+# 3. HOW WE USE ARTIFICIAL INTELLIGENCE
+
+Transformation Builder may use third-party or internally integrated artificial intelligence systems.
+
+AI may analyze information such as:
+
+* Assessment answers;
+* Questionnaire responses;
+* Journal content;
+* Skills;
+* Goals;
+* Tasks;
+* Milestones;
+* Ratings;
+* Projects; and
+* Other information you intentionally submit.
+
+The purpose of this processing is to provide personalized or context-sensitive insights and development tools.
+
+AI-generated output may be imperfect, inaccurate, incomplete, or inappropriate for a user's particular circumstances.
+
+Transformation Builder does not use AI output as an automatic professional determination regarding a user's:
+
+* Mental health;
+* Medical condition;
+* Employment eligibility;
+* Creditworthiness;
+* Legal status;
+* Financial eligibility; or
+* Similar legally significant status.
+
+AI-generated information is intended primarily to support education, reflection, planning, and personal development.
+
+---
+
+# 4. SENSITIVE INFORMATION
+
+Transformation Builder may include spiritual-development or life-reflection features.
+
+Information about a person's spiritual beliefs, personal experiences, or deeply personal reflections may be sensitive.
+
+You should submit only information that you are comfortable using within an online platform.
+
+Where required by applicable law, we will process sensitive personal information only with an appropriate lawful basis or consent.
+
+We do not intentionally require users to provide medical records, financial credentials, government identification information, or similar highly sensitive data in order to use the core Platform.
+
+---
+
+# 5. INFORMATION COLLECTED AUTOMATICALLY
+
+When you use Transformation Builder, certain technical information may be collected automatically.
+
+This may include:
+
+* Internet Protocol address;
+* Browser type;
+* Device type;
+* Operating system;
+* Approximate location based on IP address;
+* Login times;
+* Pages or features accessed;
+* Session duration;
+* Referring pages;
+* Error logs;
+* Performance information;
+* Interaction data; and
+* Other technical or usage information.
+
+This information helps us operate, secure, analyze, and improve the Platform.
+
+---
+
+# 6. COOKIES AND SIMILAR TECHNOLOGIES
+
+Transformation Builder may use cookies, browser storage, session technologies, analytics tools, or similar technologies.
+
+These technologies may be used for:
+
+* Authentication;
+* Maintaining user sessions;
+* Remembering preferences;
+* Security;
+* Preventing fraud;
+* Measuring Platform usage;
+* Improving performance;
+* Understanding feature engagement; and
+* Supporting analytics.
+
+Where required by law, users may be provided with choices regarding non-essential cookies or analytics technologies.
+
+Some cookies or storage technologies may be necessary for the Platform to function properly.
+
+---
+
+# 7. HOW WE USE INFORMATION
+
+We may use personal information to:
+
+* Create and maintain user accounts;
+* Authenticate users;
+* Provide access to Platform features;
+* Save journals and reflections;
+* Process assessments and questionnaires;
+* Generate AI-assisted insights;
+* Track goals, skills, projects, tasks, and milestones;
+* Display progress dashboards;
+* Operate calendars or activity tracking;
+* Provide gamification features;
+* Manage subscriptions;
+* Process payments;
+* Send account notifications;
+* Respond to customer-support requests;
+* Improve Platform reliability;
+* Analyze feature usage;
+* Detect fraud or misuse;
+* Protect users and the Platform;
+* Troubleshoot technical problems;
+* Develop new features;
+* Enforce our Terms of Service;
+* Comply with legal obligations; and
+* Carry out other purposes disclosed when information is collected.
+
+We will not intentionally use personal journals or private reflection content for unrelated advertising purposes without appropriate notice or consent.
+
+---
+
+# 8. ANALYTICS
+
+Transformation Builder may collect analytics concerning how users interact with the Platform.
+
+Analytics may include information such as:
+
+* Login frequency;
+* Page visits;
+* Module completion;
+* Feature usage;
+* Assessment completion;
+* Dashboard activity;
+* Goals created;
+* Tasks completed;
+* Project activity;
+* Session duration;
+* Technical performance; and
+* Other interaction measurements.
+
+We may use aggregated or de-identified information to evaluate Platform performance and improve the user experience.
+
+Aggregated information that cannot reasonably identify an individual may be used for product development, internal analysis, research, reporting, or business planning.
+
+---
+
+# 9. GAMIFICATION AND PROGRESS DATA
+
+The Platform may record progress-related information such as:
+
+* Completion percentages;
+* Streaks;
+* Achievements;
+* Badges;
+* Points;
+* Milestones;
+* Participation levels; and
+* Other activity indicators.
+
+These data are primarily used to help users visualize progress and remain engaged with their development activities.
+
+---
+
+# 10. PAYMENT INFORMATION
+
+If you purchase a subscription or other paid service, payment information may be processed by a third-party payment processor.
+
+The payment processor may collect information such as:
+
+* Name;
+* Billing address;
+* Payment card information;
+* Transaction information; and
+* Payment status.
+
+Transformation Builder may receive limited transaction details such as:
+
+* Payment status;
+* Subscription status;
+* Amount paid;
+* Billing period;
+* Transaction identifier; and
+* Last four digits or payment-method type where provided by the payment processor.
+
+We generally do not need to directly store complete payment-card numbers.
+
+---
+
+# 11. THIRD-PARTY SERVICE PROVIDERS
+
+We may use third-party service providers to operate Transformation Builder.
+
+These providers may assist with:
+
+* Website hosting;
+* Application hosting;
+* Database services;
+* Authentication;
+* Artificial intelligence;
+* Payment processing;
+* Email delivery;
+* Analytics;
+* File storage;
+* Video conferencing;
+* Customer support;
+* Security;
+* Error monitoring; and
+* Other technical or operational services.
+
+These providers may receive personal information only as reasonably necessary to perform services for us or as otherwise disclosed to you.
+
+Third-party providers may maintain their own privacy policies and data-processing practices.
+
+---
+
+# 12. ARTIFICIAL INTELLIGENCE SERVICE PROVIDERS
+
+When an AI-assisted feature is used, information necessary to fulfill the request may be transmitted to an artificial intelligence technology provider.
+
+Depending upon the feature, this could include:
+
+* User prompts;
+* Questionnaire responses;
+* Journal excerpts;
+* Goals;
+* Skills;
+* Ratings;
+* Project information; or
+* Related context.
+
+We seek to transmit only information reasonably necessary for the AI function requested by the user.
+
+The handling of information by third-party AI providers may also be governed by contractual terms and the provider's privacy practices.
+
+Transformation Builder should configure AI providers, where reasonably available, to minimize unnecessary retention or secondary use of user information.
+
+---
+
+# 13. WHETHER USER DATA IS USED TO TRAIN AI
+
+Transformation Builder does not intend to sell users' private journal entries or personal assessment responses for the purpose of training unrelated artificial intelligence models.
+
+Whether a third-party AI provider may retain or use submitted information depends upon the specific service agreement, account configuration, and provider policies applicable to Transformation Builder.
+
+Where commercially reasonable, Transformation Builder will seek AI service configurations that restrict the use of customer data for general model training.
+
+If our practices materially change regarding the use of user information for AI training, we will update this Privacy Policy and provide additional notice where required.
+
+---
+
+# 14. WHEN WE MAY DISCLOSE INFORMATION
+
+We may disclose information in the following circumstances.
+
+## Service Providers
+
+We may provide information to vendors that perform services on our behalf.
+
+## Legal Requirements
+
+We may disclose information when reasonably necessary to:
+
+* Comply with applicable law;
+* Respond to lawful legal process;
+* Comply with a valid court order;
+* Protect our legal rights;
+* Investigate fraud;
+* Address security incidents;
+* Protect users; or
+* Prevent harm.
+
+## Business Transactions
+
+If U eMerge Academy, LLC is involved in a merger, acquisition, financing, restructuring, sale of assets, or similar business transaction, information associated with Transformation Builder may be transferred as part of that transaction subject to applicable law.
+
+## With Your Direction
+
+We may disclose information when you intentionally direct or authorize us to do so.
+
+---
+
+# 15. WE DO NOT SELL PERSONAL JOURNALS
+
+Transformation Builder does not sell users' private journal entries, personal assessments, goals, or reflection responses as standalone personal-data products.
+
+If we ever materially change our practices concerning the sale or sharing of personal information, we will update this Privacy Policy and provide any rights required by applicable law.
+
+---
+
+# 16. DATA SECURITY
+
+We use reasonable administrative, technical, and organizational safeguards designed to protect personal information.
+
+Security measures may include:
+
+* Account authentication;
+* Password protections;
+* Access controls;
+* Secure communications;
+* Role-based permissions;
+* Database protections;
+* User ownership verification;
+* Row-level security or similar database controls;
+* Monitoring;
+* Security updates; and
+* Backup or recovery measures.
+
+Users should generally only be able to access information associated with their own accounts unless information is intentionally shared.
+
+However, no internet-connected system can be guaranteed completely secure.
+
+You acknowledge that electronic storage and transmission involve inherent security risks.
+
+---
+
+# 17. ROW-LEVEL SECURITY AND USER ACCESS
+
+Where supported by our technical infrastructure, Transformation Builder may use row-level security or similar database permissions to help ensure that authenticated users can access only records associated with their authorized accounts.
+
+These protections are intended to reduce unauthorized access but do not guarantee that security incidents can never occur.
+
+---
+
+# 18. ADMINISTRATIVE ACCESS
+
+Authorized administrators may have access to certain user information where reasonably necessary to:
+
+* Manage accounts;
+* Respond to customer-support requests;
+* Investigate technical problems;
+* Investigate Terms of Service violations;
+* Protect Platform security;
+* Address fraud;
+* Maintain system functionality; or
+* Comply with legal obligations.
+
+Administrative access should be limited to legitimate business purposes.
+
+---
+
+# 19. DATA RETENTION
+
+We retain personal information for as long as reasonably necessary to:
+
+* Provide the Platform;
+* Maintain an active account;
+* Fulfill requested services;
+* Maintain subscription records;
+* Protect Platform security;
+* Prevent fraud;
+* Resolve disputes;
+* Maintain necessary business records; and
+* Comply with legal obligations.
+
+Different categories of information may be retained for different periods.
+
+When information is no longer reasonably necessary, we may delete, anonymize, or aggregate it.
+
+Some deleted information may temporarily remain in backup systems before being removed through normal backup-rotation processes.
+
+---
+
+# 20. ACCOUNT DELETION
+
+Users may request deletion of their Transformation Builder account through available settings or by contacting us.
+
+Account deletion may result in deletion of information such as:
+
+* Profile information;
+* Journals;
+* Assessment responses;
+* Goals;
+* Tasks;
+* Projects;
+* Skills;
+* Milestones;
+* AI-assisted results;
+* Progress records; and
+* Other user-generated information.
+
+Some records may be retained when reasonably necessary for:
+
+* Tax or accounting requirements;
+* Payment documentation;
+* Fraud prevention;
+* Security;
+* Legal claims;
+* Regulatory obligations; or
+* Backup systems.
+
+Account deletion may be irreversible.
+
+Users should preserve any information they wish to keep before requesting deletion.
+
+---
+
+# 21. CORRECTION AND ACCESS
+
+Depending upon your location and applicable law, you may have the right to:
+
+* Request access to personal information;
+* Correct inaccurate information;
+* Request deletion;
+* Request a copy of certain information;
+* Restrict certain processing;
+* Object to certain processing;
+* Withdraw consent where processing is based upon consent; or
+* Exercise other privacy rights.
+
+Some rights may be limited by applicable law.
+
+We may need to verify your identity before fulfilling a privacy request.
+
+---
+
+# 22. EMAIL AND COMMUNICATION PREFERENCES
+
+We may send transactional communications necessary to operate your account, including:
+
+* Account verification;
+* Password resets;
+* Security notices;
+* Subscription notices;
+* Billing information;
+* Program information;
+* Service announcements; and
+* Important policy updates.
+
+You may also receive optional educational, promotional, or marketing communications where permitted.
+
+You can unsubscribe from marketing emails using the unsubscribe option provided in those communications.
+
+Unsubscribing from marketing messages does not necessarily prevent essential account or transactional communications.
+
+---
+
+# 23. CHILDREN'S PRIVACY
+
+Transformation Builder is intended for adults and is not directed toward children under the age of 13.
+
+We do not knowingly collect personal information from children under 13.
+
+Unless a separate youth program is expressly established with appropriate consent procedures, users must generally be at least 18 years old to create an individual Transformation Builder account.
+
+If we learn that personal information from a child has been collected inappropriately, we may take reasonable steps to delete it.
+
+---
+
+# 24. INTERNATIONAL USERS
+
+Transformation Builder may be accessible from locations outside the United States.
+
+Information may be processed or stored in the United States or other countries in which our technology providers operate.
+
+Privacy and data-protection laws may differ between jurisdictions.
+
+Where required by applicable law, appropriate measures may be used to support lawful international data transfers.
+
+---
+
+# 25. CALIFORNIA PRIVACY RIGHTS
+
+Residents of California may have additional rights under applicable California privacy law.
+
+Depending upon the circumstances and whether applicable thresholds are met, these rights may include:
+
+* The right to know what personal information is collected;
+* The right to request deletion;
+* The right to request correction;
+* The right to obtain information concerning categories of disclosures;
+* The right to opt out of certain sales or sharing of personal information; and
+* The right not to receive discriminatory treatment for exercising applicable privacy rights.
+
+Transformation Builder does not intend to sell private journal or assessment content as personal-data products.
+
+California residents may contact us using the information provided below to submit an applicable privacy request.
+
+---
+
+# 26. OTHER STATE PRIVACY RIGHTS
+
+Residents of certain U.S. states may have privacy rights under state consumer privacy laws.
+
+Depending upon applicable law, these may include rights concerning:
+
+* Access;
+* Correction;
+* Deletion;
+* Data portability;
+* Targeted advertising;
+* Sale of personal information;
+* Profiling; and
+* Sensitive personal data.
+
+Applicability depends upon factors including jurisdiction, the nature of the processing, and whether applicable legal thresholds are met.
+
+---
+
+# 27. EUROPEAN ECONOMIC AREA AND UNITED KINGDOM USERS
+
+If European Economic Area or United Kingdom privacy law applies to our processing, users may have rights concerning:
+
+* Access;
+* Correction;
+* Erasure;
+* Restriction;
+* Objection;
+* Data portability; and
+* Withdrawal of consent.
+
+Depending upon the processing activity, our lawful basis may include:
+
+* Performance of a contract;
+* Consent;
+* Compliance with legal obligations; and
+* Legitimate interests, where permitted.
+
+Users may also have the right to lodge a complaint with an appropriate data-protection authority.
+
+---
+
+# 28. AUTOMATED DECISION-MAKING
+
+Transformation Builder may provide AI-generated assessments, observations, recommendations, ratings, or suggested actions.
+
+These features are intended for personal reflection and development.
+
+Transformation Builder does not intend to use these tools to make solely automated decisions that produce legal or similarly significant effects concerning users, such as decisions regarding:
+
+* Employment;
+* Lending;
+* Insurance;
+* Housing;
+* Medical treatment; or
+* Government benefits.
+
+Users remain responsible for their own decisions.
+
+---
+
+# 29. THIRD-PARTY LINKS
+
+Transformation Builder may contain links to third-party websites or services.
+
+We are not responsible for the privacy practices, security, content, or policies of websites or services that we do not control.
+
+Users should review the privacy policies of third-party services before providing personal information to them.
+
+---
+
+# 30. COMMUNITY FEATURES
+
+If Transformation Builder offers community discussions, groups, classes, live sessions, comments, or other shared spaces, information that you intentionally post in those spaces may be visible to other participants.
+
+Do not post confidential information in public or community areas.
+
+Private journal entries should not automatically become public community posts unless the user intentionally chooses to share them.
+
+---
+
+# 31. SPIRITUAL INFORMATION
+
+Certain Platform features may invite users to reflect upon spiritual development, biblical principles, values, beliefs, or personal purpose.
+
+Such information may be sensitive under certain privacy laws.
+
+We intend to use this information primarily to provide the feature requested by the user and related Platform functionality.
+
+We do not intend to sell identifiable spiritual-reflection information for unrelated advertising purposes.
+
+---
+
+# 32. DATA BREACH OR SECURITY INCIDENTS
+
+If we become aware of a security incident involving personal information, we may investigate the incident, take reasonable corrective measures, and provide notifications where required by applicable law.
+
+Notifications may be delivered by:
+
+* Email;
+* Platform notice;
+* Account notification; or
+* Another method permitted by law.
+
+---
+
+# 33. DO NOT TRACK AND BROWSER CONTROLS
+
+Some web browsers offer “Do Not Track” or similar privacy signals.
+
+Because industry standards and legal requirements concerning such signals may vary, Transformation Builder may not respond to every browser-based signal in the same manner.
+
+Where applicable law requires recognition of a legally valid privacy preference signal, we will seek to comply with applicable requirements.
+
+---
+
+# 34. CHANGES TO THIS PRIVACY POLICY
+
+We may update this Privacy Policy when our services, technologies, legal requirements, or data practices change.
+
+Changes may occur because of:
+
+* New Platform features;
+* New AI functionality;
+* New analytics tools;
+* New service providers;
+* Security improvements;
+* Subscription changes;
+* Legal developments; or
+* Changes in our business operations.
+
+When material changes are made, we may provide notice through:
+
+* Email;
+* The Platform;
+* Account notifications; or
+* A notice on our website.
+
+The updated Privacy Policy will identify its revised “Last Updated” date.
+
+---
+
+# 35. CONTACT US
+
+Questions, concerns, or requests regarding this Privacy Policy may be directed to:
+
+**U eMerge Academy, LLC**
+**Transformation Builder**
+
+Privacy Email:
+**[INSERT PRIVACY OR SUPPORT EMAIL]**
+
+Mailing Address:
+**[INSERT BUSINESS MAILING ADDRESS]**
+
+Website:
+**[INSERT TRANSFORMATION BUILDER WEBSITE URL]**
+
+For privacy requests, please include enough information for us to reasonably verify your identity and understand your request.
+
+---
+
+# 36. ACCEPTANCE
+
+By creating an account or using Transformation Builder after being presented with this Privacy Policy, you acknowledge that you have reviewed this Privacy Policy and understand how information may be collected, processed, stored, and disclosed as described above.
+
+Where applicable law requires affirmative consent for a specific type of processing, we will request that consent separately.

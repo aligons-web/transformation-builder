@@ -40,6 +40,7 @@ import AdminSubscribersPage from "./pages/admin-subscribers";
 import DashboardFoundationPage from "@/pages/dashboard-foundation";
 import DashboardCalendarPage from "@/pages/dashboard-calendar";
 import TermsOfServicePage from "@/pages/terms-of-service";
+import PrivacyPolicyPage from "@/pages/privacy-policy";
 
 function Router() {
   return (
@@ -51,6 +52,7 @@ function Router() {
       <Route path="/login" component={AuthPage} />
       <Route path="/signup" component={AuthPage} />
       <Route path="/terms-of-service" component={TermsOfServicePage} />
+      <Route path="/privacy-policy" component={PrivacyPolicyPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/submit-testimonial" component={SubmitTestimonialPage} />
       <Route path="/affiliate-program" component={AffiliateProgramPage} />

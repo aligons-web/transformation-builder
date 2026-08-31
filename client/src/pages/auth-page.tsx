@@ -235,7 +235,7 @@ export default function AuthPage() {
             By clicking continue, you agree to our{" "}
             <Link href="/terms-of-service" className="underline underline-offset-4 hover:text-primary">Terms of Service</Link>{" "}
             and{" "}
-            <a href="#" className="underline underline-offset-4 hover:text-primary">Privacy Policy</a>.
+            <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-primary">Privacy Policy</Link>.
             </div>
           </div>
         </div>

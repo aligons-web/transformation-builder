@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ArrowRight, Loader2, Home } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import loginImage from "@assets/loginImage_1788029426703.png";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
@@ -21,6 +22,7 @@ export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("login");
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const { toast } = useToast();
   const { login, signup } = useUser();
 
@@ -33,6 +35,15 @@ export default function AuthPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (activeTab === "signup" && !termsAccepted) {
+      toast({
+        variant: "destructive",
+        title: "Terms of Service required",
+        description: "Please accept the terms of service before creating your account.",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -187,6 +198,21 @@ export default function AuthPage() {
                     </p>
                   </div>
 
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      id="accept-terms"
+                      checked={termsAccepted}
+                      onCheckedChange={(checked) => setTermsAccepted(checked === true)}
+                      aria-label="I accept the terms of service"
+                    />
+                    <div className="text-sm leading-5 text-muted-foreground">
+                      <label htmlFor="accept-terms">I accept the </label>
+                      <Link href="/terms-of-service" className="font-medium text-primary underline underline-offset-4 hover:text-primary/80">
+                        terms of service
+                      </Link>
+                    </div>
+                  </div>
+
                   <Button type="submit" className="w-full h-11 text-base" disabled={isLoading}>
                     {isLoading ? (
                       <>
@@ -207,7 +233,7 @@ export default function AuthPage() {
 
           <div className="text-center text-sm text-muted-foreground mt-6">
             By clicking continue, you agree to our{" "}
-            <a href="#" className="underline underline-offset-4 hover:text-primary">Terms of Service</a>{" "}
+            <Link href="/terms-of-service" className="underline underline-offset-4 hover:text-primary">Terms of Service</Link>{" "}
             and{" "}
             <a href="#" className="underline underline-offset-4 hover:text-primary">Privacy Policy</a>.
             </div>

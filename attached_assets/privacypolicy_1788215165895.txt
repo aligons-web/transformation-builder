@@ -1,0 +1,731 @@
+# TRANSFORMATION BUILDER
+
+## TERMS OF SERVICE
+
+**Effective Date: August 31, 2026**
+**Last Updated: August 31, 2026**
+
+Welcome to **Transformation Builder** (“Transformation Builder,” “Platform,” “App,” “Service,” “we,” “us,” or “our”). Transformation Builder is a personal, professional, and life-development platform designed to help users discover purpose, analyze their current circumstances, clarify focus, identify goals and projects, develop skills, and take intentional action toward a desired future.
+
+Transformation Builder is operated by **U eMerge Academy, LLC**.
+
+These Terms of Service (“Terms”) govern your access to and use of the Transformation Builder website, web application, associated services, artificial intelligence features, assessments, journals, dashboards, programs, content, and related resources.
+
+By creating an account, purchasing a subscription, accessing the Platform, or otherwise using Transformation Builder, you agree to these Terms.
+
+If you do not agree with these Terms, do not use the Platform.
+
+---
+
+# 1. PURPOSE OF TRANSFORMATION BUILDER
+
+Transformation Builder provides tools intended to assist users with personal, professional, business, leadership, and spiritual development.
+
+Features may include:
+
+* Personal assessments and questionnaires;
+* Journal entries and reflection exercises;
+* User ratings and self-evaluations;
+* Artificial intelligence-assisted assessments and insights;
+* Purpose and life-direction exercises;
+* Goal identification and tracking;
+* Task and milestone management;
+* Project development and tracking;
+* Skill identification and development;
+* Personal, professional, and spiritual reinvention exercises;
+* Personal dashboards;
+* Calendars and activity tracking;
+* Progress metrics;
+* Gamification features, including achievements or progress indicators;
+* Analytics;
+* AI-generated content, recommendations, summaries, or observations;
+* Educational programs and learning materials;
+* Community or group features;
+* Coaching or facilitated learning opportunities; and
+* Other tools designed to encourage focused action toward personal goals.
+
+The Platform is intended to provide users with increased perspective, focus, intentionality, passion, and awareness as they pursue personal, professional, business, leadership, or spiritual development.
+
+Transformation Builder does not guarantee that any particular user will discover a life purpose, obtain employment, increase income, start or grow a business, improve relationships, achieve spiritual growth, accomplish a goal, or experience any particular personal or professional outcome.
+
+---
+
+# 2. ELIGIBILITY
+
+You must be at least **18 years old** and legally capable of entering into a binding agreement to create an account or purchase a paid Transformation Builder service.
+
+By using the Platform, you represent that:
+
+1. You meet these eligibility requirements;
+2. The information you provide is accurate;
+3. You will maintain the security of your account; and
+4. Your use of the Platform will comply with applicable law and these Terms.
+
+---
+
+# 3. ACCOUNT REGISTRATION
+
+Certain features require an account.
+
+When registering, you may be asked to provide information such as your:
+
+* Name;
+* Email address;
+* Password;
+* Profile information;
+* Preferences; and
+* Subscription or payment information.
+
+You are responsible for maintaining the confidentiality of your login credentials and for activities occurring through your account.
+
+You may not share your account credentials with another person or permit unauthorized access to your account.
+
+Notify us promptly if you believe your account has been compromised.
+
+We may implement authentication, verification, security monitoring, access controls, and other measures designed to protect users and the Platform.
+
+---
+
+# 4. PERSONAL INFORMATION AND USER DATA
+
+Transformation Builder may allow you to enter or create information concerning your experiences, goals, skills, interests, plans, reflections, projects, tasks, milestones, journal entries, questionnaire responses, ratings, and other information.
+
+You are responsible for deciding what information you submit.
+
+Because journals and self-assessments can involve personal matters, you should avoid entering information that you do not want processed through an online service.
+
+In particular, you should not use Transformation Builder as a repository for highly sensitive information that is unnecessary for the Platform's functions, including:
+
+* Social Security numbers;
+* Banking passwords;
+* Credit card numbers in journal fields;
+* Government identification numbers;
+* Medical records;
+* Authentication credentials;
+* Information belonging to another person that you do not have permission to provide; or
+* Other highly confidential information unrelated to your use of Transformation Builder.
+
+Our collection and handling of personal information are also governed by our **Privacy Policy**, which should be read together with these Terms.
+
+---
+
+# 5. YOUR CONTENT
+
+“User Content” means information or materials that you submit, upload, type, save, or otherwise provide through Transformation Builder.
+
+Examples include:
+
+* Journal entries;
+* Assessment answers;
+* Reflection responses;
+* Goals;
+* Tasks;
+* Projects;
+* Milestones;
+* Skills;
+* Personal plans;
+* Uploaded materials; and
+* Other information created by you.
+
+You retain ownership of your original User Content.
+
+By submitting User Content, you grant Transformation Builder and its service providers a limited, non-exclusive license to host, store, reproduce, process, analyze, transmit, and otherwise use your User Content only as reasonably necessary to:
+
+* Operate the Platform;
+* Provide requested features;
+* Generate assessments or AI-assisted responses;
+* Maintain your account;
+* Save and display your information;
+* Provide analytics or progress tracking;
+* Improve reliability and security;
+* Comply with legal obligations; and
+* Provide services you request.
+
+This license ends when the relevant information is deleted from our systems, subject to reasonable backup retention, legal obligations, fraud prevention, security requirements, or other legitimate operational needs.
+
+---
+
+# 6. ARTIFICIAL INTELLIGENCE FEATURES
+
+Transformation Builder may use artificial intelligence technologies supplied by us or third-party AI service providers.
+
+AI features may analyze information such as questionnaires, journal responses, ratings, goals, skills, activities, or other information you submit and may generate:
+
+* Assessments;
+* Summaries;
+* Observations;
+* Recommendations;
+* Questions;
+* Potential action steps;
+* Goal suggestions;
+* Project ideas;
+* Content;
+* Personal-development insights; or
+* Other AI-generated responses.
+
+## AI Is an Assistance Tool
+
+AI-generated information is provided to assist reflection and decision-making. It should not be treated as an infallible determination about you, your abilities, your future, your purpose, or the decisions you should make.
+
+Artificial intelligence may occasionally:
+
+* Misinterpret information;
+* Produce incomplete information;
+* Produce inaccurate information;
+* Generate information that does not apply to your circumstances;
+* Overlook relevant facts; or
+* Produce similar responses for different users.
+
+You are responsible for evaluating AI-generated information before relying upon or acting on it.
+
+## No Guarantee of AI Accuracy
+
+We do not guarantee that AI-generated results are accurate, complete, unique, appropriate, current, or suitable for your specific situation.
+
+Important decisions should not be based solely upon AI-generated output.
+
+---
+
+# 7. AI OUTPUT AND OWNERSHIP
+
+To the extent permitted by applicable law, you may use AI-generated content produced specifically for you through Transformation Builder for your lawful personal or business purposes, subject to these Terms and any applicable third-party restrictions.
+
+However, because artificial intelligence systems may generate similar or identical material for different users, Transformation Builder cannot guarantee that AI-generated content is unique or capable of receiving intellectual property protection.
+
+You remain responsible for reviewing AI-generated material before publishing, distributing, commercializing, or otherwise relying upon it.
+
+---
+
+# 8. EDUCATIONAL AND DEVELOPMENT PURPOSES ONLY
+
+Transformation Builder is primarily an educational, planning, reflection, and personal-development resource.
+
+The Platform does not provide professional:
+
+* Medical advice;
+* Mental-health treatment;
+* Psychological diagnosis;
+* Legal advice;
+* Financial advice;
+* Investment advice;
+* Tax advice;
+* Employment placement services; or
+* Licensed professional counseling.
+
+Information obtained through Transformation Builder should not replace advice from an appropriately qualified professional.
+
+If you are experiencing a medical or mental-health emergency, do not rely upon Transformation Builder or its AI systems. Contact an appropriate emergency service or qualified professional.
+
+---
+
+# 9. SPIRITUAL AND FAITH-BASED CONTENT
+
+Certain Transformation Builder programs, resources, assessments, examples, or learning experiences may incorporate Christian or biblical principles and illustrations.
+
+Such materials are intended for education, reflection, spiritual development, and personal growth.
+
+Transformation Builder does not claim that its AI systems speak on behalf of God, provide divine revelation, predict God's will for an individual, or replace prayer, Scripture, pastoral guidance, personal discernment, or other appropriate spiritual counsel.
+
+Users remain responsible for their own beliefs, interpretations, decisions, and actions.
+
+---
+
+# 10. PERSONAL RESPONSIBILITY
+
+Transformation Builder is designed to help users develop greater clarity and intentional action.
+
+However, you remain solely responsible for decisions concerning your:
+
+* Career;
+* Employment;
+* Education;
+* Business;
+* Finances;
+* Relationships;
+* Personal development;
+* Spiritual development;
+* Projects;
+* Goals; and
+* Life direction.
+
+You acknowledge that personal transformation depends upon many factors outside the control of Transformation Builder.
+
+Use of the Platform does not create a fiduciary, therapist-patient, attorney-client, financial-advisor, employment, partnership, joint venture, or similar professional relationship between you and Transformation Builder.
+
+---
+
+# 11. NO GUARANTEE OF RESULTS
+
+Examples, testimonials, illustrations, success stories, assessments, projections, or demonstrations presented through Transformation Builder are not guarantees that you will experience similar results.
+
+We make no promise regarding:
+
+* Income;
+* Employment;
+* Business revenue;
+* Business success;
+* Career advancement;
+* Personal transformation;
+* Completion of goals;
+* Productivity;
+* Spiritual outcomes;
+* Relationships;
+* Educational outcomes; or
+* Any particular life result.
+
+Your results depend upon your individual circumstances, decisions, effort, resources, skills, opportunities, and other factors.
+
+---
+
+# 12. GOALS, ANALYTICS, RATINGS, AND GAMIFICATION
+
+Transformation Builder may use scores, ratings, progress indicators, achievements, streaks, badges, charts, analytics, milestones, completion percentages, or similar features.
+
+These features are intended primarily to encourage participation and provide users with a way to visualize activity.
+
+They should not be interpreted as objective measurements of your worth, intelligence, professional ability, psychological health, spiritual maturity, employability, or future success.
+
+Analytics may also measure Platform interaction, including feature usage, activity, completion rates, and other product-performance information as permitted under our Privacy Policy.
+
+---
+
+# 13. SUBSCRIPTIONS AND PAID SERVICES
+
+Transformation Builder may offer free features, introductory access, trials, one-time purchases, or paid subscription plans.
+
+Paid plans may provide access to additional modules, AI features, assessments, dashboards, analytics, programs, communities, coaching opportunities, or other premium functionality.
+
+Prices and included features will be displayed before purchase.
+
+By purchasing a paid subscription, you authorize us and our payment-processing providers to charge the applicable fees and taxes using the payment method you provide.
+
+---
+
+# 14. AUTOMATIC RENEWAL
+
+Unless stated otherwise when you purchase your subscription, recurring subscriptions automatically renew at the end of each billing period until canceled.
+
+You authorize recurring charges associated with your selected subscription.
+
+You may cancel through the account settings or another cancellation method provided by Transformation Builder.
+
+Cancellation normally prevents future renewal charges but does not automatically refund charges already incurred.
+
+Access to paid features may continue through the end of the applicable paid billing period.
+
+---
+
+# 15. PRICING AND CHANGES
+
+We may modify:
+
+* Subscription prices;
+* Plan names;
+* Plan features;
+* Available modules;
+* AI usage limits;
+* Storage limits;
+* Community features;
+* Coaching access; or
+* Other Platform functionality.
+
+Where required by law or reasonably appropriate, we will provide notice before material pricing changes affect an existing recurring subscription.
+
+Continued use of a paid subscription following the effective date of a properly disclosed pricing change constitutes acceptance of the new price.
+
+---
+
+# 16. REFUNDS
+
+Except where required by law or where a specific refund policy is displayed at the time of purchase, payments are generally non-refundable once a paid billing period has begun.
+
+If we issue a refund, credit, discount, or other accommodation in a particular situation, doing so does not create an obligation to provide the same accommodation in another situation.
+
+---
+
+# 17. THIRD-PARTY PAYMENT PROCESSORS
+
+Payments may be processed by third-party payment providers.
+
+Transformation Builder does not necessarily directly store complete payment-card information.
+
+Your use of third-party payment services may also be governed by the payment provider's own terms and privacy policies.
+
+We are not responsible for failures caused solely by third-party payment systems outside our reasonable control.
+
+---
+
+# 18. THIRD-PARTY SERVICES
+
+Transformation Builder may integrate with or rely upon third-party technologies and services, including services related to:
+
+* Artificial intelligence;
+* Authentication;
+* Payment processing;
+* Hosting;
+* Database management;
+* Email;
+* Video conferencing;
+* File storage;
+* Analytics;
+* Calendar functionality;
+* Community services; or
+* Other technology infrastructure.
+
+Third-party services may experience outages, changes, restrictions, errors, or discontinuation.
+
+We do not control all third-party services and cannot guarantee their uninterrupted availability.
+
+Your interaction with a third-party service may also be governed by that provider's terms and privacy practices.
+
+---
+
+# 19. SECURITY
+
+We use reasonable administrative, technical, and organizational measures intended to protect user accounts and information.
+
+The Platform may employ measures such as authentication, access controls, user-ownership verification, and database security controls designed to restrict access to user information.
+
+However, no online platform, database, transmission system, or storage system can be guaranteed completely secure.
+
+You acknowledge the inherent risks associated with transmitting and storing information electronically.
+
+---
+
+# 20. USER OWNERSHIP AND ACCESS CONTROLS
+
+Transformation Builder is designed so that users generally access information associated with their own accounts.
+
+Administrative personnel may access information when reasonably necessary to:
+
+* Provide technical support;
+* Investigate security incidents;
+* Maintain the Platform;
+* Investigate suspected violations;
+* Protect users;
+* Address legal requirements; or
+* Perform authorized administrative functions.
+
+Administrative access does not transfer ownership of your User Content to Transformation Builder.
+
+---
+
+# 21. ACCEPTABLE USE
+
+You agree not to use Transformation Builder to:
+
+* Violate applicable law;
+* Infringe another person's intellectual property rights;
+* Harass, threaten, stalk, or abuse another person;
+* Upload malicious software or code;
+* Attempt unauthorized access to another account;
+* Circumvent authentication or security controls;
+* Probe or attack the Platform's infrastructure;
+* Scrape or automatically extract Platform content without authorization;
+* Reverse engineer the Platform except where legally permitted;
+* Use another person's identity without authorization;
+* Submit information you do not have the legal right to provide;
+* Use AI features to facilitate unlawful activity;
+* Interfere with other users' access to the Platform;
+* Resell Platform access without written permission; or
+* Use the Platform in a manner that could damage Transformation Builder or its users.
+
+We may investigate suspected violations and restrict or terminate access when reasonably necessary.
+
+---
+
+# 22. INTELLECTUAL PROPERTY
+
+Except for User Content and third-party materials, Transformation Builder and its associated materials are owned by or licensed to U eMerge Academy, LLC.
+
+This includes, where applicable:
+
+* The Transformation Builder name and branding;
+* Logos;
+* Application design;
+* Software;
+* Source code;
+* Graphics;
+* Videos;
+* Assessments;
+* Proprietary questionnaires;
+* Course materials;
+* Frameworks;
+* Training resources;
+* Worksheets;
+* Educational content;
+* Text;
+* Business methods expressed through copyrighted materials; and
+* Other original Platform content.
+
+These Terms do not transfer ownership of our intellectual property to you.
+
+You receive a limited, revocable, non-exclusive, non-transferable license to access the Platform for your authorized personal or business-development use during the period in which you are entitled to access it.
+
+---
+
+# 23. COPYRIGHT AND USER RESPONSIBILITY
+
+Do not upload copyrighted books, articles, videos, course materials, images, assessments, or other content unless you own the content or have appropriate permission to use it.
+
+You are responsible for ensuring that content you provide through Transformation Builder does not violate another person's rights.
+
+We reserve the right to remove content when we reasonably believe removal is necessary to address copyright or intellectual-property concerns.
+
+---
+
+# 24. ACCOUNT SUSPENSION OR TERMINATION
+
+We may suspend, restrict, or terminate an account when reasonably necessary because of:
+
+* Violation of these Terms;
+* Fraudulent activity;
+* Nonpayment;
+* Security concerns;
+* Abuse of Platform resources;
+* Unauthorized access;
+* Illegal activity;
+* Harm to other users or the Platform; or
+* Other serious misuse.
+
+Where appropriate, we may provide notice and an opportunity to correct a violation.
+
+We may immediately restrict access where necessary to protect the security, integrity, or lawful operation of the Platform.
+
+---
+
+# 25. ACCOUNT DELETION
+
+You may request deletion of your account using available account settings or by contacting us through the designated support method.
+
+Account deletion may permanently remove access to:
+
+* Journals;
+* Goals;
+* Tasks;
+* Assessments;
+* Projects;
+* Milestones;
+* AI-generated insights;
+* Dashboard history;
+* Achievements; and
+* Other saved Platform information.
+
+Before deleting your account, you are responsible for downloading or preserving information you wish to retain if an export feature is available.
+
+Certain limited records may remain where reasonably necessary for legal compliance, payment records, fraud prevention, security, dispute resolution, backup systems, or other legitimate purposes.
+
+---
+
+# 26. SERVICE AVAILABILITY
+
+We work to maintain reliable access to Transformation Builder, but we do not guarantee that the Platform will always be available, uninterrupted, secure, or error-free.
+
+The Platform may occasionally become unavailable because of:
+
+* Maintenance;
+* Software updates;
+* Security work;
+* Hosting outages;
+* Third-party provider outages;
+* Internet failures;
+* AI-provider interruptions;
+* Database maintenance; or
+* Circumstances beyond our reasonable control.
+
+---
+
+# 27. CHANGES TO THE PLATFORM
+
+Transformation Builder is an evolving technology product.
+
+We may add, modify, redesign, replace, test, or discontinue features as the Platform develops.
+
+This can include changes to:
+
+* Assessments;
+* AI models;
+* Dashboards;
+* Modules;
+* Analytics;
+* Calendar functions;
+* Gamification;
+* Learning materials;
+* Subscription plans; and
+* User-interface features.
+
+We are not obligated to permanently maintain any specific feature unless otherwise required by a separate written agreement.
+
+---
+
+# 28. BETA AND EXPERIMENTAL FEATURES
+
+Some features may be identified as beta, preview, experimental, early access, or similar.
+
+These features may be incomplete and may contain errors or change substantially.
+
+You use beta or experimental features with the understanding that they are still under development.
+
+---
+
+# 29. DISCLAIMER OF WARRANTIES
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, TRANSFORMATION BUILDER IS PROVIDED ON AN “AS IS” AND “AS AVAILABLE” BASIS.
+
+WE DISCLAIM WARRANTIES, EXPRESS OR IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, RELIABILITY, AND AVAILABILITY.
+
+WE DO NOT WARRANT THAT:
+
+* THE PLATFORM WILL MEET EVERY USER'S EXPECTATIONS;
+* AI-GENERATED INFORMATION WILL ALWAYS BE ACCURATE;
+* USE OF THE PLATFORM WILL PRODUCE A PARTICULAR RESULT;
+* THE PLATFORM WILL BE COMPLETELY ERROR-FREE;
+* ALL DATA WILL ALWAYS BE AVAILABLE; OR
+* THIRD-PARTY SERVICES WILL REMAIN AVAILABLE.
+
+Some jurisdictions do not permit certain warranty exclusions, so portions of this provision may not apply to you.
+
+---
+
+# 30. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, U EMERGE ACADEMY, LLC, TRANSFORMATION BUILDER, AND THEIR OWNERS, OFFICERS, EMPLOYEES, CONTRACTORS, AFFILIATES, AND SERVICE PROVIDERS WILL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM OR RELATING TO YOUR USE OF THE PLATFORM.
+
+THIS INCLUDES, WHERE PERMITTED BY LAW, LOSS OF:
+
+* PROFITS;
+* REVENUE;
+* BUSINESS OPPORTUNITIES;
+* DATA;
+* GOODWILL;
+* EMPLOYMENT OPPORTUNITIES; OR
+* EXPECTED BENEFITS.
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, OUR TOTAL LIABILITY FOR CLAIMS ARISING FROM THE PLATFORM WILL NOT EXCEED THE GREATER OF:
+
+**(A) THE AMOUNT YOU PAID TO TRANSFORMATION BUILDER DURING THE SIX MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM; OR
+(B) $100.**
+
+Nothing in these Terms excludes liability that cannot legally be excluded or limited.
+
+---
+
+# 31. INDEMNIFICATION
+
+To the extent permitted by applicable law, you agree to defend, indemnify, and hold harmless U eMerge Academy, LLC and its owners, employees, contractors, affiliates, and service providers from claims, damages, losses, liabilities, and reasonable expenses arising from:
+
+* Your unlawful use of the Platform;
+* Your material violation of these Terms;
+* Your infringement of another person's rights; or
+* Content you submit in violation of applicable law or these Terms.
+
+---
+
+# 32. COMMUNICATIONS
+
+By creating an account, you agree that we may send transactional communications concerning:
+
+* Your account;
+* Security;
+* Password resets;
+* Payments;
+* Subscriptions;
+* Service updates;
+* Assessments;
+* Programs;
+* Scheduled activities; or
+* Other information reasonably necessary to provide the Platform.
+
+Marketing communications will be handled in accordance with applicable law and available communication preferences.
+
+You may be able to modify certain notification preferences through your account settings.
+
+---
+
+# 33. FEEDBACK
+
+If you voluntarily provide suggestions, ideas, recommendations, feature requests, or other feedback regarding Transformation Builder, you authorize us to use that feedback to develop and improve the Platform without an obligation to compensate you.
+
+This provision does not give us ownership of your private journals, assessments, goals, projects, or other User Content.
+
+---
+
+# 34. GOVERNING LAW
+
+These Terms will be governed by the laws of the **State of [INSERT STATE]**, without regard to its conflict-of-law principles, except where applicable consumer-protection law requires otherwise.
+
+Any dispute that is not resolved informally will be handled in the courts having appropriate jurisdiction in **[INSERT COUNTY AND STATE]**, unless applicable law requires a different forum.
+
+---
+
+# 35. DISPUTE RESOLUTION
+
+Before filing a legal action relating to Transformation Builder, you and U eMerge Academy, LLC agree to make a reasonable good-faith effort to resolve the dispute informally.
+
+A party seeking resolution should provide written notice describing:
+
+* The nature of the dispute;
+* The relevant account information;
+* The requested resolution; and
+* Reasonable supporting information.
+
+Nothing in this provision prevents either party from seeking emergency relief where necessary or exercising rights that cannot legally be waived.
+
+---
+
+# 36. CHANGES TO THESE TERMS
+
+We may update these Terms periodically to reflect changes in:
+
+* The Platform;
+* Technology;
+* AI functionality;
+* Subscription services;
+* Business practices;
+* Security requirements; or
+* Applicable laws.
+
+When material changes occur, we may provide notice through the Platform, email, account notification, or another reasonable method.
+
+The updated Terms will identify a new “Last Updated” date.
+
+Your continued use of Transformation Builder after updated Terms become effective constitutes acceptance of the revised Terms, to the extent permitted by law.
+
+---
+
+# 37. SEVERABILITY
+
+If a provision of these Terms is determined to be invalid or unenforceable, that provision will be enforced to the maximum extent permitted by law and the remaining provisions will remain in effect.
+
+---
+
+# 38. NO WAIVER
+
+Our failure to enforce a provision of these Terms does not waive our right to enforce that provision later.
+
+---
+
+# 39. ENTIRE AGREEMENT
+
+These Terms, together with the Transformation Builder Privacy Policy and any additional terms presented for a specific paid service or program, constitute the agreement between you and U eMerge Academy, LLC regarding your use of Transformation Builder.
+
+---
+
+# 40. CONTACT INFORMATION
+
+Questions concerning these Terms may be sent to:
+
+**U eMerge Academy, LLC**
+**Transformation Builder**
+
+Email: aligons@uemergeacademy.com
+
+
+Website:
+https://www.transformationbuilder.com
+
+---
+
+## ACCEPTANCE
+
+By clicking **“I Agree,” “Create Account,” “Subscribe,” “Continue,”** or a similar acceptance button, or by accessing and using Transformation Builder after being presented with these Terms, you acknowledge that you have read, understood, and agreed to these Terms of Service.

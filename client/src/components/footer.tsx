@@ -5,12 +5,6 @@ export function Footer() {
     <footer className="bg-[#D3D3D3] py-12 border-t border-border/50">
       <div className="container mx-auto px-4 text-center text-muted-foreground">
         <div className="flex flex-col md:flex-row justify-center gap-6 mb-8 text-sm font-medium">
-          <Link href="/affiliate-program">
-            <a className="hover:text-primary transition-colors">Affiliate Program</a>
-          </Link>
-          <Link href="/founders-program">
-            <a className="hover:text-primary transition-colors">Founder's Program</a>
-          </Link>
           <a href="https://www.skool.com/life-transformation-network-2320/about" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">LIFE Transformation Network</a>
           <Link href="/pricing">
             <a className="hover:text-primary transition-colors">Pricing</a>

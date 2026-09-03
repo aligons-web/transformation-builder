@@ -52,12 +52,6 @@ export function Navbar() {
           >
             Join LTN
           </a>
-          <Link href="/affiliate-program" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
-              Affiliate Program
-          </Link>
-          <Link href="/founders-program" className="text-sm font-bold text-foreground/80 hover:text-primary transition-colors">
-              Join Waiting List 
-          </Link>
           <div className="flex items-center gap-2 ml-4">
             <Link href="/signup">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 cursor-pointer">
@@ -102,12 +96,6 @@ export function Navbar() {
                 >
                   Join LTN
                 </a>
-                <Link href="/affiliate-program" className="text-lg font-bold hover:text-primary transition-colors">
-                    Affiliate Program
-                </Link>
-                <Link href="/founders-program" className="text-lg font-bold hover:text-primary transition-colors">
-                    Founder's Program
-                </Link>
                 <hr className="border-border" />
                 <Link href="/signup">
                   <Button className="w-full justify-start bg-primary cursor-pointer">

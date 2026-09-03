@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/hooks/use-user";
 
-import logo from "@assets/webapplogo3_1765811527974.png";
+import logo from "@assets/tbrefinedLogotransbkgrd_1788469856734.png";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,7 +32,7 @@ export function Navbar() {
             <img 
               src={logo} 
               alt="LIFE Transformation" 
-              className="h-auto w-auto object-contain max-h-[100px]" 
+              className="h-[52px] w-[163px] object-contain"
             />
         </Link>
 

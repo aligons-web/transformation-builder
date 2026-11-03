@@ -16,6 +16,8 @@ import { Footer } from "@/components/footer";
 import { useUser } from "@/hooks/use-user";
 import { useToast } from "@/hooks/use-toast";
 
+const SHOW_PRICING_PLANS = false;
+
 export default function PricingPage() {
   const { user, isAuthenticated } = useUser();
   const { toast } = useToast();
@@ -27,7 +29,6 @@ export default function PricingPage() {
   const wasCanceled = urlParams.get("canceled") === "true";
 
   const handleSubscribe = async (planKey: PlanKey) => {
-    // If not logged in, redirect to login
     if (!isAuthenticated) {
       toast({
         title: "Please log in first",
@@ -53,14 +54,11 @@ export default function PricingPage() {
       }
 
       const data = await response.json();
-
-      // Redirect to Stripe Checkout
       if (data.url) {
         window.location.href = data.url;
       } else {
         throw new Error("No checkout URL received");
       }
-
     } catch (error: any) {
       console.error("Checkout error:", error);
       toast({
@@ -93,19 +91,22 @@ export default function PricingPage() {
             Pricing Plans
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose the path that fits your journey.
+            New year-end pricing will be posted soon. Stay tuned!
           </p>
+          <div className="mt-6 rounded-xl border border-primary/20 bg-primary/10 px-6 py-5 text-foreground shadow-sm">
+            <p className="text-lg font-semibold">
+              Pricing updates will be reflected on 11/3/2026.
+            </p>
+          </div>
 
-          {/* Show message if checkout was canceled */}
-          {wasCanceled && (
-            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
+          {SHOW_PRICING_PLANS && wasCanceled && (
+            <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-yellow-800">
               Checkout was canceled. Feel free to try again when you're ready!
             </div>
           )}
 
-          {/* Show current plan if logged in */}
-          {user && user.plan !== "EXPLORER" && (
-            <div className="mt-4 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+          {SHOW_PRICING_PLANS && user && user.plan !== "EXPLORER" && (
+            <div className="mt-4 rounded-lg border border-primary/20 bg-primary/10 p-4">
               <p className="text-sm text-primary">
                 You're currently on the <strong>{user.plan}</strong> plan
               </p>
@@ -113,96 +114,91 @@ export default function PricingPage() {
           )}
         </div>
 
-        {/* ✅ Pricing cards - Transformer and Implementer only, centered */}
-        <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 max-w-4xl mx-auto">
-          {Object.values(PLANS)
-            .filter((plan) => plan.key === "transformer" || plan.key === "implementer")
-            .map((plan) => {
-            const isPopular = plan.key === "transformer";
-            const isCurrentPlan = user?.plan?.toLowerCase() === plan.key;
-            const isLoading = loadingPlan === plan.key;
+        {SHOW_PRICING_PLANS && (
+          <div className="mx-auto flex max-w-4xl flex-col items-stretch justify-center gap-8 md:flex-row">
+            {Object.values(PLANS)
+              .filter((plan) => plan.key === "transformer" || plan.key === "implementer")
+              .map((plan) => {
+                const isPopular = plan.key === "transformer";
+                const isCurrentPlan = user?.plan?.toLowerCase() === plan.key;
+                const isLoading = loadingPlan === plan.key;
 
-            return (
-              <Card
-                key={plan.key}
-                className={[
-                  "flex flex-col relative w-full md:w-[380px]",
-                  isPopular
-                    ? "border-primary/20 shadow-lg bg-primary/5"
-                    : "border-border/50 shadow-sm hover:shadow-md transition-shadow",
-                  isCurrentPlan ? "ring-2 ring-primary" : "",
-                ].join(" ")}
-              >
-                {isPopular && (
-                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
-                    POPULAR
-                  </div>
-                )}
-
-                {isCurrentPlan && (
-                  <div className="absolute top-0 left-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-br-lg rounded-tl-lg">
-                    CURRENT PLAN
-                  </div>
-                )}
-
-                <CardHeader>
-                  <CardTitle className="text-2xl font-heading">
-                    {plan.name}
-                  </CardTitle>
-                  <CardDescription>
-                    {plan.subtitle}: {plan.description}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="flex-1">
-                  {/* ✅ Price from config */}
-                  <div className="text-3xl font-bold mb-6">
-                    {plan.pricing.amount}
-                    <span className="text-sm font-normal text-muted-foreground">
-                      {plan.pricing.period}
-                    </span>
-                  </div>
-
-                  {/* ✅ Features from config */}
-                  <ul className="space-y-3">
-                    {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <Check 
-                          className={`w-4 h-4 ${
-                            plan.key === "transformer" 
-                              ? "text-primary" 
-                              : "text-green-500"
-                          }`} 
-                        />
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-
-                <CardFooter>
-                  <Button
-                    className="w-full cursor-pointer hover:scale-105 hover:shadow-md transition-all duration-200"
-                    variant={plan.key === "transformer" ? "default" : "outline"}
-                    onClick={() => handleSubscribe(plan.key)}
-                    disabled={isLoading || isCurrentPlan}
+                return (
+                  <Card
+                    key={plan.key}
+                    className={[
+                      "relative flex w-full flex-col md:w-[380px]",
+                      isPopular
+                        ? "border-primary/20 bg-primary/5 shadow-lg"
+                        : "border-border/50 shadow-sm transition-shadow hover:shadow-md",
+                      isCurrentPlan ? "ring-2 ring-primary" : "",
+                    ].join(" ")}
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Processing...
-                      </>
-                    ) : isCurrentPlan ? (
-                      "Current Plan"
-                    ) : (
-                      plan.cta
+                    {isPopular && (
+                      <div className="absolute right-0 top-0 rounded-bl-lg rounded-tr-lg bg-primary px-3 py-1 text-xs font-bold text-primary-foreground">
+                        POPULAR
+                      </div>
                     )}
-                  </Button>
-                </CardFooter>
-              </Card>
-            );
-          })}
-        </div>
+
+                    {isCurrentPlan && (
+                      <div className="absolute left-0 top-0 rounded-br-lg rounded-tl-lg bg-green-500 px-3 py-1 text-xs font-bold text-white">
+                        CURRENT PLAN
+                      </div>
+                    )}
+
+                    <CardHeader>
+                      <CardTitle className="font-heading text-2xl">{plan.name}</CardTitle>
+                      <CardDescription>
+                        {plan.subtitle}: {plan.description}
+                      </CardDescription>
+                    </CardHeader>
+
+                    <CardContent className="flex-1">
+                      <div className="mb-6 text-3xl font-bold">
+                        {plan.pricing.amount}
+                        <span className="text-sm font-normal text-muted-foreground">
+                          {plan.pricing.period}
+                        </span>
+                      </div>
+
+                      <ul className="space-y-3">
+                        {plan.features.map((feature, index) => (
+                          <li key={index} className="flex items-center gap-2">
+                            <Check
+                              className={`h-4 w-4 ${
+                                plan.key === "transformer" ? "text-primary" : "text-green-500"
+                              }`}
+                            />
+                            <span className="text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+
+                    <CardFooter>
+                      <Button
+                        className="w-full cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-md"
+                        variant={plan.key === "transformer" ? "default" : "outline"}
+                        onClick={() => handleSubscribe(plan.key)}
+                        disabled={isLoading || isCurrentPlan}
+                      >
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Processing...
+                          </>
+                        ) : isCurrentPlan ? (
+                          "Current Plan"
+                        ) : (
+                          plan.cta
+                        )}
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+          </div>
+        )}
       </main>
 
       <Footer />

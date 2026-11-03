@@ -121,11 +121,21 @@ export default function PricingPage() {
                 <strong className="text-foreground">purpose, focus, and intention.</strong>
               </p>
 
-              <p className="rounded-xl bg-primary/10 px-5 py-4 text-center text-lg font-semibold text-foreground md:text-xl">
-                For just <span className="font-bold text-primary">$19.99 per month</span>, invest in
-                something that truly matters—<span className="font-bold text-primary">YOU, YOUR PURPOSE,
-                AND YOUR FUTURE!</span>
-              </p>
+              <div className="rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-white to-primary/5 px-6 py-7 text-center shadow-md">
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
+                  Special monthly price
+                </p>
+                <p className="mt-2 font-heading font-extrabold leading-none text-primary">
+                  <span className="text-5xl md:text-6xl">$19.99</span>
+                  <span className="ml-2 text-lg font-semibold text-foreground md:text-xl">
+                    per month
+                  </span>
+                </p>
+                <p className="mt-4 text-lg font-semibold text-foreground md:text-xl">
+                  Invest in something that truly matters—{" "}
+                  <span className="font-bold text-primary">YOU, YOUR PURPOSE, AND YOUR FUTURE!</span>
+                </p>
+              </div>
 
               <p>
                 Your transformation doesn't have to wait until January. Start building the foundation

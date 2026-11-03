@@ -88,7 +88,7 @@ export default function PricingPage() {
 
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Pricing Plans
+            Limited Special Pricing
           </h1>
           <p className="text-xl font-semibold text-primary max-w-2xl mx-auto">
             New year-end pricing is here.

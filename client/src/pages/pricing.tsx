@@ -90,14 +90,75 @@ export default function PricingPage() {
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Pricing Plans
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            New year-end pricing will be posted soon. Stay tuned!
+          <p className="text-xl font-semibold text-primary max-w-2xl mx-auto">
+            New year-end pricing is here.
           </p>
-          <div className="mt-6 rounded-xl border border-primary/20 bg-primary/10 px-6 py-5 text-foreground shadow-sm">
-            <p className="text-lg font-semibold">
-              Pricing updates will be reflected on 11/3/2026.
-            </p>
-          </div>
+          <section className="mt-8 rounded-2xl border border-primary/20 bg-white/90 p-6 text-left shadow-xl md:p-10">
+            <header className="mb-8 text-center">
+              <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
+                Your Future Is Worth Investing In.
+              </h2>
+              <h3 className="mt-3 font-heading text-2xl font-bold italic text-primary md:text-3xl">
+                Your Purpose Is Worth Pursuing.
+              </h3>
+            </header>
+
+            <div className="space-y-5 text-base leading-7 text-muted-foreground md:text-lg">
+              <p className="text-center text-xl font-semibold text-foreground md:text-2xl">
+                What if 2027 becomes the year you finally step into the life you've always envisioned?
+              </p>
+
+              <p>
+                Deep within you are <strong className="text-foreground">dreams waiting to be awakened</strong>,
+                a <strong className="text-primary">purpose waiting to be fulfilled</strong>, and a future
+                waiting to be created.
+              </p>
+
+              <p>
+                Don't let another year pass wondering{" "}
+                <em className="font-semibold text-primary">"What if?"</em> Instead, begin discovering who
+                you were meant to become and what your life could truly look like when you live with{" "}
+                <strong className="text-foreground">purpose, focus, and intention.</strong>
+              </p>
+
+              <p className="rounded-xl bg-primary/10 px-5 py-4 text-center text-lg font-semibold text-foreground md:text-xl">
+                For just <span className="font-bold text-primary">$19.99 per month</span>, invest in
+                something that truly matters—<span className="font-bold text-primary">YOU, YOUR PURPOSE,
+                AND YOUR FUTURE!</span>
+              </p>
+
+              <p>
+                Your transformation doesn't have to wait until January. Start building the foundation
+                today for a more intentional, focused, and fulfilling{" "}
+                <strong className="text-primary">2027.</strong>
+              </p>
+
+              <p className="text-center font-semibold text-foreground">
+                The life you envision won't happen by accident.{" "}
+                <em className="text-primary">It begins with a decision.</em>
+              </p>
+
+              <p className="text-center text-xl font-bold text-primary md:text-2xl">
+                Your next chapter is waiting. Are you ready to build it?
+              </p>
+
+              <div className="pt-2 text-center">
+                <Button
+                  asChild
+                  size="lg"
+                  className="h-auto whitespace-normal px-8 py-4 text-base font-bold shadow-lg shadow-primary/20 md:text-lg"
+                >
+                  <a
+                    href="https://buy.stripe.com/dRm4gz6BR2uzg4cdMD8bS05"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Start Your Transformation Today!
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </section>
 
           {SHOW_PRICING_PLANS && wasCanceled && (
             <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-yellow-800">

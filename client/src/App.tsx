@@ -41,11 +41,13 @@ import DashboardFoundationPage from "@/pages/dashboard-foundation";
 import DashboardCalendarPage from "@/pages/dashboard-calendar";
 import TermsOfServicePage from "@/pages/terms-of-service";
 import PrivacyPolicyPage from "@/pages/privacy-policy";
+import NewHomepage from "@/pages/new-homepage";
 
 function Router() {
   return (
     <Switch>
-           <Route path="/" component={LandingPage} />
+      <Route path="/home-v2" component={LandingPage} />
+      <Route path="/" component={NewHomepage} />
       <Route path="/discover-purpose" component={DiscoverPurposePage} />
       <Route path="/discover-purpose/summary" component={PurposeSummaryPage} />
       <Route path="/discover-purpose/interpretation" component={PurposeInterpretationPage} />

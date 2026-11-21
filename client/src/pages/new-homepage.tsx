@@ -201,7 +201,7 @@ export default function NewHomepage() {
           font-size: 25px; font-weight: 850; line-height: 1.08; letter-spacing: -.035em; margin: 0;
         }
         .tb-home .info-heading h2 span { color: #b47a1c; }
-        .tb-home .info-copy { margin: 0; color: #44394f; font-size: 12px; line-height: 1.45; }
+        .tb-home .info-copy { margin: 0; color: #44394f; font-size: 13px; line-height: 1.45; }
         .tb-home .value-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
         .tb-home .value-item {
           min-width: 0; min-height: 100px; padding: 12px 8px; border-radius: 12px;
@@ -209,7 +209,7 @@ export default function NewHomepage() {
           align-items: center; justify-content: center; gap: 7px;
         }
         .tb-home .value-item svg { color: #531f83; width: 27px; height: 27px; stroke-width: 1.8; }
-        .tb-home .value-item strong { font-size: 10px; line-height: 1.2; font-weight: 800; }
+        .tb-home .value-item strong { font-size: 11.5px; line-height: 1.2; font-weight: 800; }
         .tb-home .journey-section { padding: 66px 0 78px; background: #2d194b; position: relative; }
         .tb-home .journey-section:before {
           content: ""; position: absolute; inset: 0; opacity: .46;
@@ -350,7 +350,7 @@ export default function NewHomepage() {
           .tb-home .info-card { display: flex; flex-direction: column; align-items: stretch; gap: 21px; padding: 25px 22px; }
           .tb-home .info-heading { border: 0; border-bottom: 1px solid #e9c75e; padding: 0 0 18px; }
           .tb-home .info-heading h2 { font-size: 25px; }
-          .tb-home .info-copy { font-size: 13px; }
+          .tb-home .info-copy { font-size: 14px; }
           .tb-home .value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
           .tb-home .value-item { min-height: 98px; padding: 12px 8px; }
           .tb-home .journey-head { display: block; margin-bottom: 28px; }

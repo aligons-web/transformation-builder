@@ -182,8 +182,8 @@ export default function NewHomepage() {
           display: grid; place-items: center;
         }
         .tb-home .offer-line {
-          margin-top: 20px; color: rgba(255,255,255,.86); font-size: 13px;
-          display: flex; align-items: center; gap: 8px;
+          margin-top: 20px; color: rgba(255,255,255,.86); font-size: 25px; line-height: 1.2;
+          display: flex; align-items: center; gap: 10px;
         }
         .tb-home .offer-line svg { color: var(--gold); }
         .tb-home .offer-line strong { color: #ffe19a; }
@@ -360,7 +360,7 @@ export default function NewHomepage() {
           .tb-home .hero-actions { gap: 8px; }
           .tb-home .button-lg { min-height: 51px; padding: 0 19px; font-size: 13px; }
           .tb-home .video-link { font-size: 12px; }
-          .tb-home .offer-line { align-items: flex-start; font-size: 11px; line-height: 1.45; }
+          .tb-home .offer-line { align-items: flex-start; font-size: 25px; line-height: 1.2; }
           .tb-home .section-shell { width: calc(100% - 36px); }
           .tb-home .about-section { margin-top: -46px; padding: 8px 0 5px; }
           .tb-home .journey-section, .tb-home .values-section { padding: 58px 0; }

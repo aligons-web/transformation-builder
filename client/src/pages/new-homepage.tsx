@@ -5,6 +5,7 @@ import {
   ArrowRight,
   ChartNoAxesColumnIncreasing,
   Check,
+  ClipboardCheck,
   Compass,
   HeartHandshake,
   Layers3,
@@ -26,28 +27,25 @@ const welcomeVideoUrl = "https://youtu.be/8odfNAAeo48";
 
 const journeySteps = [
   {
-    number: "01",
+    number: "1",
     icon: Compass,
     title: "Discover Purpose",
     description:
-      "Get clear on who you are, what matters most, and the kind of future that feels true to you.",
-    note: "Start with what matters",
+      "Gain clarity about who you are, what matters most, and the future you desire.",
   },
   {
-    number: "02",
+    number: "2",
     icon: ChartNoAxesColumnIncreasing,
     title: "Analyze Change",
     description:
-      "Recognize the patterns, strengths, and possibilities shaping the next season of your life.",
-    note: "See the whole picture",
+      "Uncover patterns, identify strengths, set meaningful goals, and turn insights into action.",
   },
   {
-    number: "03",
-    icon: Target,
+    number: "3",
+    icon: ClipboardCheck,
     title: "Implement Your Plan",
     description:
-      "Turn insight into a practical blueprint, build momentum, and stay accountable as you grow.",
-    note: "Move forward with support",
+      "Build your personal transformation blueprint, track progress, and stay accountable with expert support.",
   },
 ];
 
@@ -227,20 +225,28 @@ export default function NewHomepage() {
         .tb-home .section-intro { color: #62586e; max-width: 650px; font-size: 16px; line-height: 1.7; margin: 0; }
         .tb-home .journey-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 39px; }
         .tb-home .journey-head .journey-aside { color: #6a5b74; font-family: Georgia, serif; font-style: italic; font-size: 17px; max-width: 240px; }
-        .tb-home .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .tb-home .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         .tb-home .step-card {
-          min-height: 290px; background: rgba(255,255,255,.94); border: 1px solid rgba(74,45,94,.11);
-          border-radius: 20px; padding: 27px 28px 25px; box-shadow: 0 13px 34px rgba(61,35,71,.06);
-          position: relative; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease;
+          min-height: 178px; background: #fff; border: 1px solid rgba(74,45,94,.12);
+          border-radius: 14px; padding: 15px 20px 17px; box-shadow: 0 10px 26px rgba(35,18,56,.12);
+          position: relative; overflow: visible; text-align: center;
+          transition: transform .25s ease, box-shadow .25s ease;
         }
-        .tb-home .step-card:hover { transform: translateY(-5px); box-shadow: 0 20px 42px rgba(61,35,71,.12); }
-        .tb-home .step-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
-        .tb-home .step-number { color: #b27a19; background: #fff2cd; border-radius: 50%; width: 40px; height: 40px; display: grid; place-items: center; font-weight: 850; font-size: 13px; }
-        .tb-home .step-icon { color: #693c8e; width: 29px; height: 29px; }
-        .tb-home .step-card h3 { color: var(--plum); font-size: 23px; letter-spacing: -.025em; margin: 0 0 12px; }
-        .tb-home .step-card p { color: #61596b; line-height: 1.65; font-size: 14px; margin: 0; max-width: 330px; }
-        .tb-home .step-note { display: flex; gap: 8px; align-items: center; margin-top: 22px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #8d621c; font-weight: 850; }
-        .tb-home .step-note svg { width: 15px; height: 15px; }
+        .tb-home .step-card:not(:last-child)::after {
+          content: "»"; position: absolute; z-index: 2; top: 50%; right: -22px;
+          transform: translateY(-50%); color: #d77df8; font-size: 25px; line-height: 1; font-weight: 900;
+        }
+        .tb-home .step-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(35,18,56,.18); }
+        .tb-home .step-top { min-height: 30px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+        .tb-home .step-number {
+          position: absolute; top: 10px; left: 12px; color: white;
+          background: linear-gradient(145deg, #d9a324, #b7780a); border-radius: 50%;
+          width: 28px; height: 28px; display: grid; place-items: center; font-weight: 850; font-size: 13px;
+          box-shadow: 0 2px 5px rgba(117,72,4,.2);
+        }
+        .tb-home .step-icon { color: #572486; width: 25px; height: 25px; stroke-width: 2.1; }
+        .tb-home .step-card h3 { color: #4b197e; font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif; font-size: 17px; font-weight: 850; letter-spacing: -.02em; margin: 0 0 7px; }
+        .tb-home .step-card p { color: #262033; line-height: 1.35; font-size: 12px; margin: 0 auto; max-width: 330px; }
         .tb-home .journey-strip {
           margin-top: 28px; min-height: 210px; border-radius: 19px; overflow: hidden; position: relative;
           background: linear-gradient(90deg, rgba(34,19,58,.83), rgba(41,24,65,.45));
@@ -358,9 +364,10 @@ export default function NewHomepage() {
           .tb-home .section-title { font-size: 35px; }
           .tb-home .section-intro { font-size: 14px; }
           .tb-home .steps-grid { grid-template-columns: 1fr; gap: 12px; }
-          .tb-home .step-card { min-height: 0; padding: 23px; }
-          .tb-home .step-top { margin-bottom: 20px; }
-          .tb-home .step-card h3 { font-size: 21px; }
+          .tb-home .step-card { min-height: 155px; padding: 18px 20px; }
+          .tb-home .step-card:not(:last-child)::after { display: none; }
+          .tb-home .step-top { margin-bottom: 4px; }
+          .tb-home .step-card h3 { font-size: 17px; }
           .tb-home .journey-strip { min-height: 190px; padding: 25px 22px; }
           .tb-home .strip-copy h3 { font-size: 25px; }
           .tb-home .strip-link { width: 42px; height: 42px; flex: 0 0 auto; margin-left: 12px; }
@@ -502,15 +509,14 @@ export default function NewHomepage() {
               <p className="journey-aside">“Small, faithful steps can lead to a life that feels wholly your own.”</p>
             </div>
             <div className="steps-grid">
-              {journeySteps.map(({ number, icon: Icon, title, description, note }) => (
+              {journeySteps.map(({ number, icon: Icon, title, description }) => (
                 <article className="step-card" key={number}>
                   <div className="step-top">
                     <span className="step-number">{number}</span>
                     <Icon className="step-icon" aria-hidden="true" />
                   </div>
-                  <h3 className="serif">{title}</h3>
+                  <h3>{title}</h3>
                   <p>{description}</p>
-                  <div className="step-note"><ArrowRight />{note}</div>
                 </article>
               ))}
             </div>

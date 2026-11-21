@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import logo from "@assets/tbrefinedLogotransbkgrd_1788469856734.png";
 import purposeImage from "@assets/tbfpimage_1795294611936.png";
-import professionalImage from "@assets/stock_images/professional_diverse_78f88680.jpg";
+import studentsImage from "@assets/Students-Planning-Future-Together_1795303364596.png";
 import journeyImage from "@assets/journeypath2_1771081561926.jpg";
 
 const checkoutUrl = "https://buy.stripe.com/dRm4gz6BR2uzg4cdMD8bS05";
@@ -559,7 +559,7 @@ export default function NewHomepage() {
         <section className="values-section">
           <div className="section-shell values-layout">
             <div className="values-image-wrap">
-              <img className="values-image" src={professionalImage} alt="A professional ready to bring more intention to his work and life" />
+              <img className="values-image" src={studentsImage} alt="A group of students planning their future together" />
               <div className="image-stamp"><strong>More than<br />a moment.</strong><span>A thoughtful process for lasting, purposeful change.</span></div>
             </div>
             <div className="values-copy">

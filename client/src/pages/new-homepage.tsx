@@ -133,9 +133,9 @@ export default function NewHomepage() {
             linear-gradient(112deg, #261641 0%, #43266c 48%, #7e467d 100%);
         }
         .tb-home .hero:before {
-          content: ""; position: absolute; inset: 0; z-index: -2; opacity: .9;
+          content: ""; position: absolute; inset: 0; z-index: -2; opacity: 1;
           background-image: var(--hero-background);
-          background-position: right center; background-size: auto 90%;
+          background-position: right center; background-size: auto 100%;
           background-repeat: no-repeat; mix-blend-mode: normal;
         }
         .tb-home .hero:after {

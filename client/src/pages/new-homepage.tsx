@@ -15,7 +15,7 @@ import {
   X,
 } from "lucide-react";
 import logo from "@assets/tbrefinedLogotransbkgrd_1788469856734.png";
-import purposeImage from "@assets/stock_images/professional_diverse_60c21c44.jpg";
+import purposeImage from "@assets/tbfpimage_1795294611936.png";
 import professionalImage from "@assets/stock_images/professional_diverse_78f88680.jpg";
 import journeyImage from "@assets/journeypath2_1771081561926.jpg";
 import sunsetImage from "@assets/backgroundhmpg_1765929083902.jpg";
@@ -177,26 +177,14 @@ export default function NewHomepage() {
         .tb-home .offer-line svg { color: var(--gold); }
         .tb-home .offer-line strong { color: #ffe19a; }
         .tb-home .hero-visual {
-          height: 480px; position: relative; align-self: end; margin: 0 -24px -70px 0;
-          display: flex; justify-content: flex-end; align-items: flex-end;
-        }
-        .tb-home .sun-orb {
-          position: absolute; width: 300px; height: 300px; top: 35px; left: 21%;
-          border-radius: 50%; background: radial-gradient(circle, #ffd88b 0%, #f4a359 38%, rgba(232,123,111,.2) 72%, transparent 73%);
-          filter: blur(.2px); opacity: .86;
+          position: relative; align-self: center; margin: 0;
+          display: flex; justify-content: center; align-items: center;
         }
         .tb-home .portrait {
-          position: relative; z-index: 1; width: min(100%, 470px); height: 440px;
-          object-fit: cover; object-position: 50% 34%; border-radius: 47% 47% 12px 12px;
-          filter: saturate(.88); box-shadow: 0 25px 75px rgba(19, 10, 35, .3);
-          mask-image: linear-gradient(to bottom, #000 0%, #000 75%, transparent 100%);
+          display: block; width: 100%; height: auto; aspect-ratio: 1719 / 915;
+          object-fit: cover; object-position: center; border-radius: 20px;
+          box-shadow: 0 25px 75px rgba(19, 10, 35, .3);
         }
-        .tb-home .visual-caption {
-          position: absolute; z-index: 3; bottom: 58px; left: 3px; max-width: 220px;
-          padding: 15px 18px; color: var(--ink); border-radius: 14px; background: rgba(255,249,239,.93);
-          box-shadow: 0 12px 30px rgba(20, 12, 32, .17); font-size: 12px; line-height: 1.5;
-        }
-        .tb-home .visual-caption strong { display: block; font-family: Georgia, serif; font-size: 17px; margin-bottom: 2px; }
         .tb-home .hero-bottom {
           position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
           background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
@@ -321,8 +309,6 @@ export default function NewHomepage() {
           .tb-home .nav-links a { font-size: 12px; }
           .tb-home .brand img { width: 186px; }
           .tb-home .hero-inner { grid-template-columns: 1fr .75fr; }
-          .tb-home .hero-visual { margin-right: -50px; }
-          .tb-home .portrait { height: 390px; }
           .tb-home .info-card { grid-template-columns: 1fr 1.45fr; }
           .tb-home .value-grid { grid-column: 1 / -1; }
           .tb-home .values-layout { gap: 38px; }
@@ -351,11 +337,8 @@ export default function NewHomepage() {
           .tb-home .button-lg { min-height: 51px; padding: 0 19px; font-size: 13px; }
           .tb-home .video-link { font-size: 12px; }
           .tb-home .offer-line { align-items: flex-start; font-size: 11px; line-height: 1.45; }
-          .tb-home .hero-visual { width: 100%; height: 320px; margin: 18px 0 -1px; align-self: auto; justify-content: center; }
-          .tb-home .sun-orb { width: 240px; height: 240px; top: 20px; left: 20%; }
-          .tb-home .portrait { width: 82%; height: 315px; object-position: center 28%; }
-          .tb-home .visual-caption { left: 2px; bottom: 26px; width: 165px; padding: 11px 13px; font-size: 10px; }
-          .tb-home .visual-caption strong { font-size: 14px; }
+          .tb-home .hero-visual { width: 100%; height: auto; margin: 27px 0 0; align-self: auto; }
+          .tb-home .portrait { width: 100%; }
           .tb-home .section-shell { width: calc(100% - 36px); }
           .tb-home .about-section, .tb-home .journey-section, .tb-home .values-section { padding: 58px 0; }
           .tb-home .info-card { display: flex; flex-direction: column; align-items: stretch; gap: 21px; padding: 25px 22px; }
@@ -472,10 +455,8 @@ export default function NewHomepage() {
               </div>
               <div className="offer-line"><Sparkles size={15} /><span><strong>Limited-time offer:</strong> Begin for just $19.99/month.</span></div>
             </div>
-            <div className="hero-visual" aria-label="A professional looking toward a bright future">
-              <div className="sun-orb" />
-              <img className="portrait" src={purposeImage} alt="A woman smiling with confidence as she considers what is next" />
-              <div className="visual-caption"><strong>A future with meaning.</strong>Build it one intentional step at a time.</div>
+            <div className="hero-visual">
+              <img className="portrait" src={purposeImage} alt="Two professionals looking toward the future at sunset" />
             </div>
           </div>
           <div className="hero-bottom" />

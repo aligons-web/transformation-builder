@@ -135,7 +135,7 @@ export default function NewHomepage() {
         .tb-home .hero:before {
           content: ""; position: absolute; inset: 0; z-index: -2; opacity: .9;
           background-image: var(--hero-background);
-          background-position: right center; background-size: auto 80%;
+          background-position: right center; background-size: auto 90%;
           background-repeat: no-repeat; mix-blend-mode: normal;
         }
         .tb-home .hero:after {

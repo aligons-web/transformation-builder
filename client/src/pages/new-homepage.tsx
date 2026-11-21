@@ -1,7 +1,6 @@
 import { useState, type CSSProperties } from "react";
 import { Link } from "wouter";
 import {
-  ArrowDown,
   ArrowRight,
   ChartNoAxesColumnIncreasing,
   Check,
@@ -12,7 +11,9 @@ import {
   LaptopMinimal,
   Menu,
   Play,
+  Rocket,
   Sparkles,
+  Sprout,
   Target,
   UsersRound,
   X,
@@ -54,6 +55,13 @@ const valueProps = [
   { icon: UsersRound, title: "Live Sessions & Coaching", text: "Personal support to help you keep moving" },
   { icon: Layers3, title: "Supportive Community (LTN)", text: "Connection and encouragement from others" },
   { icon: ChartNoAxesColumnIncreasing, title: "A Personalized Transformation Plan", text: "A practical plan built around your goals" },
+];
+
+const benefitItems = [
+  { icon: Target, title: "Clarity", description: "on Your Direction" },
+  { icon: Rocket, title: "Confidence", description: "in Your Next Steps" },
+  { icon: UsersRound, title: "Community", description: "That Keeps You Accountable" },
+  { icon: Sprout, title: "Lasting Transformation", description: "in Your Life, Work, and Calling" },
 ];
 
 export default function NewHomepage() {
@@ -247,16 +255,25 @@ export default function NewHomepage() {
         .tb-home .step-icon { color: #572486; width: 25px; height: 25px; stroke-width: 2.1; }
         .tb-home .step-card h3 { color: #4b197e; font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif; font-size: 17px; font-weight: 850; letter-spacing: -.02em; margin: 0 0 7px; }
         .tb-home .step-card p { color: #262033; line-height: 1.35; font-size: 12px; margin: 0 auto; max-width: 330px; }
-        .tb-home .journey-strip {
-          margin-top: 28px; min-height: 210px; border-radius: 19px; overflow: hidden; position: relative;
-          background: linear-gradient(90deg, rgba(34,19,58,.83), rgba(41,24,65,.45));
-          display: flex; align-items: center; padding: 30px 40px; color: white;
+        .tb-home .benefit-band {
+          margin-top: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+          align-items: stretch; padding: 13px 16px; border: 1px solid rgba(255,255,255,.18);
+          border-radius: 17px; color: white;
+          background: linear-gradient(110deg, rgba(29,16,51,.96), rgba(55,29,86,.95) 52%, rgba(34,19,58,.97));
+          box-shadow: 0 14px 34px rgba(20,10,37,.18);
         }
-        .tb-home .strip-copy { max-width: 515px; }
-        .tb-home .strip-copy span { color: #ffe092; font-size: 11px; text-transform: uppercase; font-weight: 850; letter-spacing: .18em; }
-        .tb-home .strip-copy h3 { font-family: Georgia, serif; font-size: 30px; line-height: 1.1; margin: 8px 0; }
-        .tb-home .strip-copy p { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,.84); margin: 0; }
-        .tb-home .strip-link { margin-left: auto; width: 48px; height: 48px; display: grid; place-items: center; color: var(--plum); background: var(--gold-light); border-radius: 50%; }
+        .tb-home .benefit-item {
+          min-width: 0; min-height: 66px; display: flex; align-items: center; justify-content: center;
+          gap: 12px; padding: 8px 15px; position: relative;
+        }
+        .tb-home .benefit-item:not(:last-child)::after {
+          content: ""; position: absolute; right: 0; top: 10px; bottom: 10px; width: 1px;
+          background: linear-gradient(transparent, rgba(255,211,91,.9), transparent);
+        }
+        .tb-home .benefit-item svg { width: 28px; height: 28px; flex: 0 0 auto; color: #ffd451; stroke-width: 1.9; }
+        .tb-home .benefit-copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .tb-home .benefit-copy strong { color: #fff; font-size: 13px; line-height: 1.15; font-weight: 850; }
+        .tb-home .benefit-copy span { color: rgba(255,255,255,.82); font-size: 10px; line-height: 1.25; }
         .tb-home .values-section { padding: 89px 0; background: #fffaf2; }
         .tb-home .values-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: center; }
         .tb-home .values-image-wrap { position: relative; min-height: 420px; }
@@ -368,9 +385,14 @@ export default function NewHomepage() {
           .tb-home .step-card:not(:last-child)::after { display: none; }
           .tb-home .step-top { margin-bottom: 4px; }
           .tb-home .step-card h3 { font-size: 17px; }
-          .tb-home .journey-strip { min-height: 190px; padding: 25px 22px; }
-          .tb-home .strip-copy h3 { font-size: 25px; }
-          .tb-home .strip-link { width: 42px; height: 42px; flex: 0 0 auto; margin-left: 12px; }
+          .tb-home .benefit-band { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 8px; }
+          .tb-home .benefit-item { justify-content: flex-start; gap: 9px; padding: 12px 10px; }
+          .tb-home .benefit-item:not(:last-child)::after { display: none; }
+          .tb-home .benefit-item:nth-child(odd) { border-right: 1px solid rgba(255,211,91,.45); }
+          .tb-home .benefit-item:nth-child(-n+2) { border-bottom: 1px solid rgba(255,211,91,.45); }
+          .tb-home .benefit-item svg { width: 24px; height: 24px; }
+          .tb-home .benefit-copy strong { font-size: 12px; }
+          .tb-home .benefit-copy span { font-size: 9px; }
           .tb-home .values-layout { grid-template-columns: 1fr; gap: 31px; }
           .tb-home .values-image-wrap { min-height: 330px; max-width: 460px; margin: auto; width: 100%; }
           .tb-home .values-image { width: 82%; height: 330px; }
@@ -520,16 +542,16 @@ export default function NewHomepage() {
                 </article>
               ))}
             </div>
-            <div
-              className="journey-strip"
-              style={{ backgroundImage: `linear-gradient(90deg, rgba(34,19,58,.83), rgba(41,24,65,.45)), url("${journeyImage}")` }}
-            >
-              <div className="strip-copy">
-                <span>Purpose • Clarity • Community</span>
-                <h3>Change can become a beginning.</h3>
-                <p>Meet your next season with practical tools, grounded encouragement, and support that helps you keep going.</p>
-              </div>
-              <a href="#start" className="strip-link" aria-label="Explore the Transformation Builder offer"><ArrowDown size={20} /></a>
+            <div className="benefit-band" aria-label="Transformation Builder benefits">
+              {benefitItems.map(({ icon: Icon, title, description }) => (
+                <div className="benefit-item" key={title}>
+                  <Icon aria-hidden="true" />
+                  <div className="benefit-copy">
+                    <strong>{title}</strong>
+                    <span>{description}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>

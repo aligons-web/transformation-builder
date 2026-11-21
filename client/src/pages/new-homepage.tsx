@@ -8,10 +8,12 @@ import {
   Compass,
   HeartHandshake,
   Layers3,
+  LaptopMinimal,
   Menu,
   Play,
   Sparkles,
   Target,
+  UsersRound,
   X,
 } from "lucide-react";
 import logo from "@assets/tbrefinedLogotransbkgrd_1788469856734.png";
@@ -50,9 +52,10 @@ const journeySteps = [
 ];
 
 const valueProps = [
-  { icon: Layers3, title: "Guided tools", text: "Thoughtful workbooks and practical exercises" },
-  { icon: HeartHandshake, title: "Real support", text: "Coaching, connection, and community" },
-  { icon: Compass, title: "Your own path", text: "A personal plan built around your life" },
+  { icon: LaptopMinimal, title: "Guided Tools & Workbooks", text: "Step-by-step exercises and guided resources" },
+  { icon: UsersRound, title: "Live Sessions & Coaching", text: "Personal support to help you keep moving" },
+  { icon: Layers3, title: "Supportive Community (LTN)", text: "Connection and encouragement from others" },
+  { icon: ChartNoAxesColumnIncreasing, title: "A Personalized Transformation Plan", text: "A practical plan built around your goals" },
 ];
 
 export default function NewHomepage() {
@@ -188,26 +191,25 @@ export default function NewHomepage() {
           background: transparent;
         }
         .tb-home .info-card {
-          display: grid; grid-template-columns: 1.1fr 1.7fr 2.25fr; align-items: center;
-          gap: 32px; padding: 31px 35px; background: #fff; border: 1px solid #eee3d2;
-          border-radius: 22px; box-shadow: 0 17px 48px rgba(54, 33, 69, .07);
+          display: grid; grid-template-columns: 1.05fr 1.55fr 2.45fr; align-items: center;
+          gap: 24px; padding: 20px 24px; background: #fff; border: 1px solid #eee3d2;
+          border-radius: 16px; box-shadow: 0 17px 48px rgba(54, 33, 69, .07);
         }
-        .tb-home .info-heading { border-right: 1px solid #e9c75e; padding: 7px 25px 7px 0; }
-        .tb-home .info-heading .small-label {
-          text-transform: uppercase; letter-spacing: .16em; font-size: 10px;
-          font-weight: 850; color: #946627; margin-bottom: 10px;
+        .tb-home .info-heading { border-right: 1px solid #e9c75e; padding: 5px 20px 5px 0; }
+        .tb-home .info-heading h2 {
+          color: var(--plum); font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+          font-size: 25px; font-weight: 850; line-height: 1.08; letter-spacing: -.035em; margin: 0;
         }
-        .tb-home .info-heading h2 { color: var(--plum); font-size: 30px; line-height: 1.05; margin: 0; }
         .tb-home .info-heading h2 span { color: #b47a1c; }
-        .tb-home .info-copy { margin: 0; color: #635c6d; font-size: 14px; line-height: 1.75; }
-        .tb-home .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .tb-home .info-copy { margin: 0; color: #44394f; font-size: 12px; line-height: 1.45; }
+        .tb-home .value-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
         .tb-home .value-item {
-          min-height: 112px; padding: 17px 13px; border-radius: 14px;
-          background: #f8f3fb; text-align: center; display: flex; flex-direction: column;
-          align-items: center; justify-content: center; gap: 8px;
+          min-width: 0; min-height: 100px; padding: 12px 8px; border-radius: 12px;
+          background: #f6f1f8; color: #291844; text-align: center; display: flex; flex-direction: column;
+          align-items: center; justify-content: center; gap: 7px;
         }
-        .tb-home .value-item svg { color: #6d3e91; width: 25px; height: 25px; }
-        .tb-home .value-item strong { font-size: 11px; line-height: 1.3; }
+        .tb-home .value-item svg { color: #531f83; width: 27px; height: 27px; stroke-width: 1.8; }
+        .tb-home .value-item strong { font-size: 10px; line-height: 1.2; font-weight: 800; }
         .tb-home .journey-section { padding: 66px 0 78px; background: #2d194b; position: relative; }
         .tb-home .journey-section:before {
           content: ""; position: absolute; inset: 0; opacity: .46;
@@ -347,11 +349,10 @@ export default function NewHomepage() {
           }
           .tb-home .info-card { display: flex; flex-direction: column; align-items: stretch; gap: 21px; padding: 25px 22px; }
           .tb-home .info-heading { border: 0; border-bottom: 1px solid #e9c75e; padding: 0 0 18px; }
-          .tb-home .info-heading h2 { font-size: 27px; }
+          .tb-home .info-heading h2 { font-size: 25px; }
           .tb-home .info-copy { font-size: 13px; }
-          .tb-home .value-grid { gap: 7px; }
-          .tb-home .value-item { min-height: 104px; padding: 12px 8px; }
-          .tb-home .value-item strong { font-size: 10px; }
+          .tb-home .value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+          .tb-home .value-item { min-height: 98px; padding: 12px 8px; }
           .tb-home .journey-head { display: block; margin-bottom: 28px; }
           .tb-home .journey-head .journey-aside { margin-top: 15px; font-size: 15px; }
           .tb-home .section-title { font-size: 35px; }
@@ -467,8 +468,7 @@ export default function NewHomepage() {
           <div className="section-shell">
             <div className="info-card">
               <div className="info-heading">
-                <div className="small-label">A guided path for what’s next</div>
-                <h2 className="serif">What Is<br /><span>Transformation Builder?</span></h2>
+                <h2>What Is<br />Transformation<br /><span>Builder?</span></h2>
               </div>
               <p className="info-copy">
                 A practical, step-by-step app and community that helps you clarify your purpose,

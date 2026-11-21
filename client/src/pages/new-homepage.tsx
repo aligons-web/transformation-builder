@@ -18,7 +18,6 @@ import logo from "@assets/tbrefinedLogotransbkgrd_1788469856734.png";
 import purposeImage from "@assets/tbfpimage_1795294611936.png";
 import professionalImage from "@assets/stock_images/professional_diverse_78f88680.jpg";
 import journeyImage from "@assets/journeypath2_1771081561926.jpg";
-import sunsetImage from "@assets/backgroundhmpg_1765929083902.jpg";
 
 const checkoutUrl = "https://buy.stripe.com/dRm4gz6BR2uzg4cdMD8bS05";
 const welcomeVideoUrl = "https://youtu.be/8odfNAAeo48";
@@ -84,22 +83,22 @@ export default function NewHomepage() {
         .tb-home button { font: inherit; }
         .tb-home .serif { font-family: Georgia, "Times New Roman", serif; }
         .tb-home .topbar {
-          position: relative; z-index: 20; background: #fffaf2;
-          border-bottom: 1px solid rgba(53, 31, 81, .1);
+          position: relative; z-index: 20; background: #211436;
+          border-bottom: 1px solid rgba(255, 255, 255, .12);
         }
         .tb-home .nav-wrap {
           width: min(1240px, calc(100% - 56px)); min-height: 82px; margin: auto;
           display: flex; align-items: center; justify-content: space-between; gap: 28px;
         }
         .tb-home .brand { display: flex; align-items: center; flex: 0 0 auto; }
-        .tb-home .brand img { width: 222px; height: 64px; object-fit: contain; }
+        .tb-home .brand img { width: 222px; height: 64px; object-fit: contain; filter: brightness(0) invert(1); }
         .tb-home .nav-links { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 36px); }
         .tb-home .nav-links a {
-          font-size: 13px; font-weight: 700; color: #4e4560; transition: color .2s ease;
+          font-size: 13px; font-weight: 700; color: rgba(255,255,255,.88); transition: color .2s ease;
         }
-        .tb-home .nav-links a:hover { color: #8a5c13; }
+        .tb-home .nav-links a:hover { color: #ffdc83; }
         .tb-home .nav-actions { display: flex; align-items: center; gap: 12px; }
-        .tb-home .nav-login { font-size: 13px; font-weight: 750; padding: 10px 14px; }
+        .tb-home .nav-login { color: white; font-size: 13px; font-weight: 750; padding: 10px 14px; }
         .tb-home .button {
           display: inline-flex; align-items: center; justify-content: center; gap: 10px;
           border: 0; border-radius: 999px; font-weight: 800; line-height: 1.15;
@@ -117,7 +116,7 @@ export default function NewHomepage() {
         }
         .tb-home .button-sm { min-height: 42px; padding: 0 20px; font-size: 13px; }
         .tb-home .button-lg { min-height: 56px; padding: 0 26px; font-size: 15px; }
-        .tb-home .menu-toggle { display: none; border: 0; background: transparent; color: var(--plum); padding: 8px; }
+        .tb-home .menu-toggle { display: none; border: 0; background: transparent; color: white; padding: 8px; }
         .tb-home .hero {
           min-height: 610px; position: relative; isolation: isolate; color: #fff;
           background:
@@ -125,17 +124,20 @@ export default function NewHomepage() {
             linear-gradient(112deg, #261641 0%, #43266c 48%, #7e467d 100%);
         }
         .tb-home .hero:before {
-          content: ""; position: absolute; inset: 0; z-index: -2; opacity: .2;
+          content: ""; position: absolute; inset: 0; z-index: -2; opacity: .9;
           background-image: var(--hero-background);
-          background-position: center 47%; background-size: cover; mix-blend-mode: screen;
+          background-position: right center; background-size: auto 80%;
+          background-repeat: no-repeat; mix-blend-mode: normal;
         }
         .tb-home .hero:after {
           content: ""; position: absolute; inset: 0; z-index: -1;
-          background: linear-gradient(90deg, rgba(35, 20, 58, .86) 0%, rgba(42, 24, 68, .73) 45%, rgba(47, 25, 64, .06) 100%);
+          background:
+            linear-gradient(90deg, rgba(35, 20, 58, .96) 0%, rgba(42, 24, 68, .86) 38%, rgba(47, 25, 64, .48) 62%, rgba(47, 25, 64, .12) 100%),
+            linear-gradient(0deg, rgba(35, 20, 58, .22), transparent 60%);
         }
         .tb-home .hero-inner {
           width: min(1240px, calc(100% - 56px)); min-height: 610px; margin: auto;
-          display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(390px, .92fr);
+          display: grid; grid-template-columns: minmax(0, 1fr);
           align-items: center; position: relative; padding: 56px 0 70px;
         }
         .tb-home .hero-copy { max-width: 650px; position: relative; z-index: 2; padding: 8px 0 0; }
@@ -176,21 +178,15 @@ export default function NewHomepage() {
         }
         .tb-home .offer-line svg { color: var(--gold); }
         .tb-home .offer-line strong { color: #ffe19a; }
-        .tb-home .hero-visual {
-          position: relative; align-self: center; margin: 0;
-          display: flex; justify-content: center; align-items: center;
-        }
-        .tb-home .portrait {
-          display: block; width: 100%; height: auto; aspect-ratio: 1719 / 915;
-          object-fit: cover; object-position: center; border-radius: 20px;
-          box-shadow: 0 25px 75px rgba(19, 10, 35, .3);
-        }
         .tb-home .hero-bottom {
           position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
           background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
         }
         .tb-home .section-shell { width: min(1240px, calc(100% - 56px)); margin: 0 auto; }
-        .tb-home .about-section { padding: 76px 0 84px; background: #fff9ef; }
+        .tb-home .about-section {
+          position: relative; z-index: 2; margin-top: -56px; padding: 0 0 78px;
+          background: transparent;
+        }
         .tb-home .info-card {
           display: grid; grid-template-columns: 1.1fr 1.7fr 2.25fr; align-items: center;
           gap: 32px; padding: 31px 35px; background: #fff; border: 1px solid #eee3d2;
@@ -212,15 +208,19 @@ export default function NewHomepage() {
         }
         .tb-home .value-item svg { color: #6d3e91; width: 25px; height: 25px; }
         .tb-home .value-item strong { font-size: 11px; line-height: 1.3; }
-        .tb-home .journey-section { padding: 88px 0 90px; background: #f6eff8; position: relative; }
+        .tb-home .journey-section { padding: 66px 0 78px; background: #2d194b; position: relative; }
         .tb-home .journey-section:before {
-          content: ""; position: absolute; inset: 0; opacity: .16;
+          content: ""; position: absolute; inset: 0; opacity: .46;
           background-image: var(--journey-background);
           background-position: center; background-size: cover;
         }
-        .tb-home .journey-section:after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(248,243,249,.95), rgba(247,238,248,.91)); }
+        .tb-home .journey-section:after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(38,20,64,.76), rgba(52,28,79,.62)); }
         .tb-home .journey-content { position: relative; z-index: 1; }
         .tb-home .section-kicker { color: #8a5c13; text-transform: uppercase; letter-spacing: .18em; font-weight: 850; font-size: 11px; }
+        .tb-home .journey-section .section-kicker { color: #ffdc83; }
+        .tb-home .journey-section .section-title { color: #fffaf2; }
+        .tb-home .journey-section .section-intro,
+        .tb-home .journey-section .journey-aside { color: rgba(255,255,255,.82); }
         .tb-home .section-title { color: var(--plum); font-size: clamp(34px, 4vw, 48px); line-height: 1.08; margin: 11px 0 14px; letter-spacing: -.035em; }
         .tb-home .section-intro { color: #62586e; max-width: 650px; font-size: 16px; line-height: 1.7; margin: 0; }
         .tb-home .journey-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 39px; }
@@ -308,7 +308,6 @@ export default function NewHomepage() {
           .tb-home .nav-links { gap: 16px; }
           .tb-home .nav-links a { font-size: 12px; }
           .tb-home .brand img { width: 186px; }
-          .tb-home .hero-inner { grid-template-columns: 1fr .75fr; }
           .tb-home .info-card { grid-template-columns: 1fr 1.45fr; }
           .tb-home .value-grid { grid-column: 1 / -1; }
           .tb-home .values-layout { gap: 38px; }
@@ -319,14 +318,14 @@ export default function NewHomepage() {
           .tb-home .nav-links, .tb-home .nav-actions { display: none; }
           .tb-home .menu-toggle { display: inline-grid; place-items: center; }
           .tb-home .mobile-menu {
-            position: absolute; top: calc(100% - 1px); left: 0; right: 0; background: #fffaf2;
-            padding: 14px 22px 22px; display: grid; gap: 4px; border-bottom: 1px solid #e8dccb;
+            position: absolute; top: calc(100% - 1px); left: 0; right: 0; background: #211436; color: white;
+            padding: 14px 22px 22px; display: grid; gap: 4px; border-bottom: 1px solid rgba(255,255,255,.16);
             box-shadow: 0 18px 25px rgba(39,24,57,.12);
           }
-          .tb-home .mobile-menu a { padding: 13px 8px; font-size: 14px; font-weight: 750; border-bottom: 1px solid #eee6dc; }
+          .tb-home .mobile-menu a { padding: 13px 8px; font-size: 14px; font-weight: 750; border-bottom: 1px solid rgba(255,255,255,.12); }
           .tb-home .mobile-menu .button { margin-top: 9px; min-height: 48px; }
           .tb-home .hero { min-height: auto; }
-          .tb-home .hero-inner { width: 100%; display: flex; flex-direction: column; align-items: stretch; padding: 52px 22px 0; min-height: 0; }
+          .tb-home .hero-inner { width: 100%; display: flex; flex-direction: column; align-items: stretch; padding: 52px 22px 78px; min-height: 0; }
           .tb-home .hero-copy { padding: 0; }
           .tb-home h1 { font-size: clamp(43px, 11vw, 64px); margin: 18px 0; max-width: 540px; }
           .tb-home .hero-lede { font-size: 15px; }
@@ -337,10 +336,15 @@ export default function NewHomepage() {
           .tb-home .button-lg { min-height: 51px; padding: 0 19px; font-size: 13px; }
           .tb-home .video-link { font-size: 12px; }
           .tb-home .offer-line { align-items: flex-start; font-size: 11px; line-height: 1.45; }
-          .tb-home .hero-visual { width: 100%; height: auto; margin: 27px 0 0; align-self: auto; }
-          .tb-home .portrait { width: 100%; }
           .tb-home .section-shell { width: calc(100% - 36px); }
-          .tb-home .about-section, .tb-home .journey-section, .tb-home .values-section { padding: 58px 0; }
+          .tb-home .about-section { margin-top: -46px; padding: 0 0 58px; }
+          .tb-home .journey-section, .tb-home .values-section { padding: 58px 0; }
+          .tb-home .hero:before {
+            background-position: center bottom; background-size: 100% auto; opacity: .82;
+          }
+          .tb-home .hero:after {
+            background: linear-gradient(180deg, rgba(35,20,58,.97) 0%, rgba(42,24,68,.88) 50%, rgba(47,25,64,.47) 100%);
+          }
           .tb-home .info-card { display: flex; flex-direction: column; align-items: stretch; gap: 21px; padding: 25px 22px; }
           .tb-home .info-heading { border: 0; border-bottom: 1px solid #e9c75e; padding: 0 0 18px; }
           .tb-home .info-heading h2 { font-size: 27px; }
@@ -429,7 +433,7 @@ export default function NewHomepage() {
         <section
           className="hero"
           aria-labelledby="hero-title"
-          style={{ "--hero-background": `url("${sunsetImage}")` } as CSSProperties}
+          style={{ "--hero-background": `url("${purposeImage}")` } as CSSProperties}
         >
           <div className="hero-inner">
             <div className="hero-copy">
@@ -454,9 +458,6 @@ export default function NewHomepage() {
                 </a>
               </div>
               <div className="offer-line"><Sparkles size={15} /><span><strong>Limited-time offer:</strong> Begin for just $19.99/month.</span></div>
-            </div>
-            <div className="hero-visual">
-              <img className="portrait" src={purposeImage} alt="Two professionals looking toward the future at sunset" />
             </div>
           </div>
           <div className="hero-bottom" />

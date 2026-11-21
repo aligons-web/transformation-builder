@@ -194,7 +194,7 @@ export default function NewHomepage() {
         .tb-home .section-shell { width: min(1240px, calc(100% - 56px)); margin: 0 auto; }
         .tb-home .about-section {
           position: relative; z-index: 2; margin-top: -56px; padding: 8px 0 78px;
-          background: linear-gradient(180deg, #2d194b 0 64px, #fff9ef 64px 100%);
+          background: #2d194b;
         }
         .tb-home .info-card {
           display: grid; grid-template-columns: 1.05fr 1.55fr 2.45fr; align-items: center;

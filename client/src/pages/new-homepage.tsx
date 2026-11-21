@@ -193,7 +193,7 @@ export default function NewHomepage() {
         }
         .tb-home .section-shell { width: min(1240px, calc(100% - 56px)); margin: 0 auto; }
         .tb-home .about-section {
-          position: relative; z-index: 2; margin-top: -56px; padding: 8px 0 78px;
+          position: relative; z-index: 2; margin-top: -56px; padding: 8px 0 5px;
           background: #2d194b;
         }
         .tb-home .info-card {
@@ -362,7 +362,7 @@ export default function NewHomepage() {
           .tb-home .video-link { font-size: 12px; }
           .tb-home .offer-line { align-items: flex-start; font-size: 11px; line-height: 1.45; }
           .tb-home .section-shell { width: calc(100% - 36px); }
-          .tb-home .about-section { margin-top: -46px; padding: 8px 0 58px; }
+          .tb-home .about-section { margin-top: -46px; padding: 8px 0 5px; }
           .tb-home .journey-section, .tb-home .values-section { padding: 58px 0; }
           .tb-home .hero:before {
             background-position: center bottom; background-size: 100% auto; opacity: .82;

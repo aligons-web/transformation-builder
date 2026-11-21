@@ -430,7 +430,7 @@ export default function NewHomepage() {
           <nav className="nav-links" aria-label="Main navigation">
             <a href="#journey">How it works</a>
             <a href="#about">What you get</a>
-            <Link href="/network">Community</Link>
+            <a href="https://www.skool.com/life-transformation-network-2320/classroom" target="_blank" rel="noreferrer">Community</a>
             <Link href="/pricing">Pricing</Link>
           </nav>
           <div className="nav-actions">
@@ -451,7 +451,7 @@ export default function NewHomepage() {
           <nav className="mobile-menu" aria-label="Mobile navigation">
             <a href="#journey" onClick={closeMenu}>How it works</a>
             <a href="#about" onClick={closeMenu}>What you get</a>
-            <Link href="/network" onClick={closeMenu}>Community</Link>
+            <a href="https://www.skool.com/life-transformation-network-2320/classroom" target="_blank" rel="noreferrer" onClick={closeMenu}>Community</a>
             <Link href="/pricing" onClick={closeMenu}>Pricing</Link>
             <Link href="/login" onClick={closeMenu}>Log in</Link>
             <Link href="/signup" className="button button-gold" onClick={closeMenu}>Start your journey <ArrowRight size={16} /></Link>
@@ -608,7 +608,7 @@ export default function NewHomepage() {
             </div>
             <div className="closing-actions">
               <Link href="/signup" className="button button-plum button-sm">Create your account <ArrowRight size={16} /></Link>
-              <Link href="/network" className="button button-soft button-sm">Explore the community</Link>
+              <a href="https://www.skool.com/life-transformation-network-2320/classroom" target="_blank" rel="noreferrer" className="button button-soft button-sm">Explore the community</a>
             </div>
           </div>
         </section>
@@ -624,7 +624,7 @@ export default function NewHomepage() {
             <a href="#about">About the platform</a>
             <a href="#journey">The journey</a>
             <Link href="/pricing">Pricing</Link>
-            <Link href="/network">Community</Link>
+            <a href="https://www.skool.com/life-transformation-network-2320/classroom" target="_blank" rel="noreferrer">Community</a>
             <Link href="/login">Log in</Link>
           </nav>
           <div className="copyright">© {new Date().getFullYear()} Transformation Builder</div>

@@ -1,0 +1,1 @@
+- [Homepage hero image alignment](homepage-hero-image-alignment.md) — keep the photo aligned to the centered info card while the purple hero background stays full-width.

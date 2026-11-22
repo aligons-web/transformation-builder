@@ -133,7 +133,7 @@ export default function NewHomepage() {
             linear-gradient(112deg, #261641 0%, #43266c 48%, #7e467d 100%);
         }
         .tb-home .hero:before {
-          content: ""; position: absolute; inset: 0 auto 140px 50%; z-index: -2; opacity: 1;
+          content: ""; position: absolute; inset: 0 auto 0 50%; z-index: -2; opacity: 1;
           width: min(1240px, calc(100% - 56px)); transform: translateX(-50%);
           background-image: var(--hero-background);
           background-position: right center; background-size: auto 100%;
@@ -150,7 +150,7 @@ export default function NewHomepage() {
           display: grid; grid-template-columns: minmax(0, 1fr);
           align-items: center; position: relative; padding: 56px 0 70px;
         }
-        .tb-home .hero-copy { max-width: 650px; position: relative; z-index: 2; padding: 148px 0 0; }
+        .tb-home .hero-copy { max-width: 650px; position: relative; z-index: 2; padding: 8px 0 0; }
         .tb-home .eyebrow {
           display: flex; align-items: center; gap: 11px; text-transform: uppercase;
           letter-spacing: .2em; font-size: 11px; font-weight: 800; color: #f6d78d;
@@ -354,7 +354,7 @@ export default function NewHomepage() {
           .tb-home .mobile-menu .button { margin-top: 9px; min-height: 48px; }
           .tb-home .hero { min-height: auto; }
           .tb-home .hero-inner { width: 100%; display: flex; flex-direction: column; align-items: stretch; padding: 52px 22px 78px; min-height: 0; }
-          .tb-home .hero-copy { padding: 140px 0 0; }
+          .tb-home .hero-copy { padding: 0; }
           .tb-home h1 { font-size: clamp(40px, 10.3vw, 60px); margin: 18px 0; max-width: 540px; }
           .tb-home .hero-lede { font-size: 15px; }
           .tb-home .promise-row { margin: 22px 0 25px; }

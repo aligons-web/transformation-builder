@@ -133,7 +133,8 @@ export default function NewHomepage() {
             linear-gradient(112deg, #261641 0%, #43266c 48%, #7e467d 100%);
         }
         .tb-home .hero:before {
-          content: ""; position: absolute; inset: 0; z-index: -2; opacity: 1;
+          content: ""; position: absolute; inset: 0 auto 0 50%; z-index: -2; opacity: 1;
+          width: min(1240px, calc(100% - 56px)); transform: translateX(-50%);
           background-image: var(--hero-background);
           background-position: right center; background-size: auto 100%;
           background-repeat: no-repeat; mix-blend-mode: normal;
@@ -330,6 +331,7 @@ export default function NewHomepage() {
         .tb-home .copyright { font-size: 10px; text-align: right; }
         @media (max-width: 980px) {
           .tb-home .nav-wrap, .tb-home .hero-inner, .tb-home .section-shell { width: min(100% - 40px, 760px); }
+          .tb-home .hero:before { width: min(calc(100% - 40px), 760px); }
           .tb-home .nav-links { gap: 16px; }
           .tb-home .nav-links a { font-size: 12px; }
           .tb-home .brand img { width: 186px; }
@@ -365,7 +367,7 @@ export default function NewHomepage() {
           .tb-home .about-section { margin-top: -46px; padding: 8px 0 5px; }
           .tb-home .journey-section, .tb-home .values-section { padding: 58px 0; }
           .tb-home .hero:before {
-            background-position: center bottom; background-size: 100% auto; opacity: .82;
+            width: calc(100% - 36px); background-position: center bottom; background-size: 100% auto; opacity: .82;
           }
           .tb-home .hero:after {
             background: linear-gradient(180deg, rgba(35,20,58,.97) 0%, rgba(42,24,68,.88) 50%, rgba(47,25,64,.47) 100%);

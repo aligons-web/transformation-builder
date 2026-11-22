@@ -473,8 +473,7 @@ export default function NewHomepage() {
               <div className="eyebrow">Discover <span>•</span> Analyze <span>•</span> Focus <span>•</span> Implement</div>
               <h1 id="hero-title">
                 <span className="hero-title-lead">Turn Life’s Change</span><br />
-                <span className="hero-title-lead">Into</span><br />
-                <em>Your Next Level.</em>
+                <span className="hero-title-lead">Into <em>Your Next Level.</em></span>
               </h1>
               <p className="hero-lede">
                 A guided, faith-informed transformation system for professionals ready to find clarity,

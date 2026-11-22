@@ -157,7 +157,7 @@ export default function NewHomepage() {
         }
         .tb-home .eyebrow span { opacity: .48; }
         .tb-home h1 {
-          font-size: clamp(48px, 5.6vw, 76px); line-height: .99; letter-spacing: -.045em;
+          font-size: clamp(46px, 5.2vw, 70px); line-height: .99; letter-spacing: -.045em;
           margin: 19px 0 22px; max-width: 720px; font-weight: 750;
         }
         .tb-home h1 em { color: var(--gold-light); font-style: italic; font-weight: 700; }
@@ -354,7 +354,7 @@ export default function NewHomepage() {
           .tb-home .hero { min-height: auto; }
           .tb-home .hero-inner { width: 100%; display: flex; flex-direction: column; align-items: stretch; padding: 52px 22px 78px; min-height: 0; }
           .tb-home .hero-copy { padding: 0; }
-          .tb-home h1 { font-size: clamp(43px, 11vw, 64px); margin: 18px 0; max-width: 540px; }
+          .tb-home h1 { font-size: clamp(40px, 10.3vw, 60px); margin: 18px 0; max-width: 540px; }
           .tb-home .hero-lede { font-size: 15px; }
           .tb-home .promise-row { margin: 22px 0 25px; }
           .tb-home .promise { font-size: 11px; padding: 0 9px; gap: 7px; }

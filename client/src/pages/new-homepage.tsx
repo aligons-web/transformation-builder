@@ -160,7 +160,7 @@ export default function NewHomepage() {
           font-size: clamp(46px, 5.2vw, 70px); line-height: .99; letter-spacing: -.045em;
           margin: 19px 0 22px; max-width: 720px; font-weight: 750;
         }
-        .tb-home .hero-title-muted { opacity: .4; }
+        .tb-home .hero-title-lead { opacity: 1; font-size: .92em; }
         .tb-home h1 em { color: var(--gold-light); font-style: italic; font-weight: 700; }
         .tb-home .hero-lede {
           max-width: 565px; color: rgba(255,255,255,.85); font-size: 17px;
@@ -471,7 +471,7 @@ export default function NewHomepage() {
           <div className="hero-inner">
             <div className="hero-copy">
               <div className="eyebrow">Discover <span>•</span> Analyze <span>•</span> Focus <span>•</span> Implement</div>
-              <h1 id="hero-title"><span className="hero-title-muted">Turn Life’s Change Into</span>{" "}<em>Your Next Level.</em></h1>
+              <h1 id="hero-title"><span className="hero-title-lead">Turn Life’s Change Into</span>{" "}<em>Your Next Level.</em></h1>
               <p className="hero-lede">
                 A guided, faith-informed transformation system for professionals ready to find clarity,
                 make a focused plan, and move toward a more meaningful future.

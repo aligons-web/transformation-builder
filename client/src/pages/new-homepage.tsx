@@ -163,7 +163,7 @@ export default function NewHomepage() {
         .tb-home .hero-title-lead { opacity: 1; font-size: .76em; }
         .tb-home h1 em { color: var(--gold-light); font-style: italic; font-weight: 700; }
         .tb-home .hero-lede {
-          max-width: 565px; color: rgba(255,255,255,.85); font-size: 17px;
+          max-width: clamp(300px, 34vw, 460px); color: rgba(255,255,255,.85); font-size: 17px;
           line-height: 1.7; margin: 0;
         }
         .tb-home .promise-row {
@@ -356,7 +356,7 @@ export default function NewHomepage() {
           .tb-home .hero-inner { width: 100%; display: flex; flex-direction: column; align-items: stretch; padding: 52px 22px 78px; min-height: 0; }
           .tb-home .hero-copy { padding: 0; }
           .tb-home h1 { font-size: clamp(40px, 10.3vw, 60px); margin: 18px 0; max-width: 540px; }
-          .tb-home .hero-lede { font-size: 15px; }
+          .tb-home .hero-lede { max-width: clamp(240px, 65vw, 390px); font-size: 15px; }
           .tb-home .promise-row { margin: 22px 0 25px; }
           .tb-home .promise { font-size: 11px; padding: 0 9px; gap: 7px; }
           .tb-home .promise svg { width: 21px; height: 21px; }

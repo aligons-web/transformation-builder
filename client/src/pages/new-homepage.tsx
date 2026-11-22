@@ -160,7 +160,7 @@ export default function NewHomepage() {
           font-size: clamp(46px, 5.2vw, 70px); line-height: .99; letter-spacing: -.045em;
           margin: 19px 0 22px; max-width: 720px; font-weight: 750;
         }
-        .tb-home .hero-title-lead { opacity: 1; font-size: .84em; }
+        .tb-home .hero-title-lead { opacity: 1; font-size: .8em; }
         .tb-home h1 em { color: var(--gold-light); font-style: italic; font-weight: 700; }
         .tb-home .hero-lede {
           max-width: 565px; color: rgba(255,255,255,.85); font-size: 17px;
